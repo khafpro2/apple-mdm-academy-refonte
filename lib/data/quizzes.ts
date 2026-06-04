@@ -1,0 +1,340 @@
+import type { Quiz } from "@/lib/types";
+
+export const quizzes: Quiz[] = [
+  {
+    slug: "quiz-apple-fundamentals",
+    trackSlug: "apple-fundamentals",
+    title: "Quiz — Apple Fundamentals",
+    type: "quiz",
+    description: "Teste tes connaissances sur l'écosystème Apple et la sécurité de base.",
+    duration: "15 min",
+    passingScore: 70,
+    questions: [
+      {
+        id: "af-1",
+        text: "Quel composant Apple gère le chiffrement des données biométriques ?",
+        options: ["T2 Security Chip", "Secure Enclave", "Apple Silicon GPU", "System Management Controller"],
+        correctIndex: 1,
+        explanation: "Le Secure Enclave est un coprocesseur dédié qui isole et protège les données biométriques et cryptographiques.",
+      },
+      {
+        id: "af-2",
+        text: "Quelle technologie Apple vérifie que les apps proviennent de développeurs identifiés ?",
+        options: ["FileVault", "Gatekeeper", "APNs", "DEP"],
+        correctIndex: 1,
+        explanation: "Gatekeeper vérifie la signature et la notarisation des applications avant leur exécution sur macOS.",
+      },
+      {
+        id: "af-3",
+        text: "FileVault chiffre principalement :",
+        options: ["La RAM", "Le disque de démarrage", "Le cache réseau", "Les sauvegardes iCloud uniquement"],
+        correctIndex: 1,
+        explanation: "FileVault 2 chiffre le volume de démarrage complet avec XTS-AES-128.",
+      },
+      {
+        id: "af-4",
+        text: "Quelle est la différence principale entre iOS et iPadOS ?",
+        options: ["iPadOS ne supporte pas le chiffrement", "iPadOS ajoute des fonctionnalités multitâche étendues", "iOS ne peut pas être géré en MDM", "Aucune différence"],
+        correctIndex: 1,
+        explanation: "iPadOS est basé sur iOS mais inclut des optimisations pour le multitâche, le clavier et l'Apple Pencil.",
+      },
+      {
+        id: "af-5",
+        text: "Managed Apple ID est principalement utilisé pour :",
+        options: ["Les achats personnels App Store", "L'éducation et l'entreprise", "Le développement d'apps", "Le jailbreak"],
+        correctIndex: 1,
+        explanation: "Les Managed Apple ID sont créés et gérés par l'organisation via Apple Business Manager ou Apple School Manager.",
+      },
+    ],
+  },
+  {
+    slug: "quiz-jamf-100",
+    trackSlug: "jamf-100",
+    title: "Quiz — Jamf 100",
+    type: "quiz",
+    description: "Évalue ta maîtrise des fondamentaux Jamf Pro.",
+    duration: "20 min",
+    passingScore: 75,
+    questions: [
+      {
+        id: "j100-1",
+        text: "Qu'est-ce qu'un Smart Group dans Jamf Pro ?",
+        options: [
+          "Un groupe d'utilisateurs LDAP",
+          "Un groupe dynamique basé sur des critères d'inventaire",
+          "Un groupe de policies uniquement",
+          "Un groupe de sites géographiques",
+        ],
+        correctIndex: 1,
+        explanation: "Les Smart Groups se mettent à jour automatiquement selon les critères définis (OS, apps, attributs, etc.).",
+      },
+      {
+        id: "j100-2",
+        text: "Où configure-t-on le scope d'une policy Jamf ?",
+        options: ["Dans les Extension Attributes", "Dans l'onglet Scope de la policy", "Dans les Computer PreStage", "Dans Jamf Connect"],
+        correctIndex: 1,
+        explanation: "L'onglet Scope permet de cibler les ordinateurs, utilisateurs ou groupes concernés par la policy.",
+      },
+      {
+        id: "j100-3",
+        text: "Un Configuration Profile Jamf est :",
+        options: [
+          "Un script shell",
+          "Un ensemble de payloads de configuration MDM",
+          "Un rapport d'inventaire",
+          "Un certificat APNs",
+        ],
+        correctIndex: 1,
+        explanation: "Les Configuration Profiles contiennent un ou plusieurs payloads (Wi‑Fi, restrictions, certificats, etc.).",
+      },
+      {
+        id: "j100-4",
+        text: "Jamf Pro communique avec les appareils via :",
+        options: ["SSH uniquement", "Apple Push Notification service (APNs)", "Email", "Bonjour"],
+        correctIndex: 1,
+        explanation: "Jamf Pro utilise APNs pour envoyer les commandes MDM aux appareils managés.",
+      },
+      {
+        id: "j100-5",
+        text: "Le Computer PreStage Enrollment sert à :",
+        options: [
+          "Sauvegarder les Mac",
+          "Automatiser l'enrollment DEP avec configuration initiale",
+          "Gérer les licences Microsoft",
+          "Créer des comptes utilisateur locaux",
+        ],
+        correctIndex: 1,
+        explanation: "PreStage Enrollment configure automatiquement les Mac DEP à la première activation.",
+      },
+    ],
+  },
+  {
+    slug: "examen-apple-device-support",
+    trackSlug: "apple-device-support",
+    title: "Examen blanc — Apple Device Support",
+    type: "examen",
+    description: "Simulation complète de l'examen Apple Device Support : 10 questions, conditions réelles.",
+    duration: "120 min",
+    passingScore: 80,
+    questions: [
+      {
+        id: "ads-1",
+        text: "Quel outil macOS permet de consulter les logs système en temps réel ?",
+        options: ["Activity Monitor", "Console", "Disk Utility", "Keychain Access"],
+        correctIndex: 1,
+        explanation: "L'app Console affiche les logs système, crash reports et messages de diagnostic.",
+      },
+      {
+        id: "ads-2",
+        text: "En mode Recovery, quelle option permet de réinstaller macOS sans effacer les données ?",
+        options: ["Disk Utility > Erase", "Reinstall macOS", "Terminal > resetpassword", "Startup Security Utility"],
+        correctIndex: 1,
+        explanation: "Reinstall macOS dans Recovery réinstalle le système tout en préservant les fichiers utilisateur.",
+      },
+      {
+        id: "ads-3",
+        text: "802.1X sur macOS est configuré principalement dans :",
+        options: ["Réglages Système > Réseau > Avancé > 802.1X", "Terminal uniquement", "Keychain Access", "Profile Manager"],
+        correctIndex: 0,
+        explanation: "La configuration 802.1X se fait dans les paramètres réseau avancés ou via un profil MDM.",
+      },
+      {
+        id: "ads-4",
+        text: "Time Machine stocke les sauvegardes sur :",
+        options: ["iCloud Drive uniquement", "Un volume de destination dédié", "La partition Recovery", "Le Secure Enclave"],
+        correctIndex: 1,
+        explanation: "Time Machine nécessite un disque externe, un NAS compatible ou un Mac partagé comme destination.",
+      },
+      {
+        id: "ads-5",
+        text: "Pour réinitialiser le mot de passe d'un compte local sans admin, on utilise :",
+        options: ["Mode Recovery > Terminal > resetpassword", "FileVault", "Gatekeeper", "APNs"],
+        correctIndex: 0,
+        explanation: "La commande resetpassword en Recovery permet de réinitialiser les mots de passe locaux.",
+      },
+      {
+        id: "ads-6",
+        text: "SMC reset est pertinent pour résoudre :",
+        options: ["Problèmes de batterie, ventilateurs, alimentation", "Erreurs de code signing", "Problèmes iCloud", "Erreurs DEP"],
+        correctIndex: 0,
+        explanation: "La réinitialisation SMC (System Management Controller) corrige les problèmes liés à l'alimentation et au hardware.",
+      },
+      {
+        id: "ads-7",
+        text: "NVRAM/PRAM reset efface :",
+        options: ["Toutes les données utilisateur", "Certains paramètres système (son, résolution, disque de démarrage)", "Les certificats MDM", "Les apps installées"],
+        correctIndex: 1,
+        explanation: "NVRAM stocke des paramètres comme le volume de démarrage, la résolution et les réglages son.",
+      },
+      {
+        id: "ads-8",
+        text: "Single Sign-On (SSO) sur macOS utilise typiquement :",
+        options: ["Kerberos et profils de configuration", "FileVault uniquement", "Gatekeeper", "Bonjour"],
+        correctIndex: 0,
+        explanation: "SSO macOS s'appuie sur Kerberos et des profils de configuration pour l'authentification réseau.",
+      },
+      {
+        id: "ads-9",
+        text: "Safe Mode démarre macOS avec :",
+        options: ["Tous les services réseau activés", "Extensions tierces minimales pour diagnostic", "FileVault désactivé", "Root activé"],
+        correctIndex: 1,
+        explanation: "Safe Mode charge uniquement les extensions Apple essentielles pour isoler les problèmes logiciels.",
+      },
+      {
+        id: "ads-10",
+        text: "Pour vérifier l'intégrité du disque de démarrage, on utilise :",
+        options: ["Disk Utility > First Aid", "Console", "Activity Monitor", "Keychain Access"],
+        correctIndex: 0,
+        explanation: "First Aid dans Utilitaire de disque vérifie et répare les erreurs du système de fichiers.",
+      },
+    ],
+  },
+  {
+    slug: "examen-jamf-200",
+    trackSlug: "jamf-200",
+    title: "Examen blanc — Jamf 200",
+    type: "examen",
+    description: "Simulation de l'examen Jamf 200 pour valider ton niveau expert.",
+    duration: "90 min",
+    passingScore: 75,
+    questions: [
+      {
+        id: "j200-1",
+        text: "L'API Jamf Pro REST utilise l'authentification :",
+        options: ["OAuth 2.0 / Bearer Token", "Basic Auth uniquement", "Certificat client uniquement", "API Key dans l'URL"],
+        correctIndex: 0,
+        explanation: "Jamf Pro API v1 utilise OAuth 2.0 avec client credentials pour obtenir un Bearer Token.",
+      },
+      {
+        id: "j200-2",
+        text: "Patch Management dans Jamf Pro permet de :",
+        options: [
+          "Gérer les correctifs OS et apps tierces",
+          "Chiffrer les disques",
+          "Configurer le Wi‑Fi",
+          "Gérer les comptes Apple ID",
+        ],
+        correctIndex: 0,
+        explanation: "Patch Management automatise le déploiement des mises à jour macOS et applications.",
+      },
+      {
+        id: "j200-3",
+        text: "Un Extension Attribute de type Script s'exécute :",
+        options: [
+          "Sur le serveur Jamf uniquement",
+          "Sur le client managé et retourne une valeur",
+          "Dans le navigateur admin",
+          "Via APNs directement",
+        ],
+        correctIndex: 1,
+        explanation: "Les EA scripts s'exécutent sur l'appareil managé et la sortie est stockée dans l'inventaire Jamf.",
+      },
+      {
+        id: "j200-4",
+        text: "Pour scaler Jamf Pro au-delà de 10 000 appareils, on recommande :",
+        options: [
+          "Un seul serveur Jamf Pro",
+          "Infrastructure distribuée avec load balancer et réplication DB",
+          "Désactiver l'inventaire",
+          "Utiliser uniquement l'API",
+        ],
+        correctIndex: 1,
+        explanation: "Les grandes installations utilisent plusieurs instances Jamf Pro avec load balancing et base de données clusterisée.",
+      },
+      {
+        id: "j200-5",
+        text: "Jamf Connect synchronise principalement :",
+        options: ["Les apps App Store", "Les identités cloud (Azure AD/Okta) avec les comptes Mac locaux", "Les certificats APNs", "Les profils Wi‑Fi"],
+        correctIndex: 1,
+        explanation: "Jamf Connect permet l'authentification cloud et la synchronisation des comptes utilisateur macOS.",
+      },
+    ],
+  },
+  {
+    slug: "quiz-intune-mac",
+    trackSlug: "intune-mac",
+    title: "Quiz — Intune pour Mac",
+    type: "quiz",
+    description: "Teste tes connaissances sur la gestion Apple avec Microsoft Intune.",
+    duration: "15 min",
+    passingScore: 70,
+    questions: [
+      {
+        id: "int-1",
+        text: "Pour lier Apple Business Manager à Intune, il faut :",
+        options: [
+          "Un certificat APNs Apple MDM Push",
+          "Un token de location ABM uploadé dans Intune",
+          "Un compte Azure AD Premium P2 uniquement",
+          "Un profil Wi‑Fi",
+        ],
+        correctIndex: 1,
+        explanation: "Le token de location ABM (Apple Business Manager) est uploadé dans le portail Intune pour synchroniser les appareils.",
+      },
+      {
+        id: "int-2",
+        text: "Conditional Access sur appareils Apple vérifie typiquement :",
+        options: [
+          "La conformité de l'appareil avant d'autoriser l'accès aux ressources",
+          "Le numéro de série uniquement",
+          "La couleur du Mac",
+          "Le modèle iPhone uniquement",
+        ],
+        correctIndex: 0,
+        explanation: "Conditional Access bloque l'accès si l'appareil n'est pas conforme aux policies Intune définies.",
+      },
+      {
+        id: "int-3",
+        text: "Le mode supervisé iOS/macOS permet :",
+        options: [
+          "Des commandes MDM avancées (silent install, restrictions renforcées)",
+          "Le jailbreak",
+          "La désactivation de FileVault",
+          "L'accès root automatique",
+        ],
+        correctIndex: 0,
+        explanation: "La supervision débloque des capacités MDM avancées comme l'installation silencieuse et les restrictions renforcées.",
+      },
+      {
+        id: "int-4",
+        text: "Les scripts macOS dans Intune s'exécutent :",
+        options: [
+          "Uniquement en mode admin interactif",
+          "En arrière-plan via l'agent Intune MDM",
+          "Via SSH externe",
+          "Dans le portail Azure",
+        ],
+        correctIndex: 1,
+        explanation: "Intune déploie et exécute les scripts shell sur les Mac managés via le canal MDM.",
+      },
+      {
+        id: "int-5",
+        text: "Une Compliance Policy Intune pour macOS peut vérifier :",
+        options: [
+          "Version OS minimale, FileVault, firewall",
+          "Uniquement la langue du système",
+          "Le wallpaper",
+          "Le nom du compte iCloud",
+        ],
+        correctIndex: 0,
+        explanation: "Les compliance policies vérifient l'état de sécurité : OS, chiffrement, jailbreak, etc.",
+      },
+    ],
+  },
+];
+
+export function getQuiz(slug: string) {
+  return quizzes.find((q) => q.slug === slug);
+}
+
+export function getQuizzesByTrack(trackSlug: string) {
+  return quizzes.filter((q) => q.trackSlug === trackSlug);
+}
+
+export function getExams() {
+  return quizzes.filter((q) => q.type === "examen");
+}
+
+export function getQuizList() {
+  return quizzes.filter((q) => q.type === "quiz");
+}

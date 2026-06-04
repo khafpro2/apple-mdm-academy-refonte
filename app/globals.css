@@ -1,7 +1,37 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
-html { scroll-behavior: smooth; }
-body { margin: 0; }
-a { transition: opacity .2s ease; }
-a:hover { opacity: .7; }
+@theme {
+  --color-surface: #fbfbfd;
+  --color-surface-elevated: #ffffff;
+  --color-ink: #1d1d1f;
+  --color-ink-secondary: #6e6e73;
+  --color-ink-tertiary: #86868b;
+  --color-accent: #0071e3;
+  --color-accent-hover: #0077ed;
+  --color-border: #d2d2d7;
+  --color-border-light: #e8e8ed;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+::selection {
+  background-color: #0071e3;
+  color: white;
+}
