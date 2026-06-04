@@ -1,18 +1,19 @@
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getSupabaseEnv } from "@/lib/env";
 
-export async function checkIsAdmin(userId: string, email?: string | null): Promise<boolean> {
-  const adminEmails =
+function getAdminEmailsFromEnv(): string[] {
+  return (
     process.env.ADMIN_EMAILS?.split(",")
       .map((e) => e.trim().toLowerCase())
-      .filter(Boolean) ?? [];
+      .filter(Boolean) ?? []
+  );
+}
 
-  if (email && adminEmails.includes(email.toLowerCase())) {
-    return true;
-  }
-
+async function syncAdminRole(userId: string): Promise<boolean> {
   const supabase = await createClient();
   if (!supabase) return false;
+
+  await supabase.rpc("sync_admin_from_allowlist");
 
   const { data } = await supabase
     .from("profiles")
@@ -21,6 +22,19 @@ export async function checkIsAdmin(userId: string, email?: string | null): Promi
     .maybeSingle();
 
   return data?.is_admin === true;
+}
+
+export async function checkIsAdmin(userId: string, email?: string | null): Promise<boolean> {
+  const adminEmails = getAdminEmailsFromEnv();
+
+  const synced = await syncAdminRole(userId);
+  if (synced) return true;
+
+  if (email && adminEmails.includes(email.toLowerCase())) {
+    return true;
+  }
+
+  return false;
 }
 
 export async function requireAdmin() {
@@ -54,6 +68,8 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
 
   const supabase = await createClient();
   if (!supabase) return null;
+
+  await supabase.rpc("sync_admin_from_allowlist");
 
   const [usersRes, resultsRes, progressRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),

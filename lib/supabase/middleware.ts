@@ -3,7 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
 
-const PROTECTED_PREFIXES = ["/dashboard"];
+const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
+const AUTH_PAGES = ["/auth/login", "/auth/signup"];
 
 export async function updateSession(request: NextRequest) {
   const { url, anonKey, configured } = getSupabaseEnv();
@@ -41,7 +42,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (user && pathname.startsWith("/auth/login")) {
+  if (user && AUTH_PAGES.some((p) => pathname.startsWith(p))) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = sanitizeRedirectPath(request.nextUrl.searchParams.get("redirect"));
     redirectUrl.searchParams.delete("redirect");

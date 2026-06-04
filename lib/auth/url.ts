@@ -20,9 +20,20 @@ export function getAuthCallbackUrl(redirect = "/dashboard"): string {
   return `${getSiteUrl()}${getAuthCallbackPath(redirect)}`;
 }
 
-/** Empêche les open-redirects */
+/** Empêche les open-redirects (chemins relatifs internes uniquement) */
 export function sanitizeRedirectPath(path: string | null, fallback = "/dashboard"): string {
   if (!path || !path.startsWith("/") || path.startsWith("//")) {
+    return fallback;
+  }
+  if (path.includes("\\") || path.includes(":") || path.includes("@")) {
+    return fallback;
+  }
+  try {
+    const decoded = decodeURIComponent(path);
+    if (decoded.startsWith("//") || decoded.includes("://")) {
+      return fallback;
+    }
+  } catch {
     return fallback;
   }
   return path;

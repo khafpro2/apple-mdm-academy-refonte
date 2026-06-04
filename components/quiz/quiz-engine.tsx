@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import type { Quiz } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
@@ -22,7 +22,7 @@ export function QuizEngine({
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error" | "login">("idle");
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [newBadgeIds, setNewBadgeIds] = useState<string[]>([]);
   const savedRef = useRef(false);
 
@@ -38,37 +38,30 @@ export function QuizEngine({
     return { correct, total, percent, passed: percent >= quiz.passingScore };
   }
 
-  useEffect(() => {
-    if (!finished || savedRef.current) return;
-    savedRef.current = true;
-
-    if (!isAuthenticated) {
-      setSaveStatus("login");
-      return;
-    }
-
-    const { percent, passed } = calculateScore();
+  async function persistResult(finalAnswers: Answers) {
+    const { percent, passed } = calculateScore(finalAnswers);
     setSaveStatus("saving");
 
-    saveQuizResult({
+    const res = await saveQuizResult({
       quizSlug: quiz.slug,
       trackSlug: quiz.trackSlug,
       score: percent,
       passed,
-      answers,
-    }).then((res) => {
-      if (res.ok === false) {
-        if (res.reason === "not_authenticated") {
-          setSaveStatus("login");
-        } else {
-          setSaveStatus("error");
-        }
-      } else {
-        setSaveStatus("saved");
-        setNewBadgeIds(res.newBadges);
-      }
+      answers: finalAnswers,
     });
-  }, [finished, isAuthenticated, quiz.slug, quiz.trackSlug]);
+
+    if (res.ok === false) {
+      if (res.reason === "not_authenticated") {
+        setSaveStatus("idle");
+      } else {
+        setSaveStatus("error");
+      }
+      return;
+    }
+
+    setSaveStatus("saved");
+    setNewBadgeIds(res.newBadges);
+  }
 
   function startQuiz() {
     setStarted(true);
@@ -100,6 +93,10 @@ export function QuizEngine({
       setShowResult(false);
     } else {
       setFinished(true);
+      if (isAuthenticated && !savedRef.current) {
+        savedRef.current = true;
+        void persistResult(answers);
+      }
     }
   }
 
@@ -154,7 +151,7 @@ export function QuizEngine({
             Score enregistré dans votre dashboard.
           </div>
         )}
-        {saveStatus === "login" && (
+        {(!isAuthenticated && saveStatus === "idle") && (
           <div className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-900">
             <Link href={`/auth/login?redirect=/quiz/${quiz.slug}`} className="font-semibold text-accent hover:underline">
               Connectez-vous

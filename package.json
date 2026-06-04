@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
@@ -23,5 +23,10 @@
     "react-dom": "latest",
     "tailwindcss": "latest",
     "typescript": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.7"
   }
 }

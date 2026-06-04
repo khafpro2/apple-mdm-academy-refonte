@@ -12,10 +12,12 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+drop policy if exists "Users can view own profile" on public.profiles;
 create policy "Users can view own profile"
   on public.profiles for select
   using (auth.uid() = id);
 
+drop policy if exists "Users can update own profile" on public.profiles;
 create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
@@ -28,7 +30,10 @@ security definer set search_path = ''
 as $$
 begin
   insert into public.profiles (id, full_name)
-  values (new.id, new.raw_user_meta_data ->> 'full_name');
+  values (new.id, new.raw_user_meta_data ->> 'full_name')
+  on conflict (id) do update
+    set full_name = coalesce(excluded.full_name, public.profiles.full_name),
+        updated_at = now();
   return new;
 end;
 $$;
@@ -50,6 +55,7 @@ create table if not exists public.track_progress (
 
 alter table public.track_progress enable row level security;
 
+drop policy if exists "Users manage own progress" on public.track_progress;
 create policy "Users manage own progress"
   on public.track_progress for all
   using (auth.uid() = user_id)
@@ -68,6 +74,7 @@ create table if not exists public.quiz_results (
 
 alter table public.quiz_results enable row level security;
 
+drop policy if exists "Users manage own quiz results" on public.quiz_results;
 create policy "Users manage own quiz results"
   on public.quiz_results for all
   using (auth.uid() = user_id)
@@ -84,10 +91,12 @@ create table if not exists public.user_badges (
 
 alter table public.user_badges enable row level security;
 
+drop policy if exists "Users view own badges" on public.user_badges;
 create policy "Users view own badges"
   on public.user_badges for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users earn badges" on public.user_badges;
 create policy "Users earn badges"
   on public.user_badges for insert
   with check (auth.uid() = user_id);
