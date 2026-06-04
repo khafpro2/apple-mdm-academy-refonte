@@ -196,6 +196,18 @@ export const courses: Course[] = [
         title: "Enrollment Apple",
         lessons: [
           { slug: "abm-intune", title: "Lier ABM à Intune", duration: "40 min", points: 40 },
+          {
+            slug: "vpp-apps-books",
+            title: "Applications VPP (Apps & Books) dans Apple Business Manager",
+            duration: "60 min",
+            points: 60,
+          },
+          {
+            slug: "apns-certificates",
+            title: "Certificats APNs : création, renouvellement et dépannage",
+            duration: "60 min",
+            points: 60,
+          },
           { slug: "ade-iphone", title: "Déploiement automatique des iPhone avec ADE", duration: "45 min", points: 45 },
           {
             slug: "ade-mac",

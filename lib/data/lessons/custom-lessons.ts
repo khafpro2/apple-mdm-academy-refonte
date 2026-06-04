@@ -2,12 +2,16 @@ import type { ComponentType } from "react";
 import { AbmIntuneLesson, AbmIntuneTableOfContents } from "@/components/course/lessons/abm-intune-lesson";
 import { AdeIphoneLesson, AdeIphoneTableOfContents } from "@/components/course/lessons/ade-iphone-lesson";
 import { AdeMacLesson, AdeMacTableOfContents } from "@/components/course/lessons/ade-mac-lesson";
+import { ApnsLesson, ApnsTableOfContents } from "@/components/course/lessons/apns-lesson";
+import { VppAppsLesson, VppAppsTableOfContents } from "@/components/course/lessons/vpp-apps-lesson";
 import {
   abmIntuneCertifications,
   isAbmIntuneLesson,
 } from "@/lib/data/lessons/abm-intune-content";
 import { isAdeIphoneLesson } from "@/lib/data/lessons/ade-iphone-content";
 import { adeMacCertifications, isAdeMacLesson } from "@/lib/data/lessons/ade-mac-content";
+import { apnsCertifications, isApnsLesson } from "@/lib/data/lessons/apns-content";
+import { isVppAppsLesson, vppAppsCertifications } from "@/lib/data/lessons/vpp-apps-content";
 
 export type CustomLessonMeta = {
   subtitle?: string;
@@ -40,6 +44,40 @@ const CUSTOM_LESSONS: Record<string, CustomLessonConfig> = {
     },
     Lesson: AbmIntuneLesson,
     TableOfContents: AbmIntuneTableOfContents,
+  },
+  "apns-certificates": {
+    meta: {
+      subtitle:
+        "Maîtrisez le cycle de vie du certificat APNs : création, renouvellement et dépannage pour garantir la communication MDM avec iPhone, iPad et Mac.",
+      duration: "60 min",
+      level: "Fondamental",
+      points: 60,
+      badges: [
+        { label: "APNs", className: "bg-orange-600 text-white" },
+        { label: "Apple", className: "bg-gray-900 text-white" },
+        { label: "MDM", className: "bg-indigo-600 text-white" },
+      ],
+      certifications: apnsCertifications,
+    },
+    Lesson: ApnsLesson,
+    TableOfContents: ApnsTableOfContents,
+  },
+  "vpp-apps-books": {
+    meta: {
+      subtitle:
+        "Maîtrisez Apps & Books (VPP) : achat de licences en volume, synchronisation ABM avec Intune et déploiement automatique d'applications sur iPhone, iPad et Mac.",
+      duration: "60 min",
+      level: "Fondamental",
+      points: 60,
+      badges: [
+        { label: "Apps & Books", className: "bg-blue-600 text-white" },
+        { label: "ABM", className: "bg-gray-900 text-white" },
+        { label: "Intune", className: "bg-indigo-600 text-white" },
+      ],
+      certifications: vppAppsCertifications,
+    },
+    Lesson: VppAppsLesson,
+    TableOfContents: VppAppsTableOfContents,
   },
   "ade-iphone": {
     meta: {
@@ -86,6 +124,8 @@ export function getCustomLesson(
 export function isCustomIntuneLesson(courseSlug: string, lessonSlug: string): boolean {
   return (
     isAbmIntuneLesson(courseSlug, lessonSlug) ||
+    isApnsLesson(courseSlug, lessonSlug) ||
+    isVppAppsLesson(courseSlug, lessonSlug) ||
     isAdeIphoneLesson(courseSlug, lessonSlug) ||
     isAdeMacLesson(courseSlug, lessonSlug)
   );
