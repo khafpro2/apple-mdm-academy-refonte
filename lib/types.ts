@@ -9,11 +9,43 @@ export type Track = {
   certification?: string;
 };
 
+export type LessonStatus = "en-cours" | "termine" | "verrouille";
+
 export type Lesson = {
   slug: string;
   title: string;
   duration: string;
+  points?: number;
   completed?: boolean;
+};
+
+export type LessonScreenshot = {
+  caption: string;
+  alt: string;
+  /** Dégradé CSS pour l'aperçu visuel */
+  gradient: string;
+  icon: string;
+};
+
+export type LessonStep = {
+  title: string;
+  description: string;
+};
+
+export type LessonTroubleshooting = {
+  problem: string;
+  solution: string;
+};
+
+export type LessonContent = {
+  objectives: string[];
+  prerequisites: string[];
+  theory: { title: string; body: string[] }[];
+  steps: LessonStep[];
+  screenshots: LessonScreenshot[];
+  bestPractices: string[];
+  troubleshooting: LessonTroubleshooting[];
+  finalQuizSlug?: string;
 };
 
 export type Module = {

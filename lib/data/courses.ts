@@ -195,7 +195,14 @@ export const courses: Course[] = [
       {
         title: "Enrollment Apple",
         lessons: [
-          { slug: "abm-intune", title: "Lier ABM à Intune", duration: "40 min" },
+          { slug: "abm-intune", title: "Lier ABM à Intune", duration: "40 min", points: 40 },
+          { slug: "ade-iphone", title: "Déploiement automatique des iPhone avec ADE", duration: "45 min", points: 45 },
+          {
+            slug: "ade-mac",
+            title: "Déploiement automatique des Mac avec Apple Business Manager et Intune",
+            duration: "50 min",
+            points: 50,
+          },
           { slug: "supervised-mode", title: "Mode supervisé iOS/macOS", duration: "35 min" },
           { slug: "enrollment-token", title: "Enrollment Program Token", duration: "30 min" },
         ],

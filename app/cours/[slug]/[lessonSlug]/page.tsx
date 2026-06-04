@@ -1,8 +1,23 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { PageShell } from "@/components/layout";
-import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
-import { getLesson, courses, getQuizzesByTrack } from "@/lib/data";
+import { Breadcrumb, Badge } from "@/components/ui";
+import { LessonContentView, LessonTableOfContents } from "@/components/course/lesson-content-view";
+import {
+  CourseMetaGrid,
+  CourseProgressBar,
+  LessonNavigation,
+  LessonStatusBadge,
+} from "@/components/course/course-ui";
+import {
+  getFlatLessons,
+  getCourseProgressPercent,
+  getLessonStatus,
+  getLessonPoints,
+  getTotalPoints,
+} from "@/lib/course/helpers";
+import { getLessonContent } from "@/lib/data/lesson-content";
+import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
+import { getLesson, courses, getTrack } from "@/lib/data";
 
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
@@ -36,15 +51,30 @@ export default async function LessonPage({
   if (!data) notFound();
 
   const { course, module, lesson } = data;
-  const trackQuizzes = getQuizzesByTrack(course.trackSlug);
-  const allLessons = course.modules.flatMap((m) => m.lessons);
-  const currentIndex = allLessons.findIndex((l) => l.slug === lessonSlug);
-  const prev = allLessons[currentIndex - 1];
-  const next = allLessons[currentIndex + 1];
+  const custom = getCustomLesson(slug, lessonSlug);
+  const track = getTrack(course.trackSlug);
+  const flatLessons = getFlatLessons(course);
+  const totalLessons = flatLessons.length;
+  const currentFlat = flatLessons.find((f) => f.lesson.slug === lessonSlug);
+  const globalIndex = currentFlat?.globalIndex ?? 0;
+  const progressPercent = getCourseProgressPercent(globalIndex, totalLessons);
+  const status = getLessonStatus(globalIndex, globalIndex);
+  const points = getLessonPoints(lesson, globalIndex);
+
+  const content = getLessonContent(course, module, lesson, globalIndex, totalLessons);
+  const quizHref = content.finalQuizSlug ? `/quiz/${content.finalQuizSlug}` : undefined;
+
+  const prev = flatLessons[globalIndex - 1]?.lesson;
+  const next = flatLessons[globalIndex + 1]?.lesson;
+  const isLastLesson = globalIndex === totalLessons - 1;
+
+  const CustomLesson = custom?.Lesson;
+  const CustomToc = custom?.TableOfContents;
+  const meta = custom?.meta;
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-4xl px-6 py-12 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
         <Breadcrumb
           items={[
             { label: "Parcours", href: "/parcours" },
@@ -53,55 +83,92 @@ export default async function LessonPage({
           ]}
         />
 
-        <article className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
-          <div className="flex items-center gap-3">
-            <Badge variant="accent">{module.title}</Badge>
-            <span className="text-sm text-ink-tertiary">{lesson.duration}</span>
+        <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[240px_minmax(0,1fr)]">
+          <aside className="mb-8 lg:sticky lg:top-28 lg:mb-0 lg:self-start">
+            {CustomToc ? <CustomToc /> : <LessonTableOfContents />}
+          </aside>
+
+          <div>
+            {CustomToc ? <CustomToc mobile /> : <LessonTableOfContents mobile />}
+
+            <header className="overflow-hidden rounded-[2rem] border border-border-light bg-surface-elevated shadow-sm">
+              <div className="bg-gradient-to-br from-surface via-surface-elevated to-indigo-50/40 px-6 py-8 md:px-10 md:py-10">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="accent">{module.title}</Badge>
+                  <LessonStatusBadge status={status} />
+                  {meta?.badges?.map((badge) => (
+                    <Badge key={badge.label} className={badge.className}>
+                      {badge.label}
+                    </Badge>
+                  ))}
+                  <span className="text-sm text-ink-tertiary">
+                    Leçon {globalIndex + 1} sur {totalLessons}
+                  </span>
+                </div>
+
+                <h1 className="mt-5 text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-5xl">
+                  {lesson.title}
+                </h1>
+
+                {meta?.subtitle && (
+                  <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink-secondary md:text-lg">
+                    {meta.subtitle}
+                  </p>
+                )}
+
+                <div className="mt-8">
+                  <CourseProgressBar percent={progressPercent} label="Progression du parcours" />
+                </div>
+
+                <div className="mt-8">
+                  <CourseMetaGrid
+                    duration={meta?.duration ?? lesson.duration}
+                    level={meta?.level ?? track?.level ?? "Intermédiaire"}
+                    certification={track?.certification ?? course.title}
+                    points={meta?.points ?? points}
+                  />
+                </div>
+
+                {meta?.certifications && meta.certifications.length > 0 && (
+                  <div className="mt-6">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-ink-tertiary">
+                      Certifications visées
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {meta.certifications.map((cert) => (
+                        <span
+                          key={cert}
+                          className="rounded-full border border-border-light bg-white/80 px-3 py-1 text-xs font-medium text-ink-secondary shadow-sm"
+                        >
+                          {cert}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </header>
+
+            <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
+              {CustomLesson ? (
+                <CustomLesson />
+              ) : (
+                <LessonContentView
+                  content={content}
+                  lessonTitle={lesson.title}
+                  quizHref={quizHref}
+                />
+              )}
+            </article>
+
+            <LessonNavigation
+              courseSlug={course.slug}
+              prev={prev ? { slug: prev.slug, title: prev.title } : undefined}
+              next={next ? { slug: next.slug, title: next.title } : undefined}
+              finalQuizHref={custom ? undefined : quizHref}
+              isLastLesson={isLastLesson}
+            />
           </div>
-          <h1 className="mt-4 text-3xl font-bold text-ink">{lesson.title}</h1>
-
-          <div className="prose mt-8 max-w-none">
-            <p className="text-lg leading-relaxed text-ink-secondary">
-              Contenu de la leçon à venir — cette page est prête pour l&apos;intégration Supabase et un éditeur de
-              contenu riche (MDX, vidéos, captures d&apos;écran).
-            </p>
-
-            <div className="mt-8 rounded-2xl bg-surface p-6">
-              <h2 className="text-lg font-bold text-ink">Points clés</h2>
-              <ul className="mt-4 space-y-2 text-ink-secondary">
-                <li>• Concepts fondamentaux de {lesson.title.toLowerCase()}</li>
-                <li>• Bonnes pratiques en environnement entreprise</li>
-                <li>• Cas pratiques et dépannage courant</li>
-                <li>• Quiz de validation en fin de leçon</li>
-              </ul>
-            </div>
-
-            <div className="mt-8 rounded-2xl border border-dashed border-border p-6 text-center text-sm text-ink-tertiary">
-              Vidéo / contenu interactif — placeholder
-            </div>
-          </div>
-        </article>
-
-        <div className="mt-8 flex items-center justify-between gap-4">
-          {prev ? (
-            <Link
-              href={`/cours/${course.slug}/${prev.slug}`}
-              className="text-sm font-semibold text-accent hover:underline"
-            >
-              ← {prev.title}
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <ButtonLink href={`/cours/${course.slug}/${next.slug}`}>
-              Leçon suivante →
-            </ButtonLink>
-          ) : (
-            trackQuizzes[0] ? (
-              <ButtonLink href={`/quiz/${trackQuizzes[0].slug}`}>Quiz final</ButtonLink>
-            ) : null
-          )}
         </div>
       </div>
     </PageShell>

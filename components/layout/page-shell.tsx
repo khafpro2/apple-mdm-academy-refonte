@@ -5,9 +5,9 @@ import { ButtonLink } from "@/components/ui";
 
 const navLinks = [
   { href: "/parcours", label: "Parcours" },
-  { href: "/labs", label: "Labs" },
-  { href: "/quiz", label: "Quiz" },
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/labs", label: "Labs pratiques" },
+  { href: "/quiz", label: "Quiz & examens" },
+  { href: "/dashboard", label: "Mon dashboard" },
   { href: "/tarifs", label: "Tarifs" },
 ];
 
@@ -53,30 +53,32 @@ export function Nav() {
 export function Footer() {
   return (
     <footer className="border-t border-border-light bg-surface-elevated">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-8">
+        <div className="grid gap-6 md:grid-cols-4 md:gap-8">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-ink">
+            <Link href="/" className="flex items-center gap-2 text-base font-semibold text-ink">
               <span aria-hidden="true">🍏</span>
               Apple MDM Academy
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-secondary">
-              Plateforme de formation professionnelle Apple, Jamf Pro et Microsoft Intune en français.
+            <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-secondary">
+              Formation professionnelle Apple, Jamf Pro et Microsoft Intune en français.
             </p>
           </div>
           <div>
             <p className="text-sm font-semibold text-ink">Formation</p>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-3 space-y-2">
               {navLinks.slice(0, 4).map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-ink-secondary hover:text-ink">{link.label}</Link>
+                  <Link href={link.href} className="text-sm text-ink-secondary hover:text-ink">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
             <p className="text-sm font-semibold text-ink">Plateforme</p>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-3 space-y-2">
               <li><Link href="/tarifs" className="text-sm text-ink-secondary hover:text-ink">Tarifs</Link></li>
               <li><Link href="/contact" className="text-sm text-ink-secondary hover:text-ink">Contact</Link></li>
               <li><Link href="/auth/login" className="text-sm text-ink-secondary hover:text-ink">Connexion</Link></li>
@@ -84,9 +86,9 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border-light pt-8 text-sm text-ink-tertiary md:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-border-light pt-4 text-xs text-ink-tertiary md:flex-row">
           <p>© 2026 Apple MDM Academy. Tous droits réservés.</p>
-          <p>Supabase Auth · Vercel</p>
+          <p>Supabase · Vercel</p>
         </div>
       </div>
     </footer>
