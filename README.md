@@ -12,11 +12,42 @@ Plateforme professionnelle de formation **Apple MDM, Jamf Pro et Microsoft Intun
 
 ## Configuration Supabase
 
-1. Créez un projet sur [supabase.com](https://supabase.com)
-2. Copiez `.env.example` → `.env.local`
-3. Renseignez `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Settings → API)
-4. Exécutez `supabase/schema.sql` puis `supabase/schema-admin.sql` dans le SQL Editor
-5. Auth → URL Configuration : ajoutez `http://localhost:3000/auth/callback` (et votre URL Vercel en prod)
+### 1. SQL (dans l'ordre)
+
+Dans [SQL Editor](https://supabase.com/dashboard/project/_/sql) :
+
+1. `supabase/schema.sql`
+2. `supabase/schema-admin.sql`
+
+### 2. Auth → URL Configuration
+
+| Champ | Valeur |
+|-------|--------|
+| **Site URL** | `https://apple-mdm-academy-refonte.vercel.app` |
+| **Redirect URLs** | `https://apple-mdm-academy-refonte.vercel.app/auth/callback` |
+| | `http://localhost:3000/auth/callback` |
+
+Le code utilise toujours le chemin **`/auth/callback`** (PKCE + confirmation email).
+
+### 3. Variables d'environnement
+
+**Local** : copiez `.env.example` → `.env.local`
+
+**Vercel** (Settings → Environment Variables) :
+
+| Variable | Obligatoire | Description |
+|----------|-------------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | URL projet Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Clé anon (publique) |
+| `NEXT_PUBLIC_SITE_URL` | ✅ | `https://apple-mdm-academy-refonte.vercel.app` |
+| `ADMIN_EMAILS` | optionnel | Emails admin séparés par des virgules |
+| `SUPABASE_SERVICE_ROLE_KEY` | ❌ non requis | Admin via RLS `is_admin`, pas de bypass service role |
+
+```bash
+npx vercel env add NEXT_PUBLIC_SUPABASE_URL
+npx vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+npx vercel env add NEXT_PUBLIC_SITE_URL
+```
 
 ## Démarrage
 

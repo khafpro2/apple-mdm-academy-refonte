@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
 import { Button } from "@/components/ui";
 
 type AuthMode = "login" | "signup";
@@ -11,16 +12,18 @@ type AuthMode = "login" | "signup";
 export function AuthForm({ mode }: { mode: AuthMode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/dashboard";
+  const redirect = sanitizeRedirectPath(searchParams.get("redirect"));
   const urlError = searchParams.get("error");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(
-    urlError === "auth_callback_failed" ? "Échec de la connexion. Réessayez." : null
-  );
+  const [error, setError] = useState<string | null>(() => {
+    if (urlError === "auth_callback_failed") return "Échec de la connexion. Réessayez.";
+    if (urlError === "supabase_not_configured") return "Supabase non configuré sur le serveur.";
+    return null;
+  });
   const [message, setMessage] = useState<string | null>(null);
 
   const configured = isSupabaseConfigured();
@@ -46,16 +49,25 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         router.push(redirect);
         router.refresh();
       } else {
-        const { error: authError } = await supabase.auth.signUp({
+        const { data, error: authError } = await supabase.auth.signUp({
           email,
           password,
           options: {
             data: { full_name: fullName },
-            emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
+            emailRedirectTo: getAuthCallbackUrl(redirect),
           },
         });
         if (authError) throw authError;
-        setMessage("Compte créé ! Vérifiez votre email ou connectez-vous directement si la confirmation est désactivée.");
+
+        if (data.session) {
+          router.push(redirect);
+          router.refresh();
+          return;
+        }
+
+        setMessage(
+          "Compte créé ! Vérifiez votre email de confirmation, ou connectez-vous si la confirmation est désactivée dans Supabase."
+        );
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");

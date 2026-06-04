@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
+import { sanitizeRedirectPath } from "@/lib/auth/url";
 
 const PROTECTED_PREFIXES = ["/dashboard"];
 
@@ -42,7 +43,7 @@ export async function updateSession(request: NextRequest) {
 
   if (user && pathname.startsWith("/auth/login")) {
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = request.nextUrl.searchParams.get("redirect") || "/dashboard";
+    redirectUrl.pathname = sanitizeRedirectPath(request.nextUrl.searchParams.get("redirect"));
     redirectUrl.searchParams.delete("redirect");
     return NextResponse.redirect(redirectUrl);
   }
