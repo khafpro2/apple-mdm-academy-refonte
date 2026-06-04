@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+a { transition: opacity .2s ease; }
+a:hover { opacity: .7; }
