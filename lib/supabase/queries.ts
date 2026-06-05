@@ -4,8 +4,8 @@ import { quizzes } from "@/lib/data/quizzes";
 import { badgeCatalog } from "@/lib/badges-config";
 import type { LeaderboardEntry, LearnerStats } from "@/lib/types";
 import { premiumBadgeIds } from "@/lib/badges-config";
-import { trackCertificates, evaluateCertification } from "@/lib/certifications";
-import type { CertificationEligibility } from "@/lib/certifications";
+import { trackCertificates, evaluateCertification, evaluateAllCertificationPaths } from "@/lib/certifications";
+import type { CertificationEligibility, PathCertificationEligibility } from "@/lib/certifications";
 import { labs } from "@/lib/labs";
 
 export type TrackProgressRow = {
@@ -37,6 +37,7 @@ export type DashboardData = {
   leaderboard: LeaderboardEntry[];
   completedLabSlugs: string[];
   trackCertifications: CertificationEligibility[];
+  pathCertifications: PathCertificationEligibility[];
 };
 
 function formatDate(iso: string) {
@@ -151,6 +152,11 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
   const trackCertifications = trackCertificates.map((cert) =>
     evaluateCertification(cert, completedLessonSlugs, new Set(completedLabSlugs), examScores)
   );
+  const pathCertifications = evaluateAllCertificationPaths(
+    completedLessonSlugs,
+    new Set(completedLabSlugs),
+    examScores
+  );
   const quizMinutes = allResults.reduce((s, r) => s + (r.duration_seconds ?? 0), 0) / 60;
   const studyMinutes = (studyRes.data ?? []).reduce((s, r) => s + (r.duration_seconds ?? 0), 0) / 60;
   const timeSpentMinutes = Math.round(quizMinutes + studyMinutes + modulesCompleted * 15);
@@ -168,7 +174,10 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
     modulesCompleted,
     averageScore,
     lastActivity,
-    certificatesCount: certificates.length + trackCertifications.filter((c) => c.eligible).length,
+    certificatesCount:
+      certificates.length +
+      trackCertifications.filter((c) => c.eligible).length +
+      pathCertifications.filter((c) => c.eligible).length,
     labsCompleted: completedLabSlugs.length,
     labsInProgress: Math.max(0, labs.length - completedLabSlugs.length),
     practicePercent:
@@ -188,6 +197,7 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
     leaderboard,
     completedLabSlugs,
     trackCertifications,
+    pathCertifications,
   };
 }
 

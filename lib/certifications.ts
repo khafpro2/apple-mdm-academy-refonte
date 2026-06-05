@@ -2,6 +2,11 @@ import { courses } from "@/lib/data/courses";
 import { getLabsByTrack } from "@/lib/labs";
 import { getFlatLessons } from "@/lib/course/helpers";
 import type { TrackCertificateDef } from "@/lib/types";
+import {
+  certificationPaths,
+  type CertificationPath,
+} from "@/lib/data/pro-modules/paths";
+import { getProModulesForPath, type ProModule } from "@/lib/data/pro-modules/index";
 
 export const trackCertificates: TrackCertificateDef[] = [
   {
@@ -37,6 +42,27 @@ export const trackCertificates: TrackCertificateDef[] = [
     title: "Apple Security & Compliance",
     trackSlug: "intune-mac",
     examQuizSlug: "examen-intune-apple",
+    passingScore: 80,
+  },
+  {
+    id: "jamf-100-path",
+    title: "Parcours Certification Jamf 100",
+    trackSlug: "jamf-100",
+    examQuizSlug: "examen-jamf-100-blanc",
+    passingScore: 75,
+  },
+  {
+    id: "jamf-200-path",
+    title: "Parcours Certification Jamf 200",
+    trackSlug: "jamf-200",
+    examQuizSlug: "examen-jamf-200",
+    passingScore: 75,
+  },
+  {
+    id: "apple-enterprise-path",
+    title: "Parcours Apple Enterprise",
+    trackSlug: "parcours-professionnel",
+    examQuizSlug: "examen-apple-it-pro",
     passingScore: 80,
   },
 ];
@@ -95,4 +121,103 @@ export function evaluateCertification(
     labsPercent,
     examScore,
   };
+}
+
+export type ModuleProgress = {
+  number: number;
+  title: string;
+  lessonsPercent: number;
+  labDone: boolean;
+  quizPassed: boolean;
+  complete: boolean;
+};
+
+export type PathCertificationEligibility = {
+  path: CertificationPath;
+  eligible: boolean;
+  modulesComplete: boolean;
+  labsComplete: boolean;
+  examPassed: boolean;
+  modulesPercent: number;
+  labsPercent: number;
+  examScore: number | null;
+  moduleDetails: ModuleProgress[];
+};
+
+function evaluateProModule(
+  module: ProModule,
+  completedLessonSlugs: Set<string>,
+  completedLabSlugs: Set<string>,
+  quizScores: Map<string, number>
+): ModuleProgress {
+  const lessonsDone = module.lessons.filter((l) => completedLessonSlugs.has(l.slug)).length;
+  const lessonsPercent =
+    module.lessons.length > 0 ? Math.round((lessonsDone / module.lessons.length) * 100) : 100;
+  const labDone = completedLabSlugs.has(module.labSlug);
+  const quizScore = quizScores.get(module.quizSlug) ?? 0;
+  const quizPassed = quizScore >= 80;
+  const complete = lessonsPercent >= 100 && labDone && quizPassed;
+
+  return {
+    number: module.number,
+    title: module.title,
+    lessonsPercent,
+    labDone,
+    quizPassed,
+    complete,
+  };
+}
+
+export function evaluateCertificationPath(
+  path: CertificationPath,
+  completedLessonSlugs: Set<string>,
+  completedLabSlugs: Set<string>,
+  quizScores: Map<string, number>
+): PathCertificationEligibility {
+  const proModuleNumbers = path.moduleNumbers.filter((n) => n >= 11);
+  const modules = getProModulesForPath(proModuleNumbers);
+  const moduleDetails = modules.map((m) =>
+    evaluateProModule(m, completedLessonSlugs, completedLabSlugs, quizScores)
+  );
+
+  const modulesComplete = moduleDetails.every((m) => m.complete);
+  const labsComplete = moduleDetails.every((m) => m.labDone);
+  const modulesPercent =
+    moduleDetails.length > 0
+      ? Math.round(
+          moduleDetails.reduce((s, m) => s + m.lessonsPercent, 0) / moduleDetails.length
+        )
+      : 100;
+  const labsPercent =
+    moduleDetails.length > 0
+      ? Math.round(
+          (moduleDetails.filter((m) => m.labDone).length / moduleDetails.length) * 100
+        )
+      : 100;
+
+  const examScore = quizScores.get(path.examQuizSlug) ?? null;
+  const examPassed = examScore !== null && examScore >= path.passingScore;
+  const eligible = modulesComplete && labsComplete && examPassed;
+
+  return {
+    path,
+    eligible,
+    modulesComplete,
+    labsComplete,
+    examPassed,
+    modulesPercent,
+    labsPercent,
+    examScore,
+    moduleDetails,
+  };
+}
+
+export function evaluateAllCertificationPaths(
+  completedLessonSlugs: Set<string>,
+  completedLabSlugs: Set<string>,
+  quizScores: Map<string, number>
+): PathCertificationEligibility[] {
+  return certificationPaths.map((path) =>
+    evaluateCertificationPath(path, completedLessonSlugs, completedLabSlugs, quizScores)
+  );
 }

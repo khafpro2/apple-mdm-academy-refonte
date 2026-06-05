@@ -1,4 +1,5 @@
 import type { Course } from "@/lib/types";
+import { proModules } from "@/lib/data/pro-modules/index";
 
 export const courses: Course[] = [
   {
@@ -258,6 +259,24 @@ export const courses: Course[] = [
         ],
       },
     ],
+  },
+  {
+    slug: "parcours-professionnel",
+    trackSlug: "parcours-professionnel",
+    title: "Parcours Jamf Professionnel",
+    description:
+      "Modules 11 à 18 : Intune Apple, Jamf Pro, Smart Groups, Policies, Scripts, Patch Management, Jamf Protect et sécurité Apple enterprise.",
+    duration: "22 h",
+    objectives: [
+      "Configurer Intune + Apple Business Manager pour appareils Apple",
+      "Administrer Jamf Pro : enrollment, Smart Groups, policies et scripts",
+      "Déployer patch management et Jamf Protect en production",
+      "Sécuriser les Mac avec FileVault, Gatekeeper et Zero Trust",
+    ],
+    modules: proModules.map((m) => ({
+      title: `Module ${m.number} — ${m.title}`,
+      lessons: m.lessons,
+    })),
   },
 ];
 

@@ -1,5 +1,7 @@
 /** Correspondance leçon → lab pratique associé */
 
+import { proModules } from "@/lib/data/pro-modules/index";
+
 export const lessonToLabSlug: Record<string, string> = {
   "abm-intune": "abm-intune",
   "ade-iphone": "ade-iphone",
@@ -22,5 +24,13 @@ export const lessonToLabSlug: Record<string, string> = {
 };
 
 export function getLabSlugForLesson(lessonSlug: string): string | undefined {
-  return lessonToLabSlug[lessonSlug];
+  const direct = lessonToLabSlug[lessonSlug];
+  if (direct) return direct;
+
+  for (const mod of proModules) {
+    if (mod.lessons.some((l) => l.slug === lessonSlug)) {
+      return mod.labSlug;
+    }
+  }
+  return undefined;
 }

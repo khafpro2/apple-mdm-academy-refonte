@@ -5,6 +5,7 @@ import { quizzes } from "@/lib/data/quizzes";
 import { tracks } from "@/lib/data/tracks";
 import { labs } from "@/lib/labs";
 import { getExamRouteSlugs } from "@/lib/data/exams/pools";
+import { certificationPaths } from "@/lib/data/pro-modules/paths";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;
@@ -59,5 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...trackRoutes, ...courseRoutes, ...quizRoutes, ...labRoutes, ...examRoutes];
+  const certPathRoutes = certificationPaths.map((p) => ({
+    url: `${base}/certification/${p.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  return [...staticRoutes, ...trackRoutes, ...courseRoutes, ...quizRoutes, ...labRoutes, ...examRoutes, ...certPathRoutes];
 }

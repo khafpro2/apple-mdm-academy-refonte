@@ -2,6 +2,7 @@ import type { Course, Lesson, LessonContent, Module } from "@/lib/types";
 import { getQuizzesByTrack } from "@/lib/data/quizzes";
 import { getTrack } from "@/lib/data/tracks";
 import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
+import { getProModuleLessonContent } from "@/lib/data/pro-modules/lesson-content";
 import {
   abmIntuneBestPractices,
   abmIntuneObjectives,
@@ -182,6 +183,9 @@ export function getLessonContent(
   globalIndex: number,
   totalLessons: number
 ): LessonContent {
+  const proContent = getProModuleLessonContent(lesson.slug);
+  if (proContent) return proContent;
+
   if (course.slug === "intune-mac" && lesson.slug === "abm-intune") {
     return getAbmIntuneFallbackContent();
   }

@@ -1,5 +1,6 @@
 import type { Quiz } from "@/lib/types";
 import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
+import { proModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 
 export const quizzes: Quiz[] = [
   {
@@ -316,6 +317,7 @@ export const quizzes: Quiz[] = [
     examQuestionCount: 100,
     questions: examPools["examen-intune-apple"].slice(0, 5),
   },
+  ...proModuleQuizzes,
 ];
 
 export function getQuiz(slug: string) {

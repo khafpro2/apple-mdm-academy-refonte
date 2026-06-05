@@ -51,6 +51,7 @@ export default async function DashboardPage() {
 
   const completedLabSlugs = dbData?.completedLabSlugs ?? [];
   const trackCertifications = dbData?.trackCertifications ?? [];
+  const pathCertifications = dbData?.pathCertifications ?? [];
 
   return (
     <PageShell>
@@ -163,7 +164,9 @@ export default async function DashboardPage() {
           <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
             <h2 className="text-lg font-bold text-ink">Certificats PDF</h2>
             <div className="mt-4 space-y-3">
-              {certificates.length === 0 && trackCertifications.filter((c) => c.eligible).length === 0 ? (
+              {certificates.length === 0 &&
+              trackCertifications.filter((c) => c.eligible).length === 0 &&
+              pathCertifications.filter((c) => c.eligible).length === 0 ? (
                 <p className="text-sm text-ink-secondary">Réussissez un examen blanc pour obtenir un certificat.</p>
               ) : (
                 <>
@@ -193,6 +196,26 @@ export default async function DashboardPage() {
                         </a>
                       ) : (
                         <p className="mt-2 text-xs text-ink-tertiary">100% cours + labs + examen ≥ {cert.passingScore}% requis</p>
+                      )}
+                    </div>
+                  ))}
+                  {pathCertifications.map(({ path, eligible, modulesPercent, labsPercent, examPassed }) => (
+                    <div key={path.slug} className="rounded-2xl bg-surface p-4">
+                      <p className="font-semibold text-ink">{path.title}</p>
+                      <p className="mt-1 text-xs text-ink-tertiary">
+                        Modules {modulesPercent}% · Labs {labsPercent}% · Examen {examPassed ? "✓" : "—"}
+                      </p>
+                      {eligible ? (
+                        <Link
+                          href={`/certification/${path.slug}`}
+                          className="mt-3 inline-flex text-sm font-semibold text-accent hover:underline"
+                        >
+                          Voir certificat parcours →
+                        </Link>
+                      ) : (
+                        <p className="mt-2 text-xs text-ink-tertiary">
+                          Modules + labs + examen ≥ {path.passingScore}% requis
+                        </p>
                       )}
                     </div>
                   ))}

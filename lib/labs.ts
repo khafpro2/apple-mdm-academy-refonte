@@ -744,6 +744,64 @@ export const labs: Lab[] = [
     ],
     "Managed Apple ID fédérés avec Entra ID, connexion testée et runbook documenté."
   ),
+  lab(
+    "jamf-discovery",
+    "Découverte de Jamf Pro",
+    "Explorez la console Jamf Pro : inventaire, Smart Groups, policies, Self Service et architecture.",
+    "Débutant",
+    "45 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Naviguer dans la console Jamf Pro",
+      "Consulter l'inventaire et les détails appareil",
+      "Identifier Smart Groups, policies et Configuration Profiles",
+      "Découvrir Self Service et le catalogue apps",
+    ],
+    [
+      "Accès Jamf Pro (cloud ou on-prem) avec rôle Administrator",
+      "Au moins un Mac ou iPhone enrôlé dans l'inventaire",
+      "Navigateur récent (Chrome, Safari, Firefox)",
+    ],
+    [
+      {
+        id: "login-console",
+        title: "Connexion à Jamf Pro",
+        instruction:
+          "Connectez-vous à votre instance Jamf Pro. Repérez le menu principal : Computers, Mobile Devices, Policies, Configuration Profiles.",
+        expectedResult: "Console Jamf Pro accessible avec vue d'ensemble du parc.",
+      },
+      {
+        id: "inventory",
+        title: "Explorer l'inventaire",
+        instruction:
+          "Computers → recherchez un Mac test. Ouvrez General, Hardware, Software, Security et Extension Attributes.",
+        expectedResult: "Fiche appareil complète avec last check-in et version OS.",
+      },
+      {
+        id: "smart-groups",
+        title: "Smart Groups existants",
+        instruction:
+          "Computers → Smart Computer Groups. Listez les groupes dynamiques et leurs critères (OS version, modèle, EA).",
+        expectedResult: "Au moins 2 Smart Groups identifiés avec critères compris.",
+      },
+      {
+        id: "policies-profiles",
+        title: "Policies et profils",
+        instruction:
+          "Policies → listez les policies actives. Configuration Profiles → repérez les payloads Wi‑Fi, FileVault, restrictions.",
+        expectedResult: "Policies et profils mappés à leur scope (Smart Group ou static group).",
+      },
+      {
+        id: "self-service",
+        title: "Self Service",
+        instruction:
+          "Computers → Self Service. Consultez les catégories, policies et apps disponibles pour l'utilisateur final.",
+        expectedResult: "Catalogue Self Service documenté avec 3 éléments minimum.",
+      },
+    ],
+    "Inventaire Jamf exploré, Smart Groups/policies repérés et Self Service catalogué."
+  ),
 ];
 
 export function getLab(slug: string): Lab | undefined {

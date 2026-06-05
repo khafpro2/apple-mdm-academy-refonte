@@ -71,6 +71,17 @@ export const tracks: Track[] = [
     icon: "☁️",
     certification: "Intune Apple Admin",
   },
+  {
+    slug: "parcours-professionnel",
+    title: "Parcours Jamf Professionnel",
+    level: "Expert",
+    lessons: 40,
+    description:
+      "Modules 11–18 : Intune Apple, Jamf Pro Fundamentals, Smart Groups, Policies, Scripts, Patch, Protect et sécurité Apple.",
+    duration: "22 h",
+    icon: "🎓",
+    certification: "Jamf & Apple Enterprise",
+  },
 ];
 
 export function getTrack(slug: string) {
