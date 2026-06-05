@@ -1,0 +1,47 @@
+---
+description: Workflow obligatoire — implémentation complète, lint/build, commit et push
+alwaysApply: true
+---
+
+# Workflow de livraison obligatoire
+
+Pour **chaque** demande de fonctionnalité ou correction :
+
+## Implémentation
+
+1. Implémenter complètement la fonctionnalité demandée.
+2. Corriger TypeScript, ESLint, Next.js et Supabase.
+3. Ne laisser aucun placeholder ni contenu vide dans le périmètre modifié.
+4. Vérifier routes, liens, boutons, auth, Supabase, progression et responsive.
+
+## Vérifications
+
+```bash
+npm install   # si nécessaire
+npm run lint
+npm run build
+```
+
+Corriger toutes les erreurs jusqu'à un build valide. Vérifier que la fonctionnalité fonctionne réellement.
+
+## Git (obligatoire — tâche non terminée sans cela)
+
+```bash
+git status
+git add .
+git commit -m "<description précise>"
+git push origin main
+```
+
+## Rapport final obligatoire
+
+- ✅ Fonctionnalités ajoutées
+- ✅ Fichiers modifiés
+- ✅ Résultat `npm run lint`
+- ✅ Résultat `npm run build`
+- ✅ Commit SHA + message
+- ✅ Push GitHub réussi
+- ⚠️ Points à améliorer
+- ❌ Éléments bloquants
+
+Ne jamais répondre « terminé » sans commit, push et build valide.
