@@ -6,6 +6,7 @@ import { tracks } from "@/lib/data/tracks";
 import { labs } from "@/lib/labs";
 import { getExamRouteSlugs } from "@/lib/data/exams/pools";
 import { certificationPaths } from "@/lib/data/pro-modules/paths";
+import { getVideoSlugs } from "@/lib/data/videos";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;
@@ -18,6 +19,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/examens`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${base}/labs`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/tarifs`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/videos`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${base}/dashboard`, lastModified: now, changeFrequency: "daily", priority: 0.5 },
     { url: `${base}/dashboard/transcript`, lastModified: now, changeFrequency: "weekly", priority: 0.55 },
     { url: `${base}/certificat/verify`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
@@ -69,5 +72,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...trackRoutes, ...courseRoutes, ...quizRoutes, ...labRoutes, ...examRoutes, ...certPathRoutes];
+  const videoRoutes = getVideoSlugs().map((slug) => ({
+    url: `${base}/videos/${slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...trackRoutes, ...courseRoutes, ...quizRoutes, ...labRoutes, ...examRoutes, ...certPathRoutes, ...videoRoutes];
 }

@@ -31,7 +31,20 @@ a {
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-::selection {
-  background-color: #0071e3;
-  color: white;
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(300%); }
+}
+
+.animate-\[shimmer_1\.5s_ease-in-out_infinite\] {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.animate-\[slide_2s_ease-in-out_infinite\] {
+  animation: slide 2s ease-in-out infinite;
 }

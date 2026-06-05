@@ -216,3 +216,65 @@ export type UserProgress = {
   tracks: { slug: string; title: string; percent: number }[];
   recentActivity: { label: string; date: string; type: string }[];
 };
+
+export type HeyGenGenerationStatus = "draft" | "queued" | "generating" | "ready" | "failed";
+
+export type HeyGenConfig = {
+  avatarId?: string;
+  voiceId?: string;
+  script: string;
+  language: string;
+  durationEstimate?: string;
+  status: HeyGenGenerationStatus;
+  videoUrl?: string;
+  sessionUrl?: string;
+};
+
+export type VideoChapter = {
+  id: string;
+  title: string;
+  startSeconds: number;
+};
+
+export type DownloadResourceType = "pdf" | "checklist" | "terminal" | "config" | "script";
+
+export type DownloadResource = {
+  slug: string;
+  title: string;
+  type: DownloadResourceType;
+  description: string;
+  /** Chemin public ou API de téléchargement */
+  href: string;
+  fileSize?: string;
+};
+
+export type AnimationSlug =
+  | "abm-intune"
+  | "ade-enrollment"
+  | "apns-push"
+  | "apps-books"
+  | "platform-sso"
+  | "jamf-policies"
+  | "filevault";
+
+export type AcademyVideo = {
+  slug: string;
+  title: string;
+  description: string;
+  duration: string;
+  durationSeconds: number;
+  moduleSlug: string;
+  moduleTitle: string;
+  lessonSlug?: string;
+  courseSlug: string;
+  trackSlug: string;
+  thumbnail?: string;
+  playbackUrl?: string;
+  heygen: HeyGenConfig;
+  chapters: VideoChapter[];
+  resources: DownloadResource[];
+  quizSlug?: string;
+  animationSlug?: AnimationSlug;
+  popular?: boolean;
+  tags?: string[];
+};

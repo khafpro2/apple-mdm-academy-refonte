@@ -4,6 +4,7 @@ import { SectionHeading, ProgressBar } from "@/components/ui";
 import { ProgressOverview } from "@/components/cards";
 import { LearnerStatsGrid } from "@/components/dashboard/learner-stats";
 import { LeaderboardPanel } from "@/components/dashboard/leaderboard-panel";
+import { ContinueLearningPanel } from "@/components/dashboard/continue-learning-panel";
 import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
@@ -97,6 +98,10 @@ export default async function DashboardPage() {
 
         <div className="mb-8">
           <LearnerStatsGrid stats={stats} />
+        </div>
+
+        <div className="mb-8">
+          <ContinueLearningPanel />
         </div>
 
         <div className="mb-8">

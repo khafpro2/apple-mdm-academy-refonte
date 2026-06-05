@@ -28,6 +28,12 @@ export default async function AdminPage() {
             description="Vue d'ensemble des apprenants, quiz et progression."
           />
           <Link
+            href="/admin/content"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Gestion contenu
+          </Link>
+          <Link
             href="/dashboard"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

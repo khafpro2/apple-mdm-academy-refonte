@@ -5,10 +5,11 @@ import { ButtonLink } from "@/components/ui";
 
 const navLinks = [
   { href: "/parcours", label: "Parcours" },
+  { href: "/videos", label: "Vidéos" },
   { href: "/labs", label: "Labs pratiques" },
   { href: "/quiz", label: "Quiz & examens" },
   { href: "/dashboard", label: "Mon dashboard" },
-  { href: "/tarifs", label: "Tarifs" },
+  { href: "/pricing", label: "Tarifs" },
 ];
 
 function AuthButtonsFallback() {
