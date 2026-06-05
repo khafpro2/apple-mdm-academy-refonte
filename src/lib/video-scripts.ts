@@ -16,6 +16,8 @@ export const HEYGEN_VIDEO_DEFAULTS: HeyGenVideoDefaults = {
   style: "Apple Training Premium",
 };
 
+export const HEYGEN_JAMF_STYLE = "Apple Training Premium + Jamf Training Catalog";
+
 export type VideoScript = {
   slug: string;
   title: string;
@@ -31,6 +33,10 @@ export type VideoScript = {
   /** Première phrase du script — affichage carte */
   description?: string;
   popular?: boolean;
+  /** Style HeyGen — Jamf utilise le catalogue Jamf Training */
+  heygenStyle?: string;
+  /** Parcours Jamf 100, 170 ou 200 */
+  jamfTrack?: "jamf-100" | "jamf-170" | "jamf-200";
 };
 
 function parseDurationMinutes(duration: string): number {
@@ -42,6 +48,7 @@ function script(
   entry: Omit<VideoScript, "durationSeconds" | "heygenAvatar" | "language" | "description"> & {
     heygenAvatar?: string;
     language?: string;
+    heygenStyle?: string;
   }
 ): VideoScript {
   const fullScript = entry.script.trim();
@@ -50,6 +57,7 @@ function script(
     ...entry,
     heygenAvatar: entry.heygenAvatar ?? HEYGEN_VIDEO_DEFAULTS.avatar,
     language: entry.language ?? HEYGEN_VIDEO_DEFAULTS.language,
+    heygenStyle: entry.heygenStyle ?? (entry.jamfTrack ? HEYGEN_JAMF_STYLE : HEYGEN_VIDEO_DEFAULTS.style),
     durationSeconds: parseDurationMinutes(entry.duration),
     description: firstSentence,
   };
@@ -203,6 +211,221 @@ System Integrity Protection protège les composants critiques du système.
 Activation Lock protège contre le vol.
 Ces technologies peuvent être contrôlées et supervisées avec Intune, Jamf et Apple Business Manager.`,
   }),
+
+  // ─── Parcours Jamf 100 / 200 ───────────────────────────────────────────────
+
+  script({
+    slug: "jamf-dashboard",
+    title: "Découvrir le dashboard Jamf Pro",
+    duration: "10 min",
+    module: "Jamf Pro — Dashboard",
+    level: "Débutant",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-discovery",
+    jamfTrack: "jamf-100",
+    popular: true,
+    script: `Bienvenue dans cette vidéo consacrée au dashboard Jamf Pro.
+Le dashboard est votre point d'entrée quotidien pour piloter la santé de votre parc Apple.
+Dès la connexion, vous visualisez le nombre de Mac, iPhone et iPad gérés, les alertes critiques et les policies en attente d'exécution.
+Les widgets vous permettent de suivre la conformité, les enrollments récents et l'état des certificats APNs.
+Le menu latéral organise l'inventaire, les policies, les profils de configuration, les Smart Groups et les rapports.
+Un administrateur Jamf efficace commence chaque journée par une revue du dashboard avant d'intervenir sur les appareils.
+Dans le lab associé, vous explorerez chaque section et configurerez vos favoris pour un accès rapide.`,
+  }),
+  script({
+    slug: "jamf-inventory",
+    title: "Comprendre l'inventaire Jamf Pro",
+    duration: "12 min",
+    module: "Jamf Pro — Inventaire",
+    level: "Débutant",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-discovery",
+    jamfTrack: "jamf-100",
+    script: `L'inventaire Jamf Pro centralise toutes les informations remontées par vos appareils Apple.
+Chaque enregistrement contient le modèle, le numéro de série, la version macOS ou iOS, l'utilisateur assigné et la date du dernier check-in.
+Jamf collecte ces données via l'agent Jamf et les extension attributes personnalisées.
+La recherche avancée permet de filtrer par critère : version OS, application installée, statut FileVault ou valeur d'un Extension Attribute.
+Un inventaire fiable est la base de tout déploiement réussi : sans données exactes, les Smart Groups et les policies ciblent les mauvais appareils.
+Pensez à surveiller les Mac qui n'ont pas effectué de check-in depuis plus de sept jours.
+Dans votre lab, vous interrogez l'inventaire et exportez un rapport pour votre équipe support.`,
+  }),
+  script({
+    slug: "jamf-enrollment",
+    title: "Enrôler un Mac dans Jamf Pro",
+    duration: "15 min",
+    module: "Jamf Pro — Enrollment",
+    level: "Débutant",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-discovery",
+    jamfTrack: "jamf-100",
+    popular: true,
+    script: `L'enrollment est le processus qui lie un Mac à votre instance Jamf Pro.
+Il existe plusieurs méthodes : Automated Device Enrollment via Apple Business Manager, enrollment manuel par invitation ou enrollment par profil téléchargé.
+Pour un déploiement enterprise, ADE est la méthode recommandée : l'appareil est supervisé dès la première activation.
+Lors de l'enrollment, Jamf installe le profil MDM, enregistre l'appareil dans l'inventaire et exécute les policies de type Enrollment Complete.
+Vous devez vérifier que le certificat APNs est valide et que le serveur MDM est correctement configuré dans ABM.
+Un Mac correctement enrollé affiche le statut Managed dans Jamf et peut recevoir des commandes silencieuses.
+Le lab vous guide pas à pas pour enrôler un Mac de test et valider la remontée d'inventaire.`,
+  }),
+  script({
+    slug: "jamf-prestage",
+    title: "PreStage Enrollment",
+    duration: "15 min",
+    module: "Jamf Pro — PreStage",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-discovery",
+    jamfTrack: "jamf-100",
+    script: `PreStage Enrollment est la fonctionnalité phare de Jamf pour le zero-touch deployment Mac.
+Un PreStage Enrollment regroupe les paramètres d'enrollment ADE : compte local, Skip Setup Assistant, policies initiales et restrictions.
+Vous pouvez créer plusieurs PreStages selon les profils utilisateurs : développeurs, marketing, direction.
+Lors de l'activation, le Mac télécharge automatiquement le PreStage assigné dans Apple Business Manager.
+Les options Skip permettent de masquer les écrans Apple ID, Siri ou Analytics pour une expérience corporate fluide.
+Un PreStage bien configuré réduit le temps de mise en service de plusieurs heures à quelques minutes.
+Dans cette leçon, nous construisons un PreStage production-ready avec scope, compte admin local et policies de bootstrap.`,
+  }),
+  script({
+    slug: "jamf-smart-groups",
+    title: "Smart Groups Jamf",
+    duration: "15 min",
+    module: "Jamf Pro — Smart Groups",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-smart-groups",
+    jamfTrack: "jamf-100",
+    popular: true,
+    script: `Les Smart Groups sont des groupes dynamiques qui se mettent à jour automatiquement selon des critères d'inventaire.
+Contrairement aux groupes statiques, un Smart Group recalcule ses membres à chaque check-in Jamf.
+Vous pouvez combiner des critères : version macOS supérieure à 14, présence d'une application, Extension Attribute égal à une valeur, appartenance à un site.
+Les opérateurs AND et OR permettent des règles complexes pour cibler précisément vos populations.
+Les Smart Groups sont utilisés partout dans Jamf : scope des policies, profils, patch management et rapports.
+Un Smart Group mal conçu peut exclure des appareils critiques ou en inclure trop — testez toujours sur un groupe pilote.
+Le lab associé vous fait créer un Smart Group production avec Extension Attribute et validation du scope.`,
+  }),
+  script({
+    slug: "jamf-policies",
+    title: "Policies Jamf Pro",
+    duration: "18 min",
+    module: "Jamf Pro — Policies",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-policies",
+    jamfTrack: "jamf-100",
+    popular: true,
+    script: `Les Policies Jamf Pro sont le moteur d'automatisation de votre flotte Mac.
+Une policy regroupe des actions : installation de packages, exécution de scripts, maintenance, messages utilisateur ou reboot.
+Le trigger définit quand la policy s'exécute : Enrollment Complete, Recurring Check-in, Login, Logout ou Self Service.
+La fréquence contrôle la répétition : once per computer, once per user ou à chaque check-in.
+Les policies sont ordonnées par priorité : Before, After ou au sein d'une catégorie.
+Chaque policy doit être scoped à un Smart Group ou un groupe statique pour limiter son impact.
+Un administrateur Jamf 100 maîtrise la création, le test et le dépannage des policies via les logs Jamf et la commande sudo jamf policy.
+Le lab vous guide pour créer une policy complète avec package et validation sur Mac de test.`,
+  }),
+  script({
+    slug: "jamf-scope",
+    title: "Scope, exclusions et limitations",
+    duration: "12 min",
+    module: "Jamf Pro — Scope",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-policies",
+    jamfTrack: "jamf-100",
+    script: `Le scope détermine quels appareils ou utilisateurs reçoivent une policy, un profil ou une application Jamf.
+L'onglet Scope permet d'ajouter des groupes cibles et de définir des exclusions pour retirer des machines spécifiques.
+Les limitations affinent le ciblage : par site Jamf, par réseau, par version OS ou par type d'appareil.
+Une exclusion est utile pour retirer les Mac de test ou les machines VIP d'un déploiement massif.
+Les conflits de scope entre plusieurs policies sont résolus par la priorité et l'ordre d'exécution.
+Une erreur de scope est l'une des causes les plus fréquentes de policies qui ne s'appliquent pas — vérifiez toujours les membres du groupe et les exclusions actives.
+Cette vidéo vous apprend à auditer le scope avant chaque déploiement production.`,
+  }),
+  script({
+    slug: "jamf-self-service",
+    title: "Jamf Self Service",
+    duration: "12 min",
+    module: "Jamf Pro — Self Service",
+    level: "Débutant",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-policies",
+    jamfTrack: "jamf-100",
+    script: `Jamf Self Service est le portail utilisateur qui permet aux collaborateurs d'installer des applications et des ressources en autonomie.
+L'application Self Service sur Mac affiche les policies configurées avec le trigger Self Service et les rend disponibles en un clic.
+Vous personnalisez l'interface : catégories, icônes, descriptions et notifications pour guider l'utilisateur.
+Self Service réduit la charge du helpdesk en déléguant l'installation de logiciels approuvés aux utilisateurs finaux.
+Les policies Self Service peuvent inclure des applications, des scripts, des liens web ou des documents internes.
+Un catalogue Self Service bien organisé améliore l'expérience utilisateur et accélère l'onboarding des nouveaux arrivants.
+Nous verrons comment publier une application dans Self Service et mesurer son adoption via les rapports Jamf.`,
+  }),
+  script({
+    slug: "jamf-packages",
+    title: "Déployer des packages",
+    duration: "15 min",
+    module: "Jamf Pro — Packages",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-policies",
+    jamfTrack: "jamf-100",
+    script: `Le déploiement de packages est une compétence essentielle pour tout administrateur Jamf.
+Un package Jamf est généralement un fichier PKG ou DMG contenant une application ou un composant système.
+Vous uploadez le package dans Jamf Pro → Computer Management → Packages, puis vous l'associez à une policy.
+Les options d'installation incluent l'installation silencieuse, la vérification de l'existence avant install et la suppression après échec.
+Pour les applications complexes, utilisez Composer ou des outils comme AutoPKG pour automatiser la création de packages.
+Testez toujours sur un Mac isolé avant de scoper à toute la flotte — un mauvais package peut bloquer des centaines de machines.
+Cette leçon couvre le cycle complet : préparation du PKG, upload Jamf, policy d'installation et vérification post-déploiement.`,
+  }),
+  script({
+    slug: "jamf-scripts",
+    title: "Scripts Jamf Pro",
+    duration: "20 min",
+    module: "Jamf Pro — Scripts",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-170",
+    relatedLabSlug: "jamf-scripts",
+    jamfTrack: "jamf-170",
+    popular: true,
+    script: `Les scripts Jamf Pro étendent les capacités d'automatisation au-delà des packages standard.
+Un script shell ou bash est stocké dans Jamf et exécuté via une policy avec le payload Scripts.
+Les bonnes pratiques incluent l'idempotence : le script doit pouvoir s'exécuter plusieurs fois sans effet de bord.
+Utilisez des chemins absolus, journalisez dans /var/log/jamf.log et retournez un code de sortie explicite pour le dépannage.
+Les Extension Attributes basés sur scripts enrichissent l'inventaire avec des données métier personnalisées.
+Jamf 170 et Jamf 200 exigent une maîtrise des scripts pour l'automatisation avancée et l'intégration API.
+Le lab associé vous fait rédiger un script idempotent, le déployer via policy et analyser les logs d'exécution.`,
+  }),
+  script({
+    slug: "jamf-patch-management",
+    title: "Patch Management Jamf",
+    duration: "15 min",
+    module: "Jamf Pro — Patch Management",
+    level: "Avancé",
+    relatedCourseSlug: "jamf-200",
+    relatedLabSlug: "jamf-patch-management",
+    jamfTrack: "jamf-200",
+    popular: true,
+    script: `Le Patch Management Jamf automatise la distribution des mises à jour macOS et des correctifs applicatifs.
+Jamf collecte l'inventaire Software Update de chaque Mac et affiche les updates disponibles dans Patch Management.
+Une patch policy définit le titre logiciel cible, la deadline, les notifications utilisateur et le comportement en cas de report.
+Vous scopez les patch policies à des Smart Groups pour un déploiement progressif : pilote, production, retardataires.
+Le dashboard Patch Management montre le taux de conformité et les Mac en échec nécessitant une intervention.
+Cette fonctionnalité est centrale pour Jamf 200 et la conformité sécurité en entreprise.
+Nous configurons une patch policy macOS complète avec fenêtre de maintenance et rapport de conformité exportable.`,
+  }),
+  script({
+    slug: "jamf-protect",
+    title: "Introduction à Jamf Protect",
+    duration: "15 min",
+    module: "Jamf Protect",
+    level: "Avancé",
+    relatedCourseSlug: "jamf-200",
+    relatedLabSlug: "jamf-protect",
+    jamfTrack: "jamf-200",
+    popular: true,
+    script: `Jamf Protect est la solution de sécurité et d'analyse comportementale de l'écosystème Jamf.
+Elle complète Jamf Pro en détectant les menaces, en collectant la télémétrie endpoint et en appliquant des plans de protection.
+L'agent Protect s'installe sur les Mac via un plan de déploiement lié à votre instance Jamf Pro.
+Le portail Protect affiche les alertes, les analytics Unified Logs et les conformités CIS ou NIST.
+Les plans Protect regroupent policies analytics, blocages et réponses automatisées aux incidents.
+Jamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, réponse aux incidents et durcissement macOS.
+Cette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.`,
+  }),
 ];
 
 export function getVideoScript(slug: string): VideoScript | undefined {
@@ -221,6 +444,18 @@ export function getLatestVideoScripts(limit = 4): VideoScript[] {
   return videoScripts.slice(0, limit);
 }
 
+export function getJamfVideoScripts(): VideoScript[] {
+  return videoScripts.filter((v) => v.jamfTrack !== undefined);
+}
+
+export function getJamfVideoScriptsByTrack(track: "jamf-100" | "jamf-170" | "jamf-200"): VideoScript[] {
+  return videoScripts.filter((v) => v.jamfTrack === track);
+}
+
+export function getFundamentalVideoScripts(): VideoScript[] {
+  return videoScripts.filter((v) => !v.jamfTrack);
+}
+
 /** Payload HeyGen prêt à l'emploi pour une vidéo */
 export function toHeyGenPayload(video: VideoScript) {
   return {
@@ -228,7 +463,7 @@ export function toHeyGenPayload(video: VideoScript) {
     voice: HEYGEN_VIDEO_DEFAULTS.voice,
     language: video.language,
     format: HEYGEN_VIDEO_DEFAULTS.format,
-    style: HEYGEN_VIDEO_DEFAULTS.style,
+    style: video.heygenStyle ?? HEYGEN_VIDEO_DEFAULTS.style,
     script: video.script,
     title: video.title,
     duration: video.duration,

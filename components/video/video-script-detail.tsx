@@ -21,6 +21,14 @@ const ANIMATION_BY_SLUG: Partial<Record<string, AnimationSlug>> = {
   "platform-sso": "platform-sso",
   "jamf-pro-fundamentals": "jamf-policies",
   "macos-security": "filevault",
+  "jamf-policies": "jamf-policies",
+  "jamf-smart-groups": "jamf-policies",
+  "jamf-packages": "jamf-policies",
+  "jamf-scripts": "jamf-policies",
+  "jamf-scope": "jamf-policies",
+  "jamf-self-service": "jamf-policies",
+  "jamf-enrollment": "ade-enrollment",
+  "jamf-prestage": "ade-enrollment",
 };
 
 type Props = {
@@ -185,7 +193,7 @@ export function VideoScriptDetail({ video }: Props) {
             <div><dt className="text-xs text-ink-tertiary">Voix</dt><dd>{HEYGEN_VIDEO_DEFAULTS.voice}</dd></div>
             <div><dt className="text-xs text-ink-tertiary">Langue</dt><dd>{video.language}</dd></div>
             <div><dt className="text-xs text-ink-tertiary">Format</dt><dd>{HEYGEN_VIDEO_DEFAULTS.format}</dd></div>
-            <div><dt className="text-xs text-ink-tertiary">Style</dt><dd>{HEYGEN_VIDEO_DEFAULTS.style}</dd></div>
+            <div><dt className="text-xs text-ink-tertiary">Style</dt><dd>{video.heygenStyle ?? HEYGEN_VIDEO_DEFAULTS.style}</dd></div>
           </dl>
         </div>
 

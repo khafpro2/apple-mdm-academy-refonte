@@ -16,6 +16,15 @@ const ANIMATION_BY_SLUG: Partial<Record<string, AnimationSlug>> = {
   "platform-sso": "platform-sso",
   "jamf-pro-fundamentals": "jamf-policies",
   "macos-security": "filevault",
+  "jamf-policies": "jamf-policies",
+  "jamf-smart-groups": "jamf-policies",
+  "jamf-packages": "jamf-policies",
+  "jamf-scripts": "jamf-policies",
+  "jamf-patch-management": "jamf-policies",
+  "jamf-scope": "jamf-policies",
+  "jamf-self-service": "jamf-policies",
+  "jamf-enrollment": "ade-enrollment",
+  "jamf-prestage": "ade-enrollment",
 };
 
 const TRACK_BY_COURSE: Record<string, string> = {
@@ -23,6 +32,8 @@ const TRACK_BY_COURSE: Record<string, string> = {
   "apple-it-professional": "apple-it-professional",
   "intune-mac": "intune-mac",
   "jamf-100": "jamf-100",
+  "jamf-170": "jamf-170",
+  "jamf-200": "jamf-200",
   "parcours-professionnel": "parcours-professionnel",
 };
 

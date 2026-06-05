@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import {
+  getJamfVideoScripts,
   getLatestVideoScripts,
   getPopularVideoScripts,
   videoScripts,
@@ -33,6 +34,7 @@ export function ContinueLearningPanel() {
 
   const popular = getPopularVideoScripts().slice(0, 3);
   const latest = getLatestVideoScripts(4);
+  const jamfLatest = getJamfVideoScripts().slice(0, 4);
   const recommended = videoScripts
     .filter((v) => !videoProgress.some((p) => p.videoSlug === v.slug && p.completed))
     .slice(0, 3);
@@ -91,6 +93,23 @@ export function ContinueLearningPanel() {
           </ul>
         </section>
       )}
+
+      <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+        <h2 className="text-lg font-bold text-ink">Dernières vidéos Jamf</h2>
+        <ul className="mt-4 space-y-3">
+          {jamfLatest.map((v) => (
+            <li key={v.slug}>
+              <Link href={`/videos/${v.slug}`} className="flex items-center justify-between gap-4 text-sm hover:text-accent">
+                <div>
+                  <span className="font-medium text-ink">{v.title}</span>
+                  <p className="text-xs text-ink-tertiary">{v.jamfTrack?.toUpperCase()} · {v.level}</p>
+                </div>
+                <span className="shrink-0 text-ink-tertiary">{v.duration}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
         <h2 className="text-lg font-bold text-ink">Dernières vidéos</h2>
