@@ -5,6 +5,7 @@ import { ProgressOverview } from "@/components/cards";
 import { LearnerStatsGrid } from "@/components/dashboard/learner-stats";
 import { LeaderboardPanel } from "@/components/dashboard/leaderboard-panel";
 import { ContinueLearningPanel } from "@/components/dashboard/continue-learning-panel";
+import { ResourcesPanel } from "@/components/dashboard/resources-panel";
 import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
@@ -100,8 +101,9 @@ export default async function DashboardPage() {
           <LearnerStatsGrid stats={stats} />
         </div>
 
-        <div className="mb-8">
+        <div className="mb-8 grid gap-8 lg:grid-cols-2">
           <ContinueLearningPanel />
+          <ResourcesPanel trackProgress={trackProgress} />
         </div>
 
         <div className="mb-8">

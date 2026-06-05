@@ -19,3 +19,16 @@ export {
   HEYGEN_JAMF_STYLE,
   toHeyGenPayload,
 } from "@/src/lib/video-scripts";
+export {
+  academyResources,
+  getResource,
+  getResourceSlugs,
+  getPopularResources,
+  getResourcesByBadge,
+  getResourcesByCourse,
+  resourceToPlainText,
+  getCategoryLabel,
+  RESOURCE_CATEGORIES,
+  RESOURCE_LEVELS,
+  RESOURCE_BADGES,
+} from "@/src/lib/resources";
