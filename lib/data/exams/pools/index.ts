@@ -5,6 +5,12 @@ export { jamf300Pool } from "./jamf-300";
 export { jamf400Pool } from "./jamf-400";
 export { appleEnterpriseExpertPool } from "./apple-enterprise-expert";
 export { intuneAppleAdvancedPool } from "./intune-apple-advanced";
+export {
+  kandjiFundamentalsPool,
+  mosyleFundamentalsPool,
+  addigyFundamentalsPool,
+  workspaceOneApplePool,
+} from "@/lib/data/alternative-mdm-tracks/exam-pools";
 
 export { intuneApplePool } from "./intune-apple";
 
@@ -16,6 +22,12 @@ import { jamf400Pool } from "./jamf-400";
 import { appleEnterpriseExpertPool } from "./apple-enterprise-expert";
 import { intuneApplePool } from "./intune-apple";
 import { intuneAppleAdvancedPool } from "./intune-apple-advanced";
+import {
+  kandjiFundamentalsPool,
+  mosyleFundamentalsPool,
+  addigyFundamentalsPool,
+  workspaceOneApplePool,
+} from "@/lib/data/alternative-mdm-tracks/exam-pools";
 import type { Question } from "@/lib/types";
 
 export const examPools: Record<string, Question[]> = {
@@ -28,6 +40,10 @@ export const examPools: Record<string, Question[]> = {
   "examen-jamf-400": jamf400Pool,
   "examen-apple-enterprise-expert": appleEnterpriseExpertPool,
   "examen-intune-apple-advanced": intuneAppleAdvancedPool,
+  "examen-kandji-fundamentals": kandjiFundamentalsPool,
+  "examen-mosyle-fundamentals": mosyleFundamentalsPool,
+  "examen-addigy-fundamentals": addigyFundamentalsPool,
+  "examen-workspace-one-apple": workspaceOneApplePool,
 };
 
 export const examQuestionCounts: Record<string, number> = {
@@ -40,6 +56,10 @@ export const examQuestionCounts: Record<string, number> = {
   "examen-jamf-400": 150,
   "examen-apple-enterprise-expert": 100,
   "examen-intune-apple-advanced": 100,
+  "examen-kandji-fundamentals": 75,
+  "examen-mosyle-fundamentals": 75,
+  "examen-addigy-fundamentals": 75,
+  "examen-workspace-one-apple": 75,
 };
 
 /** Slug URL /examens/[slug] → quiz slug interne */
@@ -52,6 +72,10 @@ export const examRouteToQuizSlug: Record<string, string> = {
   "jamf-400": "examen-jamf-400",
   "apple-enterprise-expert": "examen-apple-enterprise-expert",
   "intune-apple-advanced": "examen-intune-apple-advanced",
+  "kandji-fundamentals": "examen-kandji-fundamentals",
+  "mosyle-fundamentals": "examen-mosyle-fundamentals",
+  "addigy-fundamentals": "examen-addigy-fundamentals",
+  "workspace-one-apple": "examen-workspace-one-apple",
 };
 
 export function getQuizSlugFromExamRoute(routeSlug: string): string | undefined {

@@ -11,6 +11,11 @@ const PREFIX_MODULES: { prefix: string; href: string; label: string }[] = [
   { prefix: "j400-", href: "/cours/jamf-400/j400-m01", label: "Jamf 400 Prep" },
   { prefix: "aee-", href: "/cours/apple-enterprise-expert/aee-m01", label: "Apple Enterprise Expert" },
   { prefix: "iaa-", href: "/cours/intune-apple-advanced/iaa-m01", label: "Intune Apple Advanced" },
+  { prefix: "kfd-", href: "/cours/kandji-fundamentals/kfd-m01", label: "Kandji Fundamentals" },
+  { prefix: "msl-", href: "/cours/mosyle-fundamentals/msl-m01", label: "Mosyle Fundamentals" },
+  { prefix: "adg-", href: "/cours/addigy-fundamentals/adg-m01", label: "Addigy Fundamentals" },
+  { prefix: "wsa-", href: "/cours/workspace-one-apple/wsa-m01", label: "Workspace ONE Apple" },
+  { prefix: "mdm-", href: "/cours/mdm-comparatif-apple/mdm-m01", label: "Comparatif MDM Apple" },
 ];
 
 export function enrichQuestionWithModule(q: Question): Question {

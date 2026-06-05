@@ -38,6 +38,11 @@ const TRACK_BY_COURSE: Record<string, string> = {
   "jamf-400": "jamf-400",
   "apple-enterprise-expert": "apple-enterprise-expert",
   "intune-apple-advanced": "intune-apple-advanced",
+  "kandji-fundamentals": "kandji-fundamentals",
+  "mosyle-fundamentals": "mosyle-fundamentals",
+  "addigy-fundamentals": "addigy-fundamentals",
+  "workspace-one-apple": "workspace-one-apple",
+  "mdm-comparatif-apple": "mdm-comparatif-apple",
   "parcours-professionnel": "parcours-professionnel",
 };
 

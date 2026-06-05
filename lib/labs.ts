@@ -1,5 +1,6 @@
 import type { Lab, LabLevel, LabTechnology } from "@/lib/types";
 import { expertLabs } from "@/lib/data/advanced-tracks/expert-labs";
+import { altMdmLabs } from "@/lib/data/alternative-mdm-tracks/labs";
 
 function lab(
   slug: string,
@@ -804,6 +805,7 @@ export const labs: Lab[] = [
     "Inventaire Jamf exploré, Smart Groups/policies repérés et Self Service catalogué."
   ),
   ...expertLabs,
+  ...altMdmLabs,
 ];
 
 export function getLab(slug: string): Lab | undefined {

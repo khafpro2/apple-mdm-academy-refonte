@@ -2,6 +2,7 @@
 
 import { proModules } from "@/lib/data/pro-modules/index";
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
+import { allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 
 export const lessonToLabSlug: Record<string, string> = {
   "abm-intune": "abm-intune",
@@ -35,6 +36,15 @@ export const lessonToLabSlug: Record<string, string> = {
   "iaa-m02": "intune-conditional-access",
   "iaa-m04": "microsoft-defender-macos",
   "iaa-m08": "platform-sso-advanced",
+  "kfd-m02": "kandji-blueprint",
+  "kfd-m06": "kandji-liftoff",
+  "msl-m02": "mosyle-enrollment",
+  "msl-m05": "mosyle-auth",
+  "adg-m02": "addigy-golive",
+  "adg-m03": "addigy-policy",
+  "wsa-m02": "workspace-one-apple-enrollment",
+  "wsa-m06": "workspace-one-compliance",
+  "mdm-m08": "mdm-comparison",
 };
 
 export function getLabSlugForLesson(lessonSlug: string): string | undefined {
@@ -47,6 +57,11 @@ export function getLabSlugForLesson(lessonSlug: string): string | undefined {
     }
   }
   for (const mod of allAdvancedModules) {
+    if (mod.slug === lessonSlug) {
+      return mod.labSlug ?? undefined;
+    }
+  }
+  for (const mod of allAltMdmModules) {
     if (mod.slug === lessonSlug) {
       return mod.labSlug ?? undefined;
     }

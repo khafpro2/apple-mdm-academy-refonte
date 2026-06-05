@@ -1,6 +1,7 @@
 import type { Course } from "@/lib/types";
 import { proModules } from "@/lib/data/pro-modules/index";
 import { advancedCourses } from "@/lib/data/advanced-tracks/courses";
+import { altMdmCourses } from "@/lib/data/alternative-mdm-tracks/courses";
 
 export const courses: Course[] = [
   {
@@ -280,6 +281,7 @@ export const courses: Course[] = [
     })),
   },
   ...advancedCourses,
+  ...altMdmCourses,
 ];
 
 export function getCourse(slug: string) {

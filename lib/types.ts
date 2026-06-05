@@ -152,7 +152,11 @@ export type LabTechnology =
   | "FileVault"
   | "Sécurité macOS"
   | "Intune Compliance"
-  | "Managed Apple ID + Federation";
+  | "Managed Apple ID + Federation"
+  | "Kandji"
+  | "Mosyle"
+  | "Addigy"
+  | "Workspace ONE";
 
 export type LabProgressSummary = {
   completedCount: number;

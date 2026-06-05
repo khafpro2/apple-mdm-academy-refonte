@@ -1,4 +1,5 @@
 import { advancedVideoScripts, advancedLessonVideoMap } from "@/lib/data/advanced-tracks/heygen-videos";
+import { altMdmVideoScripts, altMdmLessonVideoMap } from "@/lib/data/alternative-mdm-tracks/heygen-videos";
 
 export type VideoLevel = "Débutant" | "Intermédiaire" | "Fondamental" | "Avancé";
 
@@ -429,6 +430,7 @@ Jamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, rép
 Cette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.`,
   }),
   ...advancedVideoScripts,
+  ...altMdmVideoScripts,
 ];
 
 export function getVideoScript(slug: string): VideoScript | undefined {
@@ -539,6 +541,7 @@ const LESSON_VIDEO_SLUGS: Record<string, string> = {
   "m18-compliance": "macos-security",
   "m18-zero-trust": "platform-sso",
   ...advancedLessonVideoMap,
+  ...altMdmLessonVideoMap,
 };
 
 export function getVideoScriptForLesson(lessonSlug: string): VideoScript | undefined {

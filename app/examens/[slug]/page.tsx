@@ -26,6 +26,10 @@ export function generateStaticParams() {
     { slug: "jamf-400" },
     { slug: "apple-enterprise-expert" },
     { slug: "intune-apple-advanced" },
+    { slug: "kandji-fundamentals" },
+    { slug: "mosyle-fundamentals" },
+    { slug: "addigy-fundamentals" },
+    { slug: "workspace-one-apple" },
   ];
 }
 

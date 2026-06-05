@@ -9,6 +9,7 @@ import { SubscriptionStatusBanner } from "@/components/dashboard/subscription-st
 import { ResourcesPanel } from "@/components/dashboard/resources-panel";
 import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-panel";
+import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
@@ -116,6 +117,7 @@ export default async function DashboardPage() {
 
         <div className="mb-8">
           <AdvancedTracksPanel />
+          <AltMdmTracksPanel />
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">

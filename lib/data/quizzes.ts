@@ -2,6 +2,7 @@ import type { Quiz } from "@/lib/types";
 import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { proModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
+import { altMdmModuleQuizzes } from "@/lib/data/alternative-mdm-tracks/quizzes";
 
 export const quizzes: Quiz[] = [
   {
@@ -372,6 +373,59 @@ export const quizzes: Quiz[] = [
   },
   ...proModuleQuizzes,
   ...advancedModuleQuizzes,
+  ...altMdmModuleQuizzes,
+  {
+    slug: "examen-kandji-fundamentals",
+    trackSlug: "kandji-fundamentals",
+    title: "Examen — Kandji Fundamentals",
+    type: "examen",
+    description: "75 questions — Blueprints, Library Items, Liftoff, EDR et compliance Kandji.",
+    duration: "90 min",
+    durationMinutes: 90,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 75,
+    questions: examPools["examen-kandji-fundamentals"].slice(0, 5),
+  },
+  {
+    slug: "examen-mosyle-fundamentals",
+    trackSlug: "mosyle-fundamentals",
+    title: "Examen — Mosyle Fundamentals",
+    type: "examen",
+    description: "75 questions — Enrollment, profils, Mosyle Auth, Fuse et reporting.",
+    duration: "90 min",
+    durationMinutes: 90,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 75,
+    questions: examPools["examen-mosyle-fundamentals"].slice(0, 5),
+  },
+  {
+    slug: "examen-addigy-fundamentals",
+    trackSlug: "addigy-fundamentals",
+    title: "Examen — Addigy Fundamentals",
+    type: "examen",
+    description: "75 questions — GoLive, policies, Smart Software, compliance et dépannage.",
+    duration: "90 min",
+    durationMinutes: 90,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 75,
+    questions: examPools["examen-addigy-fundamentals"].slice(0, 5),
+  },
+  {
+    slug: "examen-workspace-one-apple",
+    trackSlug: "workspace-one-apple",
+    title: "Examen — Workspace ONE Apple Management",
+    type: "examen",
+    description: "75 questions — Enrollment Apple, profils, compliance, Conditional Access et reporting.",
+    duration: "90 min",
+    durationMinutes: 90,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 75,
+    questions: examPools["examen-workspace-one-apple"].slice(0, 5),
+  },
 ];
 
 export function getQuiz(slug: string) {

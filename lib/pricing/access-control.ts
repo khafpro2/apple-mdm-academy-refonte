@@ -40,6 +40,15 @@ export const ADVANCED_TRACK_SLUGS = new Set([
   "intune-apple-advanced",
 ]);
 
+/** Parcours MDM alternatifs Phase 14 */
+export const ALT_MDM_TRACK_SLUGS = new Set([
+  "kandji-fundamentals",
+  "mosyle-fundamentals",
+  "addigy-fundamentals",
+  "workspace-one-apple",
+  "mdm-comparatif-apple",
+]);
+
 export const ENTERPRISE_TRACK_SLUGS = new Set(["jamf-400", "apple-enterprise-expert"]);
 
 const ENTERPRISE_EXAM_ROUTES = new Set(["jamf-400", "apple-enterprise-expert"]);
@@ -52,6 +61,7 @@ export function getRequiredTierForCourse(slug: string): SubscriptionTier {
   if (FREE_COURSE_SLUGS.has(slug)) return "free";
   if (ENTERPRISE_TRACK_SLUGS.has(slug)) return "enterprise";
   if (ADVANCED_TRACK_SLUGS.has(slug)) return "pro";
+  if (ALT_MDM_TRACK_SLUGS.has(slug)) return "pro";
   return "pro";
 }
 
@@ -59,6 +69,7 @@ export function getRequiredTierForExam(routeOrQuizSlug: string): SubscriptionTie
   if (ENTERPRISE_EXAM_ROUTES.has(routeOrQuizSlug)) return "enterprise";
   if (routeOrQuizSlug.includes("jamf-400") || routeOrQuizSlug.includes("apple-enterprise-expert")) return "enterprise";
   if (routeOrQuizSlug.includes("jamf-300") || routeOrQuizSlug.includes("intune-apple-advanced")) return "pro";
+  if (routeOrQuizSlug.includes("kandji") || routeOrQuizSlug.includes("mosyle") || routeOrQuizSlug.includes("addigy") || routeOrQuizSlug.includes("workspace-one")) return "pro";
   return "pro";
 }
 

@@ -1,6 +1,7 @@
 export type ResourceBadge = "Apple" | "Intune" | "Jamf" | "Sécurité";
 
 import { advancedResources } from "@/lib/data/advanced-tracks/resources-data";
+import { altMdmResources } from "@/lib/data/alternative-mdm-tracks/resources-data";
 
 export type ResourceCategory = "checklist" | "terminal" | "template" | "procedure";
 
@@ -836,6 +837,7 @@ export const academyResources: AcademyResource[] = [
     ],
   }),
   ...advancedResources,
+  ...altMdmResources,
 ];
 
 export const RESOURCE_CATEGORIES: ResourceCategory[] = ["checklist", "terminal", "template", "procedure"];
