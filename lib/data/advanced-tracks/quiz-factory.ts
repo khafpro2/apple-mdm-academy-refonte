@@ -1,5 +1,6 @@
 import type { Question, Quiz } from "@/lib/types";
 import type { AdvancedModuleDef } from "@/lib/data/advanced-tracks/module-definitions";
+import { getModuleQuizBank } from "@/lib/data/advanced-tracks/quiz-banks";
 
 function q(
   id: string,
@@ -11,8 +12,23 @@ function q(
   return { id, text, options: [...options], correctIndex: correct, explanation };
 }
 
-/** Génère N questions pédagogiques à partir du titre du module */
+/** Génère N questions — banque manuelle si disponible, sinon template pédagogique */
 function questionsForModule(mod: AdvancedModuleDef): Question[] {
+  const bank = getModuleQuizBank(mod.slug);
+  if (bank && bank.length > 0) {
+    const target = mod.quizCount;
+    const result: Question[] = [];
+    for (let i = 0; i < target; i++) {
+      const base = bank[i % bank.length];
+      result.push({
+        ...base,
+        id: `${mod.quizSlug}-${String(i + 1).padStart(2, "0")}`,
+        text: i < bank.length ? base.text : `[Cas ${i + 1}] ${base.text}`,
+      });
+    }
+    return result;
+  }
+
   const p = mod.slug.split("-")[0];
   const bases: Question[] = [
     q(`${p}-01`, `Quel est l'objectif principal du module « ${mod.title} » ?`, [

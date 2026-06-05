@@ -34,17 +34,22 @@ const TRACK_BY_COURSE: Record<string, string> = {
   "jamf-100": "jamf-100",
   "jamf-170": "jamf-170",
   "jamf-200": "jamf-200",
+  "jamf-300": "jamf-300",
+  "jamf-400": "jamf-400",
+  "apple-enterprise-expert": "apple-enterprise-expert",
+  "intune-apple-advanced": "intune-apple-advanced",
   "parcours-professionnel": "parcours-professionnel",
 };
 
 function heygenFromScript(v: VideoScript): HeyGenConfig {
+  const isAdvancedScript = v.slug.startsWith("video-");
   return {
     script: v.script,
     language: v.language,
     avatarId: v.heygenAvatar,
     voiceId: HEYGEN_VIDEO_DEFAULTS.voice,
     durationEstimate: v.duration,
-    status: "draft",
+    status: isAdvancedScript ? "ready" : "draft",
   };
 }
 

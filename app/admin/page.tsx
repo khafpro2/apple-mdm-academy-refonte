@@ -195,7 +195,6 @@ export default async function AdminPage() {
                 </table>
               </div>
             </section>
-            <AdvancedAdminPanel />
             <section className="mt-10 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
               <h2 className="text-lg font-bold text-ink">Abonnements (placeholder)</h2>
               <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -218,6 +217,11 @@ export default async function AdminPage() {
             </section>
           </>
         )}
+
+        <AdvancedAdminPanel
+          stats={stats?.advancedTrackStats}
+          fromDatabase={Boolean(stats)}
+        />
 
         <div className="mt-10 rounded-2xl border border-border-light bg-surface p-5 text-sm text-ink-secondary">
           <p className="font-semibold text-ink">Accès admin</p>

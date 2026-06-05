@@ -16,6 +16,8 @@ import {
 } from "@/lib/course/helpers";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
+import { SubscriptionGate } from "@/components/subscription/subscription-gate";
+import { getRequiredTierForCourse } from "@/lib/pricing/access-control";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
@@ -51,9 +53,11 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const progressPercent = 0;
   const trackQuizzes = getQuizzesByTrack(course.trackSlug);
   const trackLabs = getLabsByTrack(course.trackSlug);
+  const requiredTier = getRequiredTierForCourse(course.slug);
 
   return (
     <PageShell>
+      <SubscriptionGate requiredTier={requiredTier} featureLabel={`parcours ${course.title}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd({ title: course.title, description: course.description, slug: course.slug, duration: course.duration })) }}
@@ -207,6 +211,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </ButtonLink>
         </div>
       </div>
+      </SubscriptionGate>
     </PageShell>
   );
 }

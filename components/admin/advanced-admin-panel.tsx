@@ -1,11 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui";
-import { advancedTrackAdminStats, advancedStatsToCsv, expertLabSlugs } from "@/lib/data/advanced-tracks/admin-stats";
+import {
+  advancedStatsToCsv,
+  demoAdvancedTrackAdminStats,
+  expertLabSlugs,
+  type AdvancedTrackAdminStat,
+} from "@/lib/data/advanced-tracks/admin-stats";
 
-export function AdvancedAdminPanel() {
+type Props = {
+  stats?: AdvancedTrackAdminStat[];
+  fromDatabase?: boolean;
+};
+
+export function AdvancedAdminPanel({ stats, fromDatabase = false }: Props) {
+  const rows = stats && stats.length > 0 ? stats : demoAdvancedTrackAdminStats;
+
   function exportCsv() {
-    const csv = advancedStatsToCsv(advancedTrackAdminStats);
+    const csv = advancedStatsToCsv(rows);
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -18,7 +30,12 @@ export function AdvancedAdminPanel() {
   return (
     <section className="mt-10 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="text-lg font-bold text-ink">Parcours avancés — Jamf 300 / 400 & Expert</h2>
+        <div>
+          <h2 className="text-lg font-bold text-ink">Parcours avancés — Jamf 300 / 400 & Expert</h2>
+          <p className="mt-1 text-xs text-ink-tertiary">
+            {fromDatabase ? "Données Supabase (track_progress, quiz_results, labs)" : "Données démo — Supabase non connecté"}
+          </p>
+        </div>
         <Button variant="secondary" size="sm" onClick={exportCsv}>
           Export CSV
         </Button>
@@ -35,7 +52,7 @@ export function AdvancedAdminPanel() {
             </tr>
           </thead>
           <tbody>
-            {advancedTrackAdminStats.map((s) => (
+            {rows.map((s) => (
               <tr key={s.trackSlug} className="border-b border-border-light">
                 <td className="py-3 pr-4 font-medium text-ink">{s.title}</td>
                 <td className="py-3 pr-4 text-ink-secondary">{s.enrolled}</td>

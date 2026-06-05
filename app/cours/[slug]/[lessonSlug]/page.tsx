@@ -16,10 +16,14 @@ import {
   getTotalPoints,
 } from "@/lib/course/helpers";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
+import { LessonVideoCallout } from "@/components/video/lesson-video-callout";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack } from "@/lib/data";
+import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
+import { SubscriptionGate } from "@/components/subscription/subscription-gate";
+import { getRequiredTierForCourse } from "@/lib/pricing/access-control";
 
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
@@ -74,9 +78,12 @@ export default async function LessonPage({
   const CustomToc = custom?.TableOfContents;
   const meta = custom?.meta;
   const labSlug = getLabSlugForLesson(lessonSlug);
+  const video = getVideoScriptForLesson(lessonSlug);
+  const requiredTier = getRequiredTierForCourse(course.slug);
 
   return (
     <PageShell>
+      <SubscriptionGate requiredTier={requiredTier} featureLabel={`leçon ${lesson.title}`}>
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
         <Breadcrumb
           items={[
@@ -152,6 +159,8 @@ export default async function LessonPage({
               </div>
             </header>
 
+            {video && <LessonVideoCallout video={video} />}
+
             <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
               {CustomLesson ? (
                 <CustomLesson />
@@ -180,6 +189,7 @@ export default async function LessonPage({
           </div>
         </div>
       </div>
+      </SubscriptionGate>
     </PageShell>
   );
 }

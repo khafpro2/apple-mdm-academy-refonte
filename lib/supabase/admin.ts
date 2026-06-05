@@ -84,9 +84,11 @@ export type AdminStats = {
   popularLabs: { lesson_slug: string; completions: number }[];
   examStats: AdminExamStat[];
   subscriptionStats: AdminSubscriptionStats;
+  advancedTrackStats: import("@/lib/data/advanced-tracks/admin-stats").AdvancedTrackAdminStat[];
 };
 
 import { estimateMrr } from "@/lib/pricing/stripe-config";
+import { buildAdvancedTrackStats } from "@/lib/data/advanced-tracks/admin-stats";
 
 export async function fetchAdminStats(): Promise<AdminStats | null> {
   if (!getSupabaseEnv().configured) return null;
@@ -217,6 +219,8 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     conversionRate: totalUsers > 0 ? Math.round(((proUsers + enterpriseUsers) / totalUsers) * 100) : 0,
   };
 
+  const advancedTrackStats = buildAdvancedTrackStats(trackStats, examStats, labCounts);
+
   return {
     totalUsers,
     totalQuizAttempts: allResults.length,
@@ -231,6 +235,7 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     popularLabs,
     examStats,
     subscriptionStats,
+    advancedTrackStats,
   };
 }
 

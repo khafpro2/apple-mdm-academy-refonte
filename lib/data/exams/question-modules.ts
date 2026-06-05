@@ -7,6 +7,10 @@ const PREFIX_MODULES: { prefix: string; href: string; label: string }[] = [
   { prefix: "j200-", href: "/cours/jamf-200/patch-management", label: "Jamf 200" },
   { prefix: "int-", href: "/cours/intune-mac/abm-intune", label: "Intune Apple" },
   { prefix: "ia-", href: "/cours/intune-mac/abm-intune", label: "Intune Apple Devices" },
+  { prefix: "j300-", href: "/cours/jamf-300/j300-m01", label: "Jamf 300 Prep" },
+  { prefix: "j400-", href: "/cours/jamf-400/j400-m01", label: "Jamf 400 Prep" },
+  { prefix: "aee-", href: "/cours/apple-enterprise-expert/aee-m01", label: "Apple Enterprise Expert" },
+  { prefix: "iaa-", href: "/cours/intune-apple-advanced/iaa-m01", label: "Intune Apple Advanced" },
 ];
 
 export function enrichQuestionWithModule(q: Question): Question {

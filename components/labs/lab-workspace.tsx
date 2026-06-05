@@ -16,6 +16,8 @@ import {
   setLastOpenedLab,
 } from "@/lib/labs/progress";
 import { useLabProgressRecord } from "@/lib/labs/use-lab-progress";
+import { LabSimulatorPanel } from "@/components/labs/lab-simulator-panel";
+import { isExpertLabWithSimulator } from "@/lib/labs/simulator";
 import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
 
 type LabWorkspaceProps = {
@@ -235,6 +237,10 @@ export function LabWorkspace({ lab, isAuthenticated }: LabWorkspaceProps) {
               </p>
               <h3 className="mt-2 text-xl font-bold text-ink">{currentStep.title}</h3>
               <p className="mt-4 text-sm leading-relaxed text-ink-secondary">{currentStep.instruction}</p>
+
+              {isExpertLabWithSimulator(lab.slug) && (
+                <LabSimulatorPanel labSlug={lab.slug} stepId={currentStep.id} />
+              )}
 
               <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-5">
                 <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">

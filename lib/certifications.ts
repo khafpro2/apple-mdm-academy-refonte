@@ -65,6 +65,34 @@ export const trackCertificates: TrackCertificateDef[] = [
     examQuizSlug: "examen-apple-it-pro",
     passingScore: 80,
   },
+  {
+    id: "jamf-300-path",
+    title: "Jamf 300 Prep — Certification Ready",
+    trackSlug: "jamf-300",
+    examQuizSlug: "examen-jamf-300",
+    passingScore: 75,
+  },
+  {
+    id: "jamf-400-path",
+    title: "Jamf 400 Prep — Architect Ready",
+    trackSlug: "jamf-400",
+    examQuizSlug: "examen-jamf-400",
+    passingScore: 75,
+  },
+  {
+    id: "apple-enterprise-expert-path",
+    title: "Apple Enterprise Expert",
+    trackSlug: "apple-enterprise-expert",
+    examQuizSlug: "examen-apple-enterprise-expert",
+    passingScore: 80,
+  },
+  {
+    id: "intune-apple-advanced-path",
+    title: "Intune Apple Advanced",
+    trackSlug: "intune-apple-advanced",
+    examQuizSlug: "examen-intune-apple-advanced",
+    passingScore: 80,
+  },
 ];
 
 export function getTrackCertificate(id: string) {

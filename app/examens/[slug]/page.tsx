@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
+import { ExamPrepDisclaimer } from "@/components/exams/exam-prep-disclaimer";
 import { getQuiz, getExamPool } from "@/lib/data";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
+import { getRequiredTierForExam } from "@/lib/pricing/access-control";
 import { examJsonLd } from "@/lib/seo/exam-schema";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getUser } from "@/lib/supabase/server";
@@ -20,6 +22,10 @@ export function generateStaticParams() {
     { slug: "jamf-100" },
     { slug: "jamf-200" },
     { slug: "intune-apple" },
+    { slug: "jamf-300" },
+    { slug: "jamf-400" },
+    { slug: "apple-enterprise-expert" },
+    { slug: "intune-apple-advanced" },
   ];
 }
 
@@ -44,6 +50,7 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ slu
   if (!quiz) notFound();
 
   const user = await getUser();
+  const examTier = getRequiredTierForExam(slug);
 
   const jsonLd =
     quiz.examQuestionCount && quiz.durationMinutes
@@ -71,8 +78,9 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ slu
             { label: quiz.title },
           ]}
         />
+        <ExamPrepDisclaimer examRouteSlug={slug} examTitle={quiz.title} />
         {quiz.examMode && quiz.examQuestionCount ? (
-          <SubscriptionGate requiredTier="pro" featureLabel="examens blancs">
+          <SubscriptionGate requiredTier={examTier} featureLabel="examens blancs">
             <ExamEngine
               quiz={quiz}
               basePool={getExamPool(quiz.slug) ?? quiz.questions}
