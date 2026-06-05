@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
-import { academyVideos, getPopularVideos } from "@/lib/data/videos";
+import {
+  getLatestVideoScripts,
+  getPopularVideoScripts,
+  videoScripts,
+} from "@/src/lib/video-scripts";
 import { tracks } from "@/lib/data/tracks";
 import { loadAllVideoProgress, loadLastContent, type LastContent, type VideoProgress } from "@/lib/video/progress-storage";
 
@@ -22,17 +26,38 @@ export function ContinueLearningPanel() {
     .filter((p) => !p.completed && p.currentSeconds > 0)
     .slice(0, 3)
     .map((p) => {
-      const video = academyVideos.find((v) => v.slug === p.videoSlug);
+      const video = videoScripts.find((v) => v.slug === p.videoSlug);
       return video ? { video, progress: p } : null;
     })
-    .filter(Boolean) as { video: (typeof academyVideos)[0]; progress: VideoProgress }[];
+    .filter(Boolean) as { video: (typeof videoScripts)[0]; progress: VideoProgress }[];
 
-  const popular = getPopularVideos().slice(0, 3);
-  const recommended = academyVideos.filter((v) => !videoProgress.some((p) => p.videoSlug === v.slug && p.completed)).slice(0, 3);
+  const popular = getPopularVideoScripts().slice(0, 3);
+  const latest = getLatestVideoScripts(4);
+  const recommended = videoScripts
+    .filter((v) => !videoProgress.some((p) => p.videoSlug === v.slug && p.completed))
+    .slice(0, 3);
+
+  const lastVideo = lastContent?.type === "video"
+    ? videoScripts.find((v) => v.slug === lastContent.slug)
+    : null;
 
   return (
     <div className="space-y-6">
-      {lastContent && (
+      {(lastContent && lastVideo) && (
+        <section className="rounded-3xl border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-surface-elevated p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent">Reprendre la dernière vidéo</p>
+          <h2 className="mt-2 text-lg font-bold text-ink">{lastVideo.title}</h2>
+          <p className="mt-1 text-sm text-ink-secondary">{lastVideo.module} · {lastVideo.duration}</p>
+          <Link
+            href={lastContent.href}
+            className="mt-4 inline-flex rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white hover:opacity-90"
+          >
+            Continuer →
+          </Link>
+        </section>
+      )}
+
+      {lastContent && !lastVideo && (
         <section className="rounded-3xl border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-surface-elevated p-6 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wide text-accent">Reprendre où j&apos;ai arrêté</p>
           <h2 className="mt-2 text-lg font-bold text-ink">{lastContent.title}</h2>
@@ -47,7 +72,7 @@ export function ContinueLearningPanel() {
 
       {inProgressVideos.length > 0 && (
         <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-ink">Vidéos en cours</h2>
+          <h2 className="text-lg font-bold text-ink">Progression vidéo</h2>
           <ul className="mt-4 space-y-3">
             {inProgressVideos.map(({ video, progress }) => {
               const pct = Math.round((progress.currentSeconds / video.durationSeconds) * 100);
@@ -58,7 +83,7 @@ export function ContinueLearningPanel() {
                     <div className="mt-2 h-1.5 rounded-full bg-border-light">
                       <div className="h-1.5 rounded-full bg-accent" style={{ width: `${pct}%` }} />
                     </div>
-                    <p className="mt-1 text-xs text-ink-tertiary">{pct}% · {video.duration}</p>
+                    <p className="mt-1 text-xs text-ink-tertiary">{pct}% · {video.duration} · {video.level}</p>
                   </Link>
                 </li>
               );
@@ -67,9 +92,29 @@ export function ContinueLearningPanel() {
         </section>
       )}
 
+      <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+        <h2 className="text-lg font-bold text-ink">Dernières vidéos</h2>
+        <ul className="mt-4 space-y-3">
+          {latest.map((v) => (
+            <li key={v.slug}>
+              <Link href={`/videos/${v.slug}`} className="flex items-center justify-between gap-4 text-sm hover:text-accent">
+                <div>
+                  <span className="font-medium text-ink">{v.title}</span>
+                  <p className="text-xs text-ink-tertiary">{v.module} · {v.level}</p>
+                </div>
+                <span className="shrink-0 text-ink-tertiary">{v.duration}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Link href="/videos" className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
+          Voir toute la bibliothèque →
+        </Link>
+      </section>
+
       <div className="grid gap-6 md:grid-cols-2">
         <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-ink">Modules populaires</h2>
+          <h2 className="text-lg font-bold text-ink">Vidéos populaires</h2>
           <ul className="mt-4 space-y-3">
             {popular.map((v) => (
               <li key={v.slug}>
@@ -89,7 +134,7 @@ export function ContinueLearningPanel() {
               <li key={v.slug}>
                 <Link href={`/videos/${v.slug}`} className="block text-sm">
                   <span className="font-medium text-ink">{v.title}</span>
-                  <p className="text-xs text-ink-tertiary">{v.moduleTitle}</p>
+                  <p className="text-xs text-ink-tertiary">{v.module} · {v.level}</p>
                 </Link>
               </li>
             ))}
@@ -107,9 +152,6 @@ export function ContinueLearningPanel() {
             </Link>
           ))}
         </div>
-        <Link href="/videos" className="mt-4 inline-block text-sm font-semibold text-accent-foreground underline">
-          Voir toutes les vidéos →
-        </Link>
       </section>
     </div>
   );

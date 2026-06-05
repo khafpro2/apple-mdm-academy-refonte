@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { academyVideos } from "@/lib/data/videos";
+import { videoScripts } from "@/src/lib/video-scripts";
 import { courses } from "@/lib/data/courses";
 import { quizzes } from "@/lib/data/quizzes";
 import { tracks } from "@/lib/data/tracks";
@@ -23,7 +23,7 @@ export function AdminContentManagement() {
         {[
           { label: "Parcours", value: tracks.length },
           { label: "Leçons", value: lessonCount },
-          { label: "Vidéos", value: academyVideos.length },
+          { label: "Vidéos", value: videoScripts.length },
           { label: "Quiz", value: quizzes.length },
           { label: "Examens blancs", value: examSlugs.length },
         ].map((s) => (
@@ -74,13 +74,13 @@ export function AdminContentManagement() {
               </tr>
             </thead>
             <tbody>
-              {academyVideos.map((v) => (
+              {videoScripts.map((v) => (
                 <tr key={v.slug} className="border-b border-border-light">
                   <td className="py-3 pr-4 font-medium text-ink">{v.title}</td>
-                  <td className="py-3 pr-4 text-ink-secondary">{v.moduleTitle}</td>
+                  <td className="py-3 pr-4 text-ink-secondary">{v.module}</td>
                   <td className="py-3 pr-4 text-ink-secondary">{v.duration}</td>
                   <td className="py-3 pr-4">
-                    <Badge variant={v.heygen.status === "ready" ? "accent" : "default"}>{v.heygen.status}</Badge>
+                    <Badge variant="default">draft</Badge>
                   </td>
                   <td className="py-3">
                     <Link href={`/videos/${v.slug}`} className="font-semibold text-accent hover:underline">

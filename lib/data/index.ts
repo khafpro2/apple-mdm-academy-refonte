@@ -6,3 +6,12 @@ export { pricingPlans, badges, userProgress, certificates, leaderboard } from "@
 export { proModules, getProModule, getProModuleBySlug } from "@/lib/data/pro-modules/index";
 export { certificationPaths, getCertificationPath } from "@/lib/data/pro-modules/paths";
 export { academyVideos, getVideo, getVideosByTrack, getPopularVideos, getVideoSlugs } from "@/lib/data/videos";
+export {
+  videoScripts,
+  getVideoScript,
+  getVideoScriptSlugs,
+  getPopularVideoScripts,
+  getLatestVideoScripts,
+  HEYGEN_VIDEO_DEFAULTS,
+  toHeyGenPayload,
+} from "@/src/lib/video-scripts";

@@ -277,4 +277,6 @@ export type AcademyVideo = {
   animationSlug?: AnimationSlug;
   popular?: boolean;
   tags?: string[];
+  relatedLabSlug?: string;
+  level?: string;
 };
