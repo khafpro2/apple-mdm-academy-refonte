@@ -87,15 +87,20 @@ export function QuizEngine({
   }
 
   function nextQuestion() {
+    if (selectedOption === null) return;
+    const updated = { ...answers, [question.id]: selectedOption };
+
     if (currentIndex < total - 1) {
+      setAnswers(updated);
       setCurrentIndex((i) => i + 1);
       setSelectedOption(null);
       setShowResult(false);
     } else {
+      setAnswers(updated);
       setFinished(true);
       if (isAuthenticated && !savedRef.current) {
         savedRef.current = true;
-        void persistResult(answers);
+        void persistResult(updated);
       }
     }
   }

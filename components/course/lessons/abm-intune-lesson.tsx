@@ -11,8 +11,10 @@ import {
   abmIntuneTheory,
   abmIntuneTroubleshooting,
   abmIntuneVerificationItems,
+  ABM_INTUNE_LESSON_SLUG,
 } from "@/lib/data/lessons/abm-intune-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import {
   AbmIntuneChecklist,
   AbmIntuneLessonProgress,
@@ -207,6 +209,8 @@ export function AbmIntuneLesson() {
         <AbmIntuneChecklist items={abmIntuneVerificationItems} onCompleteChange={setChecklistDone} />
       </ContentSection>
 
+      <LessonCapturesSection lessonSlug={ABM_INTUNE_LESSON_SLUG} />
+
       <ContentSection id="depannage" title="Dépannage">
         <div className="grid gap-4 sm:grid-cols-2">
           {abmIntuneTroubleshooting.map((item) => (
@@ -271,6 +275,7 @@ export function AbmIntuneTableOfContents({ mobile = false }: { mobile?: boolean 
     { href: "#theorie", label: "Théorie" },
     { href: "#etapes", label: "Étapes" },
     { href: "#verification", label: "Vérification" },
+    CAPTURES_TOC_LINK,
     { href: "#depannage", label: "Dépannage" },
     { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
     { href: "#quiz", label: "Quiz" },

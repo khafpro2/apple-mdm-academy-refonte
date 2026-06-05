@@ -20,8 +20,10 @@ import {
   macosSipDetails,
   macosXProtectDetails,
   MACOS_SECURITY_COMPLETE_KEY,
+  MACOS_SECURITY_LESSON_SLUG,
 } from "@/lib/data/lessons/macos-security-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -72,6 +74,7 @@ const TOC_LINKS = [
   { href: "#activation-lock", label: "Activation Lock" },
   { href: "#notarization", label: "Notarization" },
   { href: "#entreprise", label: "Entreprise" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#cas-pratique", label: "Cas pratique" },
   { href: "#quiz", label: "Quiz" },
@@ -428,6 +431,8 @@ export function MacosSecurityLesson() {
           </table>
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={MACOS_SECURITY_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

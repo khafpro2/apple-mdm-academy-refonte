@@ -24,8 +24,10 @@ import {
   managedAppleIdsTroubleshooting,
   managedAppleIdsUseCases,
   MANAGED_APPLE_IDS_COMPLETE_KEY,
+  MANAGED_APPLE_IDS_LESSON_SLUG,
 } from "@/lib/data/lessons/managed-apple-ids-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -76,6 +78,7 @@ const TOC_LINKS = [
   { href: "#synchronisation", label: "Synchronisation" },
   { href: "#limitations", label: "Limitations" },
   { href: "#securite", label: "Sécurité" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -353,6 +356,8 @@ export function ManagedAppleIdsLesson() {
           ))}
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={MANAGED_APPLE_IDS_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

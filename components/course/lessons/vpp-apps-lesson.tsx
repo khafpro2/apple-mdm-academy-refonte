@@ -22,8 +22,10 @@ import {
   vppSyncVerificationItems,
   vppTroubleshooting,
   VPP_APPS_COMPLETE_KEY,
+  VPP_APPS_LESSON_SLUG,
 } from "@/lib/data/lessons/vpp-apps-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -72,6 +74,7 @@ const TOC_LINKS = [
   { href: "#deploiement", label: "Déploiement" },
   { href: "#installation-silencieuse", label: "Installation silencieuse" },
   { href: "#recuperation", label: "Récupération" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -392,6 +395,8 @@ export function VppAppsLesson() {
           </div>
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={VPP_APPS_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

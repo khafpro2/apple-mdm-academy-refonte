@@ -23,8 +23,10 @@ import {
   macosVpnProfileExample,
   macosWifiProfileExample,
   MACOS_PROFILES_COMPLETE_KEY,
+  MACOS_PROFILES_LESSON_SLUG,
 } from "@/lib/data/lessons/macos-profiles-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -77,6 +79,7 @@ const TOC_LINKS = [
   { href: "#system-extensions", label: "System Extensions" },
   { href: "#deploiement-intune", label: "Intune" },
   { href: "#deploiement-jamf", label: "Jamf" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -476,6 +479,8 @@ export function MacosProfilesLesson() {
           </div>
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={MACOS_PROFILES_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

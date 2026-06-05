@@ -15,6 +15,7 @@ import {
   getLessonPoints,
 } from "@/lib/course/helpers";
 import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
+import { courseJsonLd } from "@/lib/seo/course-schema";
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -23,7 +24,16 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const course = getCourse(slug);
-  return { title: course?.title ?? "Cours" };
+  if (!course) return { title: "Cours" };
+  return {
+    title: course.title,
+    description: course.description,
+    openGraph: {
+      title: course.title,
+      description: course.description,
+      type: "website",
+    },
+  };
 }
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -40,6 +50,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
   return (
     <PageShell>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd({ title: course.title, description: course.description, slug: course.slug, duration: course.duration })) }}
+      />
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
         <Breadcrumb
           items={[

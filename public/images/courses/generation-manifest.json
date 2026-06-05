@@ -1,0 +1,821 @@
+{
+  "globalStyle": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface",
+  "specs": {
+    "width": 1920,
+    "height": 1080,
+    "aspectRatio": "16:9",
+    "format": "webp"
+  },
+  "screenshots": [
+    {
+      "id": "01",
+      "category": "apple-business-manager",
+      "filename": "01-connexion-abm.webp",
+      "title": "Connexion Apple Business Manager",
+      "src": "/images/courses/apple-business-manager/01-connexion-abm.webp",
+      "scenePrompt": "Apple Business Manager login screen, enterprise environment, Apple official interface, sign-in page with company branding",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager login screen, enterprise environment, Apple official interface, sign-in page with company branding"
+    },
+    {
+      "id": "02",
+      "category": "apple-business-manager",
+      "filename": "02-tableau-de-bord-abm.webp",
+      "title": "Tableau de bord ABM",
+      "src": "/images/courses/apple-business-manager/02-tableau-de-bord-abm.webp",
+      "scenePrompt": "Apple Business Manager dashboard, devices overview, managed Apple IDs, apps and books, organization statistics",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager dashboard, devices overview, managed Apple IDs, apps and books, organization statistics"
+    },
+    {
+      "id": "03",
+      "category": "apple-business-manager",
+      "filename": "03-gestion-des-appareils.webp",
+      "title": "Gestion des appareils",
+      "src": "/images/courses/apple-business-manager/03-gestion-des-appareils.webp",
+      "scenePrompt": "Apple Business Manager devices section, inventory of iPhone, iPad and Mac devices",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager devices section, inventory of iPhone, iPad and Mac devices"
+    },
+    {
+      "id": "04",
+      "category": "apple-business-manager",
+      "filename": "04-ajouter-serveur-mdm.webp",
+      "title": "Ajouter un serveur MDM",
+      "src": "/images/courses/apple-business-manager/04-ajouter-serveur-mdm.webp",
+      "scenePrompt": "Apple Business Manager add MDM server wizard, enterprise deployment workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager add MDM server wizard, enterprise deployment workflow"
+    },
+    {
+      "id": "05",
+      "category": "apple-business-manager",
+      "filename": "05-telechargement-token-serveur.webp",
+      "title": "Téléchargement du token serveur",
+      "src": "/images/courses/apple-business-manager/05-telechargement-token-serveur.webp",
+      "scenePrompt": "Apple Business Manager MDM server token download page",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager MDM server token download page"
+    },
+    {
+      "id": "06",
+      "category": "apple-business-manager",
+      "filename": "06-attribution-appareil.webp",
+      "title": "Attribution d'un appareil",
+      "src": "/images/courses/apple-business-manager/06-attribution-appareil.webp",
+      "scenePrompt": "Apple Business Manager assign devices to MDM server",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager assign devices to MDM server"
+    },
+    {
+      "id": "07",
+      "category": "apple-business-manager",
+      "filename": "07-recherche-numero-serie.webp",
+      "title": "Recherche par numéro de série",
+      "src": "/images/courses/apple-business-manager/07-recherche-numero-serie.webp",
+      "scenePrompt": "Apple Business Manager serial number search interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager serial number search interface"
+    },
+    {
+      "id": "08",
+      "category": "apple-business-manager",
+      "filename": "08-apps-and-books.webp",
+      "title": "Apps & Books",
+      "src": "/images/courses/apple-business-manager/08-apps-and-books.webp",
+      "scenePrompt": "Apple Business Manager Apps and Books dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager Apps and Books dashboard"
+    },
+    {
+      "id": "09",
+      "category": "apple-business-manager",
+      "filename": "09-gestion-utilisateurs.webp",
+      "title": "Gestion des utilisateurs",
+      "src": "/images/courses/apple-business-manager/09-gestion-utilisateurs.webp",
+      "scenePrompt": "Apple Business Manager user management interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager user management interface"
+    },
+    {
+      "id": "10",
+      "category": "apple-business-manager",
+      "filename": "10-managed-apple-ids.webp",
+      "title": "Managed Apple IDs",
+      "src": "/images/courses/apple-business-manager/10-managed-apple-ids.webp",
+      "scenePrompt": "Apple Business Manager managed Apple IDs administration",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager managed Apple IDs administration"
+    },
+    {
+      "id": "11",
+      "category": "apple-business-manager",
+      "filename": "11-federation-entra-id.webp",
+      "title": "Fédération Microsoft Entra ID",
+      "src": "/images/courses/apple-business-manager/11-federation-entra-id.webp",
+      "scenePrompt": "Apple Business Manager federation with Microsoft Entra ID",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager federation with Microsoft Entra ID"
+    },
+    {
+      "id": "12",
+      "category": "apple-business-manager",
+      "filename": "12-validation-domaine.webp",
+      "title": "Validation du domaine",
+      "src": "/images/courses/apple-business-manager/12-validation-domaine.webp",
+      "scenePrompt": "Apple Business Manager domain verification process",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager domain verification process"
+    },
+    {
+      "id": "13",
+      "category": "apple-business-manager",
+      "filename": "13-parametres-abm.webp",
+      "title": "Paramètres ABM",
+      "src": "/images/courses/apple-business-manager/13-parametres-abm.webp",
+      "scenePrompt": "Apple Business Manager settings dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager settings dashboard"
+    },
+    {
+      "id": "14",
+      "category": "apple-business-manager",
+      "filename": "14-emplacements.webp",
+      "title": "Emplacements",
+      "src": "/images/courses/apple-business-manager/14-emplacements.webp",
+      "scenePrompt": "Apple Business Manager locations management",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager locations management"
+    },
+    {
+      "id": "15",
+      "category": "apple-business-manager",
+      "filename": "15-roles-administratifs.webp",
+      "title": "Rôles administratifs",
+      "src": "/images/courses/apple-business-manager/15-roles-administratifs.webp",
+      "scenePrompt": "Apple Business Manager role assignment interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Business Manager role assignment interface"
+    },
+    {
+      "id": "16",
+      "category": "ade",
+      "filename": "16-affectation-ade.webp",
+      "title": "Affectation ADE",
+      "src": "/images/courses/ade/16-affectation-ade.webp",
+      "scenePrompt": "Apple Automated Device Enrollment assignment interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Automated Device Enrollment assignment interface"
+    },
+    {
+      "id": "17",
+      "category": "ade",
+      "filename": "17-liste-appareils-ade.webp",
+      "title": "Liste des appareils ADE",
+      "src": "/images/courses/ade/17-liste-appareils-ade.webp",
+      "scenePrompt": "ADE device inventory dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. ADE device inventory dashboard"
+    },
+    {
+      "id": "18",
+      "category": "ade",
+      "filename": "18-profil-enrolement.webp",
+      "title": "Profil d'enrôlement",
+      "src": "/images/courses/ade/18-profil-enrolement.webp",
+      "scenePrompt": "Enrollment profile configuration screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Enrollment profile configuration screen"
+    },
+    {
+      "id": "19",
+      "category": "ade",
+      "filename": "19-synchronisation-ade.webp",
+      "title": "Synchronisation ADE",
+      "src": "/images/courses/ade/19-synchronisation-ade.webp",
+      "scenePrompt": "ADE synchronization between ABM and Intune",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. ADE synchronization between ABM and Intune"
+    },
+    {
+      "id": "20",
+      "category": "ade",
+      "filename": "20-ecran-activation-iphone.webp",
+      "title": "Écran d'activation iPhone",
+      "src": "/images/courses/ade/20-ecran-activation-iphone.webp",
+      "scenePrompt": "iPhone setup assistant activation screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. iPhone setup assistant activation screen"
+    },
+    {
+      "id": "21",
+      "category": "ade",
+      "filename": "21-appareil-est-gere.webp",
+      "title": "Écran « Cet appareil est géré »",
+      "src": "/images/courses/ade/21-appareil-est-gere.webp",
+      "scenePrompt": "Corporate managed device enrollment screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Corporate managed device enrollment screen"
+    },
+    {
+      "id": "22",
+      "category": "ade",
+      "filename": "22-remote-management.webp",
+      "title": "Écran Remote Management",
+      "src": "/images/courses/ade/22-remote-management.webp",
+      "scenePrompt": "Apple Remote Management enrollment screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Remote Management enrollment screen"
+    },
+    {
+      "id": "23",
+      "category": "ade",
+      "filename": "23-deploiement-mac-ade.webp",
+      "title": "Déploiement Mac ADE",
+      "src": "/images/courses/ade/23-deploiement-mac-ade.webp",
+      "scenePrompt": "Mac automated enrollment workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Mac automated enrollment workflow"
+    },
+    {
+      "id": "24",
+      "category": "ade",
+      "filename": "24-configuration-assistant.webp",
+      "title": "Configuration Assistant",
+      "src": "/images/courses/ade/24-configuration-assistant.webp",
+      "scenePrompt": "Apple setup assistant enterprise deployment",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple setup assistant enterprise deployment"
+    },
+    {
+      "id": "25",
+      "category": "ade",
+      "filename": "25-supervision-automatique.webp",
+      "title": "Supervision automatique",
+      "src": "/images/courses/ade/25-supervision-automatique.webp",
+      "scenePrompt": "Supervised mode configuration dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Supervised mode configuration dashboard"
+    },
+    {
+      "id": "26",
+      "category": "intune",
+      "filename": "26-intune-admin-center.webp",
+      "title": "Intune Admin Center",
+      "src": "/images/courses/intune/26-intune-admin-center.webp",
+      "scenePrompt": "Microsoft Intune Admin Center dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Microsoft Intune Admin Center dashboard"
+    },
+    {
+      "id": "27",
+      "category": "intune",
+      "filename": "27-devices.webp",
+      "title": "Devices",
+      "src": "/images/courses/intune/27-devices.webp",
+      "scenePrompt": "Microsoft Intune devices inventory",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Microsoft Intune devices inventory"
+    },
+    {
+      "id": "28",
+      "category": "intune",
+      "filename": "28-apple-enrollment.webp",
+      "title": "Apple Enrollment",
+      "src": "/images/courses/intune/28-apple-enrollment.webp",
+      "scenePrompt": "Intune Apple enrollment configuration",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune Apple enrollment configuration"
+    },
+    {
+      "id": "29",
+      "category": "intune",
+      "filename": "29-apns-configuration.webp",
+      "title": "APNs Configuration",
+      "src": "/images/courses/intune/29-apns-configuration.webp",
+      "scenePrompt": "Intune APNs certificate configuration",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune APNs certificate configuration"
+    },
+    {
+      "id": "30",
+      "category": "intune",
+      "filename": "30-enrollment-program-tokens.webp",
+      "title": "Enrollment Program Tokens",
+      "src": "/images/courses/intune/30-enrollment-program-tokens.webp",
+      "scenePrompt": "Intune Enrollment Program Tokens dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune Enrollment Program Tokens dashboard"
+    },
+    {
+      "id": "31",
+      "category": "intune",
+      "filename": "31-import-token-abm.webp",
+      "title": "Import token ABM",
+      "src": "/images/courses/intune/31-import-token-abm.webp",
+      "scenePrompt": "Import Apple Business Manager token into Intune",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Import Apple Business Manager token into Intune"
+    },
+    {
+      "id": "32",
+      "category": "intune",
+      "filename": "32-configuration-profiles.webp",
+      "title": "Configuration Profiles",
+      "src": "/images/courses/intune/32-configuration-profiles.webp",
+      "scenePrompt": "Intune configuration profiles dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune configuration profiles dashboard"
+    },
+    {
+      "id": "33",
+      "category": "intune",
+      "filename": "33-applications-ios.webp",
+      "title": "Applications iOS",
+      "src": "/images/courses/intune/33-applications-ios.webp",
+      "scenePrompt": "Intune iOS applications deployment",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune iOS applications deployment"
+    },
+    {
+      "id": "34",
+      "category": "intune",
+      "filename": "34-applications-macos.webp",
+      "title": "Applications macOS",
+      "src": "/images/courses/intune/34-applications-macos.webp",
+      "scenePrompt": "Intune macOS applications deployment",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune macOS applications deployment"
+    },
+    {
+      "id": "35",
+      "category": "intune",
+      "filename": "35-compliance-policies.webp",
+      "title": "Compliance Policies",
+      "src": "/images/courses/intune/35-compliance-policies.webp",
+      "scenePrompt": "Intune compliance policies dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Intune compliance policies dashboard"
+    },
+    {
+      "id": "36",
+      "category": "intune",
+      "filename": "36-conditional-access.webp",
+      "title": "Conditional Access",
+      "src": "/images/courses/intune/36-conditional-access.webp",
+      "scenePrompt": "Microsoft Conditional Access policies",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Microsoft Conditional Access policies"
+    },
+    {
+      "id": "37",
+      "category": "intune",
+      "filename": "37-platform-sso.webp",
+      "title": "Platform SSO",
+      "src": "/images/courses/intune/37-platform-sso.webp",
+      "scenePrompt": "Platform SSO configuration profile in Intune",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Platform SSO configuration profile in Intune"
+    },
+    {
+      "id": "38",
+      "category": "intune",
+      "filename": "38-managed-devices.webp",
+      "title": "Managed Devices",
+      "src": "/images/courses/intune/38-managed-devices.webp",
+      "scenePrompt": "Managed Apple devices inventory",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Managed Apple devices inventory"
+    },
+    {
+      "id": "39",
+      "category": "intune",
+      "filename": "39-device-configuration.webp",
+      "title": "Device Configuration",
+      "src": "/images/courses/intune/39-device-configuration.webp",
+      "scenePrompt": "Device configuration management dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Device configuration management dashboard"
+    },
+    {
+      "id": "40",
+      "category": "intune",
+      "filename": "40-device-compliance.webp",
+      "title": "Device Compliance",
+      "src": "/images/courses/intune/40-device-compliance.webp",
+      "scenePrompt": "Compliance reporting dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Compliance reporting dashboard"
+    },
+    {
+      "id": "41",
+      "category": "apns",
+      "filename": "41-push-certificates-portal.webp",
+      "title": "Apple Push Certificates Portal",
+      "src": "/images/courses/apns/41-push-certificates-portal.webp",
+      "scenePrompt": "Apple Push Certificates Portal interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple Push Certificates Portal interface"
+    },
+    {
+      "id": "42",
+      "category": "apns",
+      "filename": "42-upload-csr.webp",
+      "title": "Upload CSR",
+      "src": "/images/courses/apns/42-upload-csr.webp",
+      "scenePrompt": "CSR upload screen in Apple Push Certificates Portal",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. CSR upload screen in Apple Push Certificates Portal"
+    },
+    {
+      "id": "43",
+      "category": "apns",
+      "filename": "43-download-certificate.webp",
+      "title": "Download Certificate",
+      "src": "/images/courses/apns/43-download-certificate.webp",
+      "scenePrompt": "Certificate download screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Certificate download screen"
+    },
+    {
+      "id": "44",
+      "category": "apns",
+      "filename": "44-import-apns-intune.webp",
+      "title": "Import APNs Intune",
+      "src": "/images/courses/apns/44-import-apns-intune.webp",
+      "scenePrompt": "Import APNs certificate into Intune",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Import APNs certificate into Intune"
+    },
+    {
+      "id": "45",
+      "category": "apns",
+      "filename": "45-expiration-apns.webp",
+      "title": "Expiration APNs",
+      "src": "/images/courses/apns/45-expiration-apns.webp",
+      "scenePrompt": "APNs expiration monitoring dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. APNs expiration monitoring dashboard"
+    },
+    {
+      "id": "46",
+      "category": "apns",
+      "filename": "46-renouvellement-apns.webp",
+      "title": "Renouvellement APNs",
+      "src": "/images/courses/apns/46-renouvellement-apns.webp",
+      "scenePrompt": "APNs renewal workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. APNs renewal workflow"
+    },
+    {
+      "id": "47",
+      "category": "apps-books",
+      "filename": "47-recherche-application.webp",
+      "title": "Recherche application",
+      "src": "/images/courses/apps-books/47-recherche-application.webp",
+      "scenePrompt": "Apps and Books application search screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apps and Books application search screen"
+    },
+    {
+      "id": "48",
+      "category": "apps-books",
+      "filename": "48-achat-licences.webp",
+      "title": "Achat licences",
+      "src": "/images/courses/apps-books/48-achat-licences.webp",
+      "scenePrompt": "Volume license purchase workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Volume license purchase workflow"
+    },
+    {
+      "id": "49",
+      "category": "apps-books",
+      "filename": "49-inventaire-licences.webp",
+      "title": "Inventaire licences",
+      "src": "/images/courses/apps-books/49-inventaire-licences.webp",
+      "scenePrompt": "License inventory dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. License inventory dashboard"
+    },
+    {
+      "id": "50",
+      "category": "apps-books",
+      "filename": "50-attribution-applications.webp",
+      "title": "Attribution applications",
+      "src": "/images/courses/apps-books/50-attribution-applications.webp",
+      "scenePrompt": "Application assignment workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Application assignment workflow"
+    },
+    {
+      "id": "51",
+      "category": "apps-books",
+      "filename": "51-synchronisation-apps-books.webp",
+      "title": "Synchronisation Apps & Books",
+      "src": "/images/courses/apps-books/51-synchronisation-apps-books.webp",
+      "scenePrompt": "Apps and Books synchronization dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apps and Books synchronization dashboard"
+    },
+    {
+      "id": "52",
+      "category": "apps-books",
+      "filename": "52-deploiement-teams.webp",
+      "title": "Déploiement Teams",
+      "src": "/images/courses/apps-books/52-deploiement-teams.webp",
+      "scenePrompt": "Microsoft Teams deployment from Intune",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Microsoft Teams deployment from Intune"
+    },
+    {
+      "id": "53",
+      "category": "apps-books",
+      "filename": "53-deploiement-outlook.webp",
+      "title": "Déploiement Outlook",
+      "src": "/images/courses/apps-books/53-deploiement-outlook.webp",
+      "scenePrompt": "Microsoft Outlook deployment workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Microsoft Outlook deployment workflow"
+    },
+    {
+      "id": "54",
+      "category": "managed-apple-id",
+      "filename": "54-creation-utilisateur.webp",
+      "title": "Création utilisateur",
+      "src": "/images/courses/managed-apple-id/54-creation-utilisateur.webp",
+      "scenePrompt": "Managed Apple ID user creation interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Managed Apple ID user creation interface"
+    },
+    {
+      "id": "55",
+      "category": "managed-apple-id",
+      "filename": "55-federation-entra-id.webp",
+      "title": "Fédération Entra ID",
+      "src": "/images/courses/managed-apple-id/55-federation-entra-id.webp",
+      "scenePrompt": "Federation setup between ABM and Entra ID",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Federation setup between ABM and Entra ID"
+    },
+    {
+      "id": "56",
+      "category": "managed-apple-id",
+      "filename": "56-synchronisation-utilisateurs.webp",
+      "title": "Synchronisation utilisateurs",
+      "src": "/images/courses/managed-apple-id/56-synchronisation-utilisateurs.webp",
+      "scenePrompt": "User synchronization dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. User synchronization dashboard"
+    },
+    {
+      "id": "57",
+      "category": "managed-apple-id",
+      "filename": "57-verification-domaine.webp",
+      "title": "Vérification domaine",
+      "src": "/images/courses/managed-apple-id/57-verification-domaine.webp",
+      "scenePrompt": "DNS domain verification workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. DNS domain verification workflow"
+    },
+    {
+      "id": "58",
+      "category": "managed-apple-id",
+      "filename": "58-gestion-des-comptes.webp",
+      "title": "Gestion des comptes",
+      "src": "/images/courses/managed-apple-id/58-gestion-des-comptes.webp",
+      "scenePrompt": "Managed Apple IDs account management",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Managed Apple IDs account management"
+    },
+    {
+      "id": "59",
+      "category": "platform-sso",
+      "filename": "59-configuration-platform-sso.webp",
+      "title": "Configuration Platform SSO",
+      "src": "/images/courses/platform-sso/59-configuration-platform-sso.webp",
+      "scenePrompt": "Platform SSO configuration dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Platform SSO configuration dashboard"
+    },
+    {
+      "id": "60",
+      "category": "platform-sso",
+      "filename": "60-profil-intune-platform-sso.webp",
+      "title": "Profil Intune Platform SSO",
+      "src": "/images/courses/platform-sso/60-profil-intune-platform-sso.webp",
+      "scenePrompt": "Platform SSO deployment profile",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Platform SSO deployment profile"
+    },
+    {
+      "id": "61",
+      "category": "platform-sso",
+      "filename": "61-connexion-utilisateur.webp",
+      "title": "Connexion utilisateur",
+      "src": "/images/courses/platform-sso/61-connexion-utilisateur.webp",
+      "scenePrompt": "macOS login using Platform SSO",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. macOS login using Platform SSO"
+    },
+    {
+      "id": "62",
+      "category": "platform-sso",
+      "filename": "62-synchronisation-mot-de-passe.webp",
+      "title": "Synchronisation mot de passe",
+      "src": "/images/courses/platform-sso/62-synchronisation-mot-de-passe.webp",
+      "scenePrompt": "Password synchronization process",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Password synchronization process"
+    },
+    {
+      "id": "63",
+      "category": "platform-sso",
+      "filename": "63-mfa-microsoft.webp",
+      "title": "MFA Microsoft",
+      "src": "/images/courses/platform-sso/63-mfa-microsoft.webp",
+      "scenePrompt": "Microsoft Entra ID MFA verification screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Microsoft Entra ID MFA verification screen"
+    },
+    {
+      "id": "64",
+      "category": "jamf",
+      "filename": "64-dashboard-jamf.webp",
+      "title": "Dashboard Jamf",
+      "src": "/images/courses/jamf/64-dashboard-jamf.webp",
+      "scenePrompt": "Jamf Pro dashboard overview",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro dashboard overview"
+    },
+    {
+      "id": "65",
+      "category": "jamf",
+      "filename": "65-computers.webp",
+      "title": "Computers",
+      "src": "/images/courses/jamf/65-computers.webp",
+      "scenePrompt": "Jamf Pro computers inventory",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro computers inventory"
+    },
+    {
+      "id": "66",
+      "category": "jamf",
+      "filename": "66-mobile-devices.webp",
+      "title": "Mobile Devices",
+      "src": "/images/courses/jamf/66-mobile-devices.webp",
+      "scenePrompt": "Jamf Pro mobile devices dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro mobile devices dashboard"
+    },
+    {
+      "id": "67",
+      "category": "jamf",
+      "filename": "67-smart-groups.webp",
+      "title": "Smart Groups",
+      "src": "/images/courses/jamf/67-smart-groups.webp",
+      "scenePrompt": "Jamf Pro Smart Groups configuration",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro Smart Groups configuration"
+    },
+    {
+      "id": "68",
+      "category": "jamf",
+      "filename": "68-static-groups.webp",
+      "title": "Static Groups",
+      "src": "/images/courses/jamf/68-static-groups.webp",
+      "scenePrompt": "Jamf Pro Static Groups management",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro Static Groups management"
+    },
+    {
+      "id": "69",
+      "category": "jamf",
+      "filename": "69-policies.webp",
+      "title": "Policies",
+      "src": "/images/courses/jamf/69-policies.webp",
+      "scenePrompt": "Jamf Pro policy creation screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro policy creation screen"
+    },
+    {
+      "id": "70",
+      "category": "jamf",
+      "filename": "70-configuration-profiles.webp",
+      "title": "Configuration Profiles",
+      "src": "/images/courses/jamf/70-configuration-profiles.webp",
+      "scenePrompt": "Jamf Pro configuration profiles editor",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Pro configuration profiles editor"
+    },
+    {
+      "id": "71",
+      "category": "jamf",
+      "filename": "71-packages.webp",
+      "title": "Packages",
+      "src": "/images/courses/jamf/71-packages.webp",
+      "scenePrompt": "Jamf package repository dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf package repository dashboard"
+    },
+    {
+      "id": "72",
+      "category": "jamf",
+      "filename": "72-scripts.webp",
+      "title": "Scripts",
+      "src": "/images/courses/jamf/72-scripts.webp",
+      "scenePrompt": "Jamf script management interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf script management interface"
+    },
+    {
+      "id": "73",
+      "category": "jamf",
+      "filename": "73-patch-management.webp",
+      "title": "Patch Management",
+      "src": "/images/courses/jamf/73-patch-management.webp",
+      "scenePrompt": "Jamf patch management dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf patch management dashboard"
+    },
+    {
+      "id": "74",
+      "category": "jamf",
+      "filename": "74-inventory.webp",
+      "title": "Inventory",
+      "src": "/images/courses/jamf/74-inventory.webp",
+      "scenePrompt": "Jamf inventory reporting",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf inventory reporting"
+    },
+    {
+      "id": "75",
+      "category": "jamf",
+      "filename": "75-enrollment.webp",
+      "title": "Enrollment",
+      "src": "/images/courses/jamf/75-enrollment.webp",
+      "scenePrompt": "Jamf enrollment workflow",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf enrollment workflow"
+    },
+    {
+      "id": "76",
+      "category": "jamf",
+      "filename": "76-prestage-enrollment.webp",
+      "title": "PreStage Enrollment",
+      "src": "/images/courses/jamf/76-prestage-enrollment.webp",
+      "scenePrompt": "Jamf PreStage Enrollment configuration",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf PreStage Enrollment configuration"
+    },
+    {
+      "id": "77",
+      "category": "jamf",
+      "filename": "77-self-service.webp",
+      "title": "Self Service",
+      "src": "/images/courses/jamf/77-self-service.webp",
+      "scenePrompt": "Jamf Self Service portal",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Self Service portal"
+    },
+    {
+      "id": "78",
+      "category": "jamf",
+      "filename": "78-jamf-protect.webp",
+      "title": "Jamf Protect",
+      "src": "/images/courses/jamf/78-jamf-protect.webp",
+      "scenePrompt": "Jamf Protect security dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf Protect security dashboard"
+    },
+    {
+      "id": "79",
+      "category": "filevault",
+      "filename": "79-filevault-active.webp",
+      "title": "FileVault activé",
+      "src": "/images/courses/filevault/79-filevault-active.webp",
+      "scenePrompt": "macOS FileVault enabled screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. macOS FileVault enabled screen"
+    },
+    {
+      "id": "80",
+      "category": "filevault",
+      "filename": "80-cle-recuperation.webp",
+      "title": "Clé de récupération",
+      "src": "/images/courses/filevault/80-cle-recuperation.webp",
+      "scenePrompt": "Recovery key escrow dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Recovery key escrow dashboard"
+    },
+    {
+      "id": "81",
+      "category": "security",
+      "filename": "81-gatekeeper.webp",
+      "title": "Gatekeeper",
+      "src": "/images/courses/security/81-gatekeeper.webp",
+      "scenePrompt": "macOS Gatekeeper settings",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. macOS Gatekeeper settings"
+    },
+    {
+      "id": "82",
+      "category": "security",
+      "filename": "82-xprotect.webp",
+      "title": "XProtect",
+      "src": "/images/courses/security/82-xprotect.webp",
+      "scenePrompt": "Apple XProtect malware protection interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple XProtect malware protection interface"
+    },
+    {
+      "id": "83",
+      "category": "security",
+      "filename": "83-sip.webp",
+      "title": "SIP",
+      "src": "/images/courses/security/83-sip.webp",
+      "scenePrompt": "System Integrity Protection status screen",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. System Integrity Protection status screen"
+    },
+    {
+      "id": "84",
+      "category": "security",
+      "filename": "84-activation-lock.webp",
+      "title": "Activation Lock",
+      "src": "/images/courses/security/84-activation-lock.webp",
+      "scenePrompt": "Activation Lock management dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Activation Lock management dashboard"
+    },
+    {
+      "id": "85",
+      "category": "security",
+      "filename": "85-privacy-preferences.webp",
+      "title": "Privacy Preferences",
+      "src": "/images/courses/security/85-privacy-preferences.webp",
+      "scenePrompt": "PPPC profile management interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. PPPC profile management interface"
+    },
+    {
+      "id": "86",
+      "category": "security",
+      "filename": "86-system-extensions.webp",
+      "title": "System Extensions",
+      "src": "/images/courses/security/86-system-extensions.webp",
+      "scenePrompt": "macOS System Extensions configuration",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. macOS System Extensions configuration"
+    },
+    {
+      "id": "87",
+      "category": "exams",
+      "filename": "87-simulation-apple-it-pro.webp",
+      "title": "Simulation Apple IT Professional",
+      "src": "/images/courses/exams/87-simulation-apple-it-pro.webp",
+      "scenePrompt": "Apple certification mock exam interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Apple certification mock exam interface"
+    },
+    {
+      "id": "88",
+      "category": "exams",
+      "filename": "88-resultats-examen.webp",
+      "title": "Résultats examen",
+      "src": "/images/courses/exams/88-resultats-examen.webp",
+      "scenePrompt": "Certification exam results dashboard",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Certification exam results dashboard"
+    },
+    {
+      "id": "89",
+      "category": "exams",
+      "filename": "89-simulation-jamf-100.webp",
+      "title": "Simulation Jamf 100",
+      "src": "/images/courses/exams/89-simulation-jamf-100.webp",
+      "scenePrompt": "Jamf 100 practice exam interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf 100 practice exam interface"
+    },
+    {
+      "id": "90",
+      "category": "exams",
+      "filename": "90-simulation-jamf-200.webp",
+      "title": "Simulation Jamf 200",
+      "src": "/images/courses/exams/90-simulation-jamf-200.webp",
+      "scenePrompt": "Jamf 200 advanced mock exam interface",
+      "generationPrompt": "Apple Training official, Apple Business Manager real interface, Microsoft Intune real interface, Jamf Pro real interface, modern 2026 UI, professional screenshot, ultra realistic, Apple Enterprise documentation, clean Apple design, SF Pro typography, Microsoft Learn style, Jamf Training Catalog style, high resolution 1920x1080, 16:9 aspect ratio, neutral lighting, professional dashboard, no watermark, no stray text, no invented logos, credible modern interface. Jamf 200 advanced mock exam interface"
+    }
+  ]
+}

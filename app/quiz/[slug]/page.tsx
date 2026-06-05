@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { QuizEngine } from "@/components/quiz/quiz-engine";
-import { getQuiz, quizzes } from "@/lib/data";
+import { ExamEngine } from "@/components/quiz/exam-engine";
+import { getQuiz, getExamPool, quizzes } from "@/lib/data";
 import { getUser } from "@/lib/supabase/server";
 
 export function generateStaticParams() {
@@ -31,7 +32,16 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ slu
             { label: quiz.title },
           ]}
         />
-        <QuizEngine quiz={quiz} isAuthenticated={!!user} />
+        {quiz.examMode && quiz.examQuestionCount ? (
+          <ExamEngine
+            quiz={quiz}
+            basePool={getExamPool(quiz.slug) ?? quiz.questions}
+            questionCount={quiz.examQuestionCount}
+            isAuthenticated={!!user}
+          />
+        ) : (
+          <QuizEngine quiz={quiz} isAuthenticated={!!user} />
+        )}
       </div>
     </PageShell>
   );

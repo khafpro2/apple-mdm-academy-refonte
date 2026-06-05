@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { LessonContent } from "@/lib/types";
 import { ButtonLink } from "@/components/ui";
 import { ContentSection } from "@/components/course/course-ui";
+import { LessonScreenshotsSection } from "@/components/course/screenshot-card";
 
 type LessonContentViewProps = {
   content: LessonContent;
@@ -81,30 +82,7 @@ export function LessonContentView({ content, lessonTitle, quizHref }: LessonCont
       </ContentSection>
 
       <ContentSection id="captures" title="Captures d'écran">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {content.screenshots.map((shot) => (
-            <figure
-              key={shot.caption}
-              className="overflow-hidden rounded-3xl border border-border-light bg-surface-elevated shadow-sm"
-            >
-              <div
-                className={`flex aspect-[4/3] flex-col items-center justify-center bg-gradient-to-br ${shot.gradient} p-6`}
-                role="img"
-                aria-label={shot.alt}
-              >
-                <span className="text-4xl" aria-hidden="true">
-                  {shot.icon}
-                </span>
-                <p className="mt-4 max-w-[200px] text-center text-xs font-medium text-ink-secondary">
-                  {lessonTitle}
-                </p>
-              </div>
-              <figcaption className="border-t border-border-light px-4 py-3 text-xs font-medium text-ink-secondary">
-                {shot.caption}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <LessonScreenshotsSection screenshots={content.screenshots} />
       </ContentSection>
 
       <ContentSection id="bonnes-pratiques" title="Bonnes pratiques">

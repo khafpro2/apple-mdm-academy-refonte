@@ -18,9 +18,11 @@ import {
   apnsVerificationItems,
   apnsWithoutConsequences,
   APNS_COMPLETE_KEY,
+  APNS_LESSON_SLUG,
   getApnsHealthStatus,
 } from "@/lib/data/lessons/apns-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -68,6 +70,7 @@ const TOC_LINKS = [
   { href: "#creation", label: "Création" },
   { href: "#renouvellement", label: "Renouvellement" },
   { href: "#verification", label: "Vérification" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -336,6 +339,8 @@ export function ApnsLesson() {
           total={apnsVerificationItems.length}
         />
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={APNS_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

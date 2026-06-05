@@ -22,8 +22,10 @@ import {
   iosVpnProfileExample,
   iosWifiProfileExample,
   IOS_PROFILES_COMPLETE_KEY,
+  IOS_PROFILES_LESSON_SLUG,
 } from "@/lib/data/lessons/ios-profiles-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -74,6 +76,7 @@ const TOC_LINKS = [
   { href: "#securite", label: "Sécurité" },
   { href: "#deploiement-intune", label: "Intune" },
   { href: "#deploiement-jamf", label: "Jamf" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -413,6 +416,8 @@ export function IosProfilesLesson() {
           </div>
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={IOS_PROFILES_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

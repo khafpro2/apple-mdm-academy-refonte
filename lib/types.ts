@@ -19,12 +19,30 @@ export type Lesson = {
   completed?: boolean;
 };
 
+export type ScreenshotCategory =
+  | "apple-business-manager"
+  | "ade"
+  | "intune"
+  | "apns"
+  | "apps-books"
+  | "managed-apple-id"
+  | "platform-sso"
+  | "jamf"
+  | "security"
+  | "filevault"
+  | "exams";
+
 export type LessonScreenshot = {
+  id: string;
+  title: string;
+  description: string;
+  src: string;
+  /** Légende pédagogique affichée sous la description */
   caption: string;
-  alt: string;
-  /** Dégradé CSS pour l'aperçu visuel */
-  gradient: string;
-  icon: string;
+  /** Scène EN pour génération d'image (sans style global) */
+  scenePrompt?: string;
+  /** Prompt complet : style global + scène */
+  generationPrompt?: string;
 };
 
 export type LessonStep = {
@@ -78,8 +96,34 @@ export type Quiz = {
   type: "quiz" | "examen";
   description: string;
   duration: string;
+  /** Durée chronomètre en minutes (mode examen) */
+  durationMinutes?: number;
   passingScore: number;
   questions: Question[];
+  /** Nombre de questions en mode examen (pool aléatoire) */
+  examQuestionCount?: number;
+  /** Active le mode examen strict (chrono, pas de retour) */
+  examMode?: boolean;
+};
+
+export type LearnerStats = {
+  globalPercent: number;
+  timeSpentMinutes: number;
+  modulesCompleted: number;
+  averageScore: number;
+  lastActivity: { label: string; date: string } | null;
+  certificatesCount: number;
+};
+
+export type LeaderboardEntry = {
+  rank: number;
+  userId: string;
+  name: string;
+  bestScore: number;
+  avgScore: number;
+  modulesCompleted: number;
+  fastestMinutes: number | null;
+  highlight?: boolean;
 };
 
 export type Lab = {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { saveLessonProgress } from "@/app/actions/progress";
 import type { Question } from "@/lib/types";
 import { Button } from "@/components/ui";
 
@@ -272,7 +273,9 @@ export function LessonActions({
   );
 }
 
-export function useLessonCompletion(storageKey: string) {
+export function useLessonCompletion(storageKey: string, lessonSlug?: string) {
+  const resolvedSlug =
+    lessonSlug ?? storageKey.match(/^lesson-(.+)-complete$/)?.[1];
   const [markedComplete, setMarkedComplete] = useState(() => {
     if (typeof window === "undefined") return false;
     try {
@@ -289,6 +292,9 @@ export function useLessonCompletion(storageKey: string) {
       localStorage.setItem(storageKey, "true");
     } catch {
       /* ignore */
+    }
+    if (resolvedSlug) {
+      void saveLessonProgress({ lessonSlug: resolvedSlug, score: quizScore });
     }
   }
 

@@ -1,6 +1,7 @@
 import type { Course, Lesson, LessonContent, Module } from "@/lib/types";
 import { getQuizzesByTrack } from "@/lib/data/quizzes";
 import { getTrack } from "@/lib/data/tracks";
+import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
 import {
   abmIntuneBestPractices,
   abmIntuneObjectives,
@@ -16,19 +17,12 @@ function getAbmIntuneFallbackContent(): LessonContent {
     prerequisites: abmIntunePrerequisites,
     theory: abmIntuneTheory,
     steps: abmIntuneSteps.map((s) => ({ title: s.title, description: s.steps.join(" ") })),
-    screenshots: [],
+    screenshots: getScreenshotsForLesson("abm-intune"),
     bestPractices: abmIntuneBestPractices,
     troubleshooting: abmIntuneTroubleshooting,
   };
 }
 
-const SCREENSHOT_GRADIENTS = [
-  "from-slate-100 via-slate-50 to-blue-50",
-  "from-gray-100 via-white to-indigo-50",
-  "from-zinc-100 via-slate-50 to-sky-50",
-];
-
-const SCREENSHOT_ICONS = ["🖥️", "⚙️", "📱", "🔐", "📊", "🛠️"];
 
 function topicContext(course: Course, module: Module, lesson: Lesson) {
   const track = getTrack(course.trackSlug);
@@ -46,6 +40,18 @@ function topicContext(course: Course, module: Module, lesson: Lesson) {
     courseTitle: course.title,
     certification: track?.certification ?? course.title,
   };
+}
+
+function generateScreenshots(
+  course: Course,
+  lesson: Lesson,
+  ctx: ReturnType<typeof topicContext>
+): LessonContent["screenshots"] {
+  return getScreenshotsForLesson(lesson.slug, {
+    courseSlug: course.slug,
+    lesson,
+    domain: ctx.domain,
+  });
 }
 
 function generateObjectives(ctx: ReturnType<typeof topicContext>): string[] {
@@ -133,32 +139,6 @@ function generateSteps(ctx: ReturnType<typeof topicContext>): LessonContent["ste
   ];
 }
 
-function generateScreenshots(
-  lesson: Lesson,
-  ctx: ReturnType<typeof topicContext>
-): LessonContent["screenshots"] {
-  return [
-    {
-      caption: `Console ${ctx.domain} — vue principale`,
-      alt: `Interface d'administration ${ctx.domain} pour ${lesson.title}`,
-      gradient: SCREENSHOT_GRADIENTS[0],
-      icon: SCREENSHOT_ICONS[0],
-    },
-    {
-      caption: `Profil ou policy — ${ctx.lessonTitle}`,
-      alt: `Configuration détaillée pour ${lesson.title}`,
-      gradient: SCREENSHOT_GRADIENTS[1],
-      icon: SCREENSHOT_ICONS[2],
-    },
-    {
-      caption: "Rapport de conformité appareil",
-      alt: "Statut de conformité et inventaire appareil",
-      gradient: SCREENSHOT_GRADIENTS[2],
-      icon: SCREENSHOT_ICONS[4],
-    },
-  ];
-}
-
 function generateBestPractices(ctx: ReturnType<typeof topicContext>): string[] {
   return [
     "Nommez clairement vos profils, policies et groupes (préfixe site + fonction + version).",
@@ -215,7 +195,7 @@ export function getLessonContent(
     prerequisites: generatePrerequisites(globalIndex, course, ctx),
     theory: generateTheory(ctx),
     steps: generateSteps(ctx),
-    screenshots: generateScreenshots(lesson, ctx),
+    screenshots: generateScreenshots(course, lesson, ctx),
     bestPractices: generateBestPractices(ctx),
     troubleshooting: generateTroubleshooting(ctx),
     finalQuizSlug: isLastLesson ? trackQuizzes[0]?.slug : trackQuizzes[0]?.slug,

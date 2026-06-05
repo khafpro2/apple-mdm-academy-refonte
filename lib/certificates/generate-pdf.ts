@@ -5,6 +5,7 @@ export type CertificateData = {
   quizTitle: string;
   score: number;
   completedAt: string;
+  moduleLabel?: string;
 };
 
 export async function generateCertificatePdf(data: CertificateData): Promise<Uint8Array> {
@@ -15,25 +16,28 @@ export async function generateCertificatePdf(data: CertificateData): Promise<Uin
   const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
+  const appleGray = rgb(0.45, 0.45, 0.47);
+  const ink = rgb(0.08, 0.08, 0.1);
   const accent = rgb(0, 0.44, 0.89);
-  const ink = rgb(0.11, 0.11, 0.12);
-  const muted = rgb(0.43, 0.43, 0.45);
+  const gold = rgb(0.72, 0.58, 0.15);
+
+  page.drawRectangle({ x: 0, y: 0, width, height, color: rgb(0.98, 0.98, 0.99) });
 
   page.drawRectangle({
-    x: 30,
-    y: 30,
-    width: width - 60,
-    height: height - 60,
-    borderColor: accent,
+    x: 24,
+    y: 24,
+    width: width - 48,
+    height: height - 48,
+    borderColor: gold,
     borderWidth: 2,
   });
 
   page.drawRectangle({
-    x: 40,
-    y: 40,
-    width: width - 80,
-    height: height - 80,
-    borderColor: rgb(0.9, 0.9, 0.92),
+    x: 32,
+    y: 32,
+    width: width - 64,
+    height: height - 64,
+    borderColor: rgb(0.88, 0.88, 0.9),
     borderWidth: 1,
   });
 
@@ -45,50 +49,61 @@ export async function generateCertificatePdf(data: CertificateData): Promise<Uin
 
   page.drawText("Apple MDM Academy", {
     x: width / 2 - 95,
-    y: height - 90,
-    size: 14,
+    y: height - 72,
+    size: 13,
     font: helveticaBold,
     color: accent,
   });
 
+  page.drawText("APPLE PREMIUM TRAINING", {
+    x: width / 2 - 108,
+    y: height - 98,
+    size: 10,
+    font: helvetica,
+    color: appleGray,
+  });
+
   page.drawText("CERTIFICAT DE REUSSITE", {
-    x: width / 2 - 130,
-    y: height - 130,
-    size: 24,
+    x: width / 2 - 132,
+    y: height - 140,
+    size: 26,
     font: helveticaBold,
     color: ink,
   });
 
   page.drawText("Ce certificat atteste que", {
-    x: width / 2 - 80,
-    y: height - 190,
+    x: width / 2 - 82,
+    y: height - 185,
     size: 12,
     font: helvetica,
-    color: muted,
+    color: appleGray,
   });
 
+  const nameWidth = data.userName.length * 7;
   page.drawText(data.userName, {
-    x: width / 2 - data.userName.length * 5,
-    y: height - 230,
+    x: width / 2 - nameWidth / 2,
+    y: height - 225,
     size: 28,
     font: helveticaBold,
     color: ink,
   });
 
-  page.drawText("a reussi avec succes", {
-    x: width / 2 - 70,
-    y: height - 280,
+  page.drawText("a valide avec succes", {
+    x: width / 2 - 72,
+    y: height - 265,
     size: 12,
     font: helvetica,
-    color: muted,
+    color: appleGray,
   });
 
-  const titleLines = wrapText(data.quizTitle, 40);
+  const moduleTitle = data.moduleLabel ?? data.quizTitle;
+  const titleLines = wrapText(moduleTitle, 42);
   titleLines.forEach((line, i) => {
+    const lw = line.length * 4.5;
     page.drawText(line, {
-      x: width / 2 - line.length * 4.5,
-      y: height - 320 - i * 22,
-      size: 18,
+      x: width / 2 - lw / 2,
+      y: height - 300 - i * 22,
+      size: 17,
       font: helveticaBold,
       color: ink,
     });
@@ -96,27 +111,27 @@ export async function generateCertificatePdf(data: CertificateData): Promise<Uin
 
   const titleOffset = titleLines.length * 22;
   page.drawText(`Score obtenu : ${data.score}%`, {
-    x: width / 2 - 60,
-    y: height - 340 - titleOffset,
+    x: width / 2 - 65,
+    y: height - 320 - titleOffset,
     size: 14,
-    font: helvetica,
+    font: helveticaBold,
     color: accent,
   });
 
   page.drawText(`Delivre le ${dateStr}`, {
-    x: width / 2 - 70,
-    y: 80,
+    x: width / 2 - 72,
+    y: 72,
     size: 11,
     font: helvetica,
-    color: muted,
+    color: appleGray,
   });
 
-  page.drawText("apple-mdm-academy.fr", {
-    x: width / 2 - 65,
-    y: 55,
-    size: 10,
+  page.drawText("apple-mdm-academy.fr · Formation certifiante Apple MDM", {
+    x: width / 2 - 145,
+    y: 52,
+    size: 9,
     font: helvetica,
-    color: muted,
+    color: appleGray,
   });
 
   return pdfDoc.save();

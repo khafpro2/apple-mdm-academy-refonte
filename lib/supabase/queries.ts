@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { tracks } from "@/lib/data/tracks";
 import { quizzes } from "@/lib/data/quizzes";
 import { badgeCatalog } from "@/lib/badges-config";
+import type { LeaderboardEntry, LearnerStats } from "@/lib/types";
+import { premiumBadgeIds } from "@/lib/badges-config";
 
 export type TrackProgressRow = {
   track_slug: string;
@@ -28,6 +30,8 @@ export type DashboardData = {
   recentActivity: { label: string; date: string; type: string }[];
   badges: { id: string; name: string; icon: string; description: string; earned: boolean; earnedAt?: string }[];
   certificates: { quizSlug: string; name: string; score: string; date: string; status: "available" | "locked" }[];
+  stats: LearnerStats;
+  leaderboard: LeaderboardEntry[];
 };
 
 function formatDate(iso: string) {
@@ -46,15 +50,17 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
   const supabase = await createClient();
   if (!supabase) return null;
 
-  const [progressRes, resultsRes, badgesRes] = await Promise.all([
+  const [progressRes, resultsRes, badgesRes, lessonRes, studyRes] = await Promise.all([
     supabase.from("track_progress").select("track_slug, percent, updated_at").eq("user_id", userId),
     supabase
       .from("quiz_results")
-      .select("quiz_slug, score, passed, completed_at")
+      .select("quiz_slug, score, passed, completed_at, duration_seconds")
       .eq("user_id", userId)
       .order("completed_at", { ascending: false })
-      .limit(20),
+      .limit(50),
     supabase.from("user_badges").select("badge_id, earned_at").eq("user_id", userId),
+    supabase.from("lesson_progress").select("lesson_slug, score, completed_at").eq("user_id", userId),
+    supabase.from("study_sessions").select("duration_seconds").eq("user_id", userId),
   ]);
 
   if (progressRes.error || resultsRes.error || badgesRes.error) {
@@ -115,14 +121,105 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
     status: "available" as const,
   }));
 
+  const allResults = resultsRes.data as (QuizResultRow & { duration_seconds?: number })[];
+  const modulesCompleted = (lessonRes.data ?? []).length;
+  const quizMinutes = allResults.reduce((s, r) => s + (r.duration_seconds ?? 0), 0) / 60;
+  const studyMinutes = (studyRes.data ?? []).reduce((s, r) => s + (r.duration_seconds ?? 0), 0) / 60;
+  const timeSpentMinutes = Math.round(quizMinutes + studyMinutes + modulesCompleted * 15);
+  const averageScore =
+    allResults.length > 0
+      ? Math.round(allResults.reduce((s, r) => s + r.score, 0) / allResults.length)
+      : 0;
+  const lastActivity = recentActivity[0]
+    ? { label: recentActivity[0].label, date: recentActivity[0].date }
+    : null;
+
+  const stats: LearnerStats = {
+    globalPercent,
+    timeSpentMinutes,
+    modulesCompleted,
+    averageScore,
+    lastActivity,
+    certificatesCount: certificates.length,
+  };
+
+  const leaderboard = await fetchLeaderboard(userId);
+
   return {
     fromDatabase: true,
     globalPercent,
     tracks: trackRows.filter((t) => t.percent > 0).slice(0, 6),
     recentActivity,
-    badges,
+    badges: badges.filter((b) => premiumBadgeIds.includes(b.id) || b.earned),
     certificates,
+    stats,
+    leaderboard,
   };
+}
+
+export async function fetchLeaderboard(currentUserId?: string): Promise<LeaderboardEntry[]> {
+  const supabase = await createClient();
+  if (!supabase) return [];
+
+  const { data: results } = await supabase
+    .from("quiz_results")
+    .select("user_id, score, duration_seconds, passed")
+    .order("score", { ascending: false })
+    .limit(200);
+
+  if (!results?.length) return [];
+
+  const userIds = [...new Set(results.map((r) => r.user_id))];
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("id, full_name")
+    .in("id", userIds);
+
+  const { data: lessons } = await supabase
+    .from("lesson_progress")
+    .select("user_id, lesson_slug")
+    .in("user_id", userIds);
+
+  const nameMap = new Map((profiles ?? []).map((p) => [p.id, p.full_name ?? "Apprenant"]));
+
+  const agg = new Map<
+    string,
+    { bestScore: number; scores: number[]; modules: number; fastest: number | null }
+  >();
+
+  for (const uid of userIds) {
+    agg.set(uid, { bestScore: 0, scores: [], modules: 0, fastest: null });
+  }
+
+  for (const r of results) {
+    const a = agg.get(r.user_id)!;
+    a.bestScore = Math.max(a.bestScore, r.score);
+    a.scores.push(r.score);
+    if (r.passed && r.duration_seconds && r.duration_seconds > 0) {
+      a.fastest = a.fastest ? Math.min(a.fastest, r.duration_seconds) : r.duration_seconds;
+    }
+  }
+
+  for (const l of lessons ?? []) {
+    const a = agg.get(l.user_id);
+    if (a) a.modules += 1;
+  }
+
+  const entries = [...agg.entries()]
+    .map(([userId, a]) => ({
+      userId,
+      name: nameMap.get(userId) ?? "Apprenant",
+      bestScore: a.bestScore,
+      avgScore: a.scores.length ? Math.round(a.scores.reduce((x, y) => x + y, 0) / a.scores.length) : 0,
+      modulesCompleted: a.modules,
+      fastestMinutes: a.fastest ? Math.round(a.fastest / 60) : null,
+      highlight: userId === currentUserId,
+    }))
+    .sort((a, b) => b.bestScore - a.bestScore || b.modulesCompleted - a.modulesCompleted)
+    .slice(0, 10)
+    .map((e, i) => ({ rank: i + 1, ...e }));
+
+  return entries;
 }
 
 export async function upsertTrackProgress(userId: string, trackSlug: string, score: number) {
@@ -156,6 +253,8 @@ export async function insertQuizResult(
     score: number;
     passed: boolean;
     answers: Record<string, number>;
+    durationSeconds?: number;
+    examMode?: boolean;
   }
 ) {
   const supabase = await createClient();
@@ -167,6 +266,8 @@ export async function insertQuizResult(
     score: payload.score,
     passed: payload.passed,
     answers: payload.answers,
+    duration_seconds: payload.durationSeconds ?? null,
+    exam_mode: payload.examMode ?? false,
   });
 
   if (error) return { error: error.message };

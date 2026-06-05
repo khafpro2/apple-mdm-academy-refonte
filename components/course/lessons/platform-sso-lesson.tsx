@@ -25,8 +25,10 @@ import {
   platformSsoUserExperience,
   platformSsoUserResult,
   PLATFORM_SSO_COMPLETE_KEY,
+  PLATFORM_SSO_LESSON_SLUG,
 } from "@/lib/data/lessons/platform-sso-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -76,6 +78,7 @@ const TOC_LINKS = [
   { href: "#deploiement", label: "Déploiement" },
   { href: "#experience", label: "Expérience utilisateur" },
   { href: "#securite", label: "Sécurité" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -350,6 +353,8 @@ export function PlatformSsoLesson() {
           ))}
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={PLATFORM_SSO_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

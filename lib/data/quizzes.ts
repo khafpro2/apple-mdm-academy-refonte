@@ -1,4 +1,5 @@
 import type { Quiz } from "@/lib/types";
+import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 
 export const quizzes: Quiz[] = [
   {
@@ -194,61 +195,13 @@ export const quizzes: Quiz[] = [
     trackSlug: "jamf-200",
     title: "Examen blanc — Jamf 200",
     type: "examen",
-    description: "Simulation de l'examen Jamf 200 pour valider ton niveau expert.",
-    duration: "90 min",
+    description: "150 questions aléatoires — simulation expert Jamf Pro : API, Patch Management, scale et intégrations.",
+    duration: "120 min",
+    durationMinutes: 120,
     passingScore: 75,
-    questions: [
-      {
-        id: "j200-1",
-        text: "L'API Jamf Pro REST utilise l'authentification :",
-        options: ["OAuth 2.0 / Bearer Token", "Basic Auth uniquement", "Certificat client uniquement", "API Key dans l'URL"],
-        correctIndex: 0,
-        explanation: "Jamf Pro API v1 utilise OAuth 2.0 avec client credentials pour obtenir un Bearer Token.",
-      },
-      {
-        id: "j200-2",
-        text: "Patch Management dans Jamf Pro permet de :",
-        options: [
-          "Gérer les correctifs OS et apps tierces",
-          "Chiffrer les disques",
-          "Configurer le Wi‑Fi",
-          "Gérer les comptes Apple ID",
-        ],
-        correctIndex: 0,
-        explanation: "Patch Management automatise le déploiement des mises à jour macOS et applications.",
-      },
-      {
-        id: "j200-3",
-        text: "Un Extension Attribute de type Script s'exécute :",
-        options: [
-          "Sur le serveur Jamf uniquement",
-          "Sur le client managé et retourne une valeur",
-          "Dans le navigateur admin",
-          "Via APNs directement",
-        ],
-        correctIndex: 1,
-        explanation: "Les EA scripts s'exécutent sur l'appareil managé et la sortie est stockée dans l'inventaire Jamf.",
-      },
-      {
-        id: "j200-4",
-        text: "Pour scaler Jamf Pro au-delà de 10 000 appareils, on recommande :",
-        options: [
-          "Un seul serveur Jamf Pro",
-          "Infrastructure distribuée avec load balancer et réplication DB",
-          "Désactiver l'inventaire",
-          "Utiliser uniquement l'API",
-        ],
-        correctIndex: 1,
-        explanation: "Les grandes installations utilisent plusieurs instances Jamf Pro avec load balancing et base de données clusterisée.",
-      },
-      {
-        id: "j200-5",
-        text: "Jamf Connect synchronise principalement :",
-        options: ["Les apps App Store", "Les identités cloud (Azure AD/Okta) avec les comptes Mac locaux", "Les certificats APNs", "Les profils Wi‑Fi"],
-        correctIndex: 1,
-        explanation: "Jamf Connect permet l'authentification cloud et la synchronisation des comptes utilisateur macOS.",
-      },
-    ],
+    examMode: true,
+    examQuestionCount: 150,
+    questions: examPools["examen-jamf-200"].slice(0, 5),
   },
   {
     slug: "quiz-intune-mac",
@@ -321,10 +274,46 @@ export const quizzes: Quiz[] = [
       },
     ],
   },
+  {
+    slug: "examen-apple-it-pro",
+    trackSlug: "apple-it-professional",
+    title: "Examen blanc — Apple Certified IT Professional",
+    type: "examen",
+    description:
+      "Simulation complète 100 questions aléatoires : ABM, ADE, MDM, sécurité macOS, profils et déploiement entreprise.",
+    duration: "120 min",
+    durationMinutes: 120,
+    passingScore: 80,
+    examMode: true,
+    examQuestionCount: 100,
+    questions: examPools["examen-apple-it-pro"].slice(0, 5),
+  },
+  {
+    slug: "examen-jamf-100-blanc",
+    trackSlug: "jamf-100",
+    title: "Examen blanc — Jamf 100",
+    type: "examen",
+    description:
+      "100 questions aléatoires sur Jamf Pro : Smart Groups, policies, profils, enrollment et Self Service.",
+    duration: "90 min",
+    durationMinutes: 90,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 100,
+    questions: examPools["examen-jamf-100-blanc"].slice(0, 5),
+  },
 ];
 
 export function getQuiz(slug: string) {
   return quizzes.find((q) => q.slug === slug);
+}
+
+export function getExamPool(slug: string) {
+  return examPools[slug] ?? null;
+}
+
+export function getExamQuestionCount(slug: string) {
+  return examQuestionCounts[slug] ?? null;
 }
 
 export function getQuizzesByTrack(trackSlug: string) {

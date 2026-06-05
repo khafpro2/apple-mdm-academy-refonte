@@ -42,11 +42,12 @@ export default async function AdminPage() {
           </div>
         ) : (
           <>
-            <div className="grid gap-5 sm:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { label: "Apprenants", value: stats.totalUsers },
                 { label: "Tentatives quiz", value: stats.totalQuizAttempts },
                 { label: "Taux de réussite", value: `${stats.passRate}%` },
+                { label: "Temps moyen examen", value: `${stats.avgDurationMinutes} min` },
               ].map((stat) => (
                 <div
                   key={stat.label}
@@ -107,6 +108,22 @@ export default async function AdminPage() {
                             style={{ width: `${t.avg_percent}%` }}
                           />
                         </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+
+              <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-ink">Modules populaires</h2>
+                {stats.popularModules.length === 0 ? (
+                  <p className="mt-4 text-sm text-ink-secondary">Aucune complétion enregistrée.</p>
+                ) : (
+                  <ul className="mt-4 space-y-3">
+                    {stats.popularModules.map((m) => (
+                      <li key={m.lesson_slug} className="flex justify-between text-sm">
+                        <span className="font-medium text-ink">{m.lesson_slug}</span>
+                        <span className="text-ink-tertiary">{m.completions} complétion{m.completions > 1 ? "s" : ""}</span>
                       </li>
                     ))}
                   </ul>

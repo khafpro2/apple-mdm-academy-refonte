@@ -17,8 +17,10 @@ import {
   adeIphoneTroubleshooting,
   adeIphoneVerificationItems,
   ADE_IPHONE_COMPLETE_KEY,
+  ADE_IPHONE_LESSON_SLUG,
 } from "@/lib/data/lessons/ade-iphone-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import {
   LessonActions,
   LessonChecklist,
@@ -60,6 +62,7 @@ const TOC_LINKS = [
   { href: "#test", label: "Test" },
   { href: "#verification", label: "Vérification" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#quiz", label: "Quiz" },
 ];
@@ -262,6 +265,8 @@ export function AdeIphoneLesson() {
           </ul>
         </div>
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={ADE_IPHONE_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="space-y-4">

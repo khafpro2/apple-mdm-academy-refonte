@@ -23,8 +23,10 @@ import {
   adeMacTroubleshooting,
   adeMacVerificationItems,
   ADE_MAC_COMPLETE_KEY,
+  ADE_MAC_LESSON_SLUG,
 } from "@/lib/data/lessons/ade-mac-content";
 import { ContentSection } from "@/components/course/course-ui";
+import { CAPTURES_TOC_LINK, LessonCapturesSection } from "@/components/course/lesson-captures-section";
 import { Button } from "@/components/ui";
 import {
   LessonActions,
@@ -69,6 +71,7 @@ const TOC_LINKS = [
   { href: "#premier-demarrage", label: "Premier démarrage" },
   { href: "#profils-appliques", label: "Profils" },
   { href: "#verification", label: "Vérification" },
+  CAPTURES_TOC_LINK,
   { href: "#depannage", label: "Dépannage" },
   { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
   { href: "#cas-pratique", label: "Cas pratique" },
@@ -355,6 +358,8 @@ export function AdeMacLesson() {
           successMessage="Votre chaîne ABM → Intune → macOS est opérationnelle."
         />
       </ContentSection>
+
+      <LessonCapturesSection lessonSlug={ADE_MAC_LESSON_SLUG} />
 
       <ContentSection id="depannage" title="Dépannage">
         <div className="grid gap-4 sm:grid-cols-2">
