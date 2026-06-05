@@ -555,6 +555,195 @@ export const labs: Lab[] = [
     ],
     "FileVault activé sur Mac supervisé, clé escrowée dans la console MDM, procédure de récupération documentée."
   ),
+  lab(
+    "jamf-scripts",
+    "Créer et déployer un script Jamf",
+    "Rédigez un script shell, créez une policy Jamf avec exécution ciblée et vérifiez le résultat sur un Mac de test.",
+    "Intermédiaire",
+    "55 min",
+    "Jamf Pro",
+    "jamf-170",
+    [
+      "Rédiger un script shell idempotent",
+      "Créer une policy Jamf avec payload Script",
+      "Cibler un Smart Group et valider l'exécution",
+    ],
+    [
+      "Jamf Pro admin",
+      "Mac enrollé dans Jamf",
+      "Accès SSH ou logs Jamf pour vérification",
+    ],
+    [
+      { id: "script-write", title: "Rédiger le script", instruction: "Jamf Pro → Settings → Computer Management → Scripts → New. Uploadez un script .sh qui crée un fichier témoin dans /Library/Application Support/.", expectedResult: "Script enregistré dans Jamf avec catégorie et notes." },
+      { id: "policy-create", title: "Policy Script", instruction: "Computers → Policies → New → General : nom descriptif. Payload Scripts : sélectionnez le script, fréquence Once per computer.", expectedResult: "Policy créée avec payload Script configuré." },
+      { id: "scope-group", title: "Scope Smart Group", instruction: "Onglet Scope : ajoutez un Smart Group de test (1 Mac). Priority : Before.", expectedResult: "Policy scoped au groupe de test." },
+      { id: "trigger-policy", title: "Exécuter la policy", instruction: "Sur le Mac cible : Policies → Execute ou attendez le check-in. Consultez les logs Jamf.", expectedResult: "Policy exécutée, statut Completed dans Jamf." },
+      { id: "verify-result", title: "Vérifier le résultat", instruction: "Sur le Mac : confirmez la création du fichier témoin. Documentez la sortie dans Jamf Policy Logs.", expectedResult: "Fichier témoin présent, logs Jamf sans erreur." },
+    ],
+    "Script Jamf déployé et exécuté avec succès sur le Mac cible, logs documentés."
+  ),
+  lab(
+    "jamf-patch-management",
+    "Configurer le Patch Management Jamf",
+    "Activez Software Update Inventory, créez un patch policy et déployez une mise à jour macOS sur un groupe pilote.",
+    "Avancé",
+    "60 min",
+    "Jamf Pro",
+    "jamf-200",
+    [
+      "Activer l'inventaire Software Update",
+      "Créer une patch policy macOS",
+      "Déployer sur un groupe pilote",
+    ],
+    [
+      "Jamf Pro admin",
+      "Smart Group Mac macOS 13+",
+      "Fenêtre de maintenance définie",
+    ],
+    [
+      { id: "inventory", title: "Software Update Inventory", instruction: "Computers → Patch Management → Software Update Inventory. Vérifiez que les Mac remontent les updates disponibles.", expectedResult: "Updates visibles dans Patch Management." },
+      { id: "patch-policy", title: "Créer Patch Policy", instruction: "Patch Management → Software Titles → sélectionnez une update → Create Patch Policy. Définissez deadline et notifications.", expectedResult: "Patch policy créée avec titre et version cible." },
+      { id: "scope-pilot", title: "Scope pilote", instruction: "Scope la patch policy à un Smart Group pilote (5–10 Mac max).", expectedResult: "Policy scoped au groupe pilote uniquement." },
+      { id: "deploy", title: "Déclencher le déploiement", instruction: "Force un check-in ou attendez la fenêtre. Surveillez Patch Management → Dashboard.", expectedResult: "Mac pilotes passent en Pending puis Completed." },
+      { id: "report", title: "Rapport de conformité", instruction: "Exportez le rapport de patch compliance et documentez les échecs éventuels.", expectedResult: "Rapport avec % de conformité patch documenté." },
+    ],
+    "Patch policy Jamf déployée sur le groupe pilote avec rapport de conformité."
+  ),
+  lab(
+    "jamf-protect",
+    "Activer Jamf Protect sur le parc Mac",
+    "Plan déploiement Jamf Protect : plan, policy analytics et alertes sur un Mac supervisé.",
+    "Avancé",
+    "50 min",
+    "Jamf Protect",
+    "jamf-200",
+    [
+      "Connecter Jamf Pro à Jamf Protect",
+      "Créer un plan de déploiement Protect",
+      "Valider les alertes sur un Mac test",
+    ],
+    [
+      "Licence Jamf Protect active",
+      "Jamf Pro admin + accès Protect portal",
+      "Mac enrollé et online",
+    ],
+    [
+      { id: "connect", title: "Lier Jamf Pro", instruction: "Jamf Protect portal → Settings → Jamf Pro Integration. Connectez votre instance Jamf Pro.", expectedResult: "Intégration Jamf Pro active (statut Connected)." },
+      { id: "plan", title: "Plan de déploiement", instruction: "Protect → Plans → New Plan. Sélectionnez analytics, telemetry et policies de base.", expectedResult: "Plan Protect créé et publié." },
+      { id: "assign", title: "Assigner au parc", instruction: "Assignez le plan à un Smart Group pilote via Jamf Pro computer record ou Protect assignment.", expectedResult: "Mac pilote apparaît dans Protect inventory." },
+      { id: "agent", title: "Vérifier l'agent", instruction: "Sur le Mac : confirmez l'installation de l'agent Protect (processus, extension système).", expectedResult: "Agent Protect installé et actif." },
+      { id: "alerts", title: "Tester une alerte", instruction: "Simulez un événement (EICAR ou test Protect) et vérifiez l'alerte dans le dashboard Protect.", expectedResult: "Alerte visible dans Jamf Protect avec détails Mac." },
+    ],
+    "Jamf Protect déployé sur Mac pilote avec agent actif et alertes fonctionnelles."
+  ),
+  lab(
+    "macos-security",
+    "Durcir la sécurité macOS via Intune",
+    "Déployez Gatekeeper, SIP awareness, XProtect et restrictions via profils Intune sur Mac supervisés.",
+    "Avancé",
+    "55 min",
+    "Sécurité macOS",
+    "intune-mac",
+    [
+      "Créer un profil restrictions macOS",
+      "Forcer Gatekeeper et firewall",
+      "Vérifier la conformité post-déploiement",
+    ],
+    [
+      "Mac supervisé enrollé Intune",
+      "Rôle Intune Administrator",
+      "Mac de test non production",
+    ],
+    [
+      { id: "restrictions", title: "Profil restrictions", instruction: "Intune → Devices → Configuration profiles → macOS → Restrictions. Bloquez sources non approuvées, USB selon politique.", expectedResult: "Profil restrictions créé avec payloads macOS." },
+      { id: "gatekeeper", title: "Gatekeeper / Notarisation", instruction: "Ajoutez payload System Extensions ou Endpoint Security selon politique. Documentez les apps autorisées.", expectedResult: "Politique Gatekeeper alignée entreprise." },
+      { id: "firewall", title: "Firewall macOS", instruction: "Payload Firewall : activer, mode block incoming, logging activé.", expectedResult: "Firewall forcé via MDM." },
+      { id: "deploy", title: "Déployer le profil", instruction: "Assignez au groupe Mac cible (Required). Force sync sur Mac test.", expectedResult: "Profil installé, statut Succeeded." },
+      { id: "audit", title: "Audit conformité", instruction: "Vérifiez Réglages Système + Intune device compliance. Documentez écarts.", expectedResult: "Mac conforme aux contrôles définis." },
+    ],
+    "Mac durci via profils Intune : restrictions, firewall et Gatekeeper appliqués."
+  ),
+  lab(
+    "intune-compliance",
+    "Créer une Compliance Policy Apple dans Intune",
+    "Définissez les règles OS, FileVault et jailbreak, liez à Conditional Access et testez le blocage.",
+    "Intermédiaire",
+    "45 min",
+    "Intune Compliance",
+    "intune-mac",
+    [
+      "Créer une compliance policy iOS/macOS",
+      "Lier à Conditional Access",
+      "Tester le blocage sur appareil non conforme",
+    ],
+    [
+      "Tenant Entra ID + Intune",
+      "Appareils Apple enrollés",
+      "Policy CA existante (optionnel)",
+    ],
+    [
+      { id: "policy", title: "Compliance policy", instruction: "Intune → Devices → Compliance policies → Create (iOS/macOS). OS min, FileVault required, jailbreak blocked.", expectedResult: "Policy compliance créée avec règles Apple." },
+      { id: "assign", title: "Assigner la policy", instruction: "Assignez à un groupe dynamique All Apple Devices ou pilote.", expectedResult: "Policy assignée, devices en evaluation." },
+      { id: "ca-link", title: "Conditional Access", instruction: "Entra → Security → CA → exiger appareil compliant pour une app test (Office 365).", expectedResult: "Règle CA liée à Intune compliance." },
+      { id: "test-pass", title: "Test conforme", instruction: "Sur Mac conforme : accès app autorisé, statut Compliant dans Intune.", expectedResult: "Device Compliant, accès OK." },
+      { id: "test-fail", title: "Test non conforme", instruction: "Simulez non-conformité (OS obsolète ou FileVault off sur VM test). Vérifiez blocage CA.", expectedResult: "Device Non-compliant, accès bloqué par CA." },
+    ],
+    "Compliance policy Intune active, liée à CA, avec tests conforme/non conforme documentés."
+  ),
+  lab(
+    "platform-sso-mfa",
+    "Platform SSO avec MFA Microsoft",
+    "Configurez Platform SSO macOS + exigence MFA Entra ID pour les apps Apple natives.",
+    "Avancé",
+    "60 min",
+    "Platform SSO + MFA",
+    "intune-mac",
+    [
+      "Configurer Platform SSO dans Intune",
+      "Activer MFA Conditional Access",
+      "Valider connexion sans mot de passe sur Mac",
+    ],
+    [
+      "Mac macOS 14+ supervisé",
+      "Entra ID P1+ avec MFA",
+      "Extension Platform SSO déployée",
+    ],
+    [
+      { id: "psso-profile", title: "Profil Platform SSO", instruction: "Intune → macOS configuration profile → Platform SSO. Configurez registration token, extension Team ID.", expectedResult: "Profil PSSO assigné aux Mac cibles." },
+      { id: "mfa-ca", title: "MFA via CA", instruction: "Entra CA : exiger MFA pour utilisateurs Mac + appareil compliant.", expectedResult: "Politique MFA active pour le groupe." },
+      { id: "enroll-user", title: "Enrollment utilisateur", instruction: "Sur Mac test : login utilisateur Entra, enregistrement Platform SSO (Keychain).", expectedResult: "Utilisateur enregistré PSSO dans Réglages." },
+      { id: "sso-test", title: "Test SSO app", instruction: "Ouvrez une app Microsoft ou Safari vers M365 — connexion sans re-saisie mot de passe.", expectedResult: "SSO fonctionnel avec prompt MFA si requis." },
+      { id: "troubleshoot", title: "Dépannage", instruction: "Consultez logs Company Portal / Intune MDM si échec. Documentez résolution.", expectedResult: "Runbook PSSO + MFA documenté." },
+    ],
+    "Platform SSO actif sur Mac avec MFA Entra appliquée via Conditional Access."
+  ),
+  lab(
+    "managed-apple-id-federation",
+    "Fédérer Managed Apple ID avec Entra ID",
+    "Connectez ABM à Microsoft Entra ID, fédérez le domaine et synchronisez les utilisateurs.",
+    "Avancé",
+    "55 min",
+    "Managed Apple ID + Federation",
+    "intune-mac",
+    [
+      "Vérifier le domaine dans ABM",
+      "Configurer la fédération Entra ID",
+      "Tester connexion Managed Apple ID fédérée",
+    ],
+    [
+      "Apple Business Manager admin",
+      "Entra ID Global Admin",
+      "Domaine vérifié dans les deux tenants",
+    ],
+    [
+      { id: "domain", title: "Vérifier le domaine", instruction: "ABM → Preferences → Managed Apple IDs → Domaine vérifié. Entra → Domaines personnalisés : même domaine.", expectedResult: "Domaine vérifié ABM + Entra." },
+      { id: "federation", title: "Configurer fédération", instruction: "ABM → Federation → Microsoft Entra ID. Suivez l'assistant de connexion SSO.", expectedResult: "Fédération Entra active dans ABM." },
+      { id: "sync", title: "Sync utilisateurs", instruction: "Mappez les attributs (UPN, email). Activez la sync ou création MAID à la connexion.", expectedResult: "Utilisateurs fédérés visibles dans ABM." },
+      { id: "test-login", title: "Test connexion", instruction: "Sur appareil Apple : connexion Managed Apple ID → redirect Entra → MFA → succès.", expectedResult: "Login MAID fédéré fonctionnel." },
+      { id: "audit", title: "Audit et runbook", instruction: "Documentez procédure offboarding et reset mot de passe fédéré.", expectedResult: "Runbook fédération MAID complet." },
+    ],
+    "Managed Apple ID fédérés avec Entra ID, connexion testée et runbook documenté."
+  ),
 ];
 
 export function getLab(slug: string): Lab | undefined {

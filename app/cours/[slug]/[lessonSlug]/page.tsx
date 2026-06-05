@@ -15,8 +15,10 @@ import {
   getLessonPoints,
   getTotalPoints,
 } from "@/lib/course/helpers";
-import { getLessonContent } from "@/lib/data/lesson-content";
+import { LabLessonLink } from "@/components/labs/lab-lesson-link";
+import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
+import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack } from "@/lib/data";
 
 export function generateStaticParams() {
@@ -71,6 +73,7 @@ export default async function LessonPage({
   const CustomLesson = custom?.Lesson;
   const CustomToc = custom?.TableOfContents;
   const meta = custom?.meta;
+  const labSlug = getLabSlugForLesson(lessonSlug);
 
   return (
     <PageShell>
@@ -160,6 +163,12 @@ export default async function LessonPage({
                 />
               )}
             </article>
+
+            {labSlug && (
+              <div className="mt-6">
+                <LabLessonLink labSlug={labSlug} />
+              </div>
+            )}
 
             <LessonNavigation
               courseSlug={course.slug}

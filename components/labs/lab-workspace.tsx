@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Lab } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
@@ -12,6 +12,7 @@ import {
   markStepValidated,
   startLabLocal,
   togglePrerequisiteChecked,
+  setLastOpenedLab,
 } from "@/lib/labs/progress";
 import { useLabProgressRecord } from "@/lib/labs/use-lab-progress";
 import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
@@ -89,6 +90,10 @@ export function LabWorkspace({ lab, isAuthenticated }: LabWorkspaceProps) {
     : 0;
   const currentIndex = manualIndex ?? suggestedIndex;
   const currentStep = lab.steps[currentIndex];
+
+  useEffect(() => {
+    setLastOpenedLab(lab.slug);
+  }, [lab.slug]);
 
   function notifyCatalog() {
     window.dispatchEvent(new Event("lab-progress-updated"));

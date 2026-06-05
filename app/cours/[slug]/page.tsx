@@ -14,7 +14,10 @@ import {
   getLessonStatus,
   getLessonPoints,
 } from "@/lib/course/helpers";
+import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
+import { getLabsByTrack } from "@/lib/labs";
+import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
 
 export function generateStaticParams() {
@@ -47,6 +50,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const totalPoints = getTotalPoints(course);
   const progressPercent = 0;
   const trackQuizzes = getQuizzesByTrack(course.trackSlug);
+  const trackLabs = getLabsByTrack(course.trackSlug);
 
   return (
     <PageShell>
@@ -135,6 +139,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   const points = getLessonPoints(lesson, globalIndex);
                   const href = `/cours/${course.slug}/${lesson.slug}`;
                   const isLocked = status === "verrouille";
+                  const labSlug = getLabSlugForLesson(lesson.slug);
 
                   return (
                     <li key={lesson.slug}>
@@ -152,26 +157,26 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                           </div>
                         </div>
                       ) : (
-                        <Link
-                          href={href}
-                          className="group flex items-center gap-4 rounded-2xl border border-border-light bg-surface px-4 py-4 transition hover:border-accent/30 hover:bg-accent/[0.03] hover:shadow-md"
-                        >
-                          <LessonStatusIcon status={status} />
-                          <div className="min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="font-semibold text-ink group-hover:text-accent">
-                                {lesson.title}
-                              </span>
-                              <LessonStatusBadge status={status} />
+                        <div className="rounded-2xl border border-border-light bg-surface px-4 py-4 transition hover:border-accent/30 hover:shadow-md">
+                          <Link href={href} className="group flex items-center gap-4">
+                            <LessonStatusIcon status={status} />
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="font-semibold text-ink group-hover:text-accent">
+                                  {lesson.title}
+                                </span>
+                                <LessonStatusBadge status={status} />
+                              </div>
+                              <p className="mt-1 text-xs text-ink-tertiary">
+                                {lesson.duration} · {points} points
+                              </p>
                             </div>
-                            <p className="mt-1 text-xs text-ink-tertiary">
-                              {lesson.duration} · {points} points
-                            </p>
-                          </div>
-                          <span className="hidden text-accent sm:inline" aria-hidden="true">
-                            →
-                          </span>
-                        </Link>
+                            <span className="hidden text-accent sm:inline" aria-hidden="true">
+                              →
+                            </span>
+                          </Link>
+                          {labSlug && <LabLessonLink labSlug={labSlug} compact />}
+                        </div>
                       )}
                     </li>
                   );
@@ -192,8 +197,13 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               Quiz du parcours
             </ButtonLink>
           )}
+          {trackLabs[0] && (
+            <ButtonLink href={`/labs/${trackLabs[0].slug}`} variant="secondary">
+              Lab pratique du parcours
+            </ButtonLink>
+          )}
           <ButtonLink href="/labs" variant="secondary">
-            Labs pratiques
+            Tous les labs
           </ButtonLink>
         </div>
       </div>

@@ -35,17 +35,22 @@ export default async function AdminPage() {
           </Link>
         </div>
 
-        {!stats ? (
+        {!stats && (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-900">
             Impossible de charger les stats — vérifiez Supabase et exécutez{" "}
             <code className="rounded bg-amber-100 px-1">supabase/schema-admin.sql</code>.
           </div>
-        ) : (
+        )}
+
+        {stats && (
           <>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { label: "Apprenants", value: stats.totalUsers },
                 { label: "Tentatives quiz", value: stats.totalQuizAttempts },
+                { label: "Labs terminés", value: stats.totalLabsCompleted },
+                { label: "Cours terminés", value: stats.totalCoursesCompleted },
+                { label: "Badges obtenus", value: stats.totalBadgesEarned },
                 { label: "Taux de réussite", value: `${stats.passRate}%` },
                 { label: "Temps moyen examen", value: `${stats.avgDurationMinutes} min` },
               ].map((stat) => (
@@ -121,6 +126,21 @@ export default async function AdminPage() {
                 ) : (
                   <ul className="mt-4 space-y-3">
                     {stats.popularModules.map((m) => (
+                      <li key={m.lesson_slug} className="flex justify-between text-sm">
+                        <span className="font-medium text-ink">{m.lesson_slug}</span>
+                        <span className="text-ink-tertiary">{m.completions} complétion{m.completions > 1 ? "s" : ""}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+              <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-ink">Labs populaires</h2>
+                {stats.popularLabs.length === 0 ? (
+                  <p className="mt-4 text-sm text-ink-secondary">Aucun lab terminé.</p>
+                ) : (
+                  <ul className="mt-4 space-y-3">
+                    {stats.popularLabs.map((m) => (
                       <li key={m.lesson_slug} className="flex justify-between text-sm">
                         <span className="font-medium text-ink">{m.lesson_slug}</span>
                         <span className="text-ink-tertiary">{m.completions} complétion{m.completions > 1 ? "s" : ""}</span>

@@ -60,9 +60,13 @@ export type AdminStats = {
   totalQuizAttempts: number;
   passRate: number;
   avgDurationMinutes: number;
+  totalLabsCompleted: number;
+  totalCoursesCompleted: number;
+  totalBadgesEarned: number;
   recentResults: AdminQuizResult[];
   trackStats: { track_slug: string; avg_percent: number; learners: number }[];
   popularModules: { lesson_slug: string; completions: number }[];
+  popularLabs: { lesson_slug: string; completions: number }[];
 };
 
 export async function fetchAdminStats(): Promise<AdminStats | null> {
@@ -73,12 +77,13 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
 
   await supabase.rpc("sync_admin_from_allowlist");
 
-  const [usersRes, resultsRes, progressRes, lessonRes, durationRes] = await Promise.all([
+  const [usersRes, resultsRes, progressRes, lessonRes, durationRes, badgesRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("quiz_results").select("id, passed, duration_seconds"),
     supabase.from("track_progress").select("track_slug, percent"),
-    supabase.from("lesson_progress").select("lesson_slug"),
+    supabase.from("lesson_progress").select("lesson_slug, course_slug"),
     supabase.from("quiz_results").select("duration_seconds").not("duration_seconds", "is", null),
+    supabase.from("user_badges").select("badge_id", { count: "exact", head: true }),
   ]);
 
   if (usersRes.error || resultsRes.error || progressRes.error) {
@@ -122,10 +127,28 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
   }));
 
   const moduleCounts = new Map<string, number>();
+  const labCounts = new Map<string, number>();
+  let totalLabsCompleted = 0;
+  let totalCoursesCompleted = 0;
+
   for (const row of lessonRes.data ?? []) {
-    moduleCounts.set(row.lesson_slug, (moduleCounts.get(row.lesson_slug) ?? 0) + 1);
+    const slug = row.lesson_slug as string;
+    const courseSlug = (row as { course_slug?: string }).course_slug;
+    if (courseSlug === "labs") {
+      labCounts.set(slug, (labCounts.get(slug) ?? 0) + 1);
+      totalLabsCompleted++;
+    } else {
+      moduleCounts.set(slug, (moduleCounts.get(slug) ?? 0) + 1);
+      totalCoursesCompleted++;
+    }
   }
+
   const popularModules = [...moduleCounts.entries()]
+    .map(([lesson_slug, completions]) => ({ lesson_slug, completions }))
+    .sort((a, b) => b.completions - a.completions)
+    .slice(0, 8);
+
+  const popularLabs = [...labCounts.entries()]
     .map(([lesson_slug, completions]) => ({ lesson_slug, completions }))
     .sort((a, b) => b.completions - a.completions)
     .slice(0, 8);
@@ -143,9 +166,13 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     totalQuizAttempts: allResults.length,
     passRate,
     avgDurationMinutes,
+    totalLabsCompleted,
+    totalCoursesCompleted,
+    totalBadgesEarned: badgesRes.count ?? 0,
     recentResults,
     trackStats,
     popularModules,
+    popularLabs,
   };
 }
 

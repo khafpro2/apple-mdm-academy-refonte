@@ -302,6 +302,20 @@ export const quizzes: Quiz[] = [
     examQuestionCount: 100,
     questions: examPools["examen-jamf-100-blanc"].slice(0, 5),
   },
+  {
+    slug: "examen-intune-apple",
+    trackSlug: "intune-mac",
+    title: "Examen blanc — Intune Apple Devices",
+    type: "examen",
+    description:
+      "100 questions aléatoires : ABM, ADE, APNs, compliance, Platform SSO et déploiement Apple via Intune.",
+    duration: "90 min",
+    durationMinutes: 90,
+    passingScore: 80,
+    examMode: true,
+    examQuestionCount: 100,
+    questions: examPools["examen-intune-apple"].slice(0, 5),
+  },
 ];
 
 export function getQuiz(slug: string) {

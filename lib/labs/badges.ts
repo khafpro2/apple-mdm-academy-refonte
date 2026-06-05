@@ -7,8 +7,13 @@ export const TECHNOLOGY_STYLES: Record<LabTechnology, string> = {
   "Apps & Books": "bg-blue-600 text-white",
   "Managed Apple ID": "bg-slate-700 text-white",
   "Platform SSO": "bg-indigo-700 text-white",
+  "Platform SSO + MFA": "bg-indigo-900 text-white",
   "Jamf Pro": "bg-violet-600 text-white",
+  "Jamf Protect": "bg-fuchsia-700 text-white",
   FileVault: "bg-purple-700 text-white",
+  "Sécurité macOS": "bg-emerald-700 text-white",
+  "Intune Compliance": "bg-cyan-700 text-white",
+  "Managed Apple ID + Federation": "bg-slate-900 text-white",
 };
 
 export const STATUS_LABELS = {

@@ -4,6 +4,9 @@ import { quizzes } from "@/lib/data/quizzes";
 import { badgeCatalog } from "@/lib/badges-config";
 import type { LeaderboardEntry, LearnerStats } from "@/lib/types";
 import { premiumBadgeIds } from "@/lib/badges-config";
+import { trackCertificates, evaluateCertification } from "@/lib/certifications";
+import type { CertificationEligibility } from "@/lib/certifications";
+import { labs } from "@/lib/labs";
 
 export type TrackProgressRow = {
   track_slug: string;
@@ -32,6 +35,8 @@ export type DashboardData = {
   certificates: { quizSlug: string; name: string; score: string; date: string; status: "available" | "locked" }[];
   stats: LearnerStats;
   leaderboard: LeaderboardEntry[];
+  completedLabSlugs: string[];
+  trackCertifications: CertificationEligibility[];
 };
 
 function formatDate(iso: string) {
@@ -59,7 +64,7 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
       .order("completed_at", { ascending: false })
       .limit(50),
     supabase.from("user_badges").select("badge_id, earned_at").eq("user_id", userId),
-    supabase.from("lesson_progress").select("lesson_slug, score, completed_at").eq("user_id", userId),
+    supabase.from("lesson_progress").select("lesson_slug, course_slug, score, completed_at").eq("user_id", userId),
     supabase.from("study_sessions").select("duration_seconds").eq("user_id", userId),
   ]);
 
@@ -122,7 +127,30 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
   }));
 
   const allResults = resultsRes.data as (QuizResultRow & { duration_seconds?: number })[];
-  const modulesCompleted = (lessonRes.data ?? []).length;
+  const modulesCompleted = (lessonRes.data ?? []).filter(
+    (r) => (r as { course_slug?: string }).course_slug !== "labs"
+  ).length;
+
+  const completedLabSlugs = (lessonRes.data ?? [])
+    .filter((r) => (r as { course_slug?: string }).course_slug === "labs")
+    .map((r) => r.lesson_slug as string);
+
+  const completedLessonSlugs = new Set(
+    (lessonRes.data ?? [])
+      .filter((r) => (r as { course_slug?: string }).course_slug !== "labs")
+      .map((r) => r.lesson_slug as string)
+  );
+
+  const examScores = new Map<string, number>();
+  for (const r of resultsRes.data as QuizResultRow[]) {
+    if (!r.passed) continue;
+    const prev = examScores.get(r.quiz_slug) ?? 0;
+    examScores.set(r.quiz_slug, Math.max(prev, r.score));
+  }
+
+  const trackCertifications = trackCertificates.map((cert) =>
+    evaluateCertification(cert, completedLessonSlugs, new Set(completedLabSlugs), examScores)
+  );
   const quizMinutes = allResults.reduce((s, r) => s + (r.duration_seconds ?? 0), 0) / 60;
   const studyMinutes = (studyRes.data ?? []).reduce((s, r) => s + (r.duration_seconds ?? 0), 0) / 60;
   const timeSpentMinutes = Math.round(quizMinutes + studyMinutes + modulesCompleted * 15);
@@ -140,7 +168,11 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
     modulesCompleted,
     averageScore,
     lastActivity,
-    certificatesCount: certificates.length,
+    certificatesCount: certificates.length + trackCertifications.filter((c) => c.eligible).length,
+    labsCompleted: completedLabSlugs.length,
+    labsInProgress: Math.max(0, labs.length - completedLabSlugs.length),
+    practicePercent:
+      labs.length > 0 ? Math.round((completedLabSlugs.length / labs.length) * 100) : 0,
   };
 
   const leaderboard = await fetchLeaderboard(userId);
@@ -154,6 +186,8 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
     certificates,
     stats,
     leaderboard,
+    completedLabSlugs,
+    trackCertifications,
   };
 }
 

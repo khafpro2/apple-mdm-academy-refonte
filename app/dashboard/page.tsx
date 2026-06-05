@@ -4,6 +4,7 @@ import { SectionHeading, ProgressBar } from "@/components/ui";
 import { ProgressOverview } from "@/components/cards";
 import { LearnerStatsGrid } from "@/components/dashboard/learner-stats";
 import { LeaderboardPanel } from "@/components/dashboard/leaderboard-panel";
+import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
@@ -48,6 +49,9 @@ export default async function DashboardPage() {
     highlight: e.highlight,
   }));
 
+  const completedLabSlugs = dbData?.completedLabSlugs ?? [];
+  const trackCertifications = dbData?.trackCertifications ?? [];
+
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
@@ -82,6 +86,10 @@ export default async function DashboardPage() {
 
         <div className="mb-8">
           <LearnerStatsGrid stats={stats} />
+        </div>
+
+        <div className="mb-8">
+          <LabsProgressPanel completedLabSlugsFromDb={completedLabSlugs} />
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
@@ -155,23 +163,40 @@ export default async function DashboardPage() {
           <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
             <h2 className="text-lg font-bold text-ink">Certificats PDF</h2>
             <div className="mt-4 space-y-3">
-              {certificates.length === 0 ? (
+              {certificates.length === 0 && trackCertifications.filter((c) => c.eligible).length === 0 ? (
                 <p className="text-sm text-ink-secondary">Réussissez un examen blanc pour obtenir un certificat.</p>
               ) : (
-                certificates.map((cert) => (
-                  <div key={cert.name} className="rounded-2xl bg-surface p-4">
-                    <p className="font-semibold text-ink">{cert.name}</p>
-                    <div className="mt-1 flex justify-between text-sm text-ink-tertiary">
-                      <span>{cert.score}</span>
-                      <span>{cert.date}</span>
+                <>
+                  {certificates.map((cert) => (
+                    <div key={cert.name} className="rounded-2xl bg-surface p-4">
+                      <p className="font-semibold text-ink">{cert.name}</p>
+                      <div className="mt-1 flex justify-between text-sm text-ink-tertiary">
+                        <span>{cert.score}</span>
+                        <span>{cert.date}</span>
+                      </div>
+                      {"quizSlug" in cert && cert.quizSlug && cert.status === "available" && (
+                        <a href={`/api/certificates/${cert.quizSlug}`} className="mt-3 inline-flex text-sm font-semibold text-accent hover:underline">
+                          Télécharger PDF ↓
+                        </a>
+                      )}
                     </div>
-                    {"quizSlug" in cert && cert.quizSlug && cert.status === "available" && (
-                      <a href={`/api/certificates/${cert.quizSlug}`} className="mt-3 inline-flex text-sm font-semibold text-accent hover:underline">
-                        Télécharger PDF ↓
-                      </a>
-                    )}
-                  </div>
-                ))
+                  ))}
+                  {trackCertifications.map(({ cert, eligible, lessonsPercent, labsPercent, examPassed }) => (
+                    <div key={cert.id} className="rounded-2xl bg-surface p-4">
+                      <p className="font-semibold text-ink">{cert.title}</p>
+                      <p className="mt-1 text-xs text-ink-tertiary">
+                        Cours {lessonsPercent}% · Labs {labsPercent}% · Examen {examPassed ? "✓" : "—"}
+                      </p>
+                      {eligible ? (
+                        <a href={`/api/certificates/track/${cert.id}`} className="mt-3 inline-flex text-sm font-semibold text-accent hover:underline">
+                          Télécharger certificat parcours ↓
+                        </a>
+                      ) : (
+                        <p className="mt-2 text-xs text-ink-tertiary">100% cours + labs + examen ≥ {cert.passingScore}% requis</p>
+                      )}
+                    </div>
+                  ))}
+                </>
               )}
             </div>
           </section>

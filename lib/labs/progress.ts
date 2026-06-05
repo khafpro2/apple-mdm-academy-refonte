@@ -227,8 +227,44 @@ export function resetLabLocal(slug: string): void {
   localStorage.removeItem(getLabStorageKey(slug));
 }
 
-/** @deprecated Utiliser getLabStorageKey(slug) */
 export const labProgressStorageKey = LEGACY_STORAGE_KEY;
+
+export const LAST_LAB_KEY = "apple-mdm-academy-last-lab";
+
+export function setLastOpenedLab(slug: string): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(LAST_LAB_KEY, slug);
+}
+
+export function getLastOpenedLab(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(LAST_LAB_KEY);
+}
+
+export function summarizeLocalLabProgress(slugs: string[]): {
+  completedCount: number;
+  inProgressCount: number;
+  totalCount: number;
+  practicePercent: number;
+} {
+  let completedCount = 0;
+  let inProgressCount = 0;
+
+  for (const slug of slugs) {
+    const record = getLabProgress(slug);
+    if (!record?.started) continue;
+    if (record.completed) completedCount++;
+    else inProgressCount++;
+  }
+
+  const totalCount = slugs.length;
+  const practicePercent =
+    totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+  return { completedCount, inProgressCount, totalCount, practicePercent };
+}
+
+/** @deprecated Utiliser getLabStorageKey(slug) */
 
 export function subscribeLabProgressStore(onStoreChange: () => void): () => void {
   if (typeof window === "undefined") return () => undefined;

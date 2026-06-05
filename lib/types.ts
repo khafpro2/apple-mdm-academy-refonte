@@ -113,6 +113,9 @@ export type LearnerStats = {
   averageScore: number;
   lastActivity: { label: string; date: string } | null;
   certificatesCount: number;
+  labsCompleted?: number;
+  labsInProgress?: number;
+  practicePercent?: number;
 };
 
 export type LeaderboardEntry = {
@@ -135,8 +138,30 @@ export type LabTechnology =
   | "Apps & Books"
   | "Managed Apple ID"
   | "Platform SSO"
+  | "Platform SSO + MFA"
   | "Jamf Pro"
-  | "FileVault";
+  | "Jamf Protect"
+  | "FileVault"
+  | "Sécurité macOS"
+  | "Intune Compliance"
+  | "Managed Apple ID + Federation";
+
+export type LabProgressSummary = {
+  completedCount: number;
+  inProgressCount: number;
+  totalCount: number;
+  practicePercent: number;
+  lastLabSlug: string | null;
+  lastLabTitle: string | null;
+};
+
+export type TrackCertificateDef = {
+  id: string;
+  title: string;
+  trackSlug: string;
+  examQuizSlug: string;
+  passingScore: number;
+};
 
 export type LabStep = {
   id: string;
