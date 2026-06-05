@@ -55,11 +55,12 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
               {trackLabs.map((lab) => (
                 <Link
                   key={lab.slug}
-                  href={`/labs/${lab.slug}`}
-                  className="rounded-2xl border border-border-light bg-surface-elevated p-4 transition hover:border-accent/30"
+                  href={`/labs/${lab.slug}?start=1#session`}
+                  className="group rounded-2xl border border-border-light bg-surface-elevated p-4 transition hover:border-accent/30"
                 >
-                  <p className="font-semibold text-ink">{lab.title}</p>
+                  <p className="font-semibold text-ink group-hover:text-accent">{lab.title}</p>
                   <p className="mt-1 text-sm text-ink-tertiary">{lab.duration} · {lab.difficulty}</p>
+                  <p className="mt-2 text-xs font-semibold text-accent">Accéder au Lab →</p>
                 </Link>
               ))}
             </div>

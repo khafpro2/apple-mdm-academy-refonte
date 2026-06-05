@@ -45,17 +45,20 @@ export function LabCard({
   index: number;
 }) {
   return (
-    <Link href={`/labs/${slug}`} className="group block">
-      <Card hover>
-        <div className="flex items-center justify-between">
-          <Badge variant="accent">Lab {index + 1}</Badge>
-          <span className="text-xs text-ink-tertiary">{duration}</span>
-        </div>
-        <h3 className="mt-3 text-lg font-bold text-ink group-hover:text-accent">{title}</h3>
-        <p className="mt-2 text-sm text-ink-secondary">Objectif, prérequis, étapes guidées et validation.</p>
-        <p className="mt-3 text-xs font-medium text-ink-tertiary">{difficulty}</p>
-      </Card>
-    </Link>
+    <Card hover className="flex flex-col">
+      <div className="flex items-center justify-between">
+        <Badge variant="accent">Lab {index + 1}</Badge>
+        <span className="text-xs text-ink-tertiary">{duration}</span>
+      </div>
+      <h3 className="mt-3 text-lg font-bold text-ink">{title}</h3>
+      <p className="mt-2 flex-1 text-sm text-ink-secondary">
+        Objectif, prérequis, étapes guidées et validation.
+      </p>
+      <p className="mt-3 text-xs font-medium text-ink-tertiary">{difficulty}</p>
+      <ButtonLink href={`/labs/${slug}?start=1#session`} size="sm" className="mt-6 w-full text-center">
+        Accéder au Lab
+      </ButtonLink>
+    </Card>
   );
 }
 

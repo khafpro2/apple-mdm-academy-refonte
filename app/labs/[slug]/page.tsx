@@ -1,8 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 import { PageShell } from "@/components/layout";
-import { Breadcrumb, Badge, Button } from "@/components/ui";
+import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
+import { LabDetailClient } from "@/components/labs/lab-detail-client";
+import { LabStartButton } from "@/components/labs/lab-start-button";
 import { getLab, labs } from "@/lib/data";
+import { getUser } from "@/lib/supabase/server";
 
 export function generateStaticParams() {
   return labs.map((l) => ({ slug: l.slug }));
@@ -14,10 +18,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: lab?.title ?? "Lab" };
 }
 
-export default async function LabDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function LabDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ start?: string }>;
+}) {
   const { slug } = await params;
+  const { start } = await searchParams;
   const lab = getLab(slug);
   if (!lab) notFound();
+
+  const user = await getUser();
+  const autoStart = start === "1";
 
   return (
     <PageShell>
@@ -28,6 +42,12 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
           <div className="flex flex-wrap items-center gap-3">
             <Badge variant="accent">{lab.difficulty}</Badge>
             <span className="text-sm text-ink-tertiary">{lab.duration}</span>
+            <Link
+              href={`/parcours/${lab.trackSlug}`}
+              className="text-sm font-medium text-accent hover:underline"
+            >
+              Parcours associé →
+            </Link>
           </div>
           <h1 className="mt-4 text-3xl font-bold text-ink">{lab.title}</h1>
           <p className="mt-4 text-lg text-ink-secondary">
@@ -64,13 +84,22 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
         </div>
 
         <div className="mt-10 flex flex-wrap gap-4">
-          <Button>Démarrer le lab</Button>
+          <LabStartButton slug={lab.slug} />
+          <ButtonLink href={`/labs/${lab.slug}?start=1#session`} variant="secondary">
+            Accéder au Lab
+          </ButtonLink>
           <Link
             href="/labs"
             className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-ink hover:bg-surface"
           >
             ← Retour aux labs
           </Link>
+        </div>
+
+        <div className="mt-10">
+          <Suspense fallback={null}>
+            <LabDetailClient lab={lab} isAuthenticated={!!user} autoStart={autoStart} />
+          </Suspense>
         </div>
       </div>
     </PageShell>

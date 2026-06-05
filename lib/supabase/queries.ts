@@ -321,3 +321,16 @@ export async function countPassedQuizzes(userId: string) {
 
   return count ?? 0;
 }
+
+export async function countCompletedLabs(userId: string) {
+  const supabase = await createClient();
+  if (!supabase) return 0;
+
+  const { count } = await supabase
+    .from("lesson_progress")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("course_slug", "labs");
+
+  return count ?? 0;
+}

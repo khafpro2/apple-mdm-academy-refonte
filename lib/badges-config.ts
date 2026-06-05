@@ -15,6 +15,8 @@ export const badgeCatalog: Badge[] = [
   { id: "badge-jamf-scripts", name: "Jamf Scripts", icon: "📜", description: "Scripts et automatisation", earned: false },
   { id: "badge-jamf-protect", name: "Jamf Protect", icon: "🛡️", description: "Sécurité endpoint Jamf Protect", earned: false },
   { id: "first-quiz", name: "Premier pas", icon: "🎯", description: "Premier quiz réussi", earned: false },
+  { id: "first-lab", name: "Premier lab", icon: "🧪", description: "Premier lab pratique complété", earned: false },
+  { id: "lab-expert", name: "Lab Expert", icon: "⚡", description: "6 labs pratiques complétés", earned: false },
   { id: "quiz-master", name: "Expert Quiz", icon: "⭐", description: "100 % sur 3 examens différents", earned: false },
   { id: "exam-it-pro", name: "IT Pro Ready", icon: "🍏", description: "Examen Apple IT Professional réussi", earned: false },
   { id: "exam-jamf-100", name: "Jamf 100 Certified", icon: "📱", description: "Examen blanc Jamf 100 réussi", earned: false },

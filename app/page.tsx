@@ -94,12 +94,13 @@ export default function HomePage() {
             {labs.slice(0, 4).map((lab, i) => (
               <Link
                 key={lab.slug}
-                href={`/labs/${lab.slug}`}
-                className="rounded-2xl border border-border-light bg-surface p-5 transition hover:border-accent/30 hover:shadow-md"
+                href={`/labs/${lab.slug}?start=1#session`}
+                className="group rounded-2xl border border-border-light bg-surface p-5 transition hover:border-accent/30 hover:shadow-md"
               >
                 <p className="text-xs font-semibold text-accent">Lab {i + 1}</p>
-                <h3 className="mt-2 font-bold text-ink">{lab.title}</h3>
+                <h3 className="mt-2 font-bold text-ink group-hover:text-accent">{lab.title}</h3>
                 <p className="mt-1 text-xs text-ink-tertiary">{lab.duration}</p>
+                <p className="mt-3 text-xs font-semibold text-accent">Accéder au Lab →</p>
               </Link>
             ))}
           </div>

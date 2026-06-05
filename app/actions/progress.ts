@@ -21,6 +21,49 @@ export type SaveQuizResultPayload = {
   examMode?: boolean;
 };
 
+export type SaveLabProgressPayload = {
+  labSlug: string;
+  trackSlug: string;
+};
+
+export async function saveLabProgress(payload: SaveLabProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {
+  const user = await getUser();
+  if (!user) return { ok: false, newBadges: [] };
+
+  const supabase = await createClient();
+  if (!supabase) return { ok: false, newBadges: [] };
+
+  const { error } = await supabase.from("lesson_progress").upsert(
+    {
+      user_id: user.id,
+      lesson_slug: payload.labSlug,
+      course_slug: "labs",
+      score: 100,
+      completed_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,lesson_slug" }
+  );
+
+  if (error) return { ok: false, newBadges: [] };
+
+  await upsertTrackProgress(user.id, payload.trackSlug, 100);
+
+  const newBadges: string[] = [];
+  const { countCompletedLabs } = await import("@/lib/supabase/queries");
+  const labCount = await countCompletedLabs(user.id);
+
+  if (labCount === 1 && (await awardBadge(user.id, "first-lab"))) {
+    newBadges.push("first-lab");
+  }
+  if (labCount >= 6 && (await awardBadge(user.id, "lab-expert"))) {
+    newBadges.push("lab-expert");
+  }
+
+  revalidatePath("/dashboard");
+  revalidatePath("/labs");
+  return { ok: true, newBadges };
+}
+
 export type SaveLessonProgressPayload = {
   lessonSlug: string;
   courseSlug?: string;
