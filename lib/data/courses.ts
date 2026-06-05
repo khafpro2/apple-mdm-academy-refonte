@@ -1,5 +1,6 @@
 import type { Course } from "@/lib/types";
 import { proModules } from "@/lib/data/pro-modules/index";
+import { advancedCourses } from "@/lib/data/advanced-tracks/courses";
 
 export const courses: Course[] = [
   {
@@ -278,6 +279,7 @@ export const courses: Course[] = [
       lessons: m.lessons,
     })),
   },
+  ...advancedCourses,
 ];
 
 export function getCourse(slug: string) {

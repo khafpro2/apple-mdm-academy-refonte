@@ -1,4 +1,5 @@
 import type { Lab, LabLevel, LabTechnology } from "@/lib/types";
+import { expertLabs } from "@/lib/data/advanced-tracks/expert-labs";
 
 function lab(
   slug: string,
@@ -802,6 +803,7 @@ export const labs: Lab[] = [
     ],
     "Inventaire Jamf exploré, Smart Groups/policies repérés et Self Service catalogué."
   ),
+  ...expertLabs,
 ];
 
 export function getLab(slug: string): Lab | undefined {

@@ -29,8 +29,8 @@ export const roadmapVersions: RoadmapVersion[] = [
     version: "2.0",
     label: "Version suivante — V2",
     items: [
-      { title: "Jamf 300", description: "Architecture enterprise, API avancée, multi-site", status: "planned", quarter: "Q3 2026" },
-      { title: "Jamf 400", description: "Expert architecture & intégrations complexes", status: "planned", quarter: "Q4 2026" },
+      { title: "Jamf 300 Prep", description: "Parcours expert architecture, API, webhooks, patch", status: "in_progress", quarter: "Q2 2026" },
+      { title: "Jamf 400 Prep", description: "Automatisation, CI/CD, migration, projet architecte", status: "in_progress", quarter: "Q2 2026" },
       { title: "Apple Platform Deployment", description: "Parcours complet déploiement Apple", status: "planned", quarter: "Q3 2026" },
       { title: "Apple Security Research", description: "Threat modeling, XProtect, sécurité avancée", status: "planned", quarter: "Q4 2026" },
       { title: "Microsoft Defender for Endpoint", description: "Intégration MDE + Apple", status: "planned", quarter: "Q4 2026" },

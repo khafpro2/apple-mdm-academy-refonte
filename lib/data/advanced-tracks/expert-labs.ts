@@ -1,0 +1,233 @@
+import type { Lab, LabLevel, LabTechnology } from "@/lib/types";
+
+function expertLab(
+  slug: string,
+  title: string,
+  description: string,
+  level: LabLevel,
+  duration: string,
+  technology: LabTechnology,
+  trackSlug: string,
+  scenario: string,
+  objectives: string[],
+  prerequisites: string[],
+  steps: Lab["steps"],
+  expectedResult: string
+): Lab {
+  return {
+    slug,
+    title,
+    description: `${description} Scénario entreprise : ${scenario}`,
+    level,
+    duration,
+    technology,
+    trackSlug,
+    objectives,
+    prerequisites,
+    steps,
+    expectedResult,
+    objective: objectives[0] ?? description,
+  };
+}
+
+const checklistStep = (id: string, title: string, items: string[]) => ({
+  id,
+  title,
+  instruction: `Checklist validation :\n${items.map((i) => `• ${i}`).join("\n")}`,
+  expectedResult: "Tous les points de la checklist sont cochés et documentés.",
+});
+
+/** 10 labs experts Phase 13 */
+export const expertLabs: Lab[] = [
+  expertLab(
+    "jamf-api",
+    "Lab expert — Jamf API REST",
+    "Automatisez l'inventaire et les policies via l'API Jamf Pro OAuth2.",
+    "Avancé",
+    "90 min",
+    "Jamf Pro",
+    "jamf-300",
+    "MSP avec 500 Mac — exporter inventaire et créer Smart Group via API.",
+    ["Obtenir un token OAuth2", "Lister les ordinateurs via API", "Créer un Smart Group dynamique", "Valider via console Jamf"],
+    ["Jamf Pro avec API activée", "Rôle avec API Privileges", "curl ou Postman", "Jamf 200 complété"],
+    [
+      { id: "oauth", title: "Authentification OAuth2", instruction: "POST /api/oauth/token avec client_id et client_secret. Stockez le bearer token.", expectedResult: "Token valide reçu (expires_in ~3600s)." },
+      { id: "inventory", title: "Export inventaire", instruction: "GET /api/v1/computers-inventory avec pagination page-size=100.", expectedResult: "JSON inventaire avec serial, OS, lastCheckIn." },
+      { id: "smart-group", title: "Créer Smart Group via API", instruction: "POST /api/v1/computer-groups avec critère OS version ≥ 14.", expectedResult: "Smart Group visible dans Jamf Pro console." },
+      checklistStep("validate", "Validation finale", ["Token révoqué après lab", "Smart Group test supprimé ou renommé LAB", "Logs API archivés"]),
+    ],
+    "Inventaire exporté, Smart Group créé via API, checklist validation complète."
+  ),
+  expertLab(
+    "jamf-webhooks",
+    "Lab expert — Webhooks Jamf",
+    "Configurez des webhooks Jamf Pro pour intégrer un SIEM ou ticketing.",
+    "Avancé",
+    "75 min",
+    "Jamf Pro",
+    "jamf-300",
+    "Équipe IT veut alertes Slack/Teams à chaque enrollment Mac.",
+    ["Créer endpoint webhook test", "Configurer webhook Jamf", "Déclencher event ComputerAddedToDEP", "Valider payload JSON"],
+    ["Jamf Pro admin", "Webhook.site ou ngrok pour test", "HTTPS endpoint"],
+    [
+      { id: "endpoint", title: "Endpoint de test", instruction: "Créez un endpoint HTTPS (webhook.site) pour recevoir POST JSON.", expectedResult: "URL HTTPS prête." },
+      { id: "configure", title: "Configurer webhook Jamf", instruction: "Settings → Webhooks → Add : ComputerAddedToDEP, SmartGroupComputerMembershipChange.", expectedResult: "Webhook actif avec authentification." },
+      { id: "trigger", title: "Déclencher un event", instruction: "Enroll un Mac test ou modifiez Smart Group membership.", expectedResult: "Payload JSON reçu avec event type et device UDID." },
+      checklistStep("validate", "Checklist", ["Payload parsé", "Secret authentication validé", "Webhook désactivé post-lab"]),
+    ],
+    "Webhook configuré, events reçus, intégration SIEM documentée."
+  ),
+  expertLab(
+    "jamf-extension-attributes",
+    "Lab expert — Extension Attributes",
+    "Créez des EA scripts et pop-up pour enrichir l'inventaire Jamf.",
+    "Avancé",
+    "60 min",
+    "Jamf Pro",
+    "jamf-300",
+    "DSI exige reporting FileVault et version Xcode par machine dev.",
+    ["Créer EA script FileVault", "Créer EA pop-up Environment", "Associer à Smart Group", "Valider inventaire"],
+    ["Jamf Pro admin", "Mac test avec FileVault"],
+    [
+      { id: "ea-script", title: "EA Script FileVault", instruction: "Extension Attributes → Script : retourne Enabled/Disabled via fdesetup status.", expectedResult: "EA visible dans inventaire Mac." },
+      { id: "ea-popup", title: "EA Pop-up Environment", instruction: "Créez EA Pop-up : Production / Staging / Dev.", expectedResult: "Valeur assignable manuellement ou via policy." },
+      { id: "smart-group", title: "Smart Group FileVault Off", instruction: "Smart Group : FileVault EA = Disabled.", expectedResult: "Mac non chiffrés listés." },
+      checklistStep("validate", "Validation", ["Inventaire à jour après check-in", "Smart Group correct", "Documentation EA"]),
+    ],
+    "EA scripts/pop-up opérationnels, Smart Group de conformité actif."
+  ),
+  expertLab(
+    "jamf-advanced-scripts",
+    "Lab expert — Scripts macOS avancés",
+    "Déployez scripts Bash avec paramètres, logs et rollback via Jamf policies.",
+    "Avancé",
+    "80 min",
+    "Jamf Pro",
+    "jamf-400",
+    "Déployer agent monitoring et configurer logs centralisés.",
+    ["Script avec paramètres $1-$3", "Policy avec Before/After scripts", "Logging vers /var/log/jamf", "Validation idempotence"],
+    ["Jamf Pro", "Mac test", "Accès sudo local"],
+    [
+      { id: "script", title: "Script paramétré", instruction: "Script Bash : utilise $1=environment, $2=log path. Écrit status dans $2.", expectedResult: "Script testé localement." },
+      { id: "policy", title: "Policy Jamf", instruction: "Policy avec script, paramètres Production /var/log/jamf/lab.log, trigger Recurring Check-in.", expectedResult: "Policy scoped au Mac test." },
+      { id: "logs", title: "Vérifier logs", instruction: "Après check-in, lisez /var/log/jamf/lab.log sur le Mac.", expectedResult: "Log contient timestamp et success." },
+      checklistStep("validate", "Checklist", ["Script idempotent", "Rollback documenté", "Policy désactivée post-lab"]),
+    ],
+    "Script déployé, logs vérifiés, exécution idempotente confirmée."
+  ),
+  expertLab(
+    "jamf-migration",
+    "Lab expert — Migration Jamf",
+    "Planifiez et simulez une migration Jamf Pro vers nouvelle instance.",
+    "Avancé",
+    "120 min",
+    "Jamf Pro",
+    "jamf-400",
+    "Fusion de deux instances Jamf après acquisition.",
+    ["Inventaire source vs cible", "Plan migration APNs/DEP", "Export policies/profiles", "Checklist rollback"],
+    ["Deux instances Jamf (ou sandbox)", "Documentation migration Jamf", "Accès ABM"],
+    [
+      { id: "inventory", title: "Comparer inventaires", instruction: "Export CSV/ API des deux instances. Identifiez doublons serial.", expectedResult: "Matrice migration serial → action." },
+      { id: "certs", title: "Certificats APNs/DEP", instruction: "Documentez renewal APNs et re-upload token DEP nouvelle instance.", expectedResult: "Plan certificats daté." },
+      { id: "policies", title: "Export policies", instruction: "Export manuel ou API des policies critiques. Validez scope équivalent.", expectedResult: "Liste policies migrées." },
+      checklistStep("validate", "Checklist migration", ["Rollback plan", "Pilot group défini", "Communication utilisateurs"]),
+    ],
+    "Plan migration documenté, inventaire reconcilié, certificats planifiés."
+  ),
+  expertLab(
+    "declarative-device-management",
+    "Lab expert — Declarative Device Management",
+    "Configurez des declarations DDM pour macOS/iOS en environnement test.",
+    "Avancé",
+    "90 min",
+    "Sécurité macOS",
+    "apple-enterprise-expert",
+    "Passer de profiles statiques à DDM pour software update.",
+    ["Activer DDM sur serveur MDM", "Créer declaration software update", "Monitor status channel", "Valider compliance"],
+    ["MDM supportant DDM (Jamf/Intune)", "macOS 14+ ou iOS 17+ test device", "Supervision"],
+    [
+      { id: "enable", title: "Activer DDM", instruction: "Vérifiez que votre MDM supporte Declarative Management et device éligible.", expectedResult: "Device en mode DDM." },
+      { id: "declaration", title: "Declaration Software Update", instruction: "Créez declaration defer major updates 30 days.", expectedResult: "Declaration assignée au device." },
+      { id: "status", title: "Status channel", instruction: "Consultez status reports dans MDM : declaration appliquée.", expectedResult: "Status = active/compliant." },
+      checklistStep("validate", "Validation DDM", ["Rollback vers profile classique documenté", "Status channel monitoré"]),
+    ],
+    "DDM configuré, declaration software update active, status validé."
+  ),
+  expertLab(
+    "managed-device-attestation",
+    "Lab expert — Managed Device Attestation",
+    "Implémentez MDA pour decisions d'accès Zero Trust.",
+    "Avancé",
+    "75 min",
+    "Sécurité macOS",
+    "apple-enterprise-expert",
+    "Banque exige attestation device avant accès app métier.",
+    ["Comprendre MDA flow", "Configurer MDM attestation", "Intégrer avec IdP/CA", "Tester accès conditionnel"],
+    ["iOS 17+ / macOS 14+ managed", "IdP supportant device attestation", "MDM compatible"],
+    [
+      { id: "concept", title: "Flow MDA", instruction: "Documentez : device génère attestation → MDM → IdP → CA decision.", expectedResult: "Diagramme flow validé." },
+      { id: "configure", title: "Configuration MDM", instruction: "Activez Managed Device Attestation dans votre MDM pour device test.", expectedResult: "Attestation activée." },
+      { id: "test", title: "Test accès", instruction: "Simulez accès ressource avec/sans attestation valide.", expectedResult: "Accès bloqué si attestation échoue." },
+      checklistStep("validate", "Checklist MDA", ["Logs attestation", "Policy IdP documentée"]),
+    ],
+    "MDA activé, flow Zero Trust testé, accès conditionnel validé."
+  ),
+  expertLab(
+    "platform-sso-advanced",
+    "Lab expert — Platform SSO avancé",
+    "Déployez Platform SSO macOS avec Entra ID et extensible SSO.",
+    "Avancé",
+    "90 min",
+    "Platform SSO",
+    "apple-enterprise-expert",
+    "Enterprise 5000 Mac — SSO sans mot de passe local.",
+    ["Configurer Platform SSO payload", "Entra ID federation", "Tester login Mac", "Troubleshoot keychain"],
+    ["ABM + MDM", "Entra ID tenant", "Mac ADE enrolled", "Platform SSO Apple doc"],
+    [
+      { id: "payload", title: "Profil Platform SSO", instruction: "Deploy Platform SSO payload via MDM avec extension SSO.", expectedResult: "Profil installé sur Mac test." },
+      { id: "entra", title: "Entra ID", instruction: "Configurez Enterprise SSO plug-in et assignation users.", expectedResult: "User peut login Mac via Entra." },
+      { id: "test", title: "Test login", instruction: "Login écran Mac avec compte Entra. Vérifiez apps SSO.", expectedResult: "Login sans mot de passe local." },
+      checklistStep("validate", "Checklist SSO", ["Keychain OK", "Offline login policy", "Rollback password local"]),
+    ],
+    "Platform SSO déployé, login Entra fonctionnel, troubleshooting documenté."
+  ),
+  expertLab(
+    "intune-conditional-access",
+    "Lab expert — Conditional Access Apple",
+    "Configurez CA Entra ID avec compliance Intune pour Mac/iOS.",
+    "Avancé",
+    "80 min",
+    "Intune Compliance",
+    "intune-apple-advanced",
+    "Bloquer accès M365 si Mac non conforme (FileVault off).",
+    ["Compliance policy macOS", "CA policy require compliant device", "Test accès Outlook", "Monitor sign-in logs"],
+    ["Intune + Entra ID P1", "Mac managed Intune", "Test user"],
+    [
+      { id: "compliance", title: "Compliance macOS", instruction: "Intune → Compliance : require FileVault ON, min OS 14.", expectedResult: "Policy assignée au Mac test." },
+      { id: "ca", title: "Conditional Access", instruction: "Entra → CA : require compliant device for Office 365.", expectedResult: "Policy CA active." },
+      { id: "test-fail", title: "Test non conforme", instruction: "Désactivez FileVault (lab). Tentez accès Outlook.", expectedResult: "Accès bloqué." },
+      { id: "test-pass", title: "Test conforme", instruction: "Activez FileVault. Sync Intune. Retestez accès.", expectedResult: "Accès autorisé." },
+      checklistStep("validate", "Validation CA", ["Sign-in logs vérifiés", "Exception break-glass documentée"]),
+    ],
+    "CA + compliance actifs, accès bloqué/autorisé selon conformité."
+  ),
+  expertLab(
+    "microsoft-defender-macos",
+    "Lab expert — Microsoft Defender macOS",
+    "Onboardez Defender for Endpoint sur Mac via Intune.",
+    "Avancé",
+    "85 min",
+    "Intune Compliance",
+    "intune-apple-advanced",
+    "SOC exige EDR sur tous les Mac corporate.",
+    ["License Defender", "Onboarding package Intune", "Deploy profile", "Validate health in portal"],
+    ["Defender for Endpoint license", "Intune admin", "Mac test"],
+    [
+      { id: "license", title: "Vérifier licence", instruction: "M365 Defender portal → vérifiez licences EDR.", expectedResult: "Licences disponibles." },
+      { id: "onboard", title: "Onboarding Intune", instruction: "Intune → Endpoint security → onboarding macOS. Deploy profile.", expectedResult: "Profile assigned." },
+      { id: "health", title: "Health status", instruction: "Defender portal → Devices : Mac healthy, AV active.", expectedResult: "Status healthy green." },
+      checklistStep("validate", "Checklist Defender", ["Tamper protection on", "Compliance policy includes Defender"]),
+    ],
+    "Defender onboarded, Mac healthy dans portal, compliance liée."
+  ),
+];

@@ -1,6 +1,7 @@
 import type { Quiz } from "@/lib/types";
 import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { proModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
+import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
 
 export const quizzes: Quiz[] = [
   {
@@ -317,7 +318,60 @@ export const quizzes: Quiz[] = [
     examQuestionCount: 100,
     questions: examPools["examen-intune-apple"].slice(0, 5),
   },
+  {
+    slug: "examen-jamf-300",
+    trackSlug: "jamf-300",
+    title: "Examen blanc — Jamf 300 Prep",
+    type: "examen",
+    description: "125 questions aléatoires — architecture avancée, API, webhooks, patch et dépannage Jamf Pro.",
+    duration: "150 min",
+    durationMinutes: 150,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 125,
+    questions: examPools["examen-jamf-300"].slice(0, 5),
+  },
+  {
+    slug: "examen-jamf-400",
+    trackSlug: "jamf-400",
+    title: "Examen blanc — Jamf 400 Prep",
+    type: "examen",
+    description: "150 questions — automatisation, CI/CD, migration, sécurité macOS et projet architecte.",
+    duration: "180 min",
+    durationMinutes: 180,
+    passingScore: 75,
+    examMode: true,
+    examQuestionCount: 150,
+    questions: examPools["examen-jamf-400"].slice(0, 5),
+  },
+  {
+    slug: "examen-apple-enterprise-expert",
+    trackSlug: "apple-enterprise-expert",
+    title: "Examen blanc — Apple Enterprise Expert",
+    type: "examen",
+    description: "100 questions — Platform Deployment, DDM, MDA, Platform SSO et compliance Apple.",
+    duration: "120 min",
+    durationMinutes: 120,
+    passingScore: 80,
+    examMode: true,
+    examQuestionCount: 100,
+    questions: examPools["examen-apple-enterprise-expert"].slice(0, 5),
+  },
+  {
+    slug: "examen-intune-apple-advanced",
+    trackSlug: "intune-apple-advanced",
+    title: "Examen blanc — Intune Apple Advanced",
+    type: "examen",
+    description: "100 questions — Conditional Access, Defender, SCEP, VPN, Platform SSO et troubleshooting.",
+    duration: "120 min",
+    durationMinutes: 120,
+    passingScore: 80,
+    examMode: true,
+    examQuestionCount: 100,
+    questions: examPools["examen-intune-apple-advanced"].slice(0, 5),
+  },
   ...proModuleQuizzes,
+  ...advancedModuleQuizzes,
 ];
 
 export function getQuiz(slug: string) {

@@ -4,6 +4,7 @@ import { SectionHeading, Badge } from "@/components/ui";
 import { fetchAdminStats } from "@/lib/supabase/admin";
 import { quizzes } from "@/lib/data/quizzes";
 import { tracks } from "@/lib/data/tracks";
+import { AdvancedAdminPanel } from "@/components/admin/advanced-admin-panel";
 
 export const metadata = { title: "Administration" };
 
@@ -194,6 +195,7 @@ export default async function AdminPage() {
                 </table>
               </div>
             </section>
+            <AdvancedAdminPanel />
             <section className="mt-10 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
               <h2 className="text-lg font-bold text-ink">Abonnements (placeholder)</h2>
               <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">

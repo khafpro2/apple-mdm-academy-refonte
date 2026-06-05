@@ -1,4 +1,8 @@
 import type { Badge } from "@/lib/types";
+import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
+
+const advancedLessonBadges = Object.fromEntries(allAdvancedModules.map((m) => [m.slug, m.badgeId]));
+const advancedQuizBadges = Object.fromEntries(allAdvancedModules.map((m) => [m.quizSlug, m.badgeId]));
 
 /** 12 badges premium Phase 2 + badges généraux */
 export const badgeCatalog: Badge[] = [
@@ -29,6 +33,19 @@ export const badgeCatalog: Badge[] = [
   { id: "exam-jamf-100", name: "Jamf 100 Ready", icon: "📱", description: "Examen blanc Jamf 100 réussi", earned: false },
   { id: "exam-jamf-200", name: "Jamf 200 Ready", icon: "🏆", description: "Examen blanc Jamf 200 réussi", earned: false },
   { id: "exam-intune-apple", name: "Intune Apple Specialist", icon: "☁️", description: "Examen Intune Apple Devices réussi", earned: false },
+  { id: "badge-jamf-300-ready", name: "Jamf 300 Ready", icon: "🚀", description: "Parcours Jamf 300 Prep complété", earned: false },
+  { id: "badge-jamf-400-ready", name: "Jamf 400 Ready", icon: "🏗️", description: "Parcours Jamf 400 Prep complété", earned: false },
+  { id: "badge-jamf-api-expert", name: "Jamf API Expert", icon: "🔌", description: "Modules API et webhooks Jamf maîtrisés", earned: false },
+  { id: "badge-apple-enterprise-expert", name: "Apple Enterprise Expert", icon: "🍏", description: "Parcours Apple Enterprise Expert validé", earned: false },
+  { id: "badge-apple-security-advanced", name: "Apple Security Advanced", icon: "🛡️", description: "Sécurité Apple avancée et compliance", earned: false },
+  { id: "badge-intune-apple-advanced", name: "Intune Apple Advanced", icon: "☁️", description: "Parcours Intune Apple Advanced complété", earned: false },
+  { id: "badge-platform-sso-expert", name: "Platform SSO Expert", icon: "🔐", description: "Platform SSO avancé déployé", earned: false },
+  { id: "badge-ddm-specialist", name: "DDM Specialist", icon: "📋", description: "Declarative Device Management maîtrisé", earned: false },
+  { id: "badge-mda-specialist", name: "MDA Specialist", icon: "✅", description: "Managed Device Attestation configuré", earned: false },
+  { id: "exam-jamf-300", name: "Jamf 300 Exam Ready", icon: "🚀", description: "Examen blanc Jamf 300 réussi", earned: false },
+  { id: "exam-jamf-400", name: "Jamf 400 Exam Ready", icon: "🏗️", description: "Examen blanc Jamf 400 réussi", earned: false },
+  { id: "exam-apple-enterprise", name: "Apple Enterprise Exam Ready", icon: "🍏", description: "Examen Apple Enterprise Expert réussi", earned: false },
+  { id: "exam-intune-advanced", name: "Intune Advanced Exam Ready", icon: "☁️", description: "Examen Intune Apple Advanced réussi", earned: false },
 ];
 
 /** Badge débloqué à la réussite d'un quiz / examen */
@@ -48,6 +65,11 @@ export const quizBadgeMap: Record<string, string> = {
   "quiz-module-16-patch": "badge-patch-manager",
   "quiz-module-17-protect": "badge-jamf-protect-specialist",
   "quiz-module-18-security": "badge-apple-security-expert",
+  "examen-jamf-300": "exam-jamf-300",
+  "examen-jamf-400": "exam-jamf-400",
+  "examen-apple-enterprise-expert": "exam-apple-enterprise",
+  "examen-intune-apple-advanced": "exam-intune-advanced",
+  ...advancedQuizBadges,
 };
 
 /** Badge débloqué à la complétion d'un module premium (score ≥ 80 %) */
@@ -67,6 +89,7 @@ export const lessonBadgeMap: Record<string, string> = {
   "scripts-policies": "badge-jamf-scripts",
   "patch-management": "badge-jamf-protect",
   "architecture-jamf": "badge-jamf-fundamentals",
+  ...advancedLessonBadges,
 };
 
 export function getBadgeById(id: string) {
@@ -98,4 +121,13 @@ export const premiumBadgeIds = [
   "badge-patch-manager",
   "badge-jamf-protect-specialist",
   "badge-apple-security-expert",
+  "badge-jamf-300-ready",
+  "badge-jamf-400-ready",
+  "badge-jamf-api-expert",
+  "badge-apple-enterprise-expert",
+  "badge-apple-security-advanced",
+  "badge-intune-apple-advanced",
+  "badge-platform-sso-expert",
+  "badge-ddm-specialist",
+  "badge-mda-specialist",
 ];

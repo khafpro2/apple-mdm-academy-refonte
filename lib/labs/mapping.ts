@@ -1,6 +1,7 @@
 /** Correspondance leçon → lab pratique associé */
 
 import { proModules } from "@/lib/data/pro-modules/index";
+import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
 
 export const lessonToLabSlug: Record<string, string> = {
   "abm-intune": "abm-intune",
@@ -21,6 +22,19 @@ export const lessonToLabSlug: Record<string, string> = {
   "integrations-tierces": "jamf-protect",
   "comptes-locaux-managed": "managed-apple-id-federation",
   "platform-sso-mfa": "platform-sso-mfa",
+  "j300-m03": "jamf-extension-attributes",
+  "j300-m04": "jamf-advanced-scripts",
+  "j300-m07": "jamf-api",
+  "j300-m08": "jamf-webhooks",
+  "j400-m02": "jamf-api",
+  "j400-m07": "jamf-advanced-scripts",
+  "j400-m09": "jamf-migration",
+  "aee-m04": "platform-sso-advanced",
+  "aee-m05": "declarative-device-management",
+  "aee-m06": "managed-device-attestation",
+  "iaa-m02": "intune-conditional-access",
+  "iaa-m04": "microsoft-defender-macos",
+  "iaa-m08": "platform-sso-advanced",
 };
 
 export function getLabSlugForLesson(lessonSlug: string): string | undefined {
@@ -30,6 +44,11 @@ export function getLabSlugForLesson(lessonSlug: string): string | undefined {
   for (const mod of proModules) {
     if (mod.lessons.some((l) => l.slug === lessonSlug)) {
       return mod.labSlug;
+    }
+  }
+  for (const mod of allAdvancedModules) {
+    if (mod.slug === lessonSlug) {
+      return mod.labSlug ?? undefined;
     }
   }
   return undefined;

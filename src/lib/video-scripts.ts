@@ -1,3 +1,5 @@
+import { advancedVideoScripts, advancedLessonVideoMap } from "@/lib/data/advanced-tracks/heygen-videos";
+
 export type VideoLevel = "Débutant" | "Intermédiaire" | "Fondamental" | "Avancé";
 
 export type HeyGenVideoDefaults = {
@@ -426,6 +428,7 @@ Les plans Protect regroupent policies analytics, blocages et réponses automatis
 Jamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, réponse aux incidents et durcissement macOS.
 Cette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.`,
   }),
+  ...advancedVideoScripts,
 ];
 
 export function getVideoScript(slug: string): VideoScript | undefined {
@@ -454,6 +457,93 @@ export function getJamfVideoScriptsByTrack(track: "jamf-100" | "jamf-170" | "jam
 
 export function getFundamentalVideoScripts(): VideoScript[] {
   return videoScripts.filter((v) => !v.jamfTrack);
+}
+
+const LESSON_VIDEO_SLUGS: Record<string, string> = {
+  "historique-ecosysteme": "bienvenue-apple-mdm-academy",
+  "macos-ios-ipados": "bienvenue-apple-mdm-academy",
+  "services-entreprise": "apple-business-manager",
+  "filevault-chiffrement": "macos-security",
+  "gatekeeper-notarisation": "macos-security",
+  "abm-creation-roles": "apple-business-manager",
+  "dep-enrollment": "automated-device-enrollment",
+  "apps-books": "apps-books",
+  "profils-configuration": "apple-business-manager",
+  "commandes-mdm": "apns",
+  "apns-certificats": "apns",
+  "abm-intune": "abm-intune",
+  "managed-apple-ids": "managed-apple-ids",
+  "platform-sso": "platform-sso",
+  "vpp-apps-books": "apps-books",
+  "apns-certificates": "apns",
+  "ade-iphone": "automated-device-enrollment",
+  "ade-mac": "automated-device-enrollment",
+  "enrollment-token": "abm-intune",
+  "ios-configuration-profiles": "abm-intune",
+  "macos-configuration-profiles": "platform-sso",
+  "macos-security": "macos-security",
+  "compliance-policies": "platform-sso",
+  "conditional-access": "platform-sso",
+  "architecture-jamf": "jamf-pro-fundamentals",
+  "inventaire-recherche": "jamf-inventory",
+  "smart-groups": "jamf-smart-groups",
+  "config-profiles-jamf": "jamf-pro-fundamentals",
+  "policies-base": "jamf-policies",
+  "scope-deploiement": "jamf-scope",
+  "extension-attributes": "jamf-inventory",
+  "scripts-policies": "jamf-scripts",
+  "self-service": "jamf-self-service",
+  "workflows-enrollment": "jamf-enrollment",
+  "patch-management-intro": "jamf-patch-management",
+  "api-jamf": "jamf-scripts",
+  "patch-management": "jamf-patch-management",
+  "integrations-tierces": "jamf-protect",
+  "m11-abm-intune": "abm-intune",
+  "m11-ade-sync": "automated-device-enrollment",
+  "m11-apns-intune": "apns",
+  "m11-profiles-apple": "abm-intune",
+  "m11-compliance-ca": "platform-sso",
+  "m12-presentation-jamf": "jamf-pro-fundamentals",
+  "m12-architecture-jamf": "jamf-dashboard",
+  "m12-inventaire-jamf": "jamf-inventory",
+  "m12-enrollment-jamf": "jamf-enrollment",
+  "m12-self-service": "jamf-self-service",
+  "m13-sg-intro": "jamf-smart-groups",
+  "m13-sg-criteres": "jamf-smart-groups",
+  "m13-sg-automatisation": "jamf-smart-groups",
+  "m13-sg-dynamiques": "jamf-smart-groups",
+  "m13-sg-bonnes-pratiques": "jamf-smart-groups",
+  "m14-policy-execution": "jamf-policies",
+  "m14-policy-triggers": "jamf-policies",
+  "m14-policy-frequence": "jamf-policies",
+  "m14-policy-scope": "jamf-scope",
+  "m14-policy-exclusions": "jamf-scope",
+  "m15-scripts-bash": "jamf-scripts",
+  "m15-scripts-variables": "jamf-scripts",
+  "m15-scripts-logs": "jamf-scripts",
+  "m15-scripts-debugging": "jamf-scripts",
+  "m15-scripts-bonnes-pratiques": "jamf-scripts",
+  "m16-patch-gestion": "jamf-patch-management",
+  "m16-patch-reporting": "jamf-patch-management",
+  "m16-patch-conformite": "jamf-patch-management",
+  "m16-patch-deploiement": "jamf-patch-management",
+  "m16-patch-chrome": "jamf-patch-management",
+  "m17-protect-endpoint": "jamf-protect",
+  "m17-protect-detection": "jamf-protect",
+  "m17-protect-alertes": "jamf-protect",
+  "m17-protect-conformite": "jamf-protect",
+  "m17-protect-regles": "jamf-protect",
+  "m18-filevault": "macos-security",
+  "m18-gatekeeper": "macos-security",
+  "m18-xprotect-sip": "macos-security",
+  "m18-compliance": "macos-security",
+  "m18-zero-trust": "platform-sso",
+  ...advancedLessonVideoMap,
+};
+
+export function getVideoScriptForLesson(lessonSlug: string): VideoScript | undefined {
+  const videoSlug = LESSON_VIDEO_SLUGS[lessonSlug];
+  return videoSlug ? getVideoScript(videoSlug) : undefined;
 }
 
 /** Payload HeyGen prêt à l'emploi pour une vidéo */
