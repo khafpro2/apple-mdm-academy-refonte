@@ -40,6 +40,12 @@ export default async function AdminPage() {
             Checklist production
           </Link>
           <Link
+            href="/admin/final-audit"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Audit final
+          </Link>
+          <Link
             href="/dashboard"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

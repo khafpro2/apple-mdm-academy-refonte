@@ -74,7 +74,8 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
 
         <div className="mt-10">
           <LabWorkspace lab={lab} isAuthenticated={!!user} />
-        </div>div>
-      </div>div></PageShell>
+        </div>
+      </div>
+    </PageShell>
   );
 }

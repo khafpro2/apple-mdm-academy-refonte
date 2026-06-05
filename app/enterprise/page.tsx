@@ -65,7 +65,10 @@ export default function EnterprisePage() {
             <li>• Labs terminés vs assignés</li>
             <li>• Certificats obtenus par équipe</li>
           </ul>
-          <ButtonLink href="/contact-sales" className="mt-8 bg-white text-ink hover:bg-zinc-100">
+          <ButtonLink href="/enterprise/dashboard" variant="secondary" className="mt-4 border-zinc-600 text-white hover:bg-white/10">
+            Voir le dashboard démo
+          </ButtonLink>
+          <ButtonLink href="/contact-sales" className="mt-4 bg-white text-ink hover:bg-zinc-100">
             Demander une démo
           </ButtonLink>
         </section>
