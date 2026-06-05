@@ -197,6 +197,12 @@ export const courses: Course[] = [
         lessons: [
           { slug: "abm-intune", title: "Lier ABM à Intune", duration: "40 min", points: 40 },
           {
+            slug: "managed-apple-ids",
+            title: "Managed Apple IDs (Identifiants Apple gérés)",
+            duration: "90 min",
+            points: 90,
+          },
+          {
             slug: "vpp-apps-books",
             title: "Applications VPP (Apps & Books) dans Apple Business Manager",
             duration: "60 min",

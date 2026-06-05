@@ -6,6 +6,7 @@ import { ApnsLesson, ApnsTableOfContents } from "@/components/course/lessons/apn
 import { IosProfilesLesson, IosProfilesTableOfContents } from "@/components/course/lessons/ios-profiles-lesson";
 import { MacosProfilesLesson, MacosProfilesTableOfContents } from "@/components/course/lessons/macos-profiles-lesson";
 import { MacosSecurityLesson, MacosSecurityTableOfContents } from "@/components/course/lessons/macos-security-lesson";
+import { ManagedAppleIdsLesson, ManagedAppleIdsTableOfContents } from "@/components/course/lessons/managed-apple-ids-lesson";
 import { VppAppsLesson, VppAppsTableOfContents } from "@/components/course/lessons/vpp-apps-lesson";
 import {
   abmIntuneCertifications,
@@ -17,6 +18,7 @@ import { apnsCertifications, isApnsLesson } from "@/lib/data/lessons/apns-conten
 import { isIosProfilesLesson, iosProfilesCertifications } from "@/lib/data/lessons/ios-profiles-content";
 import { isMacosProfilesLesson, macosProfilesCertifications } from "@/lib/data/lessons/macos-profiles-content";
 import { isMacosSecurityLesson, macosSecurityCertifications } from "@/lib/data/lessons/macos-security-content";
+import { isManagedAppleIdsLesson, managedAppleIdsCertifications } from "@/lib/data/lessons/managed-apple-ids-content";
 import { isVppAppsLesson, vppAppsCertifications } from "@/lib/data/lessons/vpp-apps-content";
 
 export type CustomLessonMeta = {
@@ -170,6 +172,23 @@ const CUSTOM_LESSONS: Record<string, CustomLessonConfig> = {
     Lesson: MacosSecurityLesson,
     TableOfContents: MacosSecurityTableOfContents,
   },
+  "managed-apple-ids": {
+    meta: {
+      subtitle:
+        "Maîtrisez les Managed Apple IDs : création ABM, fédération Microsoft Entra ID, Domain Capture, SCIM et déploiement à grande échelle.",
+      duration: "90 min",
+      level: "Intermédiaire",
+      points: 90,
+      badges: [
+        { label: "Managed Apple ID", className: "bg-gray-900 text-white" },
+        { label: "ABM", className: "bg-slate-700 text-white" },
+        { label: "Entra ID", className: "bg-blue-600 text-white" },
+      ],
+      certifications: managedAppleIdsCertifications,
+    },
+    Lesson: ManagedAppleIdsLesson,
+    TableOfContents: ManagedAppleIdsTableOfContents,
+  },
 };
 
 export function getCustomLesson(
@@ -188,6 +207,7 @@ export function isCustomIntuneLesson(courseSlug: string, lessonSlug: string): bo
     isIosProfilesLesson(courseSlug, lessonSlug) ||
     isMacosProfilesLesson(courseSlug, lessonSlug) ||
     isMacosSecurityLesson(courseSlug, lessonSlug) ||
+    isManagedAppleIdsLesson(courseSlug, lessonSlug) ||
     isAdeIphoneLesson(courseSlug, lessonSlug) ||
     isAdeMacLesson(courseSlug, lessonSlug)
   );
