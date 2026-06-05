@@ -6,6 +6,7 @@ import type { Lab } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
 import { saveLabProgress } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
+import { trackEvent } from "@/lib/analytics/events";
 import {
   getLabPercent,
   getPrerequisiteId,
@@ -121,6 +122,9 @@ export function LabWorkspace({ lab, isAuthenticated }: LabWorkspaceProps) {
     if (res.ok) {
       setSaveStatus("saved");
       setNewBadgeIds(res.newBadges);
+      if (record.percent >= 100 || record.completed) {
+        trackEvent("lab_termine", { lab: lab.slug });
+      }
     } else {
       setSaveStatus("error");
     }

@@ -17,6 +17,8 @@
     "@types/qrcode": "^1.5.6",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "autoprefixer": "latest",
     "next": "latest",
     "pdf-lib": "^1.17.1",

@@ -6,6 +6,7 @@ import type { Quiz, Question } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
 import { saveQuizResult } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
+import { trackEvent } from "@/lib/analytics/events";
 import { pickExamQuestions, formatDuration } from "@/lib/data/exams/exam-utils";
 import { getExamLoginRedirect } from "@/lib/data/exams/exam-routes";
 import {
@@ -126,6 +127,8 @@ export function ExamEngine({
           setSaveStatus("saved");
           setNewBadgeIds(res.newBadges);
           if (res.resultId) setResultId(res.resultId);
+          trackEvent("quiz_termine", { quiz: quiz.slug, passed, score: percent });
+          if (passed) trackEvent("examen_reussi", { quiz: quiz.slug, score: percent });
         }
       }
     },

@@ -1,12 +1,18 @@
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
-import { ExamEngine } from "@/components/quiz/exam-engine";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { getQuiz, getExamPool } from "@/lib/data";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { examJsonLd } from "@/lib/seo/exam-schema";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getUser } from "@/lib/supabase/server";
+
+const ExamEngine = dynamic(
+  () => import("@/components/quiz/exam-engine").then((m) => m.ExamEngine),
+  { loading: () => <p className="text-center text-ink-secondary">Chargement de l&apos;examen…</p> }
+);
 
 export function generateStaticParams() {
   return [
@@ -21,10 +27,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const quizSlug = getQuizSlugFromExamRoute(slug);
   const quiz = quizSlug ? getQuiz(quizSlug) : undefined;
-  return {
-    title: quiz?.title ?? "Examen blanc",
-    description: quiz?.description,
-  };
+  if (!quiz) return buildPageMetadata({ title: "Examen blanc", description: "Examen blanc Apple MDM Academy.", path: `/examens/${slug}` });
+  return buildPageMetadata({
+    title: quiz.title,
+    description: quiz.description,
+    path: `/examens/${slug}`,
+  });
 }
 
 export default async function ExamDetailPage({ params }: { params: Promise<{ slug: string }> }) {

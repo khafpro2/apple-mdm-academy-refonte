@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import type { CommercialPlan } from "@/lib/pricing/types";
 import { ButtonLink, Badge } from "@/components/ui";
+import { trackEvent } from "@/lib/analytics/events";
 
 export function PricingCardPremium({ plan }: { plan: CommercialPlan }) {
+  function handleCtaClick() {
+    trackEvent("clic_pricing", { plan: plan.slug });
+  }
+
   return (
     <div
       className={`flex flex-col rounded-3xl p-8 ${
@@ -32,6 +39,7 @@ export function PricingCardPremium({ plan }: { plan: CommercialPlan }) {
         href={plan.ctaHref}
         variant={plan.highlighted ? "primary" : "secondary"}
         className="mt-8 w-full text-center"
+        onClick={handleCtaClick}
       >
         {plan.cta}
       </ButtonLink>

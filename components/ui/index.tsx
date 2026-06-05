@@ -40,12 +40,14 @@ type ButtonLinkProps = {
   size?: ButtonSize;
   className?: string;
   children: ReactNode;
+  onClick?: () => void;
 };
 
-export function ButtonLink({ href, variant = "primary", size = "md", className = "", children }: ButtonLinkProps) {
+export function ButtonLink({ href, variant = "primary", size = "md", className = "", children, onClick }: ButtonLinkProps) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={`inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {children}

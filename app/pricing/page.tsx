@@ -4,11 +4,13 @@ import { PricingComparison } from "@/components/pricing/pricing-comparison";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, ButtonLink } from "@/components/ui";
 import { stripeConfig } from "@/lib/pricing/stripe-config";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Tarifs & Abonnements",
-  description: "Offres Gratuite, Pro et Entreprise pour Apple MDM Academy.",
-};
+  description: "Offres Gratuite, Pro et Entreprise pour Apple MDM Academy. Cours, labs, examens blancs et certificats PDF.",
+  path: "/pricing",
+});
 
 export default function PricingPage() {
   return (

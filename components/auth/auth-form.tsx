@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
 import { Button } from "@/components/ui";
+import { trackEvent } from "@/lib/analytics/events";
 
 type AuthMode = "login" | "signup";
 
@@ -46,6 +47,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       if (isLogin) {
         const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
         if (authError) throw authError;
+        trackEvent("connexion");
         router.push(redirect);
         router.refresh();
       } else {
@@ -60,10 +62,13 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         if (authError) throw authError;
 
         if (data.session) {
+          trackEvent("inscription");
           router.push(redirect);
           router.refresh();
           return;
         }
+
+        trackEvent("inscription");
 
         setMessage(
           "Compte créé ! Vérifiez votre email de confirmation, ou connectez-vous si la confirmation est désactivée dans Supabase."

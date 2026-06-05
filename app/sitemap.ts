@@ -30,6 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/dashboard`, lastModified: now, changeFrequency: "daily", priority: 0.5 },
     { url: `${base}/dashboard/transcript`, lastModified: now, changeFrequency: "weekly", priority: 0.55 },
     { url: `${base}/certificat/verify`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/legal`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/support`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/status`, lastModified: now, changeFrequency: "daily", priority: 0.4 },
+    { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const trackRoutes = tracks.map((t) => ({

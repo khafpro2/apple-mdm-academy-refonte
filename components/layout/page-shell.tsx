@@ -26,7 +26,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border-light bg-surface/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-ink">
+        <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-ink" aria-label="Apple MDM Academy — Accueil">
           <span className="text-xl" aria-hidden="true">🍏</span>
           <span className="hidden sm:inline">Apple MDM Academy</span>
           <span className="sm:hidden">MDM Academy</span>
@@ -34,15 +34,19 @@ export function Nav() {
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Navigation principale">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-medium text-ink-secondary transition-colors hover:text-ink">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-ink-secondary transition-colors hover:text-ink focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
               {link.label}
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href="/contact" className="hidden text-sm font-medium text-ink-secondary hover:text-ink md:block">
-            Contact
+          <Link href="/support" className="hidden text-sm font-medium text-ink-secondary hover:text-ink md:block">
+            Aide
           </Link>
           <Suspense fallback={<AuthButtonsFallback />}>
             <AuthButtons />
@@ -55,11 +59,11 @@ export function Nav() {
 
 export function Footer() {
   return (
-    <footer className="border-t border-border-light bg-surface-elevated">
+    <footer className="border-t border-border-light bg-surface-elevated" role="contentinfo">
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-8">
         <div className="grid gap-6 md:grid-cols-4 md:gap-8">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 text-base font-semibold text-ink">
+            <Link href="/" className="flex items-center gap-2 text-base font-semibold text-ink" aria-label="Apple MDM Academy — Accueil">
               <span aria-hidden="true">🍏</span>
               Apple MDM Academy
             </Link>
@@ -82,16 +86,20 @@ export function Footer() {
           <div>
             <p className="text-sm font-semibold text-ink">Plateforme</p>
             <ul className="mt-3 space-y-2">
-              <li><Link href="/tarifs" className="text-sm text-ink-secondary hover:text-ink">Tarifs</Link></li>
-              <li><Link href="/contact" className="text-sm text-ink-secondary hover:text-ink">Contact</Link></li>
+              <li><Link href="/pricing" className="text-sm text-ink-secondary hover:text-ink">Tarifs</Link></li>
+              <li><Link href="/support" className="text-sm text-ink-secondary hover:text-ink">Centre d&apos;aide</Link></li>
+              <li><Link href="/status" className="text-sm text-ink-secondary hover:text-ink">Statut</Link></li>
               <li><Link href="/auth/login" className="text-sm text-ink-secondary hover:text-ink">Connexion</Link></li>
-              <li><Link href="/dashboard" className="text-sm text-ink-secondary hover:text-ink">Mon dashboard</Link></li>
             </ul>
           </div>
         </div>
         <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-border-light pt-4 text-xs text-ink-tertiary md:flex-row">
           <p>© 2026 Apple MDM Academy. Tous droits réservés.</p>
-          <p>Supabase · Vercel</p>
+          <nav aria-label="Liens légaux" className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+            <Link href="/privacy" className="hover:text-ink">Confidentialité</Link>
+            <Link href="/terms" className="hover:text-ink">CGU</Link>
+            <Link href="/legal" className="hover:text-ink">Mentions légales</Link>
+          </nav>
         </div>
       </div>
     </footer>
@@ -102,7 +110,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <Nav />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1" tabIndex={-1}>
+        {children}
+      </main>
       <Footer />
     </div>
   );

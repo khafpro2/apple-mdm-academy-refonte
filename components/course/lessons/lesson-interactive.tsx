@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { saveLessonProgress } from "@/app/actions/progress";
+import { trackEvent } from "@/lib/analytics/events";
 import type { Question } from "@/lib/types";
 import { Button } from "@/components/ui";
 
@@ -295,6 +296,7 @@ export function useLessonCompletion(storageKey: string, lessonSlug?: string) {
     }
     if (resolvedSlug) {
       void saveLessonProgress({ lessonSlug: resolvedSlug, score: quizScore });
+      trackEvent("module_termine", { lesson: resolvedSlug });
     }
   }
 

@@ -6,6 +6,7 @@ import type { Quiz } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
 import { saveQuizResult } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
+import { trackEvent } from "@/lib/analytics/events";
 
 type Answers = Record<string, number>;
 
@@ -61,6 +62,7 @@ export function QuizEngine({
 
     setSaveStatus("saved");
     setNewBadgeIds(res.newBadges);
+    trackEvent("quiz_termine", { quiz: quiz.slug, passed, score: percent });
   }
 
   function startQuiz() {

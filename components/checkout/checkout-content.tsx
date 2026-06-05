@@ -7,6 +7,7 @@ import { SectionHeading, ButtonLink } from "@/components/ui";
 import { commercialPlans, getPlanBySlug } from "@/lib/pricing/plans";
 import { useSubscription } from "@/lib/pricing/use-subscription";
 import { stripeConfig, stripeApiRoutes } from "@/lib/pricing/stripe-config";
+import { trackEvent } from "@/lib/analytics/events";
 import { TierBadge } from "@/components/subscription/tier-badge";
 
 export function CheckoutContent() {
@@ -41,6 +42,7 @@ export function CheckoutContent() {
       }
     }
     upgradeToPro();
+    trackEvent("upgrade_pro");
     router.push("/checkout/success");
   };
 
