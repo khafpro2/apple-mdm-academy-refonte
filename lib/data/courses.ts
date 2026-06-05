@@ -203,6 +203,12 @@ export const courses: Course[] = [
             points: 90,
           },
           {
+            slug: "platform-sso",
+            title: "Platform SSO (Single Sign-On moderne Apple)",
+            duration: "120 min",
+            points: 120,
+          },
+          {
             slug: "vpp-apps-books",
             title: "Applications VPP (Apps & Books) dans Apple Business Manager",
             duration: "60 min",

@@ -7,6 +7,7 @@ import { IosProfilesLesson, IosProfilesTableOfContents } from "@/components/cour
 import { MacosProfilesLesson, MacosProfilesTableOfContents } from "@/components/course/lessons/macos-profiles-lesson";
 import { MacosSecurityLesson, MacosSecurityTableOfContents } from "@/components/course/lessons/macos-security-lesson";
 import { ManagedAppleIdsLesson, ManagedAppleIdsTableOfContents } from "@/components/course/lessons/managed-apple-ids-lesson";
+import { PlatformSsoLesson, PlatformSsoTableOfContents } from "@/components/course/lessons/platform-sso-lesson";
 import { VppAppsLesson, VppAppsTableOfContents } from "@/components/course/lessons/vpp-apps-lesson";
 import {
   abmIntuneCertifications,
@@ -19,6 +20,7 @@ import { isIosProfilesLesson, iosProfilesCertifications } from "@/lib/data/lesso
 import { isMacosProfilesLesson, macosProfilesCertifications } from "@/lib/data/lessons/macos-profiles-content";
 import { isMacosSecurityLesson, macosSecurityCertifications } from "@/lib/data/lessons/macos-security-content";
 import { isManagedAppleIdsLesson, managedAppleIdsCertifications } from "@/lib/data/lessons/managed-apple-ids-content";
+import { isPlatformSsoLesson, platformSsoCertifications } from "@/lib/data/lessons/platform-sso-content";
 import { isVppAppsLesson, vppAppsCertifications } from "@/lib/data/lessons/vpp-apps-content";
 
 export type CustomLessonMeta = {
@@ -189,6 +191,23 @@ const CUSTOM_LESSONS: Record<string, CustomLessonConfig> = {
     Lesson: ManagedAppleIdsLesson,
     TableOfContents: ManagedAppleIdsTableOfContents,
   },
+  "platform-sso": {
+    meta: {
+      subtitle:
+        "Déployez Platform SSO sur macOS avec Microsoft Entra ID : authentification unifiée, Password Sync et expérience Zero Touch via Intune.",
+      duration: "120 min",
+      level: "Avancé",
+      points: 120,
+      badges: [
+        { label: "Platform SSO", className: "bg-indigo-700 text-white" },
+        { label: "Entra ID", className: "bg-blue-600 text-white" },
+        { label: "Apple Enterprise", className: "bg-gray-900 text-white" },
+      ],
+      certifications: platformSsoCertifications,
+    },
+    Lesson: PlatformSsoLesson,
+    TableOfContents: PlatformSsoTableOfContents,
+  },
 };
 
 export function getCustomLesson(
@@ -208,6 +227,7 @@ export function isCustomIntuneLesson(courseSlug: string, lessonSlug: string): bo
     isMacosProfilesLesson(courseSlug, lessonSlug) ||
     isMacosSecurityLesson(courseSlug, lessonSlug) ||
     isManagedAppleIdsLesson(courseSlug, lessonSlug) ||
+    isPlatformSsoLesson(courseSlug, lessonSlug) ||
     isAdeIphoneLesson(courseSlug, lessonSlug) ||
     isAdeMacLesson(courseSlug, lessonSlug)
   );
