@@ -1,12 +1,13 @@
+import { commercialPlans, comparisonFeatures, PRICING_FAQ } from "@/lib/pricing/plans";
+import { PricingCardPremium } from "@/components/pricing/pricing-card-premium";
+import { PricingComparison } from "@/components/pricing/pricing-comparison";
 import { PageShell } from "@/components/layout";
-import { SectionHeading } from "@/components/ui";
-import { PricingCard } from "@/components/cards";
-import { pricingPlans } from "@/lib/data";
-import { stripeConfig, stripeApiRoutes } from "@/lib/pricing/stripe-config";
+import { SectionHeading, ButtonLink } from "@/components/ui";
+import { stripeConfig } from "@/lib/pricing/stripe-config";
 
 export const metadata = {
-  title: "Pricing",
-  description: "Offres gratuite, Pro et Entreprise — architecture Stripe prête.",
+  title: "Tarifs & Abonnements",
+  description: "Offres Gratuite, Pro et Entreprise pour Apple MDM Academy.",
 };
 
 export default function PricingPage() {
@@ -14,65 +15,60 @@ export default function PricingPage() {
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
         <SectionHeading
-          label="Monétisation"
-          title="Choisissez votre offre"
-          description="Découverte gratuite, Pro pour les professionnels IT, Entreprise pour les équipes. Paiement Stripe à connecter."
+          label="Abonnements"
+          title="Formez vos équipes Apple MDM"
+          description="Commencez gratuitement ou débloquez l'accès complet aux cours, labs, examens blancs et certificats PDF."
           align="center"
         />
 
         {!stripeConfig.enabled && (
           <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-900">
-            Stripe non connecté — configurez{" "}
-            <code className="rounded bg-amber-100 px-1">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</code> et les Price IDs pour activer le checkout.
+            Paiement Stripe en mode préparation — configurez{" "}
+            <code className="rounded bg-amber-100 px-1">STRIPE_SECRET_KEY</code>,{" "}
+            <code className="rounded bg-amber-100 px-1">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</code> et{" "}
+            <code className="rounded bg-amber-100 px-1">STRIPE_WEBHOOK_SECRET</code>.
           </div>
         )}
 
         <div className="mx-auto mt-12 grid max-w-5xl gap-8 lg:grid-cols-3">
-          {pricingPlans.map((plan) => (
-            <PricingCard
-              key={plan.slug}
-              name={plan.name}
-              price={plan.price}
-              period={plan.period}
-              description={plan.description}
-              features={plan.features}
-              highlighted={plan.highlighted}
-              cta={plan.slug === "decouverte" ? plan.cta : stripeConfig.enabled ? "S'abonner" : "Bientôt disponible"}
-              href={
-                plan.slug === "entreprise"
-                  ? "/contact"
-                  : plan.slug === "decouverte"
-                    ? "/parcours"
-                    : stripeConfig.enabled
-                      ? `${stripeApiRoutes.checkout}?plan=${plan.slug}`
-                      : "/contact"
-              }
-            />
+          {commercialPlans.map((plan) => (
+            <PricingCardPremium key={plan.slug} plan={plan} />
           ))}
         </div>
 
-        <section className="mx-auto mt-16 max-w-3xl">
-          <h2 className="text-center text-xl font-bold text-ink">Architecture Stripe (préparée)</h2>
-          <div className="mt-6 rounded-2xl border border-border-light bg-surface-elevated p-6 font-mono text-sm text-ink-secondary">
-            <p>POST {stripeApiRoutes.checkout}</p>
-            <p>POST {stripeApiRoutes.portal}</p>
-            <p>POST {stripeApiRoutes.webhook}</p>
-            <p className="mt-4 text-ink-tertiary">
-              Price Pro: {stripeConfig.priceIds.pro}
-              <br />
-              Price Entreprise: {stripeConfig.priceIds.entreprise}
-            </p>
+        <section className="mt-20">
+          <h2 className="text-center text-2xl font-bold text-ink">Comparaison des fonctionnalités</h2>
+          <div className="mt-8">
+            <PricingComparison features={comparisonFeatures} />
           </div>
         </section>
 
-        <div className="mx-auto mt-12 max-w-2xl text-center text-sm text-ink-secondary">
-          <p>
-            Vous préférez la page tarifs existante ?{" "}
-            <a href="/tarifs" className="font-semibold text-accent hover:underline">
-              Voir /tarifs
-            </a>
+        <section className="mt-20 rounded-3xl bg-ink p-10 text-center text-white">
+          <h2 className="text-2xl font-bold">Prêt à passer au niveau supérieur ?</h2>
+          <p className="mx-auto mt-3 max-w-lg text-zinc-300">
+            Rejoignez les administrateurs Apple qui se préparent aux certifications Jamf 100, Jamf 200 et Apple IT Professional.
           </p>
-        </div>
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            <ButtonLink href="/checkout?plan=pro" className="bg-white text-ink hover:bg-zinc-100">
+              Passer à Pro — 29 €/mois
+            </ButtonLink>
+            <ButtonLink href="/enterprise" variant="secondary" className="border-white/30 text-white hover:bg-white/10">
+              Offre Entreprise
+            </ButtonLink>
+          </div>
+        </section>
+
+        <section className="mx-auto mt-20 max-w-2xl">
+          <h2 className="text-center text-xl font-bold text-ink">Questions fréquentes</h2>
+          <div className="mt-8 space-y-4">
+            {PRICING_FAQ.map((faq) => (
+              <div key={faq.q} className="rounded-2xl border border-border-light bg-surface-elevated p-5">
+                <p className="font-semibold text-ink">{faq.q}</p>
+                <p className="mt-2 text-sm text-ink-secondary">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </PageShell>
   );

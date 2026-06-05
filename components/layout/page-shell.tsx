@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/quiz", label: "Quiz & examens" },
   { href: "/dashboard", label: "Mon dashboard" },
   { href: "/pricing", label: "Tarifs" },
+  { href: "/enterprise", label: "Entreprise" },
 ];
 
 function AuthButtonsFallback() {

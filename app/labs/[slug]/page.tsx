@@ -3,6 +3,8 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
 import { LabWorkspace } from "@/components/labs/lab-workspace";
+import { SubscriptionGate } from "@/components/subscription/subscription-gate";
+import { getRequiredTierForLab } from "@/lib/pricing/access-control";
 import { getLab, labs } from "@/lib/labs";
 import { getUser } from "@/lib/supabase/server";
 import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
@@ -73,7 +75,9 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
         </header>
 
         <div className="mt-10">
-          <LabWorkspace lab={lab} isAuthenticated={!!user} />
+          <SubscriptionGate requiredTier={getRequiredTierForLab(slug)} featureLabel="labs avancés">
+            <LabWorkspace lab={lab} isAuthenticated={!!user} />
+          </SubscriptionGate>
         </div>
       </div>
     </PageShell>

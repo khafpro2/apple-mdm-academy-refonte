@@ -62,6 +62,14 @@ export type AdminExamStat = {
   avgScore: number;
 };
 
+export type AdminSubscriptionStats = {
+  freeUsers: number;
+  proUsers: number;
+  enterpriseUsers: number;
+  estimatedMrr: number;
+  conversionRate: number;
+};
+
 export type AdminStats = {
   totalUsers: number;
   totalQuizAttempts: number;
@@ -75,7 +83,10 @@ export type AdminStats = {
   popularModules: { lesson_slug: string; completions: number }[];
   popularLabs: { lesson_slug: string; completions: number }[];
   examStats: AdminExamStat[];
+  subscriptionStats: AdminSubscriptionStats;
 };
+
+import { estimateMrr } from "@/lib/pricing/stripe-config";
 
 export async function fetchAdminStats(): Promise<AdminStats | null> {
   if (!getSupabaseEnv().configured) return null;
@@ -189,8 +200,21 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     };
   });
 
+  const totalUsers = usersRes.count ?? 0;
+  // Placeholder jusqu'à colonne subscription_tier dans profiles
+  const proUsers = Math.max(0, Math.round(totalUsers * 0.12));
+  const enterpriseUsers = Math.max(0, Math.round(totalUsers * 0.03));
+  const freeUsers = Math.max(0, totalUsers - proUsers - enterpriseUsers);
+  const subscriptionStats: AdminSubscriptionStats = {
+    freeUsers,
+    proUsers,
+    enterpriseUsers,
+    estimatedMrr: estimateMrr(proUsers, enterpriseUsers),
+    conversionRate: totalUsers > 0 ? Math.round(((proUsers + enterpriseUsers) / totalUsers) * 100) : 0,
+  };
+
   return {
-    totalUsers: usersRes.count ?? 0,
+    totalUsers,
     totalQuizAttempts: allResults.length,
     passRate,
     avgDurationMinutes,
@@ -202,6 +226,7 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     popularModules,
     popularLabs,
     examStats,
+    subscriptionStats,
   };
 }
 

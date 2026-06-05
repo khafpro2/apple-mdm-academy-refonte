@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { ExamEngine } from "@/components/quiz/exam-engine";
+import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { getQuiz, getExamPool } from "@/lib/data";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { examJsonLd } from "@/lib/seo/exam-schema";
@@ -63,13 +64,15 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ slu
           ]}
         />
         {quiz.examMode && quiz.examQuestionCount ? (
-          <ExamEngine
-            quiz={quiz}
-            basePool={getExamPool(quiz.slug) ?? quiz.questions}
-            questionCount={quiz.examQuestionCount}
-            isAuthenticated={!!user}
-            examRouteSlug={slug}
-          />
+          <SubscriptionGate requiredTier="pro" featureLabel="examens blancs">
+            <ExamEngine
+              quiz={quiz}
+              basePool={getExamPool(quiz.slug) ?? quiz.questions}
+              questionCount={quiz.examQuestionCount}
+              isAuthenticated={!!user}
+              examRouteSlug={slug}
+            />
+          </SubscriptionGate>
         ) : null}
       </div>
     </PageShell>
