@@ -1,0 +1,332 @@
+[
+  {
+    "slug": "bienvenue-apple-mdm-academy",
+    "relatedCourseSlug": "apple-fundamentals",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Bonjour et bienvenue dans Apple MDM Academy.\nDans cette formation, vous allez apprendre à administrer les appareils Apple en entreprise avec Apple Business Manager, Microsoft Intune et Jamf Pro.\nL'objectif est de vous préparer aux certifications Apple Certified IT Professional, Apple Deployment and Management, Jamf 100 et Jamf 200.\nChaque module contient un cours, un quiz, un laboratoire pratique et une validation de progression.\nÀ la fin du parcours, vous serez capable de déployer, sécuriser et administrer une flotte Apple professionnelle.",
+      "title": "Bienvenue dans Apple MDM Academy",
+      "duration": "5 min"
+    }
+  },
+  {
+    "slug": "apple-business-manager",
+    "relatedCourseSlug": "apple-it-professional",
+    "relatedLabSlug": "abm-intune",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Apple Business Manager est le point de départ d'un déploiement Apple moderne.\nIl permet de gérer les appareils, les utilisateurs, les licences applicatives et les serveurs MDM.\nLes appareils achetés auprès de revendeurs agréés peuvent apparaître automatiquement dans l'inventaire.\nL'administrateur peut ensuite les affecter à Intune ou Jamf Pro.\nApple Business Manager permet aussi de gérer Apps and Books, les Managed Apple IDs et la fédération Microsoft Entra ID.",
+      "title": "Comprendre Apple Business Manager",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "abm-intune",
+    "relatedCourseSlug": "intune-mac",
+    "relatedLabSlug": "abm-intune",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Dans cette leçon, nous allons connecter Apple Business Manager à Microsoft Intune.\nCette intégration permet d'automatiser le déploiement des iPhone, iPad et Mac.\nLa première étape consiste à créer ou vérifier le certificat APNs.\nEnsuite, nous créons un serveur MDM dans Apple Business Manager.\nNous téléchargeons le fichier server_token.p7m, puis nous l'importons dans Intune.\nUne fois la synchronisation terminée, les appareils Apple deviennent visibles dans Intune.",
+      "title": "Lier Apple Business Manager à Microsoft Intune",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "automated-device-enrollment",
+    "relatedCourseSlug": "intune-mac",
+    "relatedLabSlug": "ade-iphone",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Automated Device Enrollment, ou ADE, permet de déployer des appareils Apple sans intervention manuelle.\nLorsqu'un utilisateur démarre un iPhone ou un Mac, l'appareil contacte les serveurs Apple.\nApple détecte l'affectation au serveur MDM et télécharge automatiquement le profil de gestion.\nL'appareil devient supervisé et reçoit ses profils, applications et paramètres de sécurité.\nCette approche est appelée Zero Touch Deployment.",
+      "title": "Automated Device Enrollment",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "apns",
+    "relatedCourseSlug": "apple-it-professional",
+    "relatedLabSlug": "apns",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Apple Push Notification service, ou APNs, est essentiel au fonctionnement du MDM.\nLorsqu'un administrateur envoie une commande depuis Intune ou Jamf, APNs réveille l'appareil.\nL'appareil contacte ensuite son serveur MDM pour exécuter l'action.\nSans APNs, aucune commande distante, aucun inventaire et aucune installation applicative ne peuvent fonctionner correctement.\nIl faut donc surveiller et renouveler le certificat APNs avant expiration.",
+      "title": "Comprendre APNs",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "apps-books",
+    "relatedCourseSlug": "apple-it-professional",
+    "relatedLabSlug": "apps-books",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Apps and Books permet de distribuer des applications Apple à grande échelle.\nLes licences peuvent être achetées en volume puis synchronisées vers Intune ou Jamf.\nLes applications peuvent être attribuées à des utilisateurs ou directement à des appareils.\nCette méthode évite l'utilisation d'Apple ID personnels.\nElle simplifie la gestion des licences et permet de récupérer une licence quand un collaborateur quitte l'entreprise.",
+      "title": "Apps and Books",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "managed-apple-ids",
+    "relatedCourseSlug": "apple-it-professional",
+    "relatedLabSlug": "managed-apple-ids",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Les Managed Apple IDs sont des identifiants Apple appartenant à l'organisation.\nIls sont créés et administrés depuis Apple Business Manager ou Apple School Manager.\nIls permettent l'authentification professionnelle, la gestion centralisée et l'intégration avec Microsoft Entra ID.\nContrairement aux Apple ID personnels, ils restent sous le contrôle de l'entreprise.\nIls sont importants pour les environnements modernes Apple Enterprise.",
+      "title": "Managed Apple IDs",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "platform-sso",
+    "relatedCourseSlug": "intune-mac",
+    "relatedLabSlug": "platform-sso",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Platform SSO est une fonctionnalité moderne de macOS.\nElle permet d'utiliser l'identité Microsoft Entra ID pour ouvrir une session sur Mac.\nL'utilisateur bénéficie d'une authentification unifiée et d'une meilleure expérience.\nLe mot de passe peut être synchronisé automatiquement.\nPlatform SSO améliore la sécurité tout en simplifiant l'administration des comptes macOS.",
+      "title": "Platform SSO",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "jamf-pro-fundamentals",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Jamf Pro est l'une des solutions les plus utilisées pour gérer les appareils Apple en entreprise.\nElle permet l'inventaire, l'enrôlement, le déploiement d'applications, les profils de configuration, les scripts, les politiques et le Self Service.\nDans ce module, nous découvrons les composants essentiels utilisés par les administrateurs Apple au quotidien.",
+      "title": "Jamf Pro Fundamentals",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "macos-security",
+    "relatedCourseSlug": "apple-fundamentals",
+    "relatedLabSlug": "macos-security",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "La sécurité macOS repose sur plusieurs couches.\nFileVault chiffre les données du disque.\nGatekeeper contrôle l'exécution des applications.\nXProtect détecte les logiciels malveillants.\nSystem Integrity Protection protège les composants critiques du système.\nActivation Lock protège contre le vol.\nCes technologies peuvent être contrôlées et supervisées avec Intune, Jamf et Apple Business Manager.",
+      "title": "Sécurité macOS",
+      "duration": "20 min"
+    }
+  },
+  {
+    "slug": "jamf-dashboard",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Bienvenue dans cette vidéo consacrée au dashboard Jamf Pro.\nLe dashboard est votre point d'entrée quotidien pour piloter la santé de votre parc Apple.\nDès la connexion, vous visualisez le nombre de Mac, iPhone et iPad gérés, les alertes critiques et les policies en attente d'exécution.\nLes widgets vous permettent de suivre la conformité, les enrollments récents et l'état des certificats APNs.\nLe menu latéral organise l'inventaire, les policies, les profils de configuration, les Smart Groups et les rapports.\nUn administrateur Jamf efficace commence chaque journée par une revue du dashboard avant d'intervenir sur les appareils.\nDans le lab associé, vous explorerez chaque section et configurerez vos favoris pour un accès rapide.",
+      "title": "Découvrir le dashboard Jamf Pro",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "jamf-inventory",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "L'inventaire Jamf Pro centralise toutes les informations remontées par vos appareils Apple.\nChaque enregistrement contient le modèle, le numéro de série, la version macOS ou iOS, l'utilisateur assigné et la date du dernier check-in.\nJamf collecte ces données via l'agent Jamf et les extension attributes personnalisées.\nLa recherche avancée permet de filtrer par critère : version OS, application installée, statut FileVault ou valeur d'un Extension Attribute.\nUn inventaire fiable est la base de tout déploiement réussi : sans données exactes, les Smart Groups et les policies ciblent les mauvais appareils.\nPensez à surveiller les Mac qui n'ont pas effectué de check-in depuis plus de sept jours.\nDans votre lab, vous interrogez l'inventaire et exportez un rapport pour votre équipe support.",
+      "title": "Comprendre l'inventaire Jamf Pro",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "jamf-enrollment",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "L'enrollment est le processus qui lie un Mac à votre instance Jamf Pro.\nIl existe plusieurs méthodes : Automated Device Enrollment via Apple Business Manager, enrollment manuel par invitation ou enrollment par profil téléchargé.\nPour un déploiement enterprise, ADE est la méthode recommandée : l'appareil est supervisé dès la première activation.\nLors de l'enrollment, Jamf installe le profil MDM, enregistre l'appareil dans l'inventaire et exécute les policies de type Enrollment Complete.\nVous devez vérifier que le certificat APNs est valide et que le serveur MDM est correctement configuré dans ABM.\nUn Mac correctement enrollé affiche le statut Managed dans Jamf et peut recevoir des commandes silencieuses.\nLe lab vous guide pas à pas pour enrôler un Mac de test et valider la remontée d'inventaire.",
+      "title": "Enrôler un Mac dans Jamf Pro",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "jamf-prestage",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "PreStage Enrollment est la fonctionnalité phare de Jamf pour le zero-touch deployment Mac.\nUn PreStage Enrollment regroupe les paramètres d'enrollment ADE : compte local, Skip Setup Assistant, policies initiales et restrictions.\nVous pouvez créer plusieurs PreStages selon les profils utilisateurs : développeurs, marketing, direction.\nLors de l'activation, le Mac télécharge automatiquement le PreStage assigné dans Apple Business Manager.\nLes options Skip permettent de masquer les écrans Apple ID, Siri ou Analytics pour une expérience corporate fluide.\nUn PreStage bien configuré réduit le temps de mise en service de plusieurs heures à quelques minutes.\nDans cette leçon, nous construisons un PreStage production-ready avec scope, compte admin local et policies de bootstrap.",
+      "title": "PreStage Enrollment",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "jamf-smart-groups",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-smart-groups",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Les Smart Groups sont des groupes dynamiques qui se mettent à jour automatiquement selon des critères d'inventaire.\nContrairement aux groupes statiques, un Smart Group recalcule ses membres à chaque check-in Jamf.\nVous pouvez combiner des critères : version macOS supérieure à 14, présence d'une application, Extension Attribute égal à une valeur, appartenance à un site.\nLes opérateurs AND et OR permettent des règles complexes pour cibler précisément vos populations.\nLes Smart Groups sont utilisés partout dans Jamf : scope des policies, profils, patch management et rapports.\nUn Smart Group mal conçu peut exclure des appareils critiques ou en inclure trop — testez toujours sur un groupe pilote.\nLe lab associé vous fait créer un Smart Group production avec Extension Attribute et validation du scope.",
+      "title": "Smart Groups Jamf",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "jamf-policies",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-policies",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Les Policies Jamf Pro sont le moteur d'automatisation de votre flotte Mac.\nUne policy regroupe des actions : installation de packages, exécution de scripts, maintenance, messages utilisateur ou reboot.\nLe trigger définit quand la policy s'exécute : Enrollment Complete, Recurring Check-in, Login, Logout ou Self Service.\nLa fréquence contrôle la répétition : once per computer, once per user ou à chaque check-in.\nLes policies sont ordonnées par priorité : Before, After ou au sein d'une catégorie.\nChaque policy doit être scoped à un Smart Group ou un groupe statique pour limiter son impact.\nUn administrateur Jamf 100 maîtrise la création, le test et le dépannage des policies via les logs Jamf et la commande sudo jamf policy.\nLe lab vous guide pour créer une policy complète avec package et validation sur Mac de test.",
+      "title": "Policies Jamf Pro",
+      "duration": "18 min"
+    }
+  },
+  {
+    "slug": "jamf-scope",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-policies",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Le scope détermine quels appareils ou utilisateurs reçoivent une policy, un profil ou une application Jamf.\nL'onglet Scope permet d'ajouter des groupes cibles et de définir des exclusions pour retirer des machines spécifiques.\nLes limitations affinent le ciblage : par site Jamf, par réseau, par version OS ou par type d'appareil.\nUne exclusion est utile pour retirer les Mac de test ou les machines VIP d'un déploiement massif.\nLes conflits de scope entre plusieurs policies sont résolus par la priorité et l'ordre d'exécution.\nUne erreur de scope est l'une des causes les plus fréquentes de policies qui ne s'appliquent pas — vérifiez toujours les membres du groupe et les exclusions actives.\nCette vidéo vous apprend à auditer le scope avant chaque déploiement production.",
+      "title": "Scope, exclusions et limitations",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "jamf-self-service",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-policies",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Jamf Self Service est le portail utilisateur qui permet aux collaborateurs d'installer des applications et des ressources en autonomie.\nL'application Self Service sur Mac affiche les policies configurées avec le trigger Self Service et les rend disponibles en un clic.\nVous personnalisez l'interface : catégories, icônes, descriptions et notifications pour guider l'utilisateur.\nSelf Service réduit la charge du helpdesk en déléguant l'installation de logiciels approuvés aux utilisateurs finaux.\nLes policies Self Service peuvent inclure des applications, des scripts, des liens web ou des documents internes.\nUn catalogue Self Service bien organisé améliore l'expérience utilisateur et accélère l'onboarding des nouveaux arrivants.\nNous verrons comment publier une application dans Self Service et mesurer son adoption via les rapports Jamf.",
+      "title": "Jamf Self Service",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "jamf-packages",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-policies",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Le déploiement de packages est une compétence essentielle pour tout administrateur Jamf.\nUn package Jamf est généralement un fichier PKG ou DMG contenant une application ou un composant système.\nVous uploadez le package dans Jamf Pro → Computer Management → Packages, puis vous l'associez à une policy.\nLes options d'installation incluent l'installation silencieuse, la vérification de l'existence avant install et la suppression après échec.\nPour les applications complexes, utilisez Composer ou des outils comme AutoPKG pour automatiser la création de packages.\nTestez toujours sur un Mac isolé avant de scoper à toute la flotte — un mauvais package peut bloquer des centaines de machines.\nCette leçon couvre le cycle complet : préparation du PKG, upload Jamf, policy d'installation et vérification post-déploiement.",
+      "title": "Déployer des packages",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "jamf-scripts",
+    "relatedCourseSlug": "jamf-170",
+    "relatedLabSlug": "jamf-scripts",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Les scripts Jamf Pro étendent les capacités d'automatisation au-delà des packages standard.\nUn script shell ou bash est stocké dans Jamf et exécuté via une policy avec le payload Scripts.\nLes bonnes pratiques incluent l'idempotence : le script doit pouvoir s'exécuter plusieurs fois sans effet de bord.\nUtilisez des chemins absolus, journalisez dans /var/log/jamf.log et retournez un code de sortie explicite pour le dépannage.\nLes Extension Attributes basés sur scripts enrichissent l'inventaire avec des données métier personnalisées.\nJamf 170 et Jamf 200 exigent une maîtrise des scripts pour l'automatisation avancée et l'intégration API.\nLe lab associé vous fait rédiger un script idempotent, le déployer via policy et analyser les logs d'exécution.",
+      "title": "Scripts Jamf Pro",
+      "duration": "20 min"
+    }
+  },
+  {
+    "slug": "jamf-patch-management",
+    "relatedCourseSlug": "jamf-200",
+    "relatedLabSlug": "jamf-patch-management",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Le Patch Management Jamf automatise la distribution des mises à jour macOS et des correctifs applicatifs.\nJamf collecte l'inventaire Software Update de chaque Mac et affiche les updates disponibles dans Patch Management.\nUne patch policy définit le titre logiciel cible, la deadline, les notifications utilisateur et le comportement en cas de report.\nVous scopez les patch policies à des Smart Groups pour un déploiement progressif : pilote, production, retardataires.\nLe dashboard Patch Management montre le taux de conformité et les Mac en échec nécessitant une intervention.\nCette fonctionnalité est centrale pour Jamf 200 et la conformité sécurité en entreprise.\nNous configurons une patch policy macOS complète avec fenêtre de maintenance et rapport de conformité exportable.",
+      "title": "Patch Management Jamf",
+      "duration": "15 min"
+    }
+  },
+  {
+    "slug": "jamf-protect",
+    "relatedCourseSlug": "jamf-200",
+    "relatedLabSlug": "jamf-protect",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Jamf Protect est la solution de sécurité et d'analyse comportementale de l'écosystème Jamf.\nElle complète Jamf Pro en détectant les menaces, en collectant la télémétrie endpoint et en appliquant des plans de protection.\nL'agent Protect s'installe sur les Mac via un plan de déploiement lié à votre instance Jamf Pro.\nLe portail Protect affiche les alertes, les analytics Unified Logs et les conformités CIS ou NIST.\nLes plans Protect regroupent policies analytics, blocages et réponses automatisées aux incidents.\nJamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, réponse aux incidents et durcissement macOS.\nCette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.",
+      "title": "Introduction à Jamf Protect",
+      "duration": "15 min"
+    }
+  }
+]

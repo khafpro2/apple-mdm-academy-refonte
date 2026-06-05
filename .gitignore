@@ -28,3 +28,8 @@ next-env.d.ts
 .DS_Store
 *.pem
 .vercel
+*.swp
+*-official-originals/
+*-originals.zip
+jamf-pro-captures/
+jamf-pro-captures.zip

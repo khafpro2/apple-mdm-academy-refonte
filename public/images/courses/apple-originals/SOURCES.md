@@ -4,8 +4,8 @@ Assets publics Apple (Apple Business Manager User Guide).
 
 | Fichier | ID cours | Usage |
 |---------|----------|--------|
-| `apple-business-devices-apps-books-official.png` | 08 | Apps & Books ABM |
-| `apple-business-federated-authentication-official.png` | 11 | Fédération Entra ID |
+| `apple-business-devices-apps-books-official.png` | Non injecté | Original Apple conservé |
+| `apple-business-federated-authentication-official.png` | Non injecté | Original Apple conservé |
 
 Sources : [Apple Business Manager User Guide](https://support.apple.com/guide/apple-business-manager/welcome/1)
 
@@ -15,7 +15,7 @@ Sources : [Apple Business Manager User Guide](https://support.apple.com/guide/ap
 npm run sync:official-screenshots
 ```
 
-Les cours servent ces fichiers via `lib/data/official-screenshots.ts` avec badge **Asset officiel Apple**.
+Ces fichiers sont conservés comme originaux publics, mais ne remplacent pas les captures pédagogiques du site car ils ne correspondent pas assez précisément aux légendes des écrans ABM.
 
 ## Notes
 

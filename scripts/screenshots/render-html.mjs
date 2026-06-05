@@ -301,6 +301,210 @@ function renderExamResults(entry) {
   </body></html>`;
 }
 
+const JAMF_SCREENS = {
+  "65": {
+    section: "Computers",
+    title: "Computers",
+    subtitle: "Inventaire Mac avec recherche avancée, statut MDM et extension attributes.",
+    headers: ["Computer", "Serial Number", "macOS", "Last Check-in", "FileVault", "MDM"],
+    rows: [
+      ["MacBook-Pro-141", "C02ZQ1ABQ6L4", "15.4", "Today 09:18", "Enabled", "Managed"],
+      ["Mac-mini-M4-023", "FVFHK2QWP7QM", "15.4", "Today 08:52", "Enabled", "Managed"],
+      ["MacBook-Air-Sales-17", "H9QK72LQ6L7X", "14.7", "Yesterday", "Pending", "Managed"],
+      ["iMac-Design-04", "C07DFG45P8J2", "15.3", "2 days ago", "Enabled", "Managed"],
+    ],
+  },
+  "67": {
+    section: "Smart Computer Groups",
+    title: "Smart Groups",
+    subtitle: "Critères dynamiques utilisés pour le scope des policies et profils.",
+    headers: ["Smart Group", "Criteria", "Operator", "Members", "Used by"],
+    rows: [
+      ["Macs - FileVault Missing", "FileVault 2 Status", "is not Encrypted", "18", "Security policy"],
+      ["macOS 15 Production", "Operating System Version", "greater than 15.0", "326", "Configuration profiles"],
+      ["Sales Department", "Department", "is Sales", "74", "Self Service"],
+      ["Chrome Outdated", "Application Version", "less than 126", "41", "Patch policy"],
+    ],
+  },
+  "68": {
+    section: "Static Computer Groups",
+    title: "Static Groups",
+    subtitle: "Groupes manuels pour pilotes, exceptions et populations temporaires.",
+    headers: ["Static Group", "Type", "Members", "Owner", "Purpose"],
+    rows: [
+      ["Pilot - macOS Update", "Computers", "12", "IT Operations", "Release validation"],
+      ["VIP Exclusions", "Computers", "8", "Support L2", "Deployment exception"],
+      ["Jamf 100 Lab Devices", "Computers", "15", "Training", "Hands-on labs"],
+      ["Self Service Beta", "Users", "23", "Apps team", "Catalog pilot"],
+    ],
+  },
+  "69": {
+    section: "Policies",
+    title: "Policy: Install Microsoft Teams",
+    subtitle: "Déploiement de packages, scripts, triggers, fréquence et scope.",
+    headers: ["Payload", "Value", "Status", "Frequency", "Scope"],
+    rows: [
+      ["Trigger", "Recurring Check-in + Self Service", "Enabled", "Ongoing", "Sales Macs"],
+      ["Package", "Microsoft_Teams_2.1.pkg", "Ready", "Once per computer", "Required"],
+      ["Script", "postinstall-teams-cache.sh", "Ready", "After install", "Required"],
+      ["Maintenance", "Update Inventory", "Enabled", "After policy", "All scoped"],
+    ],
+  },
+  "70": {
+    section: "Configuration Profiles",
+    title: "macOS Configuration Profile",
+    subtitle: "Payloads Wi-Fi, restrictions, PPPC et certificats avec scope Jamf.",
+    headers: ["Payload", "Identifier", "Platform", "Scope", "Status"],
+    rows: [
+      ["Wi-Fi", "com.apple.wifi.managed", "macOS", "All Managed Macs", "Distributed"],
+      ["PPPC", "com.apple.TCC.configuration-profile-policy", "macOS", "EDR Macs", "Distributed"],
+      ["Restrictions", "com.apple.applicationaccess", "iOS/iPadOS", "Corporate iPads", "Distributed"],
+      ["Certificates", "com.apple.security.pkcs1", "macOS", "VPN Users", "Pending"],
+    ],
+  },
+  "71": {
+    section: "Packages",
+    title: "Package Repository",
+    subtitle: "PKG et DMG prêts à être déployés via policies Jamf.",
+    headers: ["Package", "Version", "Category", "Size", "Indexed"],
+    rows: [
+      ["Microsoft_Office_16.86.pkg", "16.86", "Productivity", "2.1 GB", "Yes"],
+      ["GoogleChrome.pkg", "126.0", "Browsers", "219 MB", "Yes"],
+      ["CompanyVPN.pkg", "5.4.2", "Security", "84 MB", "Yes"],
+      ["EDR-Agent.pkg", "7.12", "Security", "186 MB", "Yes"],
+    ],
+  },
+  "72": {
+    section: "Scripts",
+    title: "Scripts",
+    subtitle: "Scripts bash/zsh avec paramètres Jamf et journalisation.",
+    headers: ["Script", "Language", "Parameters", "Last modified", "Used in policies"],
+    rows: [
+      ["enable-filevault-escrow.sh", "zsh", "$4 Recovery key policy", "Today", "3"],
+      ["install-rosetta.sh", "bash", "None", "May 28", "6"],
+      ["cleanup-user-cache.sh", "zsh", "$4 Username", "May 21", "2"],
+      ["ea-check-crowdstrike.sh", "bash", "Extension Attribute", "May 12", "1"],
+    ],
+  },
+  "73": {
+    section: "Patch Management",
+    title: "Patch Management",
+    subtitle: "Conformité logicielle, versions disponibles et politiques de patch.",
+    headers: ["Software title", "Latest", "Installed current", "Missing patch", "Policy"],
+    rows: [
+      ["Google Chrome", "126.0.6478", "82%", "31 Macs", "Required in 7 days"],
+      ["Slack", "4.39", "91%", "12 Macs", "Self Service"],
+      ["Zoom Workplace", "6.1", "78%", "48 Macs", "Required in 14 days"],
+      ["Microsoft Teams", "2.1", "86%", "19 Macs", "Required"],
+    ],
+  },
+  "75": {
+    section: "Enrollment",
+    title: "Automated Device Enrollment",
+    subtitle: "Configuration ADE/DEP et liaison Apple Business Manager à Jamf Pro.",
+    headers: ["MDM Server", "Token expires", "Devices assigned", "Last sync", "Status"],
+    rows: [
+      ["Jamf Pro Production", "Mar 21, 2027", "842", "Today 08:15", "Active"],
+      ["Jamf Pro Pilot", "Nov 14, 2026", "36", "Today 08:12", "Active"],
+      ["Legacy DEP Token", "Jul 03, 2026", "0", "Yesterday", "Retiring"],
+      ["ABM Reseller Sync", "Connected", "18 new", "Today", "Healthy"],
+    ],
+  },
+  "76": {
+    section: "PreStage Enrollments",
+    title: "macOS PreStage Enrollment",
+    subtitle: "Skip Setup Assistant, compte admin local et packages initiaux.",
+    headers: ["PreStage", "Platform", "Devices", "Account settings", "Status"],
+    rows: [
+      ["Mac - Production", "macOS", "412", "Local admin created", "Enabled"],
+      ["Mac - Developers", "macOS", "86", "Admin hidden", "Enabled"],
+      ["iPad - Shared", "iPadOS", "214", "Shared iPad", "Enabled"],
+      ["Mac - Kiosk", "macOS", "19", "Auto advance setup", "Pilot"],
+    ],
+  },
+  "77": {
+    section: "Self Service",
+    title: "Self Service Catalog",
+    subtitle: "Catalogue utilisateur pour apps, scripts et ressources internes.",
+    headers: ["Item", "Category", "Trigger", "Installs", "Visible to"],
+    rows: [
+      ["Install Microsoft Teams", "Productivity", "Self Service", "326", "All staff"],
+      ["Reset Company VPN", "Support", "Self Service", "74", "VPN Users"],
+      ["Install Chrome", "Browsers", "Self Service", "512", "All managed Macs"],
+      ["Printer Setup", "Office", "Self Service", "91", "Paris Office"],
+    ],
+  },
+  "78": {
+    section: "Jamf Protect",
+    title: "Jamf Protect Alerts",
+    subtitle: "Analytics, menaces macOS, plans de protection et remédiation.",
+    headers: ["Alert", "Severity", "Device", "MITRE tactic", "Status"],
+    rows: [
+      ["Suspicious LaunchAgent", "High", "MacBook-Pro-141", "Persistence", "Open"],
+      ["Unsigned binary executed", "Medium", "iMac-Design-04", "Execution", "Investigating"],
+      ["CIS benchmark failed", "Low", "Mac-mini-M4-023", "Defense Evasion", "Remediated"],
+      ["Gatekeeper bypass attempt", "High", "MacBook-Air-Sales-17", "Execution", "Open"],
+    ],
+  },
+};
+
+function renderJamf(entry) {
+  const screen = JAMF_SCREENS[entry.id] ?? JAMF_SCREENS["65"];
+  const rows = screen.rows
+    .map((row) => `<tr>${row.map((cell, i) => `<td${i === row.length - 1 ? ' class="state"' : ""}>${esc(cell)}</td>`).join("")}</tr>`)
+    .join("");
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: ${FONT}; width: 1920px; height: 1080px; background: #f6f8fb; color: #1f2937; overflow: hidden; }
+    .shell { display: flex; height: 100vh; }
+    .side { width: 250px; background: #111827; color: #d1d5db; padding: 22px 0; }
+    .brand { padding: 0 22px 24px; color: #fff; font-size: 20px; font-weight: 800; }
+    .nav { padding: 11px 22px; font-size: 14px; color: #cbd5e1; }
+    .nav.active { background: rgba(120,190,32,.16); color: #fff; border-left: 4px solid #78be20; padding-left: 18px; font-weight: 700; }
+    .main { flex: 1; display: flex; flex-direction: column; }
+    .top { height: 54px; background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; gap: 18px; padding: 0 28px; font-size: 13px; color: #6b7280; }
+    .url { flex: 1; background: #f3f4f6; border-radius: 8px; padding: 8px 14px; color: #374151; }
+    .content { padding: 34px 40px; }
+    .eyebrow { color: #78be20; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    h1 { font-size: 36px; letter-spacing: -.03em; margin-bottom: 8px; color: #111827; }
+    .subtitle { color: #64748b; font-size: 16px; margin-bottom: 28px; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+    .label { color: #64748b; font-size: 12px; text-transform: uppercase; font-weight: 700; }
+    .value { color: #111827; font-size: 30px; font-weight: 800; margin-top: 8px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 10px 24px rgba(15,23,42,.04); }
+    th { text-align: left; padding: 16px 18px; background: #f8fafc; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    td { padding: 17px 18px; border-top: 1px solid #eef2f7; font-size: 15px; color: #1f2937; }
+    .state { color: #15803d; font-weight: 800; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .search { width: 420px; border: 1px solid #d1d5db; border-radius: 9px; padding: 11px 14px; color: #64748b; background: #fff; }
+    .btn { background: #78be20; color: #fff; border-radius: 999px; padding: 10px 18px; font-weight: 800; font-size: 13px; }
+  </style></head><body>
+    <div class="shell">
+      <aside class="side">
+        <div class="brand">Jamf Pro</div>
+        ${["Dashboard", "Computers", "Mobile Devices", "Policies", "Configuration Profiles", "Settings"].map((item) => `<div class="nav${screen.section.includes(item) || screen.title.includes(item) ? " active" : ""}">${item}</div>`).join("")}
+      </aside>
+      <main class="main">
+        <div class="top"><span>🔒</span><div class="url">yourorg.jamfcloud.com</div><span>Contoso IT</span><span>Admin</span></div>
+        <section class="content">
+          <div class="eyebrow">${esc(screen.section)}</div>
+          <h1>${esc(screen.title)}</h1>
+          <p class="subtitle">${esc(screen.subtitle)}</p>
+          <div class="cards">
+            <div class="card"><div class="label">Managed Macs</div><div class="value">842</div></div>
+            <div class="card"><div class="label">Policies</div><div class="value">128</div></div>
+            <div class="card"><div class="label">Profiles</div><div class="value">47</div></div>
+            <div class="card"><div class="label">Alerts</div><div class="value">9</div></div>
+          </div>
+          <div class="toolbar"><input class="search" value="Search ${esc(screen.section)}" readonly /><span class="btn">New</span></div>
+          <table><thead><tr>${screen.headers.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table>
+        </section>
+      </main>
+    </div>
+  </body></html>`;
+}
+
 function renderIntuneAbmImport(entry) {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -442,6 +646,10 @@ export function renderScreenshotHtml(entry) {
   const themeKey = entry.category === "apps-books" ? "apps-books" : entry.category;
   const theme = THEMES[themeKey] ?? THEMES["apple-business-manager"];
   const layout = layoutFor(entry);
+
+  if (entry.category === "jamf") {
+    return renderJamf(entry);
+  }
 
   switch (layout) {
     case "login":
