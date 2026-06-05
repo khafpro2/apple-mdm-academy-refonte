@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AuthButtons } from "@/components/auth/auth-buttons";
+import { MobileNav } from "@/components/layout/mobile-nav";
+import { SupabaseStatusBanner } from "@/components/layout/supabase-status-banner";
 import { ButtonLink } from "@/components/ui";
 
 const navLinks = [
@@ -25,7 +27,7 @@ function AuthButtonsFallback() {
 export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border-light bg-surface/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-ink" aria-label="Apple MDM Academy — Accueil">
           <span className="text-xl" aria-hidden="true">🍏</span>
           <span className="hidden sm:inline">Apple MDM Academy</span>
@@ -48,6 +50,7 @@ export function Nav() {
           <Link href="/support" className="hidden text-sm font-medium text-ink-secondary hover:text-ink md:block">
             Aide
           </Link>
+          <MobileNav />
           <Suspense fallback={<AuthButtonsFallback />}>
             <AuthButtons />
           </Suspense>
@@ -109,6 +112,7 @@ export function Footer() {
 export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
+      <SupabaseStatusBanner />
       <Nav />
       <main id="main-content" className="flex-1" tabIndex={-1}>
         {children}

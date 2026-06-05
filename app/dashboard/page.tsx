@@ -67,7 +67,7 @@ export default async function DashboardPage() {
               ? dbData?.fromDatabase
                 ? "Tableau de bord premium — progression synchronisée."
                 : "Connecté — exécutez supabase/schema.sql et schema-phase2.sql."
-              : "Connecte-toi pour synchroniser ta progression."
+              : "Connectez-vous pour synchroniser votre progression."
           }
         />
         {user && (

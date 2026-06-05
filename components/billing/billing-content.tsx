@@ -84,7 +84,8 @@ export function BillingContent() {
       <section className="mt-8 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
         <h3 className="font-bold text-ink">Historique des factures</h3>
         {isPro ? (
-          <table className="mt-4 w-full text-sm">
+          <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[280px] text-sm">
             <thead>
               <tr className="border-b border-border-light text-left text-ink-tertiary">
                 <th className="py-2">Date</th>
@@ -102,6 +103,7 @@ export function BillingContent() {
               ))}
             </tbody>
           </table>
+          </div>
         ) : (
           <p className="mt-4 text-sm text-ink-secondary">Aucune facture — abonnez-vous à Pro pour voir l&apos;historique.</p>
         )}

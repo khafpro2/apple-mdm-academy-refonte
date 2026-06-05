@@ -15,10 +15,10 @@ export default function HomePage() {
               Formation Apple, Jamf & Intune en français
             </span>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-ink md:text-6xl lg:text-7xl">
-              Deviens expert Apple MDM.
+              Devenez expert Apple MDM.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-secondary md:text-xl">
-              Prépare tes certifications Apple Device Support, Apple IT Professional, Jamf 100/170/200 et Intune
+              Préparez vos certifications Apple Device Support, Apple IT Professional, Jamf 100/170/200 et Intune
               avec cours structurés, labs pratiques et examens blancs.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">

@@ -96,5 +96,22 @@ export function getProductionChecklist(): ChecklistItem[] {
       label: "Certificats OK",
       done: true,
     },
+    {
+      id: "qa-404",
+      label: "Page 404 personnalisée",
+      done: true,
+      detail: "/not-found.tsx",
+    },
+    {
+      id: "qa-auth-reset",
+      label: "Reset mot de passe",
+      done: true,
+      detail: "/auth/forgot-password, /auth/reset-password",
+    },
+    {
+      id: "qa-mobile-nav",
+      label: "Navigation mobile",
+      done: true,
+    },
   ];
 }

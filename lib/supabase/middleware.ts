@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/admin", "/labs"];
+const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
 const AUTH_PAGES = ["/auth/login", "/auth/signup"];
 
 export async function updateSession(request: NextRequest) {

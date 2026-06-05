@@ -106,7 +106,7 @@ export function VideoScriptDetail({ video }: Props) {
               onClick={handlePlay}
               className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-ink hover:bg-white/90"
             >
-              {playing ? "Pause" : "Lecture placeholder"}
+              {playing ? "Pause" : "Lecture"}
             </button>
             <span className="text-sm text-white/70">{video.duration}</span>
             {progressPercent > 0 && (

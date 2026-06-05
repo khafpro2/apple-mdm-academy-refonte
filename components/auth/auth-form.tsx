@@ -142,6 +142,14 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         />
       </div>
 
+      {isLogin && (
+        <p className="text-right text-sm">
+          <Link href="/auth/forgot-password" className="font-medium text-accent hover:underline">
+            Mot de passe oublié ?
+          </Link>
+        </p>
+      )}
+
       {error && (
         <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
       )}
