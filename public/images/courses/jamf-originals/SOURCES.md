@@ -17,10 +17,10 @@ Assets publics Jamf (`jamf.com`) utilisés dans Apple MDM Academy.
 
 - Les cours Jamf servent ces fichiers via `lib/data/official-screenshots.ts` (priorité sur les captures générées).
 - Badge **Asset officiel Jamf** affiché sur les captures concernées.
-- Synchroniser vers `public/images/courses/jamf/` et `exams/` :
+- Synchroniser tous les visuels officiels (Apple, Intune, Jamf) :
 
 ```bash
-npm run sync:jamf-officials
+npm run sync:official-screenshots
 ```
 
 ## Notes légales

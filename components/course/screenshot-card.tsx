@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { LessonScreenshot } from "@/lib/types";
+import { getOfficialSourceLabel } from "@/lib/data/official-screenshots";
 
 function AppleIcon({ className }: { className?: string }) {
   return (
@@ -61,9 +62,9 @@ export function ScreenshotCard({
       className="overflow-hidden rounded-3xl border border-border-light bg-surface-elevated shadow-sm transition hover:shadow-md"
     >
       <div className="relative aspect-video overflow-hidden border-b border-border-light bg-gray-50">
-        {isOfficial && (
+        {isOfficial && officialSource && (
           <span className="absolute left-3 top-3 z-10 rounded-full bg-ink/85 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-            Asset officiel {officialSource === "jamf" ? "Jamf" : "éditeur"}
+            Asset officiel {getOfficialSourceLabel(officialSource)}
           </span>
         )}
         {!failed ? (
