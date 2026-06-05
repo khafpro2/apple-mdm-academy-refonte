@@ -7,7 +7,7 @@ import { generateCertificatePdf } from "@/lib/certificates/generate-pdf";
 export const runtime = "nodejs";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ quizSlug: string }> }
 ) {
   const user = await getUser();
@@ -16,7 +16,28 @@ export async function GET(
   }
 
   const { quizSlug } = await params;
-  const result = await getBestPassedResult(user.id, quizSlug);
+  const resultId = new URL(request.url).searchParams.get("resultId");
+
+  let result: { score: number; completed_at: string; id?: string } | null = null;
+
+  if (resultId) {
+    const supabase = await (await import("@/lib/supabase/server")).createClient();
+    if (supabase) {
+      const { data } = await supabase
+        .from("quiz_results")
+        .select("id, score, completed_at, passed")
+        .eq("id", resultId)
+        .eq("user_id", user.id)
+        .eq("quiz_slug", quizSlug)
+        .eq("passed", true)
+        .maybeSingle();
+      if (data) result = data;
+    }
+  }
+
+  if (!result) {
+    result = await getBestPassedResult(user.id, quizSlug);
+  }
 
   if (!result) {
     return NextResponse.json(
@@ -36,6 +57,7 @@ export async function GET(
     quizTitle: quiz?.title ?? quizSlug,
     score: result.score,
     completedAt: result.completed_at,
+    resultId: result.id,
   });
 
   const filename = `certificat-${quizSlug}.pdf`;

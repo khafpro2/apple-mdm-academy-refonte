@@ -67,6 +67,16 @@ export default async function DashboardPage() {
               : "Connecte-toi pour synchroniser ta progression."
           }
         />
+        {user && (
+          <div className="mt-4">
+            <Link
+              href="/dashboard/transcript"
+              className="text-sm font-semibold text-accent hover:underline"
+            >
+              Voir mon transcript complet →
+            </Link>
+          </div>
+        )}
 
         {user && dbData?.fromDatabase && (
           <div className="mb-8 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">

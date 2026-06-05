@@ -87,6 +87,9 @@ export type Question = {
   options: string[];
   correctIndex: number;
   explanation: string;
+  /** Lien vers le module/leçon associé (correction examen) */
+  moduleHref?: string;
+  moduleLabel?: string;
 };
 
 export type Quiz = {
@@ -126,6 +129,8 @@ export type LeaderboardEntry = {
   avgScore: number;
   modulesCompleted: number;
   fastestMinutes: number | null;
+  certsEarned?: number;
+  labsCompleted?: number;
   highlight?: boolean;
 };
 

@@ -150,6 +150,32 @@ export default async function AdminPage() {
                 )}
               </section>
             </div>
+
+            <section className="mt-10 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+              <h2 className="text-lg font-bold text-ink">Statistiques examens blancs</h2>
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-border-light text-left text-ink-tertiary">
+                      <th className="py-2 pr-4">Examen</th>
+                      <th className="py-2 pr-4">Tentatives</th>
+                      <th className="py-2 pr-4">Taux réussite</th>
+                      <th className="py-2">Score moyen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stats.examStats.map((e) => (
+                      <tr key={e.quizSlug} className="border-b border-border-light">
+                        <td className="py-3 pr-4 font-medium text-ink">{getQuizTitle(e.quizSlug)}</td>
+                        <td className="py-3 pr-4 text-ink-secondary">{e.attempts}</td>
+                        <td className="py-3 pr-4 text-ink-secondary">{e.passRate}%</td>
+                        <td className="py-3 text-ink-secondary">{e.avgScore}%</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
           </>
         )}
 

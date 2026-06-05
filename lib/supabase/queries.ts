@@ -221,24 +221,25 @@ export async function fetchLeaderboard(currentUserId?: string): Promise<Leaderbo
 
   const { data: lessons } = await supabase
     .from("lesson_progress")
-    .select("user_id, lesson_slug")
+    .select("user_id, lesson_slug, course_slug")
     .in("user_id", userIds);
 
   const nameMap = new Map((profiles ?? []).map((p) => [p.id, p.full_name ?? "Apprenant"]));
 
   const agg = new Map<
     string,
-    { bestScore: number; scores: number[]; modules: number; fastest: number | null }
+    { bestScore: number; scores: number[]; modules: number; labs: number; certs: number; fastest: number | null }
   >();
 
   for (const uid of userIds) {
-    agg.set(uid, { bestScore: 0, scores: [], modules: 0, fastest: null });
+    agg.set(uid, { bestScore: 0, scores: [], modules: 0, labs: 0, certs: 0, fastest: null });
   }
 
   for (const r of results) {
     const a = agg.get(r.user_id)!;
     a.bestScore = Math.max(a.bestScore, r.score);
     a.scores.push(r.score);
+    if (r.passed) a.certs += 1;
     if (r.passed && r.duration_seconds && r.duration_seconds > 0) {
       a.fastest = a.fastest ? Math.min(a.fastest, r.duration_seconds) : r.duration_seconds;
     }
@@ -246,7 +247,9 @@ export async function fetchLeaderboard(currentUserId?: string): Promise<Leaderbo
 
   for (const l of lessons ?? []) {
     const a = agg.get(l.user_id);
-    if (a) a.modules += 1;
+    if (!a) continue;
+    if ((l as { course_slug?: string }).course_slug === "labs") a.labs += 1;
+    else a.modules += 1;
   }
 
   const entries = [...agg.entries()]
@@ -256,10 +259,17 @@ export async function fetchLeaderboard(currentUserId?: string): Promise<Leaderbo
       bestScore: a.bestScore,
       avgScore: a.scores.length ? Math.round(a.scores.reduce((x, y) => x + y, 0) / a.scores.length) : 0,
       modulesCompleted: a.modules,
+      labsCompleted: a.labs,
+      certsEarned: a.certs,
       fastestMinutes: a.fastest ? Math.round(a.fastest / 60) : null,
       highlight: userId === currentUserId,
     }))
-    .sort((a, b) => b.bestScore - a.bestScore || b.modulesCompleted - a.modulesCompleted)
+    .sort(
+      (a, b) =>
+        b.bestScore - a.bestScore ||
+        (b.certsEarned ?? 0) - (a.certsEarned ?? 0) ||
+        (b.labsCompleted ?? 0) - (a.labsCompleted ?? 0)
+    )
     .slice(0, 10)
     .map((e, i) => ({ rank: i + 1, ...e }));
 
@@ -315,7 +325,17 @@ export async function insertQuizResult(
   });
 
   if (error) return { error: error.message };
-  return { error: null };
+
+  const { data: latest } = await supabase
+    .from("quiz_results")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("quiz_slug", payload.quizSlug)
+    .order("completed_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return { error: null, id: latest?.id as string | undefined };
 }
 
 export async function awardBadge(userId: string, badgeId: string): Promise<boolean> {
@@ -377,4 +397,98 @@ export async function countCompletedLabs(userId: string) {
     .eq("course_slug", "labs");
 
   return count ?? 0;
+}
+
+export type TranscriptData = {
+  modules: { slug: string; courseSlug: string; score: number; completedAt: string }[];
+  labs: { slug: string; completedAt: string }[];
+  badges: { id: string; name: string; icon: string; earnedAt: string }[];
+  exams: {
+    id: string;
+    quizSlug: string;
+    title: string;
+    score: number;
+    passed: boolean;
+    completedAt: string;
+    durationSeconds: number | null;
+  }[];
+  certificates: { quizSlug: string; title: string; score: number; date: string; resultId: string }[];
+};
+
+export async function fetchTranscriptData(userId: string): Promise<TranscriptData | null> {
+  const supabase = await createClient();
+  if (!supabase) return null;
+
+  const [lessonRes, badgeRes, examRes] = await Promise.all([
+    supabase
+      .from("lesson_progress")
+      .select("lesson_slug, course_slug, score, completed_at")
+      .eq("user_id", userId)
+      .order("completed_at", { ascending: false }),
+    supabase
+      .from("user_badges")
+      .select("badge_id, earned_at")
+      .eq("user_id", userId)
+      .order("earned_at", { ascending: false }),
+    supabase
+      .from("quiz_results")
+      .select("id, quiz_slug, score, passed, completed_at, duration_seconds, exam_mode")
+      .eq("user_id", userId)
+      .order("completed_at", { ascending: false }),
+  ]);
+
+  const modules = (lessonRes.data ?? [])
+    .filter((r) => (r as { course_slug?: string }).course_slug !== "labs")
+    .map((r) => ({
+      slug: r.lesson_slug as string,
+      courseSlug: (r as { course_slug?: string }).course_slug ?? "intune-mac",
+      score: r.score as number,
+      completedAt: r.completed_at as string,
+    }));
+
+  const labs = (lessonRes.data ?? [])
+    .filter((r) => (r as { course_slug?: string }).course_slug === "labs")
+    .map((r) => ({
+      slug: r.lesson_slug as string,
+      completedAt: r.completed_at as string,
+    }));
+
+  const badges = (badgeRes.data ?? []).map((b) => {
+    const meta = badgeCatalog.find((x) => x.id === b.badge_id);
+    return {
+      id: b.badge_id as string,
+      name: meta?.name ?? b.badge_id,
+      icon: meta?.icon ?? "🏅",
+      earnedAt: b.earned_at as string,
+    };
+  });
+
+  const exams = (examRes.data ?? [])
+    .filter((r) => r.exam_mode)
+    .map((r) => ({
+      id: r.id as string,
+      quizSlug: r.quiz_slug as string,
+      title: getQuizTitle(r.quiz_slug as string),
+      score: r.score as number,
+      passed: r.passed as boolean,
+      completedAt: r.completed_at as string,
+      durationSeconds: r.duration_seconds as number | null,
+    }));
+
+  const passedExams = new Map<string, (typeof exams)[0]>();
+  for (const e of exams) {
+    if (!e.passed) continue;
+    const prev = passedExams.get(e.quizSlug);
+    if (!prev || e.score > prev.score) passedExams.set(e.quizSlug, e);
+  }
+
+  const certificates = [...passedExams.values()].map((e) => ({
+    quizSlug: e.quizSlug,
+    title: e.title,
+    score: e.score,
+    date: e.completedAt,
+    resultId: e.id,
+  }));
+
+  return { modules, labs, badges, exams, certificates };
 }

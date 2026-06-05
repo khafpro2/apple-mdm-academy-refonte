@@ -18,10 +18,22 @@ export function LeaderboardPanel({ entries }: LeaderboardTabsProps) {
     .filter((e) => e.fastestMinutes != null)
     .sort((a, b) => (a.fastestMinutes ?? 999) - (b.fastestMinutes ?? 999));
   const byModules = [...entries].sort((a, b) => b.modulesCompleted - a.modulesCompleted);
+  const byCerts = [...entries].sort((a, b) => (b.certsEarned ?? 0) - (a.certsEarned ?? 0));
+  const byLabs = [...entries].sort((a, b) => (b.labsCompleted ?? 0) - (a.labsCompleted ?? 0));
 
   return (
     <div className="mt-4 space-y-6">
       <LeaderboardList title="Meilleur score" entries={byScore} metric={(e) => `${e.bestScore}%`} />
+      <LeaderboardList
+        title="Plus de certifications"
+        entries={byCerts.slice(0, 5)}
+        metric={(e) => `${e.certsEarned ?? 0} cert.`}
+      />
+      <LeaderboardList
+        title="Plus de labs"
+        entries={byLabs.slice(0, 5)}
+        metric={(e) => `${e.labsCompleted ?? 0} lab${(e.labsCompleted ?? 0) > 1 ? "s" : ""}`}
+      />
       <LeaderboardList
         title="Plus rapide"
         entries={bySpeed.slice(0, 5)}

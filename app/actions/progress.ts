@@ -112,7 +112,7 @@ async function createClient() {
 }
 
 export type SaveQuizResultResponse =
-  | { ok: true; newBadges: string[] }
+  | { ok: true; newBadges: string[]; resultId?: string }
   | { ok: false; reason: "not_authenticated" | "not_configured" | "error"; message?: string };
 
 export async function saveQuizResult(payload: SaveQuizResultPayload): Promise<SaveQuizResultResponse> {
@@ -159,7 +159,8 @@ export async function saveQuizResult(payload: SaveQuizResultPayload): Promise<Sa
   }
 
   revalidatePath("/dashboard");
+  revalidatePath("/dashboard/transcript");
   revalidatePath("/quiz");
 
-  return { ok: true, newBadges };
+  return { ok: true, newBadges, resultId: insertResult.id ?? undefined };
 }

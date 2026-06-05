@@ -1,4 +1,5 @@
 import type { Question } from "@/lib/types";
+import { enrichQuestionWithModule } from "@/lib/data/exams/question-modules";
 
 /** Mélange déterministe (seed string) */
 function seededRandom(seed: string) {
@@ -58,10 +59,12 @@ export function pickExamQuestions(
 ): Question[] {
   const expanded = expandQuestionPool(base, Math.max(count, base.length * 3));
   const shuffled = shuffleArray(expanded, sessionSeed);
-  return shuffled.slice(0, count).map((q, i) => ({
-    ...q,
-    id: `exam-${sessionSeed.slice(0, 8)}-${i}-${q.id}`,
-  }));
+  return shuffled.slice(0, count).map((q, i) =>
+    enrichQuestionWithModule({
+      ...q,
+      id: `exam-${sessionSeed.slice(0, 8)}-${i}-${q.id}`,
+    })
+  );
 }
 
 export function formatDuration(seconds: number): string {

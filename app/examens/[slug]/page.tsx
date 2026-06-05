@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
-import { QuizEngine } from "@/components/quiz/quiz-engine";
 import { ExamEngine } from "@/components/quiz/exam-engine";
 import { getQuiz, getExamPool } from "@/lib/data";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
+import { examJsonLd } from "@/lib/seo/exam-schema";
 import { getUser } from "@/lib/supabase/server";
 
 export function generateStaticParams() {
@@ -20,7 +20,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const quizSlug = getQuizSlugFromExamRoute(slug);
   const quiz = quizSlug ? getQuiz(quizSlug) : undefined;
-  return { title: quiz?.title ?? "Examen blanc" };
+  return {
+    title: quiz?.title ?? "Examen blanc",
+    description: quiz?.description,
+  };
 }
 
 export default async function ExamDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -33,9 +36,26 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ slu
 
   const user = await getUser();
 
+  const jsonLd =
+    quiz.examQuestionCount && quiz.durationMinutes
+      ? examJsonLd({
+          title: quiz.title,
+          description: quiz.description,
+          routeSlug: slug,
+          durationMinutes: quiz.durationMinutes,
+          questionCount: quiz.examQuestionCount,
+        })
+      : null;
+
   return (
     <PageShell>
-      <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <div className="mx-auto max-w-4xl px-6 py-12 lg:px-8 lg:py-16">
         <Breadcrumb
           items={[
             { label: "Examens", href: "/examens" },
@@ -48,10 +68,9 @@ export default async function ExamDetailPage({ params }: { params: Promise<{ slu
             basePool={getExamPool(quiz.slug) ?? quiz.questions}
             questionCount={quiz.examQuestionCount}
             isAuthenticated={!!user}
+            examRouteSlug={slug}
           />
-        ) : (
-          <QuizEngine quiz={quiz} isAuthenticated={!!user} />
-        )}
+        ) : null}
       </div>
     </PageShell>
   );

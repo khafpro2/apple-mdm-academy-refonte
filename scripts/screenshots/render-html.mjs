@@ -301,6 +301,143 @@ function renderExamResults(entry) {
   </body></html>`;
 }
 
+function renderIntuneAbmImport(entry) {
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: ${FONT}; width: 1920px; height: 1080px; overflow: hidden; background: #faf9f8; color: #323130; }
+    .shell { display: flex; height: 100vh; }
+    .global-nav { width: 48px; background: #f3f2f1; border-right: 1px solid #edebe9; display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 4px; }
+    .global-nav span { width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #605e5c; }
+    .global-nav span.active { background: #edebe9; color: #0078d4; }
+    .sidebar { width: 248px; background: #faf9f8; border-right: 1px solid #edebe9; padding: 16px 0; flex-shrink: 0; }
+    .sidebar-title { padding: 8px 20px 16px; font-size: 15px; font-weight: 600; color: #323130; }
+    .nav-group { margin-bottom: 8px; }
+    .nav-label { padding: 8px 20px 4px; font-size: 11px; font-weight: 600; color: #605e5c; text-transform: uppercase; letter-spacing: .04em; }
+    .nav-item { padding: 8px 20px 8px 28px; font-size: 14px; color: #323130; }
+    .nav-item.active { background: #edebe9; font-weight: 600; border-left: 3px solid #0078d4; padding-left: 25px; }
+    .nav-item.sub { padding-left: 40px; font-size: 13px; color: #605e5c; }
+    .nav-item.sub.active { color: #323130; font-weight: 600; }
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .topbar { height: 48px; background: #fff; border-bottom: 1px solid #edebe9; display: flex; align-items: center; padding: 0 24px; gap: 12px; font-size: 13px; color: #605e5c; }
+    .search { flex: 1; max-width: 420px; background: #f3f2f1; border: 1px solid transparent; border-radius: 4px; padding: 6px 12px; font-size: 13px; color: #605e5c; }
+    .content { flex: 1; padding: 24px 32px; position: relative; }
+    .breadcrumb { font-size: 13px; color: #605e5c; margin-bottom: 16px; }
+    .breadcrumb a { color: #0078d4; text-decoration: none; }
+    h1 { font-size: 24px; font-weight: 600; color: #323130; margin-bottom: 4px; }
+    .desc { font-size: 14px; color: #605e5c; margin-bottom: 24px; max-width: 720px; line-height: 1.5; }
+    .toolbar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .btn-primary { background: #0078d4; color: #fff; border: none; padding: 6px 16px; border-radius: 2px; font-size: 14px; font-weight: 600; font-family: inherit; }
+    .btn-default { background: #fff; color: #323130; border: 1px solid #8a8886; padding: 6px 16px; border-radius: 2px; font-size: 14px; font-family: inherit; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #edebe9; font-size: 13px; }
+    th { text-align: left; padding: 10px 16px; background: #faf9f8; border-bottom: 1px solid #edebe9; font-weight: 600; color: #323130; }
+    td { padding: 10px 16px; border-bottom: 1px solid #edebe9; color: #323130; }
+    .status-active { color: #107c10; font-weight: 600; }
+    .blade-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.25); display: flex; justify-content: flex-end; }
+    .blade { width: 520px; height: 100%; background: #fff; box-shadow: -8px 0 24px rgba(0,0,0,.12); display: flex; flex-direction: column; }
+    .blade-header { padding: 20px 24px 16px; border-bottom: 1px solid #edebe9; }
+    .blade-header h2 { font-size: 20px; font-weight: 600; color: #323130; }
+    .blade-header p { font-size: 13px; color: #605e5c; margin-top: 6px; line-height: 1.45; }
+    .blade-body { flex: 1; padding: 24px; overflow: hidden; }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 14px; font-weight: 600; color: #323130; margin-bottom: 6px; }
+    .field label span { color: #a4262c; }
+    .field input[type=text] { width: 100%; padding: 8px 10px; border: 1px solid #605e5c; border-radius: 2px; font-size: 14px; font-family: inherit; background: #fff; }
+    .field .hint { font-size: 12px; color: #605e5c; margin-top: 6px; line-height: 1.4; }
+    .upload-zone { border: 2px dashed #0078d4; border-radius: 4px; padding: 28px 20px; text-align: center; background: #f3f9fd; }
+    .upload-zone .file { display: inline-flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #edebe9; border-radius: 4px; padding: 10px 16px; margin-top: 12px; font-size: 13px; font-weight: 600; color: #323130; }
+    .upload-zone .file-icon { width: 32px; height: 32px; background: #0078d4; border-radius: 4px; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+    .upload-zone p { font-size: 13px; color: #605e5c; }
+    .info-box { background: #f3f2f1; border-left: 4px solid #0078d4; padding: 12px 16px; margin-top: 20px; font-size: 12px; color: #323130; line-height: 1.5; }
+    .blade-footer { padding: 16px 24px; border-top: 1px solid #edebe9; display: flex; gap: 8px; justify-content: flex-end; background: #faf9f8; }
+    .ms-logo { font-size: 13px; font-weight: 600; color: #0078d4; letter-spacing: -.01em; }
+  </style></head><body>
+  <div class="shell">
+    <nav class="global-nav"><span>☰</span><span class="active">⊞</span><span>⚙</span></nav>
+    <aside class="sidebar">
+      <div class="sidebar-title">Microsoft Intune admin center</div>
+      <div class="nav-group">
+        <div class="nav-label">Devices</div>
+        <div class="nav-item">Overview</div>
+        <div class="nav-item active">Enroll devices</div>
+        <div class="nav-item sub">Windows</div>
+        <div class="nav-item sub active">Apple</div>
+        <div class="nav-item sub">Android</div>
+        <div class="nav-item">Monitor</div>
+        <div class="nav-item">Manage devices</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">Apps</div>
+        <div class="nav-item">All apps</div>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="topbar">
+        <span class="ms-logo">Microsoft Intune</span>
+        <input class="search" value="Search for resources, services, and docs" readonly />
+        <span>Contoso Ltd</span>
+        <span>Admin</span>
+      </div>
+      <div class="content">
+        <div class="breadcrumb"><a href="#">Home</a> &gt; <a href="#">Devices</a> &gt; <a href="#">Enroll devices</a> &gt; Apple &gt; Enrollment program tokens</div>
+        <h1>Enrollment program tokens</h1>
+        <p class="desc">Import tokens from Apple Business Manager to enable Automated Device Enrollment (ADE) for supervised Apple devices.</p>
+        <div class="toolbar">
+          <button class="btn-primary">+ Add</button>
+          <button class="btn-default">Refresh</button>
+          <button class="btn-default">Export</button>
+        </div>
+        <table>
+          <thead><tr><th>Token name</th><th>Serial number</th><th>Expiration date</th><th>Last sync</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td colspan="5" style="color:#605e5c;text-align:center;padding:32px">No tokens configured — use Add to import server_token.p7m from Apple Business Manager</td></tr>
+          </tbody>
+        </table>
+        <div class="blade-overlay">
+          <div class="blade">
+            <div class="blade-header">
+              <h2>Add enrollment program token</h2>
+              <p>Upload the server token (.p7m) downloaded from Apple Business Manager after linking your MDM server.</p>
+            </div>
+            <div class="blade-body">
+              <div class="field">
+                <label>Token name <span>*</span></label>
+                <input type="text" value="ABM Production — Contoso" readonly />
+                <p class="hint">Friendly name to identify this token in Intune.</p>
+              </div>
+              <div class="field">
+                <label>Apple ID <span>*</span></label>
+                <input type="text" value="mdm-admin@contoso.com" readonly />
+                <p class="hint">Apple ID used to download the token in Apple Business Manager.</p>
+              </div>
+              <div class="field">
+                <label>Token file (.p7m) <span>*</span></label>
+                <div class="upload-zone">
+                  <p>Drag and drop your token file, or browse</p>
+                  <div class="file">
+                    <div class="file-icon">P7M</div>
+                    <div>
+                      <div>server_token.p7m</div>
+                      <div style="font-weight:400;color:#605e5c;font-size:12px">12.4 KB · Ready to upload</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="info-box">
+                After upload, Intune syncs devices assigned to this MDM server in Apple Business Manager. Renew the token before expiration (365 days).
+              </div>
+            </div>
+            <div class="blade-footer">
+              <button class="btn-default">Cancel</button>
+              <button class="btn-primary">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body></html>`;
+}
+
 export function renderScreenshotHtml(entry) {
   const themeKey = entry.category === "apps-books" ? "apps-books" : entry.category;
   const theme = THEMES[themeKey] ?? THEMES["apple-business-manager"];
@@ -327,6 +464,8 @@ export function renderScreenshotHtml(entry) {
       return renderExam(entry);
     case "exam-results":
       return renderExamResults(entry);
+    case "intune-abm-import":
+      return renderIntuneAbmImport(entry);
     default:
       return renderConsole(theme, entry);
   }

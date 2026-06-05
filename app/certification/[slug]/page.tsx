@@ -8,6 +8,7 @@ import {
 } from "@/lib/data/pro-modules/paths";
 import { getProModulesForPath } from "@/lib/data/pro-modules/index";
 import { getQuiz } from "@/lib/data";
+import { getExamRouteFromQuizSlug } from "@/lib/data/exams/exam-routes";
 
 export function generateStaticParams() {
   return certificationPaths.map((p) => ({ slug: p.slug }));
@@ -30,6 +31,7 @@ export default async function CertificationPathPage({
 
   const modules = getProModulesForPath(path.moduleNumbers.filter((n) => n >= 11));
   const exam = getQuiz(path.examQuizSlug);
+  const examRoute = exam ? getExamRouteFromQuizSlug(exam.slug) : undefined;
 
   return (
     <PageShell>
@@ -56,8 +58,8 @@ export default async function CertificationPathPage({
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <ButtonLink href="/cours/parcours-professionnel">Commencer le parcours</ButtonLink>
-            {exam && (
-              <ButtonLink href={`/examens/${exam.slug}`} variant="secondary">
+            {examRoute && (
+              <ButtonLink href={`/examens/${examRoute}`} variant="secondary">
                 Passer l&apos;examen
               </ButtonLink>
             )}

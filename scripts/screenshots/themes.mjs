@@ -133,6 +133,7 @@ export const LAYOUT_BY_ID = {
   "88": "exam-results",
   "89": "exam",
   "90": "exam",
+  "31": "intune-abm-import",
 };
 
 export function layoutFor(entry) {

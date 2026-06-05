@@ -55,6 +55,13 @@ export type AdminQuizResult = {
   profile_name: string | null;
 };
 
+export type AdminExamStat = {
+  quizSlug: string;
+  attempts: number;
+  passRate: number;
+  avgScore: number;
+};
+
 export type AdminStats = {
   totalUsers: number;
   totalQuizAttempts: number;
@@ -67,6 +74,7 @@ export type AdminStats = {
   trackStats: { track_slug: string; avg_percent: number; learners: number }[];
   popularModules: { lesson_slug: string; completions: number }[];
   popularLabs: { lesson_slug: string; completions: number }[];
+  examStats: AdminExamStat[];
 };
 
 export async function fetchAdminStats(): Promise<AdminStats | null> {
@@ -79,7 +87,7 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
 
   const [usersRes, resultsRes, progressRes, lessonRes, durationRes, badgesRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
-    supabase.from("quiz_results").select("id, passed, duration_seconds"),
+    supabase.from("quiz_results").select("id, quiz_slug, passed, duration_seconds, score"),
     supabase.from("track_progress").select("track_slug, percent"),
     supabase.from("lesson_progress").select("lesson_slug, course_slug"),
     supabase.from("quiz_results").select("duration_seconds").not("duration_seconds", "is", null),
@@ -161,6 +169,26 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
       ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length / 60)
       : 0;
 
+  const examSlugs = [
+    "examen-apple-it-pro",
+    "examen-jamf-100-blanc",
+    "examen-jamf-200",
+    "examen-intune-apple",
+  ];
+  const examStats: AdminExamStat[] = examSlugs.map((quizSlug) => {
+    const rows = allResults.filter((r) => (r as { quiz_slug?: string }).quiz_slug === quizSlug);
+    const attempts = rows.length;
+    const passedCount = rows.filter((r) => r.passed).length;
+    const avgScore =
+      attempts > 0 ? Math.round(rows.reduce((s, r) => s + r.score, 0) / attempts) : 0;
+    return {
+      quizSlug,
+      attempts,
+      passRate: attempts > 0 ? Math.round((passedCount / attempts) * 100) : 0,
+      avgScore,
+    };
+  });
+
   return {
     totalUsers: usersRes.count ?? 0,
     totalQuizAttempts: allResults.length,
@@ -173,6 +201,7 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     trackStats,
     popularModules,
     popularLabs,
+    examStats,
   };
 }
 
@@ -182,7 +211,7 @@ export async function getBestPassedResult(userId: string, quizSlug: string) {
 
   const { data } = await supabase
     .from("quiz_results")
-    .select("score, completed_at")
+    .select("id, score, completed_at")
     .eq("user_id", userId)
     .eq("quiz_slug", quizSlug)
     .eq("passed", true)

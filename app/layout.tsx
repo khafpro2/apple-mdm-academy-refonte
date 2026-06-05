@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { siteConfig } from "@/lib/seo/site-config";
+import { organizationJsonLd } from "@/lib/seo/organization-schema";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -36,8 +37,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const orgLd = organizationJsonLd();
   return (
     <html lang="fr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

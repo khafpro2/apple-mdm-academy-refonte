@@ -19,6 +19,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/labs`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/tarifs`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/dashboard`, lastModified: now, changeFrequency: "daily", priority: 0.5 },
+    { url: `${base}/dashboard/transcript`, lastModified: now, changeFrequency: "weekly", priority: 0.55 },
+    { url: `${base}/certificat/verify`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
   ];
 
   const trackRoutes = tracks.map((t) => ({

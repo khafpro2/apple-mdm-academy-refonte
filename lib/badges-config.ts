@@ -25,9 +25,10 @@ export const badgeCatalog: Badge[] = [
   { id: "first-lab", name: "Premier lab", icon: "🧪", description: "Premier lab pratique complété", earned: false },
   { id: "lab-expert", name: "Lab Expert", icon: "⚡", description: "6 labs pratiques complétés", earned: false },
   { id: "quiz-master", name: "Expert Quiz", icon: "⭐", description: "100 % sur 3 examens différents", earned: false },
-  { id: "exam-it-pro", name: "IT Pro Ready", icon: "🍏", description: "Examen Apple IT Professional réussi", earned: false },
-  { id: "exam-jamf-100", name: "Jamf 100 Certified", icon: "📱", description: "Examen blanc Jamf 100 réussi", earned: false },
-  { id: "exam-jamf-200", name: "Jamf 200 Expert", icon: "🏆", description: "Examen blanc Jamf 200 réussi", earned: false },
+  { id: "exam-it-pro", name: "Apple IT Professional Ready", icon: "🍏", description: "Examen Apple Certified IT Professional réussi", earned: false },
+  { id: "exam-jamf-100", name: "Jamf 100 Ready", icon: "📱", description: "Examen blanc Jamf 100 réussi", earned: false },
+  { id: "exam-jamf-200", name: "Jamf 200 Ready", icon: "🏆", description: "Examen blanc Jamf 200 réussi", earned: false },
+  { id: "exam-intune-apple", name: "Intune Apple Specialist", icon: "☁️", description: "Examen Intune Apple Devices réussi", earned: false },
 ];
 
 /** Badge débloqué à la réussite d'un quiz / examen */
@@ -35,6 +36,7 @@ export const quizBadgeMap: Record<string, string> = {
   "examen-apple-it-pro": "exam-it-pro",
   "examen-jamf-100-blanc": "exam-jamf-100",
   "examen-jamf-200": "exam-jamf-200",
+  "examen-intune-apple": "exam-intune-apple",
   "quiz-jamf-100": "badge-jamf-fundamentals",
   "quiz-intune-mac": "badge-intune-apple",
   "examen-apple-device-support": "exam-it-pro",

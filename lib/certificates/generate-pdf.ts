@@ -1,4 +1,6 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import QRCode from "qrcode";
+import { siteConfig } from "@/lib/seo/site-config";
 
 export type CertificateData = {
   userName: string;
@@ -6,6 +8,7 @@ export type CertificateData = {
   score: number;
   completedAt: string;
   moduleLabel?: string;
+  resultId?: string;
 };
 
 export async function generateCertificatePdf(data: CertificateData): Promise<Uint8Array> {
@@ -79,7 +82,7 @@ export async function generateCertificatePdf(data: CertificateData): Promise<Uin
     color: appleGray,
   });
 
-  const nameWidth = data.userName.length * 7;
+  const nameWidth = Math.min(data.userName.length * 7, 400);
   page.drawText(data.userName, {
     x: width / 2 - nameWidth / 2,
     y: height - 225,
@@ -117,6 +120,27 @@ export async function generateCertificatePdf(data: CertificateData): Promise<Uin
     font: helveticaBold,
     color: accent,
   });
+
+  if (data.resultId) {
+    const verifyUrl = `${siteConfig.url}/certificat/verify?id=${data.resultId}`;
+    const qrPng = await QRCode.toBuffer(verifyUrl, { width: 120, margin: 1, type: "png" });
+    const qrImage = await pdfDoc.embedPng(qrPng);
+    page.drawImage(qrImage, { x: width - 160, y: 48, width: 96, height: 96 });
+    page.drawText("Verification QR", {
+      x: width - 168,
+      y: 42,
+      size: 8,
+      font: helvetica,
+      color: appleGray,
+    });
+    page.drawText(`ID: ${data.resultId.slice(0, 8)}…`, {
+      x: 48,
+      y: 52,
+      size: 8,
+      font: helvetica,
+      color: appleGray,
+    });
+  }
 
   page.drawText(`Delivre le ${dateStr}`, {
     x: width / 2 - 72,
