@@ -94,7 +94,7 @@ export default function HomePage() {
             {labs.slice(0, 4).map((lab, i) => (
               <Link
                 key={lab.slug}
-                href={`/labs/${lab.slug}?start=1#session`}
+                href={`/labs/${lab.slug}`}
                 className="group rounded-2xl border border-border-light bg-surface p-5 transition hover:border-accent/30 hover:shadow-md"
               >
                 <p className="text-xs font-semibold text-accent">Lab {i + 1}</p>

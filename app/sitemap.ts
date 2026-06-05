@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/seo/site-config";
 import { courses } from "@/lib/data/courses";
 import { quizzes } from "@/lib/data/quizzes";
 import { tracks } from "@/lib/data/tracks";
-import { labs } from "@/lib/data/labs";
+import { labs } from "@/lib/labs";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;

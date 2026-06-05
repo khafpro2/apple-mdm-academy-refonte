@@ -126,15 +126,39 @@ export type LeaderboardEntry = {
   highlight?: boolean;
 };
 
+export type LabLevel = "Débutant" | "Intermédiaire" | "Avancé";
+
+export type LabTechnology =
+  | "ABM + Intune"
+  | "ADE + Intune"
+  | "APNs + Apple"
+  | "Apps & Books"
+  | "Managed Apple ID"
+  | "Platform SSO"
+  | "Jamf Pro"
+  | "FileVault";
+
+export type LabStep = {
+  id: string;
+  title: string;
+  instruction: string;
+  expectedResult: string;
+};
+
 export type Lab = {
   slug: string;
   title: string;
-  trackSlug: string;
-  objective: string;
-  prerequisites: string[];
-  steps: string[];
+  description: string;
+  level: LabLevel;
   duration: string;
-  difficulty: "Débutant" | "Intermédiaire" | "Avancé";
+  technology: LabTechnology;
+  trackSlug: string;
+  /** Premier objectif — rétrocompat */
+  objective: string;
+  objectives: string[];
+  prerequisites: string[];
+  steps: LabStep[];
+  expectedResult: string;
 };
 
 export type PricingPlan = {

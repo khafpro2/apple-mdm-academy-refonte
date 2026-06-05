@@ -24,6 +24,9 @@ export type SaveQuizResultPayload = {
 export type SaveLabProgressPayload = {
   labSlug: string;
   trackSlug: string;
+  /** Étapes validées — pour sync future détaillée en base */
+  validatedStepIds?: string[];
+  percent?: number;
 };
 
 export async function saveLabProgress(payload: SaveLabProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {

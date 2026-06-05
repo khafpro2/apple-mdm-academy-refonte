@@ -1,7 +1,7 @@
 import { PageShell } from "@/components/layout";
 import { SectionHeading } from "@/components/ui";
-import { LabCard } from "@/components/cards";
-import { labs } from "@/lib/data";
+import { LabCatalogGrid } from "@/components/labs/lab-catalog-grid";
+import { labs } from "@/lib/labs";
 
 export const metadata = { title: "Labs pratiques" };
 
@@ -12,20 +12,9 @@ export default function LabsPage() {
         <SectionHeading
           label="Pratique"
           title="Labs pratiques"
-          description="Exercices guidés pas à pas pour maîtriser Jamf Pro, Intune et la gestion Apple en conditions réelles."
+          description="Exercices guidés pas à pas — validez chaque étape, suivez votre progression et obtenez des badges."
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {labs.map((lab, index) => (
-            <LabCard
-              key={lab.slug}
-              slug={lab.slug}
-              title={lab.title}
-              duration={lab.duration}
-              difficulty={lab.difficulty}
-              index={index}
-            />
-          ))}
-        </div>
+        <LabCatalogGrid labs={labs} />
       </div>
     </PageShell>
   );

@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Suspense } from "react";
 import { PageShell } from "@/components/layout";
-import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
-import { LabDetailClient } from "@/components/labs/lab-detail-client";
-import { LabStartButton } from "@/components/labs/lab-start-button";
-import { getLab, labs } from "@/lib/data";
+import { Breadcrumb, Badge } from "@/components/ui";
+import { LabWorkspace } from "@/components/labs/lab-workspace";
+import { getLab, labs } from "@/lib/labs";
 import { getUser } from "@/lib/supabase/server";
+import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
 
 export function generateStaticParams() {
   return labs.map((l) => ({ slug: l.slug }));
@@ -18,29 +17,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: lab?.title ?? "Lab" };
 }
 
-export default async function LabDetailPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ start?: string }>;
-}) {
+export default async function LabDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { start } = await searchParams;
   const lab = getLab(slug);
   if (!lab) notFound();
 
   const user = await getUser();
-  const autoStart = start === "1";
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-4xl px-6 py-12 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8 lg:py-16">
         <Breadcrumb items={[{ label: "Labs", href: "/labs" }, { label: lab.title }]} />
 
         <header className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <Badge variant="accent">{lab.difficulty}</Badge>
+            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${TECHNOLOGY_STYLES[lab.technology]}`}>
+              {lab.technology}
+            </span>
+            <Badge>{lab.level}</Badge>
             <span className="text-sm text-ink-tertiary">{lab.duration}</span>
             <Link
               href={`/parcours/${lab.trackSlug}`}
@@ -49,57 +43,37 @@ export default async function LabDetailPage({
               Parcours associé →
             </Link>
           </div>
-          <h1 className="mt-4 text-3xl font-bold text-ink">{lab.title}</h1>
-          <p className="mt-4 text-lg text-ink-secondary">
-            <span className="font-semibold text-ink">Objectif : </span>
-            {lab.objective}
-          </p>
-        </header>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink md:text-4xl">{lab.title}</h1>
+          <p className="mt-4 text-lg text-ink-secondary">{lab.description}</p>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-ink">Prérequis</h2>
-            <ul className="mt-4 space-y-2">
-              {lab.prerequisites.map((req) => (
-                <li key={req} className="flex items-start gap-2 text-sm text-ink-secondary">
-                  <span className="text-accent">✓</span> {req}
+          <div className="mt-6">
+            <p className="text-sm font-semibold text-ink">Objectifs</p>
+            <ul className="mt-2 space-y-1">
+              {lab.objectives.map((obj) => (
+                <li key={obj} className="flex gap-2 text-sm text-ink-secondary">
+                  <span className="text-accent">✓</span> {obj}
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
 
-          <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-ink">Étapes</h2>
-            <ol className="mt-4 space-y-3">
-              {lab.steps.map((step, i) => (
-                <li key={step} className="flex gap-3 rounded-xl bg-surface px-4 py-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-ink text-xs font-bold text-white">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-ink-secondary">{step}</span>
-                </li>
+          <div className="mt-6 rounded-2xl border border-border-light bg-surface p-5">
+            <p className="text-sm font-semibold text-ink">Prérequis</p>
+            <ul className="mt-2 grid gap-1 sm:grid-cols-2">
+              {lab.prerequisites.map((req) => (
+                <li key={req} className="text-sm text-ink-secondary">· {req}</li>
               ))}
-            </ol>
-          </section>
-        </div>
+            </ul>
+          </div>
 
-        <div className="mt-10 flex flex-wrap gap-4">
-          <LabStartButton slug={lab.slug} />
-          <ButtonLink href={`/labs/${lab.slug}?start=1#session`} variant="secondary">
-            Accéder au Lab
-          </ButtonLink>
-          <Link
-            href="/labs"
-            className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-ink hover:bg-surface"
-          >
-            ← Retour aux labs
-          </Link>
-        </div>
+          <div className="mt-6 rounded-2xl border border-green-200 bg-green-50/50 p-5">
+            <p className="text-xs font-semibold uppercase tracking-wide text-green-800">Résultat final attendu</p>
+            <p className="mt-2 text-sm leading-relaxed text-green-900">{lab.expectedResult}</p>
+          </div>
+        </header>
 
         <div className="mt-10">
-          <Suspense fallback={null}>
-            <LabDetailClient lab={lab} isAuthenticated={!!user} autoStart={autoStart} />
-          </Suspense>
+          <LabWorkspace lab={lab} isAuthenticated={!!user} />
         </div>
       </div>
     </PageShell>
