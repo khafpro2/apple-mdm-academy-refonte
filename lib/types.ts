@@ -43,6 +43,9 @@ export type LessonScreenshot = {
   scenePrompt?: string;
   /** Prompt complet : style global + scène */
   generationPrompt?: string;
+  /** Asset officiel éditeur (ex. Jamf marketing public) */
+  isOfficial?: boolean;
+  officialSource?: string;
 };
 
 export type LessonStep = {

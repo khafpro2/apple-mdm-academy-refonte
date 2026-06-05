@@ -1,5 +1,10 @@
 import type { LessonScreenshot, ScreenshotCategory } from "@/lib/types";
 import {
+  getOfficialAsset,
+  getOfficialAssetPath,
+  isOfficialScreenshot,
+} from "@/lib/data/official-screenshots";
+import {
   GLOBAL_SCREENSHOT_STYLE,
   SCREENSHOT_SPECS,
   buildScreenshotPrompt,
@@ -20,10 +25,13 @@ export const SCREENSHOT_LIBRARY: ScreenshotLibraryEntry[] = SCREENSHOT_PROMPTS;
 export const SCREENSHOT_LIBRARY_BY_ID = SCREENSHOT_PROMPTS_BY_ID;
 
 export function screenshotSrc(entry: ScreenshotLibraryEntry): string {
+  const official = getOfficialAssetPath(entry.id);
+  if (official) return official;
   return `/images/courses/${entry.category}/${entry.filename}`;
 }
 
 export function toLessonScreenshot(entry: ScreenshotLibraryEntry): LessonScreenshot {
+  const official = getOfficialAsset(entry.id);
   return {
     id: entry.id,
     title: entry.title,
@@ -32,6 +40,8 @@ export function toLessonScreenshot(entry: ScreenshotLibraryEntry): LessonScreens
     caption: entry.caption,
     scenePrompt: entry.scenePrompt,
     generationPrompt: entry.generationPrompt,
+    isOfficial: isOfficialScreenshot(entry.id),
+    officialSource: official?.source,
   };
 }
 

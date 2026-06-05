@@ -50,6 +50,8 @@ export function ScreenshotCard({
   src,
   caption,
   generationPrompt,
+  isOfficial,
+  officialSource,
 }: LessonScreenshot) {
   const [failed, setFailed] = useState(false);
 
@@ -59,6 +61,11 @@ export function ScreenshotCard({
       className="overflow-hidden rounded-3xl border border-border-light bg-surface-elevated shadow-sm transition hover:shadow-md"
     >
       <div className="relative aspect-video overflow-hidden border-b border-border-light bg-gray-50">
+        {isOfficial && (
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-ink/85 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+            Asset officiel {officialSource === "jamf" ? "Jamf" : "éditeur"}
+          </span>
+        )}
         {!failed ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
