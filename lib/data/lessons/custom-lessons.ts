@@ -3,6 +3,9 @@ import { AbmIntuneLesson, AbmIntuneTableOfContents } from "@/components/course/l
 import { AdeIphoneLesson, AdeIphoneTableOfContents } from "@/components/course/lessons/ade-iphone-lesson";
 import { AdeMacLesson, AdeMacTableOfContents } from "@/components/course/lessons/ade-mac-lesson";
 import { ApnsLesson, ApnsTableOfContents } from "@/components/course/lessons/apns-lesson";
+import { IosProfilesLesson, IosProfilesTableOfContents } from "@/components/course/lessons/ios-profiles-lesson";
+import { MacosProfilesLesson, MacosProfilesTableOfContents } from "@/components/course/lessons/macos-profiles-lesson";
+import { MacosSecurityLesson, MacosSecurityTableOfContents } from "@/components/course/lessons/macos-security-lesson";
 import { VppAppsLesson, VppAppsTableOfContents } from "@/components/course/lessons/vpp-apps-lesson";
 import {
   abmIntuneCertifications,
@@ -11,6 +14,9 @@ import {
 import { isAdeIphoneLesson } from "@/lib/data/lessons/ade-iphone-content";
 import { adeMacCertifications, isAdeMacLesson } from "@/lib/data/lessons/ade-mac-content";
 import { apnsCertifications, isApnsLesson } from "@/lib/data/lessons/apns-content";
+import { isIosProfilesLesson, iosProfilesCertifications } from "@/lib/data/lessons/ios-profiles-content";
+import { isMacosProfilesLesson, macosProfilesCertifications } from "@/lib/data/lessons/macos-profiles-content";
+import { isMacosSecurityLesson, macosSecurityCertifications } from "@/lib/data/lessons/macos-security-content";
 import { isVppAppsLesson, vppAppsCertifications } from "@/lib/data/lessons/vpp-apps-content";
 
 export type CustomLessonMeta = {
@@ -111,6 +117,59 @@ const CUSTOM_LESSONS: Record<string, CustomLessonConfig> = {
     Lesson: AdeMacLesson,
     TableOfContents: AdeMacTableOfContents,
   },
+  "ios-configuration-profiles": {
+    meta: {
+      subtitle:
+        "Concevez et déployez des profils de configuration iOS/iPadOS : Wi-Fi, VPN, certificats, restrictions et sécurité via Intune ou Jamf Pro.",
+      duration: "75 min",
+      level: "Intermédiaire",
+      points: 75,
+      badges: [
+        { label: "iOS", className: "bg-sky-600 text-white" },
+        { label: "iPadOS", className: "bg-blue-600 text-white" },
+        { label: "MDM", className: "bg-indigo-600 text-white" },
+      ],
+      certifications: iosProfilesCertifications,
+    },
+    Lesson: IosProfilesLesson,
+    TableOfContents: IosProfilesTableOfContents,
+  },
+  "macos-configuration-profiles": {
+    meta: {
+      subtitle:
+        "Maîtrisez les profils macOS : Wi-Fi, VPN, FileVault, PPPC, System Extensions et restrictions — déploiement sécurisé via Intune et Jamf Pro.",
+      duration: "90 min",
+      level: "Intermédiaire",
+      points: 90,
+      badges: [
+        { label: "macOS", className: "bg-slate-800 text-white" },
+        { label: "Jamf", className: "bg-violet-600 text-white" },
+        { label: "Intune", className: "bg-indigo-600 text-white" },
+      ],
+      certifications: macosProfilesCertifications,
+    },
+    Lesson: MacosProfilesLesson,
+    TableOfContents: MacosProfilesTableOfContents,
+  },
+  "macos-security": {
+    meta: {
+      subtitle:
+        "Maîtrisez la sécurité macOS : FileVault, Gatekeeper, XProtect, SIP, Activation Lock et notarisation — déploiement et dépannage en entreprise.",
+      duration: "120 min",
+      level: "Intermédiaire → Avancé",
+      points: 120,
+      badges: [
+        { label: "FileVault", className: "bg-purple-700 text-white" },
+        { label: "Gatekeeper", className: "bg-blue-600 text-white" },
+        { label: "SIP", className: "bg-orange-600 text-white" },
+        { label: "XProtect", className: "bg-green-600 text-white" },
+        { label: "Activation Lock", className: "bg-red-600 text-white" },
+      ],
+      certifications: macosSecurityCertifications,
+    },
+    Lesson: MacosSecurityLesson,
+    TableOfContents: MacosSecurityTableOfContents,
+  },
 };
 
 export function getCustomLesson(
@@ -126,6 +185,9 @@ export function isCustomIntuneLesson(courseSlug: string, lessonSlug: string): bo
     isAbmIntuneLesson(courseSlug, lessonSlug) ||
     isApnsLesson(courseSlug, lessonSlug) ||
     isVppAppsLesson(courseSlug, lessonSlug) ||
+    isIosProfilesLesson(courseSlug, lessonSlug) ||
+    isMacosProfilesLesson(courseSlug, lessonSlug) ||
+    isMacosSecurityLesson(courseSlug, lessonSlug) ||
     isAdeIphoneLesson(courseSlug, lessonSlug) ||
     isAdeMacLesson(courseSlug, lessonSlug)
   );

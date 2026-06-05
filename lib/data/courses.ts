@@ -222,6 +222,24 @@ export const courses: Course[] = [
       {
         title: "Conformité & sécurité",
         lessons: [
+          {
+            slug: "ios-configuration-profiles",
+            title: "Profils de configuration iPhone et iPad (iOS/iPadOS)",
+            duration: "75 min",
+            points: 75,
+          },
+          {
+            slug: "macos-configuration-profiles",
+            title: "Profils de configuration macOS",
+            duration: "90 min",
+            points: 90,
+          },
+          {
+            slug: "macos-security",
+            title: "Sécurité macOS : FileVault, Gatekeeper, XProtect, SIP et Activation Lock",
+            duration: "120 min",
+            points: 120,
+          },
           { slug: "compliance-policies", title: "Compliance policies Apple", duration: "45 min" },
           { slug: "conditional-access", title: "Conditional Access", duration: "40 min" },
           { slug: "app-protection", title: "App Protection Policies", duration: "35 min" },
