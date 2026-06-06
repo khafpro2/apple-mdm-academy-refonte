@@ -1,6 +1,7 @@
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
+import { buildModuleVideoScript } from "@/lib/data/shared/module-video-script";
 
-/** Scripts HeyGen prêts — un par module expert (40 vidéos) */
+/** Scripts HeyGen — un par module expert (40 vidéos) avec objectifs, scénario et liens lab */
 export const advancedVideoScripts = allAdvancedModules.map((mod) => ({
   slug: mod.videoSlug,
   title: mod.title,
@@ -10,11 +11,13 @@ export const advancedVideoScripts = allAdvancedModules.map((mod) => ({
   level: "Avancé" as const,
   heygenAvatar: "Professional IT Instructor",
   language: "fr-FR",
-  script: `Bienvenue dans le module « ${mod.title} » du parcours ${mod.trackSlug}.
-Objectif : maîtriser ${mod.title} en contexte entreprise avec bonnes pratiques Apple, Jamf ou Intune.
-Nous couvrons les concepts clés, un scénario réel et les points de validation avant mise en production.
-À la fin, passez le quiz de ${mod.quizCount} questions et le lab associé si disponible.
-Consultez la ressource téléchargeable ${mod.resourceSlug} pour votre runbook.`,
+  script: buildModuleVideoScript({
+    title: mod.title,
+    trackSlug: mod.trackSlug,
+    quizCount: mod.quizCount,
+    labSlug: mod.labSlug,
+    resourceSlug: mod.resourceSlug,
+  }),
   relatedCourseSlug: mod.trackSlug,
   relatedLabSlug: mod.labSlug ?? "",
   heygenStyle: mod.trackSlug.startsWith("jamf") ? "Apple Training Premium + Jamf Training Catalog" : "Apple Training Premium",

@@ -1,3 +1,3 @@
 export function SupabaseStatusBanner() {
-      return null;
+  return null;
 }

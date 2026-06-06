@@ -112,7 +112,7 @@ function questionsForModule(mod: AltMdmModuleDef): Question[] {
       q(`${mod.slug}-12`, "Mosyle vise :", ["Grandes entreprises Windows", "PME/éducation Apple avec pricing compétitif", "Mainframe", "IoT industriel"], 1, "Mosyle = Apple MDM accessible, éducation/PME."),
       q(`${mod.slug}-13`, "Addigy convient aux :", ["MSP gérant flottes Mac multi-clients", "Imprimeries", "Restaurants", "Aviation seule"], 0, "Addigy = modèle MSP, multi-tenant."),
       q(`${mod.slug}-14`, "Workspace ONE convient si :", ["Écosystème VMware/Broadcom déjà en place", "Aucun MDM", "Pas de Apple devices", "ERP seul"], 0, "WS1 = choix si stack VMware existant."),
-      q(`${mod.slug}-15`, "Critère coût indicatif (placeholder) :", ["Identique pour tous", "Varie par device/mois, modules et support", "Gratuit toujours", "Uniquement par email"], 1, "Coût = licensing par device + add-ons.")
+      q(`${mod.slug}-15`, "TCO MDM sur 3 ans inclut typiquement :", ["Uniquement le prix licence affiché", "Licences, temps admin, migration, formation et intégrations", "Gratuit pour toute flotte", "Email support seul"], 1, "TCO = coût total de possession, pas seulement licence/device."),
     );
   }
 

@@ -37,13 +37,13 @@ export function buildPedagogicalReport(audit: PedagogicalAuditReport): Pedagogic
     recommendations.push("Prioriser les captures ABM, Jamf Pro, Intune et Apple Settings pour les leçons foundation");
   }
 
-  if (audit.labStatusCounts.placeholder > 20) {
-    weaknesses.push(`${audit.labStatusCounts.placeholder} labs auto-générés (alt MDM)`);
+  if (audit.labStatusCounts.placeholder > 5) {
+    weaknesses.push(`${audit.labStatusCounts.placeholder} labs auto-générés (alt MDM) — enrichir scénarios entreprise`);
     recommendations.push("Enrichir les labs Kandji/Mosyle/Addigy nommés et remplacer les labs factory par scénarios entreprise");
   }
 
-  if (audit.videos.filter((v) => v.issues.some((i) => i.includes("template"))).length > 30) {
-    weaknesses.push("Scripts vidéo HeyGen majoritairement templatisés");
+  if (audit.videos.filter((v) => v.issues.some((i) => i.includes("template"))).length > 10) {
+    weaknesses.push("Scripts vidéo sans objectifs pédagogiques sur certains modules foundation");
     recommendations.push("Rédiger scripts vidéo sur mesure avec objectifs, résumé et liens labs");
   }
 

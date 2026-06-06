@@ -44,7 +44,7 @@ const MODULE_THEORY: Record<string, Partial<AltMdmTheory>> = {
   "mdm-m08": {
     overview: ["Matrice de décision MDM pour choisir Jamf, Intune, Kandji, Mosyle, Addigy ou Workspace ONE."],
     concepts: COMPARISON_LINES,
-    enterprise: ["POC 30 jours sur 2 finalistes", "TCO placeholder €/device/mois × flotte × 3 ans"],
+    enterprise: ["POC 30 jours sur 2 finalistes", "TCO sur 3 ans : licence × flotte + temps admin + migration + formation"],
   },
 };
 

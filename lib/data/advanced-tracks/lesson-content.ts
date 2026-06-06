@@ -1,6 +1,7 @@
 import type { LessonContent } from "@/lib/types";
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
 import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
+import { buildAdvancedTheory } from "@/lib/data/shared/advanced-theory-builder";
 
 const MODULE_THEORY: Record<string, { overview: string[]; concepts: string[]; enterprise: string[] }> = {
   "j300-m01": {
@@ -56,33 +57,29 @@ const MODULE_THEORY: Record<string, { overview: string[]; concepts: string[]; en
   },
 };
 
-function defaultTheory(title: string, trackSlug: string): { overview: string[]; concepts: string[]; enterprise: string[] } {
+function defaultTheory(title: string, trackSlug: string, lessonSlug: string) {
+  const mod = allAdvancedModules.find((m) => m.slug === lessonSlug);
+  if (mod) return buildAdvancedTheory(mod);
   const domain = trackSlug.startsWith("jamf") ? "Jamf Pro" : trackSlug.startsWith("intune") ? "Microsoft Intune" : "Apple Platform";
-  return {
-    overview: [
-      `Module expert « ${title} » — approfondissement ${domain} en contexte enterprise.`,
-      "Cette leçon doit être abordée comme un scénario de production : cadrage du besoin, configuration pilote, observation, documentation et généralisation contrôlée.",
-      "L'objectif est de savoir expliquer le choix technique, pas seulement de reproduire une suite de clics.",
-    ],
-    concepts: [
-      "Appliquer le principe du moindre privilège : droits admin limités, secrets protégés, scopes lisibles et séparation des environnements.",
-      "Valider sur groupe pilote avant déploiement global, avec critères d'arrêt et rollback documentés.",
-      `Référencer la documentation officielle ${domain} et Apple Platform Deployment pour confirmer les versions OS, limites API et prérequis.`,
-      "Rendre le changement observable : logs MDM, état appareil, inventaire, alertes et retour utilisateur.",
-    ],
-    enterprise: [
-      "Intégrer SOC/IAM dans la conception : identité, conformité, réponse aux incidents et accès conditionnel doivent être alignés.",
-      "Prévoir rollback, exclusions et communication utilisateurs avant toute action sur un périmètre large.",
-      "Transformer la configuration finale en runbook : propriétaire, date, dépendances, procédure de test, procédure support et liens d'escalade.",
-    ],
-  };
+  return buildAdvancedTheory({
+    slug: lessonSlug,
+    title,
+    trackSlug,
+    quizSlug: "",
+    labSlug: null,
+    badgeId: "",
+    resourceSlug: "",
+    videoSlug: "",
+    quizCount: 20,
+    duration: "35 min",
+  });
 }
 
 export function getAdvancedLessonContent(lessonSlug: string): LessonContent | null {
   const mod = allAdvancedModules.find((m) => m.slug === lessonSlug);
   if (!mod) return null;
 
-  const theory = MODULE_THEORY[lessonSlug] ?? defaultTheory(mod.title, mod.trackSlug);
+  const theory = MODULE_THEORY[lessonSlug] ?? defaultTheory(mod.title, mod.trackSlug, lessonSlug);
 
   return {
     objectives: [
@@ -124,11 +121,19 @@ export function getAdvancedLessonContent(lessonSlug: string): LessonContent | nu
     troubleshooting: [
       {
         problem: "Policy ou configuration non appliquée",
-        solution: "Vérifier scope, check-in MDM, conflits de profils et logs serveur.",
+        solution: "Vérifier scope, check-in MDM (< 15 min), conflits de profils, ordre de priorité payloads et logs serveur.",
       },
       {
         problem: "Échec API ou webhook",
-        solution: "Valider token OAuth, URL HTTPS, authentification webhook et rate limits.",
+        solution: "Valider token OAuth non expiré, URL HTTPS, authentification webhook, rate limits et réponse 2xx du récepteur.",
+      },
+      {
+        problem: "Smart Group vide ou sur-peuplé",
+        solution: "Revoir critères AND/OR, Extension Attributes, version OS et membership LDAP. Tester sur 1 device connu.",
+      },
+      {
+        problem: "Check-in MDM expiré",
+        solution: "Vérifier connectivité réseau, certificat APNs, profil MDM installé et absence de wipe pending.",
       },
     ],
     finalQuizSlug: mod.quizSlug,

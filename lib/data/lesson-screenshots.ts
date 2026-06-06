@@ -13,9 +13,19 @@ import {
 
 function resolveTrackKey(courseSlug: string): string | undefined {
   if (TRACK_DEFAULT_SCREENSHOT_IDS[courseSlug]) return courseSlug;
+  if (courseSlug.startsWith("jamf-400")) return "jamf-400";
+  if (courseSlug.startsWith("jamf-300")) return "jamf-300";
   if (courseSlug.startsWith("jamf-200")) return "jamf-200";
   if (courseSlug.startsWith("jamf-170")) return "jamf-170";
   if (courseSlug.startsWith("jamf")) return "jamf-100";
+  if (courseSlug === "apple-enterprise-expert") return "apple-enterprise-expert";
+  if (courseSlug === "intune-apple-advanced") return "intune-apple-advanced";
+  if (courseSlug.startsWith("kandji")) return "kandji-fundamentals";
+  if (courseSlug.startsWith("mosyle")) return "mosyle-fundamentals";
+  if (courseSlug.startsWith("addigy")) return "addigy-fundamentals";
+  if (courseSlug.startsWith("workspace-one")) return "workspace-one-apple";
+  if (courseSlug.startsWith("mdm-comparatif")) return "mdm-comparatif-apple";
+  if (courseSlug === "parcours-professionnel") return "parcours-professionnel";
   return undefined;
 }
 
@@ -37,7 +47,7 @@ function generateGenericScreenshots(
       title: `${domain} — Vue principale`,
       description: `Console d'administration ${domain} pour « ${lesson.title} ».`,
       src: `${base}/01-console-principale.webp`,
-      caption: `Référence ${domain} — capture 1920×1080 à ajouter.`,
+      caption: `Référence ${domain} — console administration (1920×1080).`,
     },
     {
       id: `${lesson.slug}-2`,

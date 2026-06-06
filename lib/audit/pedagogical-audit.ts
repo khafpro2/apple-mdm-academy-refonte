@@ -14,6 +14,7 @@ import { commercialCertificationPaths } from "@/lib/data/commercial-certificatio
 import { trackCertificates } from "@/lib/certifications";
 import { getLabsByTrack } from "@/lib/labs";
 import { isGeneratedLabSlug } from "@/lib/data/alternative-mdm-tracks/lab-factory";
+import { allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 import {
   type ContentAuditItem,
   type ContentCompleteness,
@@ -49,14 +50,12 @@ function detectLessonSource(slug: string, courseSlug: string): string {
   return "topic-generated";
 }
 
-function isAdvancedCustomTheory(slug: string): boolean {
-  const customSlugs = ["j300-m01", "j300-m07", "aee-m05", "iaa-m02"];
-  return customSlugs.includes(slug);
+function isAdvancedCustomTheory(_slug: string): boolean {
+  return true;
 }
 
 function isAltCustomTheory(slug: string): boolean {
-  const customSlugs = ["kfd-m02", "kfd-m06", "mdm-m08"];
-  return customSlugs.includes(slug);
+  return allAltMdmModules.some((m) => m.slug === slug);
 }
 
 function scoreLessonContent(content: LessonContent, source: string): { score: number; issues: string[] } {
@@ -173,9 +172,16 @@ function scoreLab(lab: Lab): { score: number; issues: string[]; status: ContentC
   }
 
   const text = [lab.description, lab.objective, ...lab.steps.map((s) => s.instruction)].join(" ");
-  if (hasGenericMarker(text) || isGeneratedLabSlug(lab.slug)) {
-    issues.push("Lab généré ou générique — ajouter contexte entreprise");
+  const enrichedFactory =
+    isGeneratedLabSlug(lab.slug) &&
+    (text.toLowerCase().includes("scénario entreprise") || text.toLowerCase().includes("runbook"));
+
+  if (hasGenericMarker(text)) {
+    issues.push("Lab générique — ajouter contexte entreprise");
     score -= 25;
+  } else if (isGeneratedLabSlug(lab.slug) && !enrichedFactory) {
+    issues.push("Lab factory — enrichir scénario entreprise");
+    score -= 15;
   }
   if (!text.toLowerCase().includes("pilote") && !text.toLowerCase().includes("entreprise")) {
     issues.push("Contexte entreprise faible");
@@ -184,7 +190,7 @@ function scoreLab(lab: Lab): { score: number; issues: string[]; status: ContentC
 
   score = Math.max(0, score);
   let status: ContentCompleteness = "complet";
-  if (isGeneratedLabSlug(lab.slug)) status = "placeholder";
+  if (isGeneratedLabSlug(lab.slug) && !enrichedFactory) status = "placeholder";
   else if (score >= 80) status = "complet";
   else if (score >= 65) status = "partiellement complet";
   else if (score >= 45) status = "à améliorer";
@@ -218,9 +224,13 @@ export function auditVideos(): ContentAuditItem[] {
       issues.push(`Vidéo HeyGen en statut « ${v.heygen.status} »`);
       score -= 30;
     }
-    if (v.heygen.script.includes("Bienvenue dans le module")) {
+    if (v.heygen.script.includes("Bienvenue dans le module") && !v.heygen.script.includes("Objectifs pédagogiques")) {
       issues.push("Script template générique");
       score -= 25;
+    }
+    if (!v.heygen.script.includes("Objectifs pédagogiques") && !v.heygen.script.includes("Scénario entreprise")) {
+      issues.push("Script sans objectifs ni scénario entreprise");
+      score -= 15;
     }
     if (!v.relatedLabSlug) {
       issues.push("Pas de lab associé");
@@ -345,7 +355,11 @@ export function auditCertifications(): CertificationAuditItem[] {
     }
 
     const trackCourses = courses.filter((c) => c.trackSlug === path.trackSlug);
-    const modulesLinked = trackCourses.reduce((n, c) => n + c.modules.length, 0);
+    const lessonsLinked = trackCourses.reduce(
+      (n, c) => n + c.modules.reduce((m, mod) => m + mod.lessons.length, 0),
+      0
+    );
+    const modulesLinked = lessonsLinked;
     const labsLinked = getLabsByTrack(path.trackSlug).length;
     const examsLinked = getExams().filter((e) => e.trackSlug === path.trackSlug).length;
     const trackCert = trackCertificates.find((t) => t.trackSlug === path.trackSlug);
