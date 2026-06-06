@@ -21,6 +21,46 @@ export type SaveQuizResultPayload = {
   examMode?: boolean;
 };
 
+export type SaveVideoProgressPayload = {
+  videoSlug: string;
+  courseSlug: string;
+  currentSeconds: number;
+  completed: boolean;
+  durationSeconds: number;
+};
+
+export async function saveVideoProgressAction(
+  payload: SaveVideoProgressPayload
+): Promise<{ ok: boolean }> {
+  const user = await getUser();
+  if (!user) return { ok: false };
+
+  const supabase = await createClient();
+  if (!supabase) return { ok: false };
+
+  const score = payload.durationSeconds
+    ? Math.min(100, Math.round((payload.currentSeconds / payload.durationSeconds) * 100))
+    : payload.completed
+      ? 100
+      : 0;
+
+  const { error } = await supabase.from("lesson_progress").upsert(
+    {
+      user_id: user.id,
+      lesson_slug: `video:${payload.videoSlug}`,
+      course_slug: payload.courseSlug || "videos",
+      score: payload.completed ? 100 : score,
+      completed_at: payload.completed ? new Date().toISOString() : null,
+    },
+    { onConflict: "user_id,lesson_slug" }
+  );
+
+  if (error) return { ok: false };
+
+  revalidatePath("/dashboard");
+  return { ok: true };
+}
+
 export type SaveLabProgressPayload = {
   labSlug: string;
   trackSlug: string;

@@ -1,0 +1,69 @@
+{
+  "minSizeBytes": 1048576,
+  "videos": [
+    {
+      "slug": "apple-business-manager",
+      "filename": "apple-business-manager.mp4",
+      "title": "Comprendre Apple Business Manager",
+      "courseSlug": "apple-it-professional",
+      "labSlug": "abm-intune",
+      "resourceSlug": "checklist-abm"
+    },
+    {
+      "slug": "abm-intune",
+      "filename": "abm-intune.mp4",
+      "title": "Relier Apple Business Manager à Intune",
+      "courseSlug": "intune-mac",
+      "labSlug": "abm-intune",
+      "resourceSlug": "checklist-intune-enrollment"
+    },
+    {
+      "slug": "ade-iphone",
+      "filename": "automated-device-enrollment.mp4",
+      "title": "Comprendre Automated Device Enrollment",
+      "courseSlug": "intune-mac",
+      "labSlug": "ade-iphone",
+      "resourceSlug": "checklist-ade-iphone"
+    },
+    {
+      "slug": "apns",
+      "filename": "apns.mp4",
+      "title": "Comprendre APNs",
+      "courseSlug": "apple-it-professional",
+      "labSlug": "apns",
+      "resourceSlug": "apns-checklist"
+    },
+    {
+      "slug": "managed-apple-ids",
+      "filename": "managed-apple-ids.mp4",
+      "title": "Managed Apple IDs",
+      "courseSlug": "apple-it-professional",
+      "labSlug": "managed-apple-ids",
+      "resourceSlug": "managed-apple-ids-checklist"
+    },
+    {
+      "slug": "platform-sso",
+      "filename": "platform-sso.mp4",
+      "title": "Platform SSO",
+      "courseSlug": "intune-mac",
+      "labSlug": "platform-sso",
+      "resourceSlug": "platform-sso-checklist"
+    },
+    {
+      "slug": "jamf-pro-fundamentals",
+      "filename": "jamf-pro-fundamentals.mp4",
+      "title": "Découvrir Jamf Pro",
+      "courseSlug": "jamf-100",
+      "labSlug": "jamf-discovery",
+      "resourceSlug": "checklist-jamf-fundamentals"
+    },
+    {
+      "slug": "filevault",
+      "filename": "filevault.mp4",
+      "title": "FileVault",
+      "courseSlug": "apple-it-professional",
+      "labSlug": "filevault",
+      "resourceSlug": "filevault-checklist"
+    }
+  ]
+}

@@ -1,11 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { VideoTranscript } from "@/src/lib/video-transcripts";
+import { VideoTranscriptPanel } from "@/components/videos/VideoTranscriptPanel";
+import { saveVideoProgressAction } from "@/app/actions/progress";
 import {
   loadVideoProgress,
   saveLastContent,
   saveVideoProgress,
+  markVideoComplete,
+  subscribeVideoProgress,
 } from "@/lib/video/progress-storage";
 import { ProgressBar } from "@/components/ui";
 
@@ -16,6 +20,7 @@ type Props = {
   poster?: string;
   durationSeconds: number;
   durationLabel: string;
+  courseSlug: string;
   transcript?: VideoTranscript;
 };
 
@@ -32,19 +37,30 @@ export function OfficialVideoPlayer({
   poster,
   durationSeconds,
   durationLabel,
+  courseSlug,
   transcript,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [copied, setCopied] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [showTranscript, setShowTranscript] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const resumedRef = useRef(false);
+  const lastSyncRef = useRef(0);
 
   const savedProgress = useSyncExternalStore(
-    () => () => {},
+    subscribeVideoProgress,
     () => loadVideoProgress(slug),
     () => null
   );
+
+  const sceneStartTimes = useMemo(() => {
+    if (!transcript?.scenes.length) return undefined;
+    let elapsed = 0;
+    return transcript.scenes.map((s) => {
+      const start = elapsed;
+      elapsed += s.durationSeconds;
+      return start;
+    });
+  }, [transcript]);
 
   const progressPercent = durationSeconds
     ? Math.min(100, Math.round((currentTime / durationSeconds) * 100))
@@ -67,6 +83,7 @@ export function OfficialVideoPlayer({
     const applyResume = () => {
       if (resumeAt > 5 && resumeAt < durationSeconds * 0.98) {
         video.currentTime = resumeAt;
+        setCurrentTime(resumeAt);
       }
       resumedRef.current = true;
     };
@@ -78,6 +95,27 @@ export function OfficialVideoPlayer({
     }
   }, [savedProgress, durationSeconds]);
 
+  const syncToServer = useCallback(
+    async (seconds: number, completed: boolean) => {
+      const now = Date.now();
+      if (now - lastSyncRef.current < 15000 && !completed) return;
+      lastSyncRef.current = now;
+      setSyncing(true);
+      try {
+        await saveVideoProgressAction({
+          videoSlug: slug,
+          courseSlug,
+          currentSeconds: seconds,
+          completed,
+          durationSeconds,
+        });
+      } finally {
+        setSyncing(false);
+      }
+    },
+    [slug, courseSlug, durationSeconds]
+  );
+
   const persistProgress = useCallback(
     (seconds: number, completed: boolean) => {
       saveVideoProgress({
@@ -86,8 +124,9 @@ export function OfficialVideoPlayer({
         completed,
         updatedAt: Date.now(),
       });
+      void syncToServer(seconds, completed);
     },
-    [slug]
+    [slug, syncToServer]
   );
 
   const handleTimeUpdate = useCallback(() => {
@@ -102,16 +141,11 @@ export function OfficialVideoPlayer({
     setCurrentTime(durationSeconds);
   }, [durationSeconds, persistProgress]);
 
-  const copyTranscript = useCallback(async () => {
-    if (!transcript) return;
-    try {
-      await navigator.clipboard.writeText(transcript.fullText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* ignore */
-    }
-  }, [transcript]);
+  const handleMarkComplete = useCallback(() => {
+    markVideoComplete(slug, durationSeconds);
+    setCurrentTime(durationSeconds);
+    void syncToServer(durationSeconds, true);
+  }, [slug, durationSeconds, syncToServer]);
 
   return (
     <div className="space-y-4">
@@ -136,56 +170,36 @@ export function OfficialVideoPlayer({
               {formatTime(currentTime)} / {formatTime(durationSeconds)}
             </span>
             {savedProgress && savedProgress.currentSeconds > 5 && !savedProgress.completed && (
-              <span className="text-xs text-ink-tertiary">Reprise automatique activée</span>
+              <span className="text-xs text-ink-tertiary">Reprise automatique</span>
             )}
             {savedProgress?.completed && (
               <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
                 Terminée
               </span>
             )}
+            {syncing && <span className="text-xs text-ink-tertiary">Sync cloud…</span>}
             <span className="ml-auto font-medium text-accent">{progressPercent}%</span>
           </div>
           <ProgressBar value={progressPercent} className="mt-3" />
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={handleMarkComplete}
+              className="rounded-lg border border-border-light px-3 py-1.5 text-xs font-semibold text-ink-secondary hover:bg-surface"
+            >
+              Marquer comme terminée
+            </button>
+          </div>
         </div>
       </div>
 
       {transcript && (
-        <section className="rounded-2xl border border-border-light bg-surface-elevated p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <button
-              type="button"
-              onClick={() => setShowTranscript(!showTranscript)}
-              className="font-bold text-ink"
-            >
-              Transcript {showTranscript ? "−" : "+"}
-            </button>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={copyTranscript}
-                className="rounded-lg border border-border-light px-3 py-1.5 text-sm font-medium text-ink-secondary hover:bg-surface"
-              >
-                {copied ? "Copié ✓" : "Copier transcript"}
-              </button>
-              <a
-                href={`/transcripts#${slug}`}
-                className="rounded-lg border border-border-light px-3 py-1.5 text-sm font-medium text-ink-secondary hover:bg-surface"
-              >
-                Voir dans /transcripts
-              </a>
-            </div>
-          </div>
-          {showTranscript && (
-            <div className="mt-4 max-h-96 space-y-4 overflow-y-auto rounded-xl bg-surface p-5">
-              {transcript.scenes.map((scene, i) => (
-                <div key={i}>
-                  <p className="text-xs font-semibold uppercase text-accent">{scene.title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-secondary">{scene.text}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+        <VideoTranscriptPanel
+          transcript={transcript}
+          slug={slug}
+          currentTime={currentTime}
+          sceneStartTimes={sceneStartTimes}
+        />
       )}
     </div>
   );

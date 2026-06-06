@@ -244,6 +244,8 @@ export const OFFICIAL_LMS_VIDEOS: OfficialVideoMeta[] = [
   },
 ];
 
+export const PILOT_VIDEO_SLUGS = OFFICIAL_LMS_VIDEOS.map((v) => v.slug);
+
 /** Overrides manuels production (narration, montage, publication) */
 export const VIDEO_PRODUCTION_OVERRIDES: Partial<
   Record<string, Partial<VideoProductionFlags> & { status?: VideoProductionStatus }>
@@ -465,12 +467,26 @@ function resolveFlags(
   };
 }
 
+export function isReadyToPublishRecord(
+  meta: OfficialVideoMeta,
+  storyboard: VideoStoryboard | undefined,
+  mp4Available: boolean
+): boolean {
+  if (!mp4Available) return false;
+  if (!hasValidTranscript(storyboard)) return false;
+  if (!hasValidResource(meta)) return false;
+  if (!meta.courseSlug || !meta.labSlug) return false;
+  return true;
+}
+
 function resolveStatus(
   flags: VideoProductionFlags,
   mp4Available: boolean,
-  publishOk: boolean
+  publishOk: boolean,
+  readyToPublish: boolean
 ): VideoProductionStatus {
   if (publishOk && mp4Available) return "published";
+  if (readyToPublish) return "ready-to-publish";
   if (flags.editingReady) return "ready-to-publish";
   if (flags.voiceReady) return "editing";
   if (flags.screenshotsReady) return "screenshots-ready";
@@ -525,8 +541,14 @@ export function buildVideoProductionRecord(
     { slug: meta.slug, resourceSlug: meta.resourceSlug, hasStoryboard, hasTranscript, score },
     { mp4Available, videoUrl: options?.mp4Url }
   );
+  const readyToPublish = isReadyToPublishRecord(meta, storyboard, mp4Available);
   const overrideStatus = VIDEO_PRODUCTION_OVERRIDES[meta.slug]?.status;
-  const status = overrideStatus ?? resolveStatus(flags, mp4Available, publish.ok);
+  let status = resolveStatus(flags, mp4Available, publish.ok, readyToPublish);
+  if (overrideStatus === "published") {
+    status = publish.ok ? "published" : readyToPublish ? "ready-to-publish" : status;
+  } else if (overrideStatus) {
+    status = overrideStatus;
+  }
 
   const publishBlockers = publish.blockers;
 

@@ -19,10 +19,13 @@ import type { VideoTranscript } from "@/src/lib/video-transcripts";
 import type { VideoCourseNotes } from "@/src/lib/video-production";
 import { getCertificationHref } from "@/src/lib/video-production";
 import { downloadVideoNotesPdf } from "@/lib/video/export-notes-pdf";
+import { VideoPreparationMode } from "@/components/videos/VideoPreparationMode";
+import { cleanHeyGenScript } from "@/src/lib/video-production-pack";
 import {
   loadVideoProgress,
   saveLastContent,
   saveVideoProgress,
+  subscribeVideoProgress,
 } from "@/lib/video/progress-storage";
 
 const ANIMATION_BY_SLUG: Partial<Record<string, AnimationSlug>> = {
@@ -52,6 +55,7 @@ type Props = {
   courseNotes?: VideoCourseNotes;
   certificationLabel?: string;
   certificationSlug?: string;
+  missingCaptureFiles?: string[];
 };
 
 export function AnimatedLesson({
@@ -62,6 +66,7 @@ export function AnimatedLesson({
   courseNotes,
   certificationLabel,
   certificationSlug,
+  missingCaptureFiles = [],
 }: Props) {
   const [playing, setPlaying] = useState(false);
   const [simTime, setSimTime] = useState(0);
@@ -73,7 +78,7 @@ export function AnimatedLesson({
   const heygenScript = script?.script ?? storyboard.narration;
 
   const savedProgress = useSyncExternalStore(
-    () => () => {},
+    subscribeVideoProgress,
     () => loadVideoProgress(storyboard.slug),
     () => null
   );
@@ -125,7 +130,7 @@ export function AnimatedLesson({
 
   const copyScript = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(heygenScript);
+      await navigator.clipboard.writeText(cleanHeyGenScript(heygenScript));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -182,26 +187,27 @@ export function AnimatedLesson({
             poster={assetPack?.thumbnailPath}
             durationSeconds={durationSeconds}
             durationLabel={storyboard.duration}
+            courseSlug={storyboard.courseSlug}
             transcript={transcript}
           />
         ) : (
-          <>
-            {storyboard.status === "published" && storyboard.videoUrl && (
-              <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
-                <video
-                  src={storyboard.videoUrl}
-                  controls
-                  className="aspect-video w-full"
-                  poster={assetPack?.thumbnailPath}
-                >
-                  Votre navigateur ne supporte pas la lecture vidéo.
-                </video>
-                <p className="border-t border-border-light bg-surface-elevated px-5 py-3 text-sm text-ink-secondary">
-                  Vidéo publiée · {getVideoPublishLabel(storyboard.status)}
-                </p>
-              </div>
-            )}
+          <VideoPreparationMode
+            storyboard={storyboard}
+            heygenScript={heygenScript}
+            missingCaptureFiles={missingCaptureFiles}
+            onExportProductionPack={exportProductionPack}
+            onExportStoryboard={exportMarkdown}
+          />
+        )}
 
+        {!hasOfficialMp4 && (
+          <div className="overflow-hidden rounded-2xl border border-dashed border-border-light bg-surface p-4 text-center text-sm text-ink-tertiary">
+            Aperçu storyboard animé — lecture simulée
+          </div>
+        )}
+
+        {!hasOfficialMp4 && (
+          <>
             <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
               {animationSlug ? (
                 <PedagogicalAnimation slug={animationSlug} playing={playing} progress={animProgress} />

@@ -7,9 +7,16 @@ import { getVideoScript, getVideoScriptSlugs } from "@/src/lib/video-scripts";
 import { getVideo } from "@/lib/data/videos";
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
 import { enrichStoryboardWithPublishMeta } from "@/src/lib/video-publish-status";
-import { resolvePublishableMp4Url } from "@/src/lib/video-production.server";
-import { getOfficialVideo, getVideoCourseNotes } from "@/src/lib/video-production";
+import {
+  resolveMp4Url,
+  resolvePublishableMp4Url,
+} from "@/src/lib/video-production.server";
+import {
+  getOfficialVideo,
+  getVideoCourseNotes,
+} from "@/src/lib/video-production";
 import { getVideoTranscript } from "@/src/lib/video-transcripts";
+import { getScreenshotsForVideo } from "@/src/lib/video-screenshots";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,6 +35,12 @@ export async function generateMetadata({ params }: Props) {
   return { title, description };
 }
 
+function getMissingCaptureFiles(slug: string, validFiles: Set<string>): string[] {
+  return getScreenshotsForVideo(slug)
+    .filter((s) => !validFiles.has(s.file))
+    .map((s) => s.file);
+}
+
 export default async function VideoDetailPage({ params }: Props) {
   const { slug } = await params;
   const rawStoryboard = getVideoStoryboard(slug);
@@ -36,20 +49,27 @@ export default async function VideoDetailPage({ params }: Props) {
 
   if (!rawStoryboard && !legacyVideo) notFound();
 
-  const mp4Url = resolvePublishableMp4Url(slug);
+  const inventory = await getScreenshotInventoryAsync();
+  const validFiles = getValidScreenshotFiles(inventory);
+  const mp4Url = resolveMp4Url(slug);
+  const publishableMp4Url = resolvePublishableMp4Url(slug);
   const official = getOfficialVideo(slug);
   const transcript = getVideoTranscript(slug);
   const courseNotes = getVideoCourseNotes(slug);
+  const missingCaptureFiles = getMissingCaptureFiles(slug, validFiles);
 
   let storyboard = rawStoryboard;
   if (rawStoryboard) {
-    const inventory = await getScreenshotInventoryAsync();
-    const validFiles = getValidScreenshotFiles(inventory);
     storyboard = enrichStoryboardWithPublishMeta(rawStoryboard, { validScreenshotFiles: validFiles });
-    if (mp4Url) {
+    if (publishableMp4Url) {
       storyboard = {
         ...storyboard,
         status: "published",
+        videoUrl: publishableMp4Url,
+      };
+    } else if (mp4Url) {
+      storyboard = {
+        ...storyboard,
         videoUrl: mp4Url,
       };
     }
@@ -67,6 +87,7 @@ export default async function VideoDetailPage({ params }: Props) {
             courseNotes={courseNotes}
             certificationLabel={official?.certificationLabel}
             certificationSlug={official?.certificationSlug}
+            missingCaptureFiles={missingCaptureFiles}
           />
         ) : legacyVideo ? (
           <PremiumVideoPlayer key={legacyVideo.slug} video={legacyVideo} />

@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { saveLessonProgress } from "@/app/actions/progress";
 import { trackEvent } from "@/lib/analytics/events";
 import type { Question } from "@/lib/types";
 import { Button } from "@/components/ui";
+
+const LESSON_COMPLETION_EVENT = "apple-mdm-lesson-completion-change";
 
 export type ScoreFeedback = {
   title: string;
@@ -277,23 +279,45 @@ export function LessonActions({
 export function useLessonCompletion(storageKey: string, lessonSlug?: string) {
   const resolvedSlug =
     lessonSlug ?? storageKey.match(/^lesson-(.+)-complete$/)?.[1];
-  const [markedComplete, setMarkedComplete] = useState(() => {
-    if (typeof window === "undefined") return false;
+
+  const markedComplete = useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof window === "undefined") return () => {};
+      window.addEventListener("storage", onStoreChange);
+      window.addEventListener(LESSON_COMPLETION_EVENT, onStoreChange);
+      return () => {
+        window.removeEventListener("storage", onStoreChange);
+        window.removeEventListener(LESSON_COMPLETION_EVENT, onStoreChange);
+      };
+    },
+    () => {
+      if (typeof window === "undefined") return false;
+      try {
+        return localStorage.getItem(storageKey) === "true";
+      } catch {
+        return false;
+      }
+    },
+    () => false
+  );
+
+  function notifyCompletionChange() {
+    if (typeof window === "undefined") return;
     try {
-      return localStorage.getItem(storageKey) === "true";
+      window.dispatchEvent(new Event(LESSON_COMPLETION_EVENT));
     } catch {
-      return false;
+      /* ignore */
     }
-  });
+  }
 
   function markComplete(quizScore: number, passingScore = 80) {
     if (quizScore < passingScore) return;
-    setMarkedComplete(true);
     try {
       localStorage.setItem(storageKey, "true");
     } catch {
       /* ignore */
     }
+    notifyCompletionChange();
     if (resolvedSlug) {
       void saveLessonProgress({ lessonSlug: resolvedSlug, score: quizScore });
       trackEvent("module_termine", { lesson: resolvedSlug });

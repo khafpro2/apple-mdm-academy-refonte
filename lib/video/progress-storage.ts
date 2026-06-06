@@ -1,4 +1,4 @@
-/** Progression et notes vidéo — localStorage côté client */
+/** Progression vidéo — localStorage + sync Supabase optionnelle */
 
 export type VideoProgress = {
   videoSlug: string;
@@ -18,6 +18,7 @@ export type VideoNote = {
 const PROGRESS_PREFIX = "apple-mdm-video-progress-";
 const NOTES_PREFIX = "apple-mdm-video-notes-";
 const LAST_CONTENT_KEY = "apple-mdm-last-content";
+export const VIDEO_PROGRESS_EVENT = "apple-mdm-video-progress-updated";
 
 export type LastContent = {
   type: "video" | "lesson" | "lab";
@@ -26,6 +27,17 @@ export type LastContent = {
   href: string;
   updatedAt: number;
 };
+
+export function subscribeVideoProgress(onStoreChange: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const handler = () => onStoreChange();
+  window.addEventListener(VIDEO_PROGRESS_EVENT, handler);
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(VIDEO_PROGRESS_EVENT, handler);
+    window.removeEventListener("storage", handler);
+  };
+}
 
 export function loadVideoProgress(videoSlug: string): VideoProgress | null {
   if (typeof window === "undefined") return null;
@@ -40,6 +52,16 @@ export function loadVideoProgress(videoSlug: string): VideoProgress | null {
 export function saveVideoProgress(progress: VideoProgress): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(`${PROGRESS_PREFIX}${progress.videoSlug}`, JSON.stringify(progress));
+  window.dispatchEvent(new CustomEvent(VIDEO_PROGRESS_EVENT));
+}
+
+export function markVideoComplete(videoSlug: string, durationSeconds: number): void {
+  saveVideoProgress({
+    videoSlug,
+    currentSeconds: durationSeconds,
+    completed: true,
+    updatedAt: Date.now(),
+  });
 }
 
 export function loadVideoNotes(videoSlug: string): VideoNote[] {
@@ -60,6 +82,7 @@ export function saveVideoNotes(videoSlug: string, notes: VideoNote[]): void {
 export function saveLastContent(content: LastContent): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(LAST_CONTENT_KEY, JSON.stringify(content));
+  window.dispatchEvent(new CustomEvent(VIDEO_PROGRESS_EVENT));
 }
 
 export function loadLastContent(): LastContent | null {
@@ -109,4 +132,27 @@ export function formatWatchTime(minutes: number): string {
 export function getContinueVideoProgress(): VideoProgress | null {
   const inProgress = loadAllVideoProgress().filter((p) => !p.completed && p.currentSeconds > 10);
   return inProgress[0] ?? null;
+}
+
+export function getGlobalVideoProgressPercent(
+  durationBySlug: Record<string, number>,
+  totalVideos: number
+): number {
+  if (totalVideos === 0) return 0;
+  const progress = loadAllVideoProgress();
+  let sum = 0;
+  for (const p of progress) {
+    const duration = durationBySlug[p.videoSlug];
+    if (!duration) continue;
+    sum += p.completed ? 100 : Math.min(100, Math.round((p.currentSeconds / duration) * 100));
+  }
+  return Math.round(sum / totalVideos);
+}
+
+export function getStartedVideoCount(): number {
+  return loadAllVideoProgress().filter((p) => p.currentSeconds > 0 || p.completed).length;
+}
+
+export function getCompletedVideoCount(): number {
+  return loadAllVideoProgress().filter((p) => p.completed).length;
 }

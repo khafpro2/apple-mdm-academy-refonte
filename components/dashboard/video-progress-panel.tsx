@@ -9,6 +9,10 @@ import {
   getContinueVideoProgress,
   getTotalWatchMinutes,
   formatWatchTime,
+  subscribeVideoProgress,
+  getGlobalVideoProgressPercent,
+  getStartedVideoCount,
+  getCompletedVideoCount,
 } from "@/lib/video/progress-storage";
 import { ProgressBar } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
@@ -33,17 +37,17 @@ function moduleLogo(module: string): LogoName {
 
 export function VideoProgressPanel() {
   const progressList = useSyncExternalStore(
-    () => () => {},
+    subscribeVideoProgress,
     () => loadAllVideoProgress(),
     () => []
   );
   const lastContent = useSyncExternalStore(
-    () => () => {},
+    subscribeVideoProgress,
     () => loadLastContent(),
     () => null
   );
   const continueVideo = useSyncExternalStore(
-    () => () => {},
+    subscribeVideoProgress,
     () => getContinueVideoProgress(),
     () => null
   );
@@ -53,9 +57,25 @@ export function VideoProgressPanel() {
     () => Object.fromEntries(allLessons.map((l) => [l.slug, l.durationSeconds])),
     [allLessons]
   );
+
   const totalWatchMinutes = useSyncExternalStore(
-    () => () => {},
+    subscribeVideoProgress,
     () => getTotalWatchMinutes(durationBySlug),
+    () => 0
+  );
+  const globalPercent = useSyncExternalStore(
+    subscribeVideoProgress,
+    () => getGlobalVideoProgressPercent(durationBySlug, allLessons.length),
+    () => 0
+  );
+  const startedCount = useSyncExternalStore(
+    subscribeVideoProgress,
+    () => getStartedVideoCount(),
+    () => 0
+  );
+  const completedCount = useSyncExternalStore(
+    subscribeVideoProgress,
+    () => getCompletedVideoCount(),
     () => 0
   );
 
@@ -65,8 +85,8 @@ export function VideoProgressPanel() {
     ? allLessons.find((l) => l.slug === continueVideo.videoSlug)
     : null;
 
-  const completedCount = progressList.filter((p) => p.completed).length;
   const inProgress = progressList.filter((p) => !p.completed && p.currentSeconds > 0);
+  const completedVideos = progressList.filter((p) => p.completed);
 
   return (
     <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
@@ -75,7 +95,8 @@ export function VideoProgressPanel() {
           <p className="text-sm font-semibold uppercase tracking-wider text-ink-tertiary">Vidéos illustrées</p>
           <h2 className="text-lg font-bold text-ink">Progression vidéos</h2>
           <p className="mt-1 text-sm text-ink-secondary">
-            {completedCount}/{allLessons.length} terminées · {formatWatchTime(totalWatchMinutes)} de formation
+            {completedCount}/{allLessons.length} terminées · {startedCount} commencées ·{" "}
+            {formatWatchTime(totalWatchMinutes)} de formation
           </p>
         </div>
         <Link href="/videos" className="text-sm font-semibold text-accent hover:underline">
@@ -83,9 +104,17 @@ export function VideoProgressPanel() {
         </Link>
       </div>
 
+      <div className="mt-5">
+        <div className="flex justify-between text-xs text-ink-tertiary">
+          <span>Progression globale</span>
+          <span>{globalPercent}%</span>
+        </div>
+        <ProgressBar value={globalPercent} className="mt-2" />
+      </div>
+
       {continueLesson && continueVideo && (
         <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/10 p-4">
-          <p className="text-xs font-semibold uppercase text-accent">Continuer la vidéo</p>
+          <p className="text-xs font-semibold uppercase text-accent">Reprendre la dernière vidéo</p>
           <Link href={`/videos/${continueLesson.slug}`} className="mt-1 block font-bold text-ink hover:text-accent">
             {continueLesson.title}
           </Link>
@@ -106,19 +135,45 @@ export function VideoProgressPanel() {
           <Link href={`/videos/${lastVideo.slug}`} className="mt-1 block font-bold text-ink hover:text-accent">
             {lastVideo.title}
           </Link>
-          <p className="text-xs text-ink-tertiary">{lastVideo.module} · {lastVideo.duration}</p>
+          <p className="text-xs text-ink-tertiary">
+            {lastVideo.module} · {lastVideo.duration}
+          </p>
+        </div>
+      )}
+
+      {completedVideos.length > 0 && (
+        <div className="mt-6 space-y-3">
+          <h3 className="text-sm font-bold text-ink">Vidéos terminées ({completedVideos.length})</h3>
+          {completedVideos.slice(0, 3).map((p) => {
+            const lesson = allLessons.find((l) => l.slug === p.videoSlug);
+            if (!lesson) return null;
+            return (
+              <Link
+                key={p.videoSlug}
+                href={`/videos/${p.videoSlug}`}
+                className="flex items-center justify-between rounded-xl bg-surface p-3 hover:bg-surface-elevated"
+              >
+                <span className="text-sm font-medium text-ink">{lesson.title}</span>
+                <span className="text-xs font-semibold text-green-700">100%</span>
+              </Link>
+            );
+          })}
         </div>
       )}
 
       {inProgress.length > 0 && (
         <div className="mt-6 space-y-3">
-          <h3 className="text-sm font-bold text-ink">En cours</h3>
+          <h3 className="text-sm font-bold text-ink">Vidéos commencées</h3>
           {inProgress.slice(0, 3).map((p) => {
             const lesson = allLessons.find((l) => l.slug === p.videoSlug);
             if (!lesson) return null;
             const pct = Math.round((p.currentSeconds / lesson.durationSeconds) * 100);
             return (
-              <Link key={p.videoSlug} href={`/videos/${p.videoSlug}`} className="block rounded-xl bg-surface p-3 hover:bg-surface-elevated">
+              <Link
+                key={p.videoSlug}
+                href={`/videos/${p.videoSlug}`}
+                className="block rounded-xl bg-surface p-3 hover:bg-surface-elevated"
+              >
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-ink">{lesson.title}</span>
                   <span className="text-ink-tertiary">{pct}%</span>
@@ -142,7 +197,9 @@ export function VideoProgressPanel() {
               <TrackLogo logo={moduleLogo(lesson.module)} size={22} alt={lesson.module} className="h-9 w-9" />
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-ink">{lesson.title}</p>
-                <p className="text-xs text-ink-tertiary">{lesson.duration} · {lesson.scenes.length} scènes</p>
+                <p className="text-xs text-ink-tertiary">
+                  {lesson.duration} · {lesson.scenes.length} scènes
+                </p>
               </div>
             </Link>
           ))}
