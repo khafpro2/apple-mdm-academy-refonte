@@ -44,6 +44,12 @@ export default async function AdminPage() {
             Production vidéo
           </Link>
           <Link
+            href="/admin/media-production-plan"
+            className="rounded-full border border-amber-300 bg-amber-50 px-5 py-2 text-sm font-semibold text-amber-900 hover:bg-amber-100"
+          >
+            Plan médias
+          </Link>
+          <Link
             href="/admin/video-pipeline"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

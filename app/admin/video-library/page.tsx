@@ -7,6 +7,8 @@ import { requireAdmin } from "@/lib/supabase/admin";
 import { getAllVideoLibraryRecords } from "@/src/lib/video-production";
 import { getMp4AvailabilityMap, getMp4UrlMap } from "@/src/lib/video-production.server";
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
+import { MediaRequiredBanner } from "@/components/admin/media-required-banner";
+import { getMediaProductionStatus } from "@/src/lib/media-production-status.server";
 
 export const metadata = { title: "Bibliothèque vidéo", robots: { index: false, follow: false } };
 
@@ -28,6 +30,7 @@ export default async function VideoLibraryAdminPage() {
   const published = records.filter((r) => r.status === "published").length;
   const mp4Present = Object.values(mp4Map).filter(Boolean).length;
   const readyToPublish = records.filter((r) => r.status === "ready-to-publish").length;
+  const mediaStatus = getMediaProductionStatus();
 
   return (
     <PageShell>
@@ -39,6 +42,9 @@ export default async function VideoLibraryAdminPage() {
             description={`${records.length} vidéos · ${published} publiées · ${readyToPublish} prêtes · ${mp4Present} MP4`}
           />
           <div className="flex flex-wrap gap-3">
+            <Link href="/admin/media-production-plan" className="text-sm font-semibold text-accent hover:underline">
+              Plan médias →
+            </Link>
             <Link href="/admin/video-pipeline" className="text-sm font-semibold text-accent hover:underline">
               Pipeline →
             </Link>
@@ -50,6 +56,13 @@ export default async function VideoLibraryAdminPage() {
             </Link>
           </div>
         </div>
+
+        <MediaRequiredBanner
+          mp4Present={mediaStatus.mp4Present}
+          mp4Total={mediaStatus.mp4Total}
+          capturesPresent={mediaStatus.capturesPresent}
+          capturesTotal={mediaStatus.capturesTotal}
+        />
 
         <div className="mb-8 grid gap-4 sm:grid-cols-4">
           <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">

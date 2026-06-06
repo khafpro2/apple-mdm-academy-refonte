@@ -16,6 +16,8 @@ import {
 import { getMp4AvailabilityMap, getMp4UrlMap } from "@/src/lib/video-production.server";
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
 import { VideoPipelineExportButton } from "@/components/admin/video-pipeline-export-button";
+import { MediaRequiredBanner } from "@/components/admin/media-required-banner";
+import { getMediaProductionStatus } from "@/src/lib/media-production-status.server";
 
 export const metadata = { title: "Pipeline vidéo", robots: { index: false, follow: false } };
 
@@ -47,6 +49,8 @@ export default async function VideoPipelineAdminPage() {
     mp4UrlBySlug: mp4UrlMap,
   });
 
+  const mediaStatus = getMediaProductionStatus();
+
   const avgPercent = Math.round(records.reduce((s, r) => s + r.pipelinePercent, 0) / records.length);
   const publishedCount = records.filter((r) => r.status === "published").length;
   const qualityComplete = records.filter((r) => r.quality.complete).length;
@@ -62,6 +66,9 @@ export default async function VideoPipelineAdminPage() {
           />
           <div className="flex flex-wrap items-center gap-3">
             <VideoPipelineExportButton records={records} presentScreenshotFiles={[...validFiles]} />
+            <Link href="/admin/media-production-plan" className="text-sm font-semibold text-accent hover:underline">
+              Plan médias →
+            </Link>
             <Link href="/admin/video-pipeline/production-packs" className="text-sm font-semibold text-accent hover:underline">
               Production packs →
             </Link>
@@ -76,6 +83,13 @@ export default async function VideoPipelineAdminPage() {
             </Link>
           </div>
         </div>
+
+        <MediaRequiredBanner
+          mp4Present={mediaStatus.mp4Present}
+          mp4Total={mediaStatus.mp4Total}
+          capturesPresent={mediaStatus.capturesPresent}
+          capturesTotal={mediaStatus.capturesTotal}
+        />
 
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Progression moyenne" value={`${avgPercent} %`} highlight />
