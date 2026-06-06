@@ -62,6 +62,9 @@ export default async function VideoPipelineAdminPage() {
           />
           <div className="flex flex-wrap items-center gap-3">
             <VideoPipelineExportButton records={records} presentScreenshotFiles={[...validFiles]} />
+            <Link href="/admin/video-pipeline/production-packs" className="text-sm font-semibold text-accent hover:underline">
+              Production packs →
+            </Link>
             <Link href="/admin/video-library" className="text-sm font-semibold text-accent hover:underline">
               Bibliothèque →
             </Link>
@@ -164,7 +167,7 @@ export default async function VideoPipelineAdminPage() {
 
                 {!record.canPublish && record.publishBlockers.length > 0 && (
                   <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-900">
-                    <p className="font-semibold">Impossible de publier : éléments manquants</p>
+                    <p className="font-semibold">Publication impossible — éléments manquants</p>
                     <ul className="mt-2 list-disc pl-5">
                       {record.publishBlockers.map((b) => (
                         <li key={b.id}>{b.label}</li>

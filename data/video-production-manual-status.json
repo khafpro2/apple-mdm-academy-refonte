@@ -1,0 +1,69 @@
+{
+  "description": "État initial checklist production manuelle — synchronisé via localStorage dans /admin/video-pipeline/production-packs",
+  "videos": {
+    "apple-business-manager": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "abm-intune": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "ade-iphone": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "apns": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "managed-apple-ids": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "platform-sso": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "jamf-pro-fundamentals": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    },
+    "filevault": {
+      "scriptExported": false,
+      "capturesProduced": false,
+      "narrationGenerated": false,
+      "editingComplete": false,
+      "mp4Added": false,
+      "published": false
+    }
+  }
+}

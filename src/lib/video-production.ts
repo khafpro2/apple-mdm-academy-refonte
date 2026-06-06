@@ -61,7 +61,7 @@ export type VideoPipelineScore = {
 };
 
 export type PublishBlocker = {
-  id: "storyboard" | "transcript" | "resource" | "mp4" | "videoUrl";
+  id: "storyboard" | "transcript" | "resource" | "script" | "captures" | "mp4" | "videoUrl";
   label: string;
 };
 
@@ -82,7 +82,7 @@ export const MANUAL_PIPELINE_ACTIONS = [
   "Générer la narration HeyGen (script sur /videos/[slug])",
   "Monter la vidéo dans CapCut ou Screen Studio",
   "Exporter en MP4 1080p H.264",
-  "Déposer dans /public/videos/{alias}.mp4",
+  "Déposer dans /public/videos/{slug-canonical}.mp4 (ex. apple-business-manager.mp4)",
   "Relancer : node scripts/check-video-screenshots.mjs",
 ] as const;
 
@@ -272,9 +272,26 @@ export function getProductionStatusLabel(status: VideoProductionStatus): string 
   return STATUS_LABELS[status];
 }
 
+/** Noms MP4 canoniques dans /public/videos/ */
+export const OFFICIAL_MP4_FILENAMES: Record<string, string> = {
+  "apple-business-manager": "apple-business-manager.mp4",
+  "abm-intune": "abm-intune.mp4",
+  "ade-iphone": "automated-device-enrollment.mp4",
+  apns: "apns.mp4",
+  "managed-apple-ids": "managed-apple-ids.mp4",
+  "platform-sso": "platform-sso.mp4",
+  "jamf-pro-fundamentals": "jamf-pro-fundamentals.mp4",
+  filevault: "filevault.mp4",
+};
+
+export function getOfficialMp4Path(slug: string): string {
+  const filename = OFFICIAL_MP4_FILENAMES[slug] ?? `${slug}.mp4`;
+  return `/videos/${filename}`;
+}
+
 export function getMp4Candidates(slug: string): string[] {
+  const paths = [getOfficialMp4Path(slug), `/videos/${slug}.mp4`];
   const official = OFFICIAL_LMS_VIDEOS.find((v) => v.slug === slug);
-  const paths = [`/videos/${slug}.mp4`];
   if (official?.mp4Alias) paths.push(`/videos/${official.mp4Alias}.mp4`);
   return [...new Set(paths)];
 }
@@ -367,6 +384,9 @@ export function getPublishBlockers(
   if (!record.hasStoryboard) {
     blockers.push({ id: "storyboard", label: "Storyboard absent ou incomplet (< 5 scènes)" });
   }
+  if (!record.score.script) {
+    blockers.push({ id: "script", label: "Script HeyGen absent ou incomplet" });
+  }
   if (!record.hasTranscript) {
     blockers.push({ id: "transcript", label: "Transcript absent ou trop court" });
   }
@@ -376,8 +396,11 @@ export function getPublishBlockers(
       label: `Ressource associée absente (${record.resourceSlug ?? "resourceSlug non défini"})`,
     });
   }
+  if (!record.score.captures) {
+    blockers.push({ id: "captures", label: "Captures requises absentes (.webp 1920×1080)" });
+  }
   if (!options?.mp4Available) {
-    blockers.push({ id: "mp4", label: "Fichier MP4 absent dans /public/videos/" });
+    blockers.push({ id: "mp4", label: `Fichier MP4 absent (${getOfficialMp4Path(record.slug)})` });
   }
   if (options?.mp4Available && !options?.videoUrl) {
     blockers.push({ id: "videoUrl", label: "videoUrl non résolu malgré MP4 détecté" });
@@ -395,7 +418,7 @@ export function canPublishVideo(
   }
   return {
     ok: false,
-    message: "Impossible de publier : éléments manquants",
+    message: "Publication impossible — éléments manquants",
     blockers,
   };
 }

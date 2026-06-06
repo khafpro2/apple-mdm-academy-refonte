@@ -2,44 +2,25 @@
 
 Déposer les exports montés ici (1080p · H.264 · MP4).
 
-## Nommage
-
-Deux conventions acceptées :
+## Noms canoniques (8 vidéos officielles)
 
 ```
-/public/videos/{slug}.mp4
-/public/videos/{alias}.mp4
+/public/videos/apple-business-manager.mp4
+/public/videos/abm-intune.mp4
+/public/videos/automated-device-enrollment.mp4
+/public/videos/apns.mp4
+/public/videos/managed-apple-ids.mp4
+/public/videos/platform-sso.mp4
+/public/videos/jamf-pro-fundamentals.mp4
+/public/videos/filevault.mp4
 ```
 
-## 8 vidéos officielles prioritaires
+Les alias legacy (`abm.mp4`, `ade.mp4`, etc.) restent acceptés en fallback.
 
-| Fichier alias | Slug LMS |
-|---------------|----------|
-| `abm.mp4` | apple-business-manager |
-| `abm-intune.mp4` | abm-intune |
-| `ade.mp4` | ade-iphone |
-| `apns.mp4` | apns |
-| `managed-apple-id.mp4` | managed-apple-ids |
-| `platform-sso.mp4` | platform-sso |
-| `jamf-pro.mp4` | jamf-pro-fundamentals |
-| `filevault.mp4` | filevault |
+## Production
 
-Le lecteur résout automatiquement le premier fichier MP4 trouvé (`resolveMp4Url`).
+1. Production packs : `/admin/video-pipeline/production-packs`
+2. Guide workflow : `/resources/heygen-screen-studio-workflow`
+3. Vérifier captures : `node scripts/check-video-screenshots.mjs`
 
-## Pipeline publication
-
-1. Storyboards → `/videos/[slug]`
-2. Captures → `/public/video-assets/screenshots/*.webp`
-3. Narration → HeyGen
-4. Montage → CapCut / Screen Studio
-5. Export → `/public/videos/{alias}.mp4`
-6. Validation → `/admin/video-pipeline`
-7. Publication automatique dès que le MP4 est détecté
-
-## Admin
-
-- `/admin/video-pipeline` — suivi des 8 vidéos officielles
-- `/admin/video-library` — bibliothèque complète + qualité
-- `/transcripts` — transcripts publics
-
-Vérifier les captures : `node scripts/check-video-screenshots.mjs`
+Publication automatique uniquement si : script, ressource, transcript, captures et MP4 sont présents.
