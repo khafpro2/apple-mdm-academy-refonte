@@ -81,7 +81,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     labsCount: 3,
     examsCount: 1,
     certificateName: "Certificat Intune Apple Specialist",
-    trackSlug: "intune-apple",
+    trackSlug: "intune-mac",
     examRouteSlug: "intune-apple",
     color: "from-sky-600/10 to-blue-600/10",
   },

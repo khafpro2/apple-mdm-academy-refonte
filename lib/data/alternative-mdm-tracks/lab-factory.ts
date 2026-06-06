@@ -79,6 +79,12 @@ function generateModuleLab(mod: AltMdmModuleDef): Lab {
         expectedResult: "Appareil conforme, état visible dans la console.",
       },
       {
+        id: "troubleshoot",
+        title: "Dépannage",
+        instruction: `Si la configuration « ${mod.title} » échoue : vérifiez scope, check-in MDM, logs ${vendor}, prérequis ABM/APNs et conflits de profils. Documentez l'erreur et la résolution.`,
+        expectedResult: "Cause identifiée et procédure de correction documentée dans le runbook.",
+      },
+      {
         id: "checklist",
         title: "Checklist finale",
         instruction: `Checklist :\n• Configuration documentée\n• Screenshots archivés\n• Rollback plan défini\n• Quiz ${mod.quizSlug} prêt`,

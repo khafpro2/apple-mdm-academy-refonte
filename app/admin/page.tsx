@@ -54,6 +54,18 @@ export default async function AdminPage() {
             Audit QCM
           </Link>
           <Link
+            href="/admin/content-audit"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Audit pédagogique
+          </Link>
+          <Link
+            href="/admin/pedagogical-report"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Rapport pédagogique
+          </Link>
+          <Link
             href="/dashboard"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

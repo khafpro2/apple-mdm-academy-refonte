@@ -1,4 +1,5 @@
 import type { AcademyVideo, AnimationSlug, HeyGenConfig } from "@/lib/types";
+import { getHeyGenVideoResult } from "@/lib/data/heygen-video-results";
 import {
   videoScripts,
   HEYGEN_VIDEO_DEFAULTS,
@@ -48,13 +49,17 @@ const TRACK_BY_COURSE: Record<string, string> = {
 
 function heygenFromScript(v: VideoScript): HeyGenConfig {
   const isAdvancedScript = v.slug.startsWith("video-");
+  const generated = getHeyGenVideoResult(v.slug);
+
   return {
     script: v.script,
     language: v.language,
     avatarId: v.heygenAvatar,
     voiceId: HEYGEN_VIDEO_DEFAULTS.voice,
     durationEstimate: v.duration,
-    status: isAdvancedScript ? "ready" : "draft",
+    status: generated?.status ?? (isAdvancedScript ? "ready" : "draft"),
+    videoUrl: generated?.videoUrl,
+    sessionUrl: generated?.sessionUrl,
   };
 }
 

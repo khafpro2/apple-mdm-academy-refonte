@@ -11,7 +11,9 @@
     "sync:jamf-officials": "node scripts/sync-jamf-officials.mjs",
     "sync:official-screenshots": "node scripts/sync-official-screenshots.mjs",
     "export:heygen": "node scripts/export-heygen-payloads.mjs",
-    "audit:quizzes": "npx --yes tsx scripts/audit-quiz-quality.ts"
+    "import:heygen": "node scripts/import-heygen-results.mjs",
+    "audit:quizzes": "npx --yes tsx scripts/audit-quiz-quality.ts",
+    "audit:pedagogy": "npx --yes tsx -e \"import { runPedagogicalAudit } from './lib/audit/pedagogical-audit.ts'; const a=runPedagogicalAudit(); console.log('Score global:', a.scores.global, a.scores);\""
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
