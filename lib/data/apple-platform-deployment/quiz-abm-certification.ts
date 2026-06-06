@@ -1,0 +1,46 @@
+import type { Quiz } from "@/lib/types";
+import { q } from "@/lib/quiz/question-builder";
+
+/** Quiz certification ABM — 30 questions Apple Platform Deployment */
+export const quizAbmCertification: Quiz = {
+  slug: "quiz-abm-certification",
+  trackSlug: "apple-it-professional",
+  title: "Quiz certification — Apple Business Manager",
+  type: "quiz",
+  description:
+    "30 questions sur ABM : organisations, emplacements, rôles, Managed Apple IDs, Apps & Books, ADE et domaines vérifiés.",
+  duration: "45 min",
+  passingScore: 75,
+  questions: [
+    q("abm-q01", "Quel identifiant légal est requis pour créer une organisation Apple Business Manager ?", ["Numéro SIRET uniquement", "D-U-N-S Number", "EIN américain uniquement", "Numéro TVA intracommunautaire"], 1, "Apple exige un D-U-N-S validé pour associer l'organisation à une entité légale."),
+    q("abm-q02", "Les Emplacements (Locations) dans ABM servent principalement à :", ["Remplacer les serveurs MDM", "Segmenter achats, inventaire et admins par site ou entité", "Chiffrer les Mac", "Gérer les certificats APNs"], 1, "Les Locations permettent la gouvernance multi-sites et l'assignation d'appareils par entité juridique."),
+    q("abm-q03", "Quel rôle ABM peut assigner des appareils à un serveur MDM sans accès Apps & Books ?", ["Content Manager", "Device Enrollment Manager", "People Manager", "Support Advisor"], 1, "Device Enrollment Manager gère ADE et assignations MDM sans droits contenu."),
+    q("abm-q04", "Un Managed Apple ID diffère d'un Apple ID personnel car :", ["Il permet les achats App Store perso", "Il est créé et géré par l'organisation", "Il ne supporte pas iCloud", "Il désactive le chiffrement"], 1, "Les MAID sont provisionnés via ABM/ASM et contrôlés par l'IT."),
+    q("abm-q05", "La fédération Microsoft Entra ID dans ABM permet :", ["Remplacer Intune", "Mapper les utilisateurs @domaine vers Managed Apple IDs", "Supprimer FileVault", "Désactiver ADE"], 1, "La fédération synchronise identités cloud vers MAID sans mot de passe Apple séparé."),
+    q("abm-q06", "Pour vérifier un domaine dans ABM, on ajoute généralement :", ["Un enregistrement MX", "Un enregistrement TXT DNS", "Un certificat SSL web", "Une clé API Jamf"], 1, "Apple demande un TXT DNS prouvant la propriété du domaine."),
+    q("abm-q07", "Le token serveur MDM (.p7m) doit être renouvelé :", ["Tous les mois", "Annuellement", "Jamais", "À chaque mise à jour macOS"], 1, "Le server token ABM expire — renouvellement annuel obligatoire."),
+    q("abm-q08", "Apps & Books remplace quel programme historique ?", ["Apple Developer Enterprise", "Volume Purchase Program (VPP)", "AppleCare+", "TestFlight"], 1, "VPP est intégré dans Apps & Books via ABM."),
+    q("abm-q09", "Un appareil acheté hors revendeur agréé Apple :", ["Apparaît automatiquement dans ABM", "Peut ne jamais apparaître dans ABM", "Est toujours supervisé", "Reçoit ADE sans configuration"], 1, "Seuls les achats via canaux agréés alimentent l'inventaire ABM."),
+    q("abm-q10", "Automated Device Enrollment (ADE) requiert :", ["Jailbreak", "Appareil enregistré ABM + serveur MDM assigné", "Compte iCloud perso", "Apple Configurator sur chaque Mac"], 1, "ADE lie serial ABM au profil MDM au premier boot."),
+    q("abm-q11", "Le rôle Administrator ABM peut :", ["Uniquement lire l'inventaire", "Gérer tous les aspects sauf ceux réservés au propriétaire org", "Installer apps sur Mac sans MDM", "Créer des certificats APNs"], 1, "Administrator a les droits les plus larges dans ABM."),
+    q("abm-q12", "Attribution licence Apps & Books « device-based » signifie :", ["Licence liée au Managed Apple ID", "Licence liée au numéro de série", "Licence liée à l'Apple ID perso", "Licence partagée globalement sans limite"], 1, "Device-based suit le serial — idéal flotte nominale Mac/iPad."),
+    q("abm-q13", "GlobalTech (1000 employés, 5 pays) — meilleure pratique emplacements :", ["Un seul Location global", "Un Location par entité juridique / pays", "Un Location par utilisateur", "Aucun Location requis"], 1, "Aligner Locations sur entités juridiques simplifie achats et admins régionaux."),
+    q("abm-q14", "Content Manager dans ABM gère :", ["ADE uniquement", "Apps & Books et licences", "Certificats push APNs", "Profils Wi-Fi Intune"], 1, "Content Manager achète et assigne contenu VPP."),
+    q("abm-q15", "People Manager gère principalement :", ["Patch Management Jamf", "Managed Apple IDs et comptes utilisateurs ABM", "Smart Groups", "Conditional Access"], 1, "People Manager administre identités organisationnelles Apple."),
+    q("abm-q16", "Après import token MDM expiré dans Intune, symptôme typique :", ["FileVault désactivé", "Nouveaux appareils ADE absents d'Intune", "Gatekeeper bloqué", "iCloud désactivé"], 1, "Token expiré casse sync inventaire ABM ↔ MDM."),
+    q("abm-q17", "MFA sur comptes ABM Administrator est :", ["Optionnel sans impact", "Fortement recommandé / exigence sécurité enterprise", "Impossible", "Réservé Apple School Manager"], 1, "MFA protège le contrôle de la flotte et des achats."),
+    q("abm-q18", "Release device from ABM sert à :", ["Effacer FileVault", "Retirer l'appareil de l'org avant revente", "Activer Activation Lock perso", "Renouveler APNs"], 1, "Release libère le serial pour une autre organisation."),
+    q("abm-q19", "Synchronisation token contenu VPP vers MDM permet :", ["Installer apps sans licences", "Distribuer apps assignées depuis ABM", "Bypass Gatekeeper", "Créer MAID automatiquement"], 1, "Le token contenu lie achats ABM au catalogue MDM."),
+    q("abm-q20", "Quel rôle NE peut PAS créer de serveur MDM dans ABM ?", ["Administrator", "Manager sans privilèges enrollment", "Device Enrollment Manager selon config", "Personne — seul Admin crée serveurs"], 1, "Seuls rôles avec privilèges enrollment/admin créent serveurs MDM."),
+    q("abm-q21", "Délai typique apparition appareil neuf dans ABM après achat agréé :", ["Instantané toujours", "Jusqu'à 24–72 h", "30 jours minimum", "Uniquement après enrollment utilisateur"], 1, "Propagation inventaire revendeur → Apple peut prendre 72 h."),
+    q("abm-q22", "Managed Apple ID peut utiliser :", ["Achats App Store perso illimités", "Services Apple org (iCloud org, apps gérées)", "Jailbreak", "Bypass MDM"], 1, "MAID accède services contrôlés par l'organisation."),
+    q("abm-q23", "Séparation des duties ABM recommande :", ["Un compte Admin partagé IT", "Rôles distincts Admin / Enrollment / Content", "Aucun rôle intermédiaire", "Supprimer People Manager"], 1, "Moindre privilège : rôles spécialisés par fonction."),
+    q("abm-q24", "Assignation bulk 500 MacBook au serveur MDM se fait via :", ["Apple Configurator sur chaque Mac", "ABM Devices → assign to MDM server", "Email aux utilisateurs", "Gatekeeper"], 1, "Assignation centralisée dans ABM avant livraison."),
+    q("abm-q25", "Domaine fédéré non vérifié provoque :", ["ADE automatique", "Échec création MAID fédérés", "FileVault forcé", "APNs renouvelé"], 1, "Sans domaine vérifié, fédération Entra/Google impossible."),
+    q("abm-q26", "Staging vs Production MDM server dans ABM :", ["Identiques obligatoirement", "Environnements séparés pour test vs prod", "Staging remplace APNs", "Production sans token"], 1, "Séparer staging/prod limite risques sur ADE."),
+    q("abm-q27", "Inventaire ABM affiche pour chaque appareil :", ["Mot de passe utilisateur", "Serial, modèle, assignation MDM, date ajout", "Clé FileVault", "Historique Safari"], 1, "Inventaire ABM = source vérité serials et assignation MDM."),
+    q("abm-q28", "Apps custom B2B dans Apps & Books :", ["Impossible en enterprise", "Distribuables via ABM vers MDM", "Uniquement App Store public", "Requièrent jailbreak"], 1, "Apps B2B privées passent par le même pipeline VPP."),
+    q("abm-q29", "Audit SOX/ISO sur ABM exige documentation :", ["Uniquement logos", "Matrice rôles, tokens, procédures release device", "Codes couleur UI", "Wallpapers"], 1, "Gouvernance : qui peut acheter, assigner, release."),
+    q("abm-q30", "Première action après création org ABM :", ["Déployer FileVault", "Valider D-U-N-S, créer admins MFA, revendeur agréé", "Installer Jamf Connect", "Désactiver Gatekeeper"], 1, "Fondations : identité org, admins sécurisés, canal achat."),
+  ],
+};

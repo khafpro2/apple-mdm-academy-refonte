@@ -23,6 +23,7 @@ function walk(dir: string): string[] {
 function appRouteFromFile(file: string): string | null {
   const rel = path.relative(path.join(root, "app"), file);
   if (!/(^|\/)(page|route)\.tsx?$/.test(rel)) return null;
+  if (/^(page|route)\.tsx?$/.test(rel)) return "/";
   const segments = rel
     .replace(/\/(page|route)\.tsx?$/, "")
     .split(path.sep)
@@ -69,8 +70,8 @@ async function main() {
 
   for (const course of data.courses ?? []) {
     dynamicUrls.add(`/cours/${course.slug}`);
-    for (const module of course.modules ?? []) {
-      for (const lesson of module.lessons ?? []) {
+    for (const mod of course.modules ?? []) {
+      for (const lesson of mod.lessons ?? []) {
         dynamicUrls.add(`/cours/${course.slug}/${lesson.slug}`);
       }
     }

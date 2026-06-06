@@ -6,6 +6,7 @@ import { quizzes } from "@/lib/data/quizzes";
 import { tracks } from "@/lib/data/tracks";
 import { AdvancedAdminPanel } from "@/components/admin/advanced-admin-panel";
 import { AltMdmAdminPanel } from "@/components/admin/alt-mdm-admin-panel";
+import { runCertificationAudit } from "@/lib/audit/certification-audit";
 
 export const metadata = { title: "Administration" };
 
@@ -19,6 +20,7 @@ function getTrackTitle(slug: string) {
 
 export default async function AdminPage() {
   const stats = await fetchAdminStats();
+  const certAudit = runCertificationAudit();
 
   return (
     <PageShell>
@@ -54,6 +56,18 @@ export default async function AdminPage() {
             Audit QCM
           </Link>
           <Link
+            href="/admin/certification-audit"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Audit certification
+          </Link>
+          <Link
+            href="/admin/lms-audit"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Audit LMS
+          </Link>
+          <Link
             href="/admin/content-audit"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >
@@ -70,6 +84,25 @@ export default async function AdminPage() {
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >
             ← Dashboard apprenant
+          </Link>
+        </div>
+
+        <div className="mt-8 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-ink">Certification — couverture programmes</h2>
+          <p className="mt-1 text-sm text-ink-tertiary">
+            Couverture globale {certAudit.globalCoverage} % · ACITP {certAudit.acitpModulesCovered}/
+            {certAudit.acitpModulesTotal} modules · Examen {certAudit.examQuestionCount} questions
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {certAudit.programs.map((p) => (
+              <div key={p.slug} className="rounded-2xl border border-border-light p-4 text-sm">
+                <p className="font-semibold text-ink">{p.program}</p>
+                <p className="text-accent">{p.coveragePercent} %</p>
+              </div>
+            ))}
+          </div>
+          <Link href="/admin/certification-audit" className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
+            Audit certification détaillé →
           </Link>
         </div>
 

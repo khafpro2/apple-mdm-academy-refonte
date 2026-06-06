@@ -1,4 +1,5 @@
 export { appleItProPool } from "./apple-it-pro";
+export { acitpExamPool200 } from "@/lib/data/acitp/exam-pool";
 export { jamf100Pool } from "./jamf-100";
 export { jamf200Pool } from "./jamf-200";
 export { jamf300Pool } from "./jamf-300";
@@ -15,6 +16,7 @@ export {
 export { intuneApplePool } from "./intune-apple";
 
 import { appleItProPool } from "./apple-it-pro";
+import { acitpExamPool200 } from "@/lib/data/acitp/exam-pool";
 import { jamf100Pool } from "./jamf-100";
 import { jamf200Pool } from "./jamf-200";
 import { jamf300Pool } from "./jamf-300";
@@ -31,7 +33,7 @@ import {
 import type { Question } from "@/lib/types";
 
 export const examPools: Record<string, Question[]> = {
-  "examen-apple-it-pro": appleItProPool,
+  "examen-apple-it-pro": acitpExamPool200,
   "examen-jamf-100-blanc": jamf100Pool,
   "examen-jamf-100": jamf100Pool,
   "examen-jamf-200": jamf200Pool,
@@ -47,7 +49,7 @@ export const examPools: Record<string, Question[]> = {
 };
 
 export const examQuestionCounts: Record<string, number> = {
-  "examen-apple-it-pro": 100,
+  "examen-apple-it-pro": 200,
   "examen-jamf-100-blanc": 100,
   "examen-jamf-100": 100,
   "examen-jamf-200": 150,

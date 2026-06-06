@@ -5,6 +5,9 @@ import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definition
 import { allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 
 export const lessonToLabSlug: Record<string, string> = {
+  "abm-creation-roles": "abm-enterprise-complete",
+  "dep-enrollment": "ade-zero-touch-500",
+  "apps-books": "apps-books",
   "abm-intune": "abm-intune",
   "ade-iphone": "ade-iphone",
   "ade-mac": "ade-macos",

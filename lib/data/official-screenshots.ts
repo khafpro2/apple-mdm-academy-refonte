@@ -72,6 +72,22 @@ export const OFFICIAL_SCREENSHOT_ASSETS: Record<string, OfficialScreenshotAsset>
     filename: "74-inventory-official.webp",
     sourceUrl: "https://media.jamf.com/images/products/jamf-pro-secure-devices-2x.webp",
   },
+
+  // —— Apple Business Manager (support.apple.com) ——
+  "abm-apps": {
+    id: "abm-apps",
+    source: "apple",
+    folder: "apple-originals",
+    filename: "apple-business-devices-apps-books-official.png",
+    sourceUrl: "https://support.apple.com/guide/apple-business-manager/welcome/web",
+  },
+  "abm-federation": {
+    id: "abm-federation",
+    source: "apple",
+    folder: "apple-originals",
+    filename: "apple-business-federated-authentication-official.png",
+    sourceUrl: "https://support.apple.com/guide/apple-business-manager/federated-authentication-axmfcaa884/web",
+  },
 };
 
 const SOURCE_LABELS: Record<OfficialAssetSource, string> = {

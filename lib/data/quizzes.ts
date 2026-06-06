@@ -4,8 +4,12 @@ import { proModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
 import { altMdmModuleQuizzes } from "@/lib/data/alternative-mdm-tracks/quizzes";
 import { prepareExamPool, prepareQuiz } from "@/lib/quiz/prepare-quiz";
+import { quizAbmCertification } from "@/lib/data/apple-platform-deployment/quiz-abm-certification";
+import { quizAdeCertification } from "@/lib/data/apple-platform-deployment/quiz-ade-certification";
 
 export const rawQuizzesBeforePrepare: Quiz[] = [
+  quizAbmCertification,
+  quizAdeCertification,
   {
     slug: "quiz-apple-fundamentals",
     trackSlug: "apple-fundamentals",
@@ -310,12 +314,12 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     title: "Examen blanc — Apple Certified IT Professional",
     type: "examen",
     description:
-      "Simulation complète 100 questions aléatoires : ABM, ADE, MDM, sécurité macOS, profils et déploiement entreprise.",
-    duration: "120 min",
-    durationMinutes: 120,
+      "Simulation complète 200 questions : macOS, ABM, sécurité, déploiement, réseau, productivité et dépannage enterprise.",
+    duration: "150 min",
+    durationMinutes: 150,
     passingScore: 80,
     examMode: true,
-    examQuestionCount: 100,
+    examQuestionCount: 200,
     questions: examPools["examen-apple-it-pro"].slice(0, 5),
   },
   {

@@ -22,7 +22,7 @@ const CORE_LESSON_SCREENSHOT_IDS: Record<string, string[]> = {
   "app-protection": ["33", "34", "38"],
 
   // Apple IT Professional
-  "abm-creation-roles": ["01", "02", "03", "09", "15"],
+  "abm-creation-roles": ["01", "02", "03", "09", "15", "abm-apps", "abm-federation"],
   "dep-enrollment": ["16", "17", "18", "04", "05"],
   "apps-books": ["08", "47", "48", "50", "51"],
   "profils-configuration": ["32", "70", "39"],

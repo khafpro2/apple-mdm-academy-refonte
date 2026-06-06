@@ -8,6 +8,8 @@ import { saveQuizResult } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
 import { pickExamQuestions, formatDuration } from "@/lib/data/exams/exam-utils";
+import { pickAcitpExamQuestions } from "@/lib/data/acitp/exam-pool";
+import { ACITP_EXAM_REPORT_STORAGE_KEY } from "@/lib/data/acitp/exam-report-storage";
 import { getExamLoginRedirect } from "@/lib/data/exams/exam-routes";
 import {
   loadExamSession,
@@ -105,11 +107,26 @@ export function ExamEngine({
         void document.exitFullscreen();
       }
       const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
+      const { percent, passed } = calculateScore(finalAnswers);
       setElapsedSeconds(duration);
+
+      if (quiz.slug === "examen-apple-it-pro" && typeof sessionStorage !== "undefined") {
+        try {
+          sessionStorage.setItem(
+            ACITP_EXAM_REPORT_STORAGE_KEY,
+            JSON.stringify({
+              questions,
+              answers: finalAnswers,
+              completedAt: new Date().toISOString(),
+            })
+          );
+        } catch {
+          /* quota */
+        }
+      }
 
       if (isAuthenticated && !savedRef.current) {
         savedRef.current = true;
-        const { percent, passed } = calculateScore(finalAnswers);
         setSaveStatus("saving");
         const res = await saveQuizResult({
           quizSlug: quiz.slug,
@@ -131,7 +148,7 @@ export function ExamEngine({
         }
       }
     },
-    [calculateScore, isAuthenticated, quiz.slug, quiz.trackSlug]
+    [calculateScore, isAuthenticated, quiz.slug, quiz.trackSlug, questions]
   );
 
   useEffect(() => {
@@ -181,7 +198,11 @@ export function ExamEngine({
 
   function startExam() {
     const seed = `${quiz.slug}-${Date.now()}-${Math.random()}`;
-    beginExam(pickExamQuestions(basePool, questionCount, seed), seed);
+    const picked =
+      quiz.slug === "examen-apple-it-pro"
+        ? pickAcitpExamQuestions(seed)
+        : pickExamQuestions(basePool, questionCount, seed);
+    beginExam(picked, seed);
   }
 
   function resumeExam() {
@@ -389,6 +410,11 @@ export function ExamEngine({
 
         <div className="mt-8 flex flex-wrap gap-4">
           <Button onClick={startExam}>Repasser l&apos;examen</Button>
+          {quiz.slug === "examen-apple-it-pro" && (
+            <Link href="/examens/preparation-report" className="inline-flex items-center rounded-full border border-accent px-6 py-3 text-sm font-semibold text-accent hover:bg-accent/5">
+              Rapport de préparation
+            </Link>
+          )}
           <Link href="/dashboard/transcript" className="inline-flex items-center rounded-full border border-border-light px-6 py-3 text-sm font-semibold text-ink-secondary hover:text-ink">
             Transcript
           </Link>

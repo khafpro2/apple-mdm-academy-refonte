@@ -36,6 +36,8 @@ export type DashboardData = {
   stats: LearnerStats;
   leaderboard: LeaderboardEntry[];
   completedLabSlugs: string[];
+  completedLessonSlugs: string[];
+  maxExamScores: Record<string, number>;
   trackCertifications: CertificationEligibility[];
   pathCertifications: PathCertificationEligibility[];
 };
@@ -143,7 +145,10 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
   );
 
   const examScores = new Map<string, number>();
+  const maxExamScoresMap = new Map<string, number>();
   for (const r of resultsRes.data as QuizResultRow[]) {
+    const prevMax = maxExamScoresMap.get(r.quiz_slug) ?? 0;
+    maxExamScoresMap.set(r.quiz_slug, Math.max(prevMax, r.score));
     if (!r.passed) continue;
     const prev = examScores.get(r.quiz_slug) ?? 0;
     examScores.set(r.quiz_slug, Math.max(prev, r.score));
@@ -196,6 +201,8 @@ export async function fetchDashboardData(userId: string): Promise<DashboardData 
     stats,
     leaderboard,
     completedLabSlugs,
+    completedLessonSlugs: [...completedLessonSlugs],
+    maxExamScores: Object.fromEntries(maxExamScoresMap),
     trackCertifications,
     pathCertifications,
   };

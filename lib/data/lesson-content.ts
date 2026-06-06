@@ -5,6 +5,7 @@ import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
 import { getProModuleLessonContent } from "@/lib/data/pro-modules/lesson-content";
 import { getAdvancedLessonContent } from "@/lib/data/advanced-tracks/lesson-content";
 import { getAltMdmLessonContent } from "@/lib/data/alternative-mdm-tracks/lesson-content";
+import { APPLE_PLATFORM_DEPLOYMENT_TOPICS } from "@/lib/data/apple-platform-deployment/topic-overrides";
 import {
   abmIntuneBestPractices,
   abmIntuneObjectives,
@@ -53,6 +54,10 @@ type LessonTopic = {
   validation: string[];
   risks: string[];
   tools?: string[];
+  enterpriseScenario?: string[];
+  procedure?: string[];
+  troubleshooting?: { problem: string; solution: string }[];
+  officialReferences?: string[];
 };
 
 const LESSON_TOPICS: Record<string, LessonTopic> = {
@@ -715,19 +720,23 @@ function buildFallbackTopic(ctx: ReturnType<typeof topicContext>): LessonTopic {
 function getLessonTopic(ctx: ReturnType<typeof topicContext>, lesson: Lesson): LessonTopic {
   const direct = LESSON_TOPICS[lesson.slug];
   const generated = GENERATED_TOPIC_OVERRIDES[lesson.slug];
+  const platform = APPLE_PLATFORM_DEPLOYMENT_TOPICS[lesson.slug];
   const base = direct ?? buildFallbackTopic(ctx);
 
-  if (!generated) return base;
+  const merged = { ...base, ...generated, ...platform };
 
   return {
-    ...base,
-    ...generated,
-    outcomes: generated.outcomes ?? base.outcomes,
-    concepts: generated.concepts ?? base.concepts,
-    actions: generated.actions ?? base.actions,
-    validation: generated.validation ?? base.validation,
-    risks: generated.risks ?? base.risks,
-    tools: generated.tools ?? base.tools,
+    ...merged,
+    outcomes: platform?.outcomes ?? generated?.outcomes ?? base.outcomes,
+    concepts: platform?.concepts ?? generated?.concepts ?? base.concepts,
+    actions: platform?.actions ?? generated?.actions ?? base.actions,
+    validation: platform?.validation ?? generated?.validation ?? base.validation,
+    risks: platform?.risks ?? generated?.risks ?? base.risks,
+    tools: platform?.tools ?? generated?.tools ?? base.tools,
+    enterpriseScenario: platform?.enterpriseScenario,
+    procedure: platform?.procedure,
+    troubleshooting: platform?.troubleshooting,
+    officialReferences: platform?.officialReferences,
   };
 }
 
@@ -776,7 +785,7 @@ function generatePrerequisites(
 }
 
 function generateTheory(ctx: ReturnType<typeof topicContext>, topic: LessonTopic): LessonContent["theory"] {
-  return [
+  const sections: LessonContent["theory"] = [
     {
       title: "Vue d'ensemble",
       body: [
@@ -791,22 +800,54 @@ function generateTheory(ctx: ReturnType<typeof topicContext>, topic: LessonTopic
       title: "Concepts essentiels",
       body: topic.concepts,
     },
-    {
+  ];
+
+  if (topic.enterpriseScenario?.length) {
+    sections.push({
+      title: "Scénario entreprise",
+      body: topic.enterpriseScenario,
+    });
+  } else {
+    sections.push({
       title: "Contexte entreprise",
       body: [
         `Dans une organisation réelle, « ${ctx.lessonTitle} » doit être lié à un propriétaire, un périmètre, une méthode de validation et une procédure de support.`,
         "Planifiez toujours un groupe pilote avant le déploiement global. Documentez versions OS cibles, apps critiques, contraintes réseau, exceptions et critères d'arrêt.",
         "Intégrez sécurité, identité et support dès la conception : conformité, journalisation et réponse aux incidents font partie du cycle de vie Apple.",
       ],
-    },
-    {
-      title: "Critères de réussite",
-      body: topic.validation,
-    },
-  ];
+    });
+  }
+
+  if (topic.procedure?.length) {
+    sections.push({
+      title: "Procédure opérationnelle",
+      body: topic.procedure,
+    });
+  }
+
+  sections.push({
+    title: "Critères de réussite",
+    body: topic.validation,
+  });
+
+  if (topic.officialReferences?.length) {
+    sections.push({
+      title: "Documentation Apple officielle",
+      body: topic.officialReferences,
+    });
+  }
+
+  return sections;
 }
 
 function generateSteps(ctx: ReturnType<typeof topicContext>, topic: LessonTopic): LessonContent["steps"] {
+  if (topic.procedure?.length) {
+    return topic.procedure.map((step, index) => ({
+      title: index === 0 ? "Préparer" : index === topic.procedure!.length - 1 ? "Valider" : `Étape ${index + 1}`,
+      description: step,
+    }));
+  }
+
   const actionSteps = topic.actions.map((action, index) => ({
     title: index === 0 ? "Cadrer" : index === 1 ? "Configurer" : index === 2 ? "Vérifier" : `Étape ${index + 1}`,
     description: action,
@@ -849,12 +890,16 @@ function generateBestPractices(ctx: ReturnType<typeof topicContext>, topic: Less
 }
 
 function generateTroubleshooting(ctx: ReturnType<typeof topicContext>, topic: LessonTopic): LessonContent["troubleshooting"] {
+  const specific = topic.troubleshooting?.map((t) => ({ problem: t.problem, solution: t.solution })) ?? [];
+  const fromRisks = topic.risks.map((risk) => ({
+    problem: risk,
+    solution:
+      "Revenez au groupe pilote, vérifiez le scope, comparez l'état attendu avec l'état réel sur l'appareil, puis documentez la correction avant de reprendre le déploiement.",
+  }));
+
   return [
-    ...topic.risks.map((risk) => ({
-      problem: risk,
-      solution:
-        "Revenez au groupe pilote, vérifiez le scope, comparez l'état attendu avec l'état réel sur l'appareil, puis documentez la correction avant de reprendre le déploiement.",
-    })),
+    ...specific,
+    ...fromRisks,
     {
       problem: "L'appareil ne reçoit pas le profil ou la commande MDM.",
       solution:

@@ -10,6 +10,7 @@ import { ResourcesPanel } from "@/components/dashboard/resources-panel";
 import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-panel";
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
+import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
@@ -55,6 +56,8 @@ export default async function DashboardPage() {
   }));
 
   const completedLabSlugs = dbData?.completedLabSlugs ?? [];
+  const completedLessonSlugs = dbData?.completedLessonSlugs ?? [];
+  const maxExamScores = new Map(Object.entries(dbData?.maxExamScores ?? {}));
   const trackCertifications = dbData?.trackCertifications ?? [];
   const pathCertifications = dbData?.pathCertifications ?? [];
 
@@ -105,6 +108,12 @@ export default async function DashboardPage() {
         </div>
 
         <SubscriptionStatusBanner />
+
+        <CertificationReadinessPanel
+          completedLessonSlugs={completedLessonSlugs}
+          completedLabSlugs={completedLabSlugs}
+          examScores={maxExamScores}
+        />
 
         <div className="mb-8 grid gap-8 lg:grid-cols-2">
           <ContinueLearningPanel />

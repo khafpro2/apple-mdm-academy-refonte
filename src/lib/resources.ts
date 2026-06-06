@@ -2,6 +2,7 @@ export type ResourceBadge = "Apple" | "Intune" | "Jamf" | "Sécurité";
 
 import { advancedResources } from "@/lib/data/advanced-tracks/resources-data";
 import { altMdmResources } from "@/lib/data/alternative-mdm-tracks/resources-data";
+import { platformDeploymentGuides } from "@/lib/data/apple-platform-deployment/resources-guides";
 
 export type ResourceCategory = "checklist" | "terminal" | "template" | "procedure";
 
@@ -836,6 +837,7 @@ export const academyResources: AcademyResource[] = [
       },
     ],
   }),
+  ...platformDeploymentGuides,
   ...advancedResources,
   ...altMdmResources,
 ];
