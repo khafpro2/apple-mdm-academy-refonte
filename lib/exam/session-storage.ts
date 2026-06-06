@@ -3,7 +3,7 @@ import type { Question } from "@/lib/types";
 export type ExamSession = {
   quizSlug: string;
   questions: Question[];
-  answers: Record<string, number>;
+  answers: Record<string, number | number[]>;
   flagged: string[];
   currentIndex: number;
   secondsLeft: number;

@@ -306,7 +306,7 @@ export async function insertQuizResult(
     quizSlug: string;
     score: number;
     passed: boolean;
-    answers: Record<string, number>;
+    answers: Record<string, number | number[]>;
     durationSeconds?: number;
     examMode?: boolean;
   }

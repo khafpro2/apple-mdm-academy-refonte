@@ -1,16 +1,7 @@
 import type { Question, Quiz } from "@/lib/types";
 import type { AdvancedModuleDef } from "@/lib/data/advanced-tracks/module-definitions";
 import { getModuleQuizBank } from "@/lib/data/advanced-tracks/quiz-banks";
-
-function q(
-  id: string,
-  text: string,
-  options: [string, string, string, string],
-  correct: 0 | 1 | 2 | 3,
-  explanation: string
-): Question {
-  return { id, text, options: [...options], correctIndex: correct, explanation };
-}
+import { q, resetQuestionPositionCounter } from "@/lib/quiz/question-builder";
 
 /** Génère N questions — banque manuelle si disponible, sinon template pédagogique */
 function questionsForModule(mod: AdvancedModuleDef): Question[] {
@@ -32,52 +23,52 @@ function questionsForModule(mod: AdvancedModuleDef): Question[] {
   const p = mod.slug.split("-")[0];
   const bases: Question[] = [
     q(`${p}-01`, `Quel est l'objectif principal du module « ${mod.title} » ?`, [
-      "Réduire la sécurité",
+      "Réduire les contrôles de sécurité",
       `Maîtriser ${mod.title} en contexte entreprise`,
-      "Désactiver les mises à jour",
+      "Désactiver les mises à jour système",
       "Supprimer l'inventaire MDM",
     ], 1, `${mod.title} vise une mise en production fiable et documentée.`),
     q(`${p}-02`, `Dans « ${mod.title} », quelle pratique est recommandée avant déploiement ?`, [
-      "Production directe sans test",
+      "Déploiement production sans phase test",
       "Environnement de test / pilot group",
-      "Désactiver les logs",
-      "Ignorer les prérequis",
+      "Désactivation des journaux MDM",
+      "Ignorer les prérequis réseau",
     ], 1, "Toujours valider en pilot avant déploiement à grande échelle."),
     q(`${p}-03`, `Quel indicateur mesure la réussite de « ${mod.title} » ?`, [
-      "Nombre d'emails envoyés",
+      "Volume d'emails IT envoyés",
       "Conformité, check-in MDM et résultat attendu validé",
-      "Couleur du wallpaper",
-      "Taille du disque uniquement",
+      "Thème visuel du poste",
+      "Espace disque libre uniquement",
     ], 1, "KPIs : conformité, inventaire à jour, objectifs métier atteints."),
     q(`${p}-04`, `En cas d'échec sur « ${mod.title} », quelle action est prioritaire ?`, [
-      "Wipe massif immédiat",
+      "Effacement immédiat de toute la flotte",
       "Analyser logs MDM, policy scope et prérequis",
-      "Supprimer ABM",
+      "Supprimer le tenant Apple Business Manager",
       "Révoquer tous les certificats Apple",
     ], 1, "Diagnostic méthodique : scope, logs, prérequis, check-in."),
     q(`${p}-05`, `Quel rôle IT est typiquement responsable de « ${mod.title} » ?`, [
-      "Marketing",
+      "Chargé de communication externe",
       "Administrateur MDM / Ingénieur endpoint",
-      "Comptabilité",
-      "Design",
+      "Gestionnaire paie",
+      "Designer UX",
     ], 1, "Administrateurs Jamf, Intune ou Apple platform engineers."),
     q(`${p}-06`, `« ${mod.title} » s'intègre avec :`, [
-      "Aucun autre système",
+      "Aucun autre système d'entreprise",
       "ABM, IdP, SIEM et outils MDM existants",
-      "Uniquement des feuilles Excel",
-      "FTP anonyme",
+      "Feuille de calcul locale isolée",
+      "Partage réseau sans authentification",
     ], 1, "L'écosystème Apple entreprise est interconnecté (ABM, SSO, sécurité)."),
     q(`${p}-07`, `Documentation essentielle pour « ${mod.title} » :`, [
-      "Aucune",
+      "Notes non datées et non partagées",
       "Runbook, checklist validation et rollback plan",
-      "Posts réseaux sociaux",
-      "Captures d'écran personnelles non datées",
+      "Messages internes éphémères",
+      "Captures personnelles sans version",
     ], 1, "Runbooks et checklists garantissent reproductibilité et audit."),
     q(`${p}-08`, `Sécurité dans « ${mod.title} » :`, [
-      "Partager tokens en clair",
+      "Partage des tokens en clair",
       "Principe du moindre privilège et rotation secrets",
       "Mot de passe admin unique global",
-      "Désactiver le chiffrement",
+      "Désactivation du chiffrement",
     ], 1, "Moindre privilège, secrets vault, rotation certificats."),
   ];
 
@@ -127,5 +118,6 @@ export function createModuleQuiz(mod: AdvancedModuleDef): Quiz {
 }
 
 export function createAllModuleQuizzes(modules: AdvancedModuleDef[]): Quiz[] {
+  resetQuestionPositionCounter();
   return modules.map(createModuleQuiz);
 }

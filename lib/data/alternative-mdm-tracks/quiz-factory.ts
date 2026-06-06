@@ -1,15 +1,6 @@
 import type { Question, Quiz } from "@/lib/types";
+import { q, resetQuestionPositionCounter } from "@/lib/quiz/question-builder";
 import type { AltMdmModuleDef } from "@/lib/data/alternative-mdm-tracks/module-definitions";
-
-function q(
-  id: string,
-  text: string,
-  options: [string, string, string, string],
-  correct: 0 | 1 | 2 | 3,
-  explanation: string
-): Question {
-  return { id, text, options: [...options], correctIndex: correct, explanation };
-}
 
 const TRACK_HINTS: Record<string, string> = {
   "kandji-fundamentals": "Kandji",
@@ -23,52 +14,52 @@ function questionsForModule(mod: AltMdmModuleDef): Question[] {
   const vendor = TRACK_HINTS[mod.trackSlug] ?? "MDM Apple";
   const bases: Question[] = [
     q(`${mod.slug}-01`, `Quel est l'objectif principal du module « ${mod.title} » (${vendor}) ?`, [
-      "Désactiver la supervision",
+      "Désactiver la supervision des appareils",
       `Maîtriser ${mod.title} en contexte entreprise Apple`,
-      "Supprimer ABM",
-      "Ignorer la compliance",
+      "Retirer les appareils d'Apple Business Manager",
+      "Contourner les politiques de conformité",
     ], 1, `${mod.title} vise une mise en production fiable avec ${vendor}.`),
     q(`${mod.slug}-02`, `Avant déploiement « ${mod.title} », quelle pratique est recommandée ?`, [
-      "Production directe sans test",
+      "Déploiement direct en production sans test",
       "Pilot group et validation checklist",
-      "Partager tokens admin",
-      "Désactiver les logs",
+      "Partage des tokens admin entre équipes",
+      "Désactivation des journaux MDM",
     ], 1, "Toujours valider en pilot avant déploiement à grande échelle."),
     q(`${mod.slug}-03`, `Quel indicateur mesure la réussite de « ${mod.title} » ?`, [
-      "Couleur wallpaper",
+      "Taux de réponse aux emails IT",
       "Conformité device, check-in MDM et objectif métier atteint",
-      "Nombre d'emails",
-      "Taille disque uniquement",
+      "Uniformité du fond d'écran",
+      "Capacité disque libre uniquement",
     ], 1, "KPIs : conformité, inventaire à jour, objectifs métier."),
     q(`${mod.slug}-04`, `En cas d'échec sur « ${mod.title} », action prioritaire :`, [
-      "Wipe massif",
+      "Effacement massif des appareils",
       "Analyser logs MDM, scope et prérequis",
-      "Révoquer APNs global",
-      "Supprimer ABM",
+      "Révoquer le certificat APNs global",
+      "Supprimer le tenant Apple Business Manager",
     ], 1, "Diagnostic : scope, logs, prérequis, check-in."),
     q(`${mod.slug}-05`, `« ${mod.title} » s'intègre typiquement avec :`, [
-      "Aucun système",
+      "Aucun système d'identité ou d'inventaire",
       "ABM, IdP (Entra/Okta) et SIEM",
-      "FTP anonyme",
-      "Excel uniquement",
+      "Serveur de fichiers sans authentification",
+      "Tableur local non synchronisé",
     ], 1, "L'écosystème Apple entreprise est interconnecté."),
     q(`${mod.slug}-06`, `Documentation essentielle pour « ${mod.title} » :`, [
-      "Aucune",
+      "Notes personnelles non partagées",
       "Runbook, checklist validation et rollback plan",
-      "Posts réseaux sociaux",
-      "Captures non datées",
+      "Fil de discussion interne non archivé",
+      "Captures d'écran sans date ni version",
     ], 1, "Runbooks garantissent reproductibilité et audit."),
     q(`${mod.slug}-07`, `Sécurité dans « ${mod.title} » :`, [
-      "Tokens en clair",
+      "Tokens stockés en clair dans un wiki",
       "Moindre privilège et rotation secrets",
-      "Mot de passe admin global",
-      "Désactiver chiffrement",
+      "Compte admin partagé permanent",
+      "Désactivation du chiffrement disque",
     ], 1, "Moindre privilège, vault secrets, rotation certificats."),
     q(`${mod.slug}-08`, `Rôle IT responsable de « ${mod.title} » :`, [
-      "Marketing",
+      "Responsable communication externe",
       "Administrateur MDM / Ingénieur endpoint Apple",
-      "Comptabilité",
-      "Design",
+      "Gestionnaire paie et RH",
+      "Designer produit",
     ], 1, "Administrateurs MDM et Apple platform engineers."),
   ];
 
@@ -151,5 +142,6 @@ export function createModuleQuiz(mod: AltMdmModuleDef): Quiz {
 }
 
 export function createAllModuleQuizzes(modules: AltMdmModuleDef[]): Quiz[] {
+  resetQuestionPositionCounter();
   return modules.map(createModuleQuiz);
 }

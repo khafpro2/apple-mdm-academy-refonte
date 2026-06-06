@@ -3,8 +3,9 @@ import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { proModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
 import { altMdmModuleQuizzes } from "@/lib/data/alternative-mdm-tracks/quizzes";
+import { prepareExamPool, prepareQuiz } from "@/lib/quiz/prepare-quiz";
 
-export const quizzes: Quiz[] = [
+export const rawQuizzesBeforePrepare: Quiz[] = [
   {
     slug: "quiz-apple-fundamentals",
     trackSlug: "apple-fundamentals",
@@ -48,6 +49,32 @@ export const quizzes: Quiz[] = [
         options: ["Les achats personnels App Store", "L'éducation et l'entreprise", "Le développement d'apps", "Le jailbreak"],
         correctIndex: 1,
         explanation: "Les Managed Apple ID sont créés et gérés par l'organisation via Apple Business Manager ou Apple School Manager.",
+      },
+      {
+        id: "af-6",
+        text: "Après l'import d'un nouveau certificat APNs, les appareils ne répondent plus aux commandes MDM. Quelle vérification effectuer en priorité ?",
+        options: [
+          "Le certificat APNs a expiré",
+          "Le certificat APNs a été renouvelé avec un autre Apple ID",
+          "Le token ABM n'est plus synchronisé",
+          "Les appareils ne sont plus supervisés",
+        ],
+        correctIndex: 1,
+        explanation: "Un renouvellement APNs avec un Apple ID différent rompt la confiance push — les appareils ne recevront plus les commandes MDM.",
+      },
+      {
+        id: "af-ms-1",
+        text: "Quelles conditions sont nécessaires à l'Automated Device Enrollment (ADE) ? (plusieurs réponses)",
+        options: [
+          "Apple Business Manager configuré",
+          "Serveur MDM enregistré dans ABM",
+          "Certificat APNs valide",
+          "Abonnement Apple Music",
+        ],
+        correctIndex: 0,
+        correctIndices: [0, 1, 2],
+        selectMultiple: true,
+        explanation: "ADE requiert ABM, un serveur MDM lié et un certificat APNs actif. Apple Music n'a aucun lien avec l'enrollment MDM.",
       },
     ],
   },
@@ -233,8 +260,8 @@ export const quizzes: Quiz[] = [
         options: [
           "La conformité de l'appareil avant d'autoriser l'accès aux ressources",
           "Le numéro de série uniquement",
-          "La couleur du Mac",
-          "Le modèle iPhone uniquement",
+          "La version du navigateur Safari",
+          "Le modèle de processeur uniquement",
         ],
         correctIndex: 0,
         explanation: "Conditional Access bloque l'accès si l'appareil n'est pas conforme aux policies Intune définies.",
@@ -428,12 +455,15 @@ export const quizzes: Quiz[] = [
   },
 ];
 
+export const quizzes: Quiz[] = rawQuizzesBeforePrepare.map(prepareQuiz);
+
 export function getQuiz(slug: string) {
   return quizzes.find((q) => q.slug === slug);
 }
 
 export function getExamPool(slug: string) {
-  return examPools[slug] ?? null;
+  const pool = examPools[slug];
+  return pool ? prepareExamPool(pool) : null;
 }
 
 export function getExamQuestionCount(slug: string) {

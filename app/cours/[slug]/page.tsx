@@ -16,8 +16,6 @@ import {
 } from "@/lib/course/helpers";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
-import { SubscriptionGate } from "@/components/subscription/subscription-gate";
-import { getRequiredTierForCourse } from "@/lib/pricing/access-control";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
@@ -53,11 +51,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const progressPercent = 0;
   const trackQuizzes = getQuizzesByTrack(course.trackSlug);
   const trackLabs = getLabsByTrack(course.trackSlug);
-  const requiredTier = getRequiredTierForCourse(course.slug);
-
   return (
     <PageShell>
-      <SubscriptionGate requiredTier={requiredTier} featureLabel={`parcours ${course.title}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd({ title: course.title, description: course.description, slug: course.slug, duration: course.duration })) }}
@@ -139,49 +134,33 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                     (f) => f.moduleIndex === moduleIndex && f.lessonIndex === lessonIndex
                   );
                   const globalIndex = flat?.globalIndex ?? 0;
-                  const status = getLessonStatus(globalIndex, 0);
+                  const status = globalIndex === 0 ? getLessonStatus(globalIndex, 0) : "en-cours";
                   const points = getLessonPoints(lesson, globalIndex);
                   const href = `/cours/${course.slug}/${lesson.slug}`;
-                  const isLocked = status === "verrouille";
                   const labSlug = getLabSlugForLesson(lesson.slug);
 
                   return (
                     <li key={lesson.slug}>
-                      {isLocked ? (
-                        <div className="flex items-center gap-4 rounded-2xl border border-border-light bg-surface/80 px-4 py-4 opacity-75">
+                      <div className="rounded-2xl border border-border-light bg-surface px-4 py-4 transition hover:border-accent/30 hover:shadow-md">
+                        <Link href={href} className="group flex items-center gap-4">
                           <LessonStatusIcon status={status} />
                           <div className="min-w-0 flex-1">
                             <div className="flex flex-wrap items-center gap-2">
-                              <span className="font-medium text-ink-secondary">{lesson.title}</span>
+                              <span className="font-semibold text-ink group-hover:text-accent">
+                                {lesson.title}
+                              </span>
                               <LessonStatusBadge status={status} />
                             </div>
                             <p className="mt-1 text-xs text-ink-tertiary">
-                              {lesson.duration} · {points} pts — Terminez la leçon précédente pour débloquer
+                              {lesson.duration} · {points} points
                             </p>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="rounded-2xl border border-border-light bg-surface px-4 py-4 transition hover:border-accent/30 hover:shadow-md">
-                          <Link href={href} className="group flex items-center gap-4">
-                            <LessonStatusIcon status={status} />
-                            <div className="min-w-0 flex-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <span className="font-semibold text-ink group-hover:text-accent">
-                                  {lesson.title}
-                                </span>
-                                <LessonStatusBadge status={status} />
-                              </div>
-                              <p className="mt-1 text-xs text-ink-tertiary">
-                                {lesson.duration} · {points} points
-                              </p>
-                            </div>
-                            <span className="hidden text-accent sm:inline" aria-hidden="true">
-                              →
-                            </span>
-                          </Link>
-                          {labSlug && <LabLessonLink labSlug={labSlug} compact />}
-                        </div>
-                      )}
+                          <span className="hidden text-accent sm:inline" aria-hidden="true">
+                            →
+                          </span>
+                        </Link>
+                        {labSlug && <LabLessonLink labSlug={labSlug} compact />}
+                      </div>
                     </li>
                   );
                 })}
@@ -211,7 +190,6 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </ButtonLink>
         </div>
       </div>
-      </SubscriptionGate>
     </PageShell>
   );
 }

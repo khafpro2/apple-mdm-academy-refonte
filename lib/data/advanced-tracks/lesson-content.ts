@@ -1,5 +1,6 @@
 import type { LessonContent } from "@/lib/types";
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
+import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
 
 const MODULE_THEORY: Record<string, { overview: string[]; concepts: string[]; enterprise: string[] }> = {
   "j300-m01": {
@@ -58,15 +59,21 @@ const MODULE_THEORY: Record<string, { overview: string[]; concepts: string[]; en
 function defaultTheory(title: string, trackSlug: string): { overview: string[]; concepts: string[]; enterprise: string[] } {
   const domain = trackSlug.startsWith("jamf") ? "Jamf Pro" : trackSlug.startsWith("intune") ? "Microsoft Intune" : "Apple Platform";
   return {
-    overview: [`Module expert « ${title} » — approfondissement ${domain} en contexte enterprise.`],
+    overview: [
+      `Module expert « ${title} » — approfondissement ${domain} en contexte enterprise.`,
+      "Cette leçon doit être abordée comme un scénario de production : cadrage du besoin, configuration pilote, observation, documentation et généralisation contrôlée.",
+      "L'objectif est de savoir expliquer le choix technique, pas seulement de reproduire une suite de clics.",
+    ],
     concepts: [
-      "Appliquer le principe du moindre privilège et documenter chaque changement.",
-      "Valider sur groupe pilote avant déploiement global.",
-      `Référencer la documentation officielle ${domain} et Apple Platform Deployment.`,
+      "Appliquer le principe du moindre privilège : droits admin limités, secrets protégés, scopes lisibles et séparation des environnements.",
+      "Valider sur groupe pilote avant déploiement global, avec critères d'arrêt et rollback documentés.",
+      `Référencer la documentation officielle ${domain} et Apple Platform Deployment pour confirmer les versions OS, limites API et prérequis.`,
+      "Rendre le changement observable : logs MDM, état appareil, inventaire, alertes et retour utilisateur.",
     ],
     enterprise: [
-      "Intégrer SOC/IAM dans la conception.",
-      "Prévoir rollback et communication utilisateurs.",
+      "Intégrer SOC/IAM dans la conception : identité, conformité, réponse aux incidents et accès conditionnel doivent être alignés.",
+      "Prévoir rollback, exclusions et communication utilisateurs avant toute action sur un périmètre large.",
+      "Transformer la configuration finale en runbook : propriétaire, date, dépendances, procédure de test, procédure support et liens d'escalade.",
     ],
   };
 }
@@ -95,17 +102,24 @@ export function getAdvancedLessonContent(lessonSlug: string): LessonContent | nu
       { title: "Contexte entreprise", body: theory.enterprise },
     ],
     steps: [
-      { title: "Préparer", description: `Vérifiez prérequis et accès pour ${mod.title}.` },
-      { title: "Configurer", description: `Appliquez la configuration ${mod.title} en mode pilote.` },
-      { title: "Valider", description: "Checklist validation + logs MDM + résultat attendu." },
-      { title: "Documenter", description: "Runbook interne et plan rollback." },
-      { title: "Quiz & lab", description: `Passez quiz-${mod.slug} et ${mod.labSlug ?? "exercice pratique"}.` },
+      { title: "Cadrer le scénario", description: `Définissez l'objectif de ${mod.title}, les appareils concernés, les versions OS supportées et les critères de réussite.` },
+      { title: "Préparer l'environnement", description: "Vérifiez les droits admin, comptes de service, certificats, tokens, groupes pilote et accès réseau nécessaires." },
+      { title: "Configurer en pilote", description: `Appliquez ${mod.title} sur un périmètre réduit avec exclusions explicites pour les appareils sensibles.` },
+      { title: "Observer les preuves", description: "Comparez console MDM, état local de l'appareil, logs, inventaire et retour utilisateur. Capturez les écarts." },
+      { title: "Industrialiser", description: `Rédigez le runbook, préparez le rollback, puis passez quiz-${mod.slug} et ${mod.labSlug ?? "l'exercice pratique"}.` },
     ],
-    screenshots: [],
+    screenshots: getScreenshotsForLesson(mod.slug, {
+      courseSlug: mod.trackSlug,
+      lesson: { slug: mod.slug, title: mod.title, duration: mod.duration },
+      domain: mod.trackSlug.startsWith("jamf") ? "Jamf Pro" : mod.trackSlug.startsWith("intune") ? "Microsoft Intune" : "Apple",
+    }),
     bestPractices: [
       "Toujours tester en sandbox ou simulateur avant production.",
       "Archiver tokens, certificats et exports API de façon sécurisée.",
       "Aligner avec équipes sécurité et conformité.",
+      "Limiter les droits des comptes API et documenter leur rotation.",
+      "Garder une matrice des versions OS supportées et des fonctionnalités disponibles.",
+      "Créer une fiche support qui décrit symptômes, vérifications et escalade.",
     ],
     troubleshooting: [
       {

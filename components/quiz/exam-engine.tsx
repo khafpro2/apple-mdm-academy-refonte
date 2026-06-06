@@ -16,7 +16,9 @@ import {
   type ExamSession,
 } from "@/lib/exam/session-storage";
 
-type Answers = Record<string, number>;
+import { isAnswerCorrect, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
+
+type Answers = Record<string, UserAnswer>;
 
 export function ExamEngine({
   quiz,
@@ -70,14 +72,11 @@ export function ExamEngine({
 
   const calculateScore = useCallback(
     (fromAnswers: Answers) => {
-      let correct = 0;
-      questions.forEach((q) => {
-        if (fromAnswers[q.id] === q.correctIndex) correct++;
-      });
-      const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
-      return { correct, total, percent, passed: percent >= quiz.passingScore };
+      const { correct, total: t } = scoreQuestions(questions, fromAnswers);
+      const percent = t > 0 ? Math.round((correct / t) * 100) : 0;
+      return { correct, total: t, percent, passed: percent >= quiz.passingScore };
     },
-    [questions, total, quiz.passingScore]
+    [questions, quiz.passingScore]
   );
 
   const persistSession = useCallback(
@@ -161,7 +160,8 @@ export function ExamEngine({
       setAnswers(resume.answers);
       setFlagged(new Set(resume.flagged));
       setCurrentIndex(resume.currentIndex);
-      setSelectedOption(resume.answers[picked[resume.currentIndex]?.id] ?? null);
+      const resumed = resume.answers[picked[resume.currentIndex]?.id];
+      setSelectedOption(Array.isArray(resumed) ? null : (resumed ?? null));
       setSecondsLeft(resume.secondsLeft);
       startTimeRef.current = resume.startedAt;
     } else {
@@ -192,7 +192,8 @@ export function ExamEngine({
   function goToQuestion(index: number) {
     if (index < 0 || index >= total) return;
     setCurrentIndex(index);
-    setSelectedOption(answers[questions[index]?.id] ?? null);
+    const ans = answers[questions[index]?.id];
+    setSelectedOption(Array.isArray(ans) ? null : (ans ?? null));
     setShowNavigator(false);
   }
 
@@ -341,21 +342,29 @@ export function ExamEngine({
           <h3 className="font-bold text-ink">Correction détaillée</h3>
           {questions.map((q, i) => {
             const userAnswer = answers[q.id];
-            const isCorrect = userAnswer === q.correctIndex;
+            const correct = isAnswerCorrect(q, userAnswer);
+            const formatAnswer = (ans: UserAnswer) => {
+              if (ans === undefined) return "—";
+              if (Array.isArray(ans)) return ans.map((idx) => q.options[idx]).join(", ");
+              return q.options[ans] ?? "—";
+            };
+            const correctLabel = q.selectMultiple && q.correctIndices
+              ? q.correctIndices.map((idx) => q.options[idx]).join(", ")
+              : q.options[q.correctIndex];
             return (
               <div
                 key={q.id}
-                className={`rounded-2xl border p-4 ${isCorrect ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}
+                className={`rounded-2xl border p-4 ${correct ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}
               >
                 <p className="text-sm font-semibold text-ink">
                   {i + 1}. {q.text}
                 </p>
                 <p className="mt-2 text-sm text-ink-secondary">
-                  Votre réponse : {q.options[userAnswer] ?? "—"}
+                  Votre réponse : {formatAnswer(userAnswer)}
                 </p>
-                {!isCorrect && (
+                {!correct && (
                   <p className="mt-1 text-sm font-medium text-green-700">
-                    Bonne réponse : {q.options[q.correctIndex]}
+                    Bonne réponse : {correctLabel}
                   </p>
                 )}
                 <p className="mt-2 text-xs text-ink-tertiary">{q.explanation}</p>

@@ -48,6 +48,12 @@ export default async function AdminPage() {
             Audit final
           </Link>
           <Link
+            href="/admin/quiz-quality"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Audit QCM
+          </Link>
+          <Link
             href="/dashboard"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

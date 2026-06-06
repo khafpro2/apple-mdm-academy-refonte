@@ -94,6 +94,10 @@ export type Question = {
   options: string[];
   correctIndex: number;
   explanation: string;
+  /** Choix multiples — indices des bonnes réponses */
+  correctIndices?: number[];
+  /** Active la sélection multiple (2+ réponses attendues) */
+  selectMultiple?: boolean;
   /** Lien vers le module/leçon associé (correction examen) */
   moduleHref?: string;
   moduleLabel?: string;

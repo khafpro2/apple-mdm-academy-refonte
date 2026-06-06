@@ -7,8 +7,10 @@ import { Button, ProgressBar, Badge } from "@/components/ui";
 import { saveQuizResult } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
+import { prepareQuestionsForSession } from "@/lib/quiz/normalize-questions";
+import { isAnswerCorrect, isMultiSelectQuestion, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
 
-type Answers = Record<string, number>;
+type Answers = Record<string, UserAnswer>;
 
 export function QuizEngine({
   quiz,
@@ -18,25 +20,25 @@ export function QuizEngine({
   isAuthenticated: boolean;
 }) {
   const [started, setStarted] = useState(false);
+  const [sessionQuestions, setSessionQuestions] = useState(quiz.questions);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [selectedMultiple, setSelectedMultiple] = useState<number[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [newBadgeIds, setNewBadgeIds] = useState<string[]>([]);
   const savedRef = useRef(false);
+  const sessionSeedRef = useRef("");
 
-  const question = quiz.questions[currentIndex];
-  const total = quiz.questions.length;
+  const question = sessionQuestions[currentIndex];
+  const total = sessionQuestions.length;
 
   function calculateScore(fromAnswers: Answers = answers) {
-    let correct = 0;
-    quiz.questions.forEach((q) => {
-      if (fromAnswers[q.id] === q.correctIndex) correct++;
-    });
-    const percent = Math.round((correct / total) * 100);
-    return { correct, total, percent, passed: percent >= quiz.passingScore };
+    const { correct, total: t } = scoreQuestions(sessionQuestions, fromAnswers);
+    const percent = Math.round((correct / t) * 100);
+    return { correct, total: t, percent, passed: percent >= quiz.passingScore };
   }
 
   async function persistResult(finalAnswers: Answers) {
@@ -66,10 +68,14 @@ export function QuizEngine({
   }
 
   function startQuiz() {
+    const seed = `${quiz.slug}-${Date.now()}`;
+    sessionSeedRef.current = seed;
+    setSessionQuestions(prepareQuestionsForSession(quiz.questions, seed));
     setStarted(true);
     setCurrentIndex(0);
     setAnswers({});
     setSelectedOption(null);
+    setSelectedMultiple([]);
     setShowResult(false);
     setFinished(false);
     setSaveStatus("idle");
@@ -79,23 +85,36 @@ export function QuizEngine({
 
   function selectOption(index: number) {
     if (showResult) return;
+    if (isMultiSelectQuestion(question)) {
+      setSelectedMultiple((prev) =>
+        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index].sort((a, b) => a - b)
+      );
+      return;
+    }
     setSelectedOption(index);
   }
 
   function confirmAnswer() {
-    if (selectedOption === null) return;
-    setAnswers({ ...answers, [question.id]: selectedOption });
+    const answer: UserAnswer = isMultiSelectQuestion(question)
+      ? selectedMultiple
+      : selectedOption;
+    if (answer === null || (Array.isArray(answer) && answer.length === 0)) return;
+    setAnswers({ ...answers, [question.id]: answer });
     setShowResult(true);
   }
 
   function nextQuestion() {
-    if (selectedOption === null) return;
-    const updated = { ...answers, [question.id]: selectedOption };
+    const answer: UserAnswer = isMultiSelectQuestion(question)
+      ? selectedMultiple
+      : selectedOption;
+    if (answer === null || (Array.isArray(answer) && answer.length === 0)) return;
+    const updated = { ...answers, [question.id]: answer };
 
     if (currentIndex < total - 1) {
       setAnswers(updated);
       setCurrentIndex((i) => i + 1);
       setSelectedOption(null);
+      setSelectedMultiple([]);
       setShowResult(false);
     } else {
       setAnswers(updated);
@@ -190,20 +209,28 @@ export function QuizEngine({
 
         <div className="mt-8 space-y-4">
           <h3 className="font-bold text-ink">Corrections</h3>
-          {quiz.questions.map((q, i) => {
+          {sessionQuestions.map((q, i) => {
             const userAnswer = answers[q.id];
-            const isCorrect = userAnswer === q.correctIndex;
+            const correct = isAnswerCorrect(q, userAnswer);
+            const formatAnswer = (ans: UserAnswer) => {
+              if (ans === undefined) return "—";
+              if (Array.isArray(ans)) return ans.map((idx) => q.options[idx]).join(", ");
+              return q.options[ans] ?? "—";
+            };
+            const correctLabel = q.selectMultiple && q.correctIndices
+              ? q.correctIndices.map((idx) => q.options[idx]).join(", ")
+              : q.options[q.correctIndex];
             return (
-              <div key={q.id} className={`rounded-2xl border p-4 ${isCorrect ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}>
+              <div key={q.id} className={`rounded-2xl border p-4 ${correct ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}>
                 <p className="text-sm font-semibold text-ink">
                   {i + 1}. {q.text}
                 </p>
                 <p className="mt-2 text-sm text-ink-secondary">
-                  Ta réponse : {q.options[userAnswer] ?? "—"}
+                  Ta réponse : {formatAnswer(userAnswer)}
                 </p>
-                {!isCorrect && (
+                {!correct && (
                   <p className="mt-1 text-sm font-medium text-green-700">
-                    Bonne réponse : {q.options[q.correctIndex]}
+                    Bonne réponse : {correctLabel}
                   </p>
                 )}
                 <p className="mt-2 text-xs text-ink-tertiary">{q.explanation}</p>
@@ -236,7 +263,10 @@ export function QuizEngine({
     );
   }
 
-  const isCorrect = selectedOption === question.correctIndex;
+  const isCorrect = isAnswerCorrect(question, isMultiSelectQuestion(question) ? selectedMultiple : selectedOption ?? undefined);
+  const canConfirm = isMultiSelectQuestion(question)
+    ? selectedMultiple.length > 0
+    : selectedOption !== null;
 
   return (
     <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
@@ -248,15 +278,23 @@ export function QuizEngine({
       </div>
 
       <h2 className="text-xl font-bold leading-snug text-ink">{question.text}</h2>
+      {isMultiSelectQuestion(question) && (
+        <p className="mt-2 text-sm text-ink-secondary">Sélectionnez toutes les réponses correctes.</p>
+      )}
 
       <div className="mt-6 space-y-3">
         {question.options.map((option, index) => {
+          const isMulti = isMultiSelectQuestion(question);
+          const isSelected = isMulti ? selectedMultiple.includes(index) : selectedOption === index;
           let style = "border-border-light bg-surface hover:border-accent/40";
           if (showResult) {
-            if (index === question.correctIndex) style = "border-green-500 bg-green-50";
-            else if (index === selectedOption && !isCorrect) style = "border-red-400 bg-red-50";
+            const isCorrectOption = question.selectMultiple && question.correctIndices
+              ? question.correctIndices.includes(index)
+              : index === question.correctIndex;
+            if (isCorrectOption) style = "border-green-500 bg-green-50";
+            else if (isSelected && !isCorrect) style = "border-red-400 bg-red-50";
             else style = "border-border-light bg-surface opacity-60";
-          } else if (selectedOption === index) {
+          } else if (isSelected) {
             style = "border-accent bg-accent/5 ring-2 ring-accent/20";
           }
 
@@ -269,7 +307,7 @@ export function QuizEngine({
               className={`w-full rounded-2xl border p-4 text-left text-sm font-medium text-ink transition-all ${style}`}
             >
               <span className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-border-light text-xs font-bold">
-                {String.fromCharCode(65 + index)}
+                {isMulti ? (isSelected ? "☑" : "☐") : String.fromCharCode(65 + index)}
               </span>
               {option}
             </button>
@@ -286,7 +324,7 @@ export function QuizEngine({
 
       <div className="mt-8">
         {!showResult ? (
-          <Button onClick={confirmAnswer} disabled={selectedOption === null}>
+          <Button onClick={confirmAnswer} disabled={!canConfirm}>
             Valider
           </Button>
         ) : (
