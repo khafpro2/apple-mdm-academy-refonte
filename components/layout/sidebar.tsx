@@ -127,7 +127,7 @@ export function Sidebar() {
   const aside = (
     <aside
       className={[
-        "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border-light bg-surface-elevated transition-[width,transform] duration-200 ease-out",
+        "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border-light bg-surface-elevated shadow-sm transition-[width,transform] duration-200 ease-out",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       ].join(" ")}
       style={{ width: mobileOpen ? SIDEBAR_WIDTH_OPEN : width }}
