@@ -1,4 +1,5 @@
 import type { Lab, LabLevel, LabTechnology } from "@/lib/types";
+import { generateModuleLabs } from "@/lib/data/alternative-mdm-tracks/lab-factory";
 
 function altLab(
   slug: string,
@@ -37,8 +38,8 @@ const checklistStep = (id: string, title: string, items: string[]) => ({
   expectedResult: "Tous les points cochés et documentés.",
 });
 
-/** 9 labs Phase 14 — MDM alternatifs */
-export const altMdmLabs: Lab[] = [
+/** 9 labs nommés Phase 14 */
+const handCraftedAltMdmLabs: Lab[] = [
   altLab(
     "kandji-blueprint",
     "Lab — Blueprint Kandji",
@@ -212,3 +213,6 @@ export const altMdmLabs: Lab[] = [
     "Matrice décision MDM livrée, recommandation documentée."
   ),
 ];
+
+/** 40 labs — 9 nommés + 31 auto-générés par module */
+export const altMdmLabs: Lab[] = [...handCraftedAltMdmLabs, ...generateModuleLabs()];

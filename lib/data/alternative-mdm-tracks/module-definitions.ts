@@ -27,7 +27,7 @@ function mod(
     title,
     trackSlug: track,
     quizSlug: `quiz-${slug}`,
-    labSlug: lab,
+    labSlug: lab ?? `lab-${slug}`,
     badgeId: badge,
     resourceSlug: `resource-${slug}`,
     videoSlug: `video-${slug}`,

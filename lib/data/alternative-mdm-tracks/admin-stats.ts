@@ -1,4 +1,4 @@
-import { altMdmTrackMeta } from "@/lib/data/alternative-mdm-tracks/module-definitions";
+import { altMdmTrackMeta, allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 import { getLabsByTrack } from "@/lib/labs";
 import type { AdminExamStat } from "@/lib/supabase/admin";
 
@@ -18,17 +18,7 @@ const TRACK_EXAM_SLUG: Record<string, string> = {
   "workspace-one-apple": "examen-workspace-one-apple",
 };
 
-export const altMdmLabSlugs = [
-  "kandji-blueprint",
-  "kandji-liftoff",
-  "mosyle-enrollment",
-  "mosyle-auth",
-  "addigy-policy",
-  "addigy-golive",
-  "workspace-one-apple-enrollment",
-  "workspace-one-compliance",
-  "mdm-comparison",
-];
+export const altMdmLabSlugs = allAltMdmModules.map((m) => m.labSlug).filter(Boolean) as string[];
 
 export function buildAltMdmTrackStats(
   trackStats: { track_slug: string; avg_percent: number; learners: number }[],

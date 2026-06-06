@@ -67,6 +67,10 @@ export type LessonContent = {
   bestPractices: string[];
   troubleshooting: LessonTroubleshooting[];
   finalQuizSlug?: string;
+  /** Tableau comparatif MDM (parcours comparatif) */
+  comparisonTable?: import("@/lib/data/alternative-mdm-tracks/comparison-table").MdmComparisonRow[];
+  /** Surligner une ligne du tableau (module vendor-specific) */
+  comparisonHighlight?: string;
 };
 
 export type Module = {

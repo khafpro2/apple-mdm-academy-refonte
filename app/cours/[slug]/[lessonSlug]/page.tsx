@@ -95,11 +95,11 @@ export default async function LessonPage({
 
         <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[240px_minmax(0,1fr)]">
           <aside className="mb-8 lg:sticky lg:top-28 lg:mb-0 lg:self-start">
-            {CustomToc ? <CustomToc /> : <LessonTableOfContents />}
+            {CustomToc ? <CustomToc /> : <LessonTableOfContents showComparison={course.trackSlug === "mdm-comparatif-apple"} />}
           </aside>
 
           <div>
-            {CustomToc ? <CustomToc mobile /> : <LessonTableOfContents mobile />}
+            {CustomToc ? <CustomToc mobile /> : <LessonTableOfContents mobile showComparison={course.trackSlug === "mdm-comparatif-apple"} />}
 
             <header className="overflow-hidden rounded-[2rem] border border-border-light bg-surface-elevated shadow-sm">
               <div className="bg-gradient-to-br from-surface via-surface-elevated to-indigo-50/40 px-6 py-8 md:px-10 md:py-10">

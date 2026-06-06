@@ -3,6 +3,7 @@ import type { LessonContent } from "@/lib/types";
 import { ButtonLink } from "@/components/ui";
 import { ContentSection } from "@/components/course/course-ui";
 import { LessonScreenshotsSection } from "@/components/course/screenshot-card";
+import { MdmComparisonTable } from "@/components/course/mdm-comparison-table";
 
 type LessonContentViewProps = {
   content: LessonContent;
@@ -61,6 +62,12 @@ export function LessonContentView({ content, lessonTitle, quizHref }: LessonCont
           ))}
         </div>
       </ContentSection>
+
+      {content.comparisonTable && content.comparisonTable.length > 0 && (
+        <ContentSection id="comparatif" title="Tableau comparatif MDM">
+          <MdmComparisonTable rows={content.comparisonTable} highlightVendor={content.comparisonHighlight} />
+        </ContentSection>
+      )}
 
       <ContentSection id="etapes" title="Étapes détaillées">
         <ol className="space-y-4">
@@ -145,11 +152,12 @@ export function LessonContentView({ content, lessonTitle, quizHref }: LessonCont
   );
 }
 
-export function LessonTableOfContents({ mobile = false }: { mobile?: boolean }) {
+export function LessonTableOfContents({ mobile = false, showComparison = false }: { mobile?: boolean; showComparison?: boolean }) {
   const links = [
     { href: "#objectifs", label: "Objectifs" },
     { href: "#prerequis", label: "Prérequis" },
     { href: "#theorie", label: "Théorie" },
+    ...(showComparison ? [{ href: "#comparatif", label: "Comparatif" }] : []),
     { href: "#etapes", label: "Étapes" },
     { href: "#captures", label: "Captures" },
     { href: "#bonnes-pratiques", label: "Bonnes pratiques" },

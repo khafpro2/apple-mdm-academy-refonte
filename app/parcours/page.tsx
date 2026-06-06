@@ -14,7 +14,7 @@ export default function ParcoursPage() {
         <SectionHeading
           label="Certifications"
           title="Parcours de formation"
-          description="8 parcours complets + 3 parcours certification Jamf & Apple Enterprise."
+          description={`${tracks.length} parcours complets — Apple, Jamf, Intune, MDM alternatifs (Kandji, Mosyle, Addigy, Workspace ONE) et certifications expert.`}
         />
 
         <section>
