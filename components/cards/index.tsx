@@ -1,12 +1,13 @@
 import Link from "next/link";
 import type { Track } from "@/lib/types";
 import { Card, Badge, ButtonLink } from "@/components/ui";
+import { TrackLogo } from "@/components/ui/track-logo";
 
 export function TrackCard({ track }: { track: Track }) {
   return (
     <Card hover className="flex flex-col">
       <div className="mb-4 flex items-start justify-between">
-        <span className="text-3xl" aria-hidden="true">{track.icon}</span>
+        <TrackLogo logo={track.logo} alt={track.title} />
         <Badge>{track.level}</Badge>
       </div>
       <h3 className="text-xl font-bold text-ink">{track.title}</h3>

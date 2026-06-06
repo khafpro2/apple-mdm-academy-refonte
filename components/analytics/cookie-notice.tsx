@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { setAnalyticsEnabled } from "@/lib/analytics/events";
 
 const STORAGE_KEY = "apple-mdm-analytics-consent";
+const CONSENT_EVENT = "apple-mdm-analytics-consent-change";
 
-function getInitialVisibility(): boolean {
-  if (typeof window === "undefined") return false;
+function readShouldShowNotice(): boolean {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === "declined") {
@@ -20,28 +20,42 @@ function getInitialVisibility(): boolean {
   }
 }
 
-export function CookieNotice() {
-  const [visible, setVisible] = useState(getInitialVisibility);
+function subscribe(onStoreChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener(CONSENT_EVENT, onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+  return () => {
+    window.removeEventListener(CONSENT_EVENT, onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
 
-  function accept() {
+function notifyConsentChange() {
+  window.dispatchEvent(new Event(CONSENT_EVENT));
+}
+
+export function CookieNotice() {
+  const visible = useSyncExternalStore(subscribe, readShouldShowNotice, () => false);
+
+  const accept = useCallback(() => {
     try {
       localStorage.setItem(STORAGE_KEY, "accepted");
     } catch {
       /* ignore */
     }
     setAnalyticsEnabled(true);
-    setVisible(false);
-  }
+    notifyConsentChange();
+  }, []);
 
-  function decline() {
+  const decline = useCallback(() => {
     try {
       localStorage.setItem(STORAGE_KEY, "declined");
     } catch {
       /* ignore */
     }
     setAnalyticsEnabled(false);
-    setVisible(false);
-  }
+    notifyConsentChange();
+  }, []);
 
   if (!visible) return null;
 

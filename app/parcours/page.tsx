@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, Badge, Card } from "@/components/ui";
 import { TrackCard } from "@/components/cards";
+import { TrackLogo } from "@/components/ui/track-logo";
 import { tracks } from "@/lib/data";
 import { certificationPaths } from "@/lib/data/pro-modules/paths";
 
@@ -27,7 +28,7 @@ export default function ParcoursPage() {
               <Link key={path.slug} href={`/certification/${path.slug}`} className="group block">
                 <Card hover className="flex h-full flex-col">
                   <div className="mb-4 flex items-start justify-between">
-                    <span className="text-3xl" aria-hidden="true">{path.icon}</span>
+                    <TrackLogo logo={path.logo} alt={path.title} />
                     <Badge>{path.level}</Badge>
                   </div>
                   <h3 className="text-xl font-bold text-ink group-hover:text-accent">{path.title}</h3>

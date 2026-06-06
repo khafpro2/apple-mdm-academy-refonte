@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card, ProgressBar, ButtonLink } from "@/components/ui";
+import { TrackLogo } from "@/components/ui/track-logo";
 import { advancedTrackMeta } from "@/lib/data/advanced-tracks/module-definitions";
 import { getExamRouteSlugs } from "@/lib/data/exams/pools";
 
@@ -23,7 +24,7 @@ export function AdvancedTracksPanel() {
           <Card key={track.slug} hover className="p-5">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <span className="text-2xl">{track.icon}</span>
+                <TrackLogo logo={track.logo} alt={track.title} />
                 <h3 className="mt-2 font-bold text-ink">{track.title}</h3>
                 <p className="mt-1 text-xs text-ink-tertiary">{track.level} · {track.lessons} modules · {track.duration}</p>
               </div>

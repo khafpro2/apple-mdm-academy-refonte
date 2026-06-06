@@ -1,5 +1,7 @@
 /** Parcours certifiants commerciaux — V2 SaaS */
 
+import type { LogoName } from "@/lib/navigation/logo-names";
+
 export type CommercialCertPath = {
   slug: string;
   title: string;
@@ -7,7 +9,7 @@ export type CommercialCertPath = {
   description: string;
   level: string;
   duration: string;
-  icon: string;
+  logo: LogoName;
   modulesCount: number;
   labsCount: number;
   examsCount: number;
@@ -26,7 +28,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     description: "Maîtrisez MDM Apple, ABM, ADE, APNs et l'architecture de sécurité entreprise.",
     level: "Avancé",
     duration: "30 h",
-    icon: "🔐",
+    logo: "shield",
     modulesCount: 17,
     labsCount: 10,
     examsCount: 1,
@@ -42,7 +44,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     description: "Fondamentaux Jamf Pro : inventaire, Smart Groups, policies et configuration profiles.",
     level: "Pro",
     duration: "16 h",
-    icon: "📱",
+    logo: "jamf",
     modulesCount: 6,
     labsCount: 3,
     examsCount: 1,
@@ -59,7 +61,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     description: "Expertise Jamf : API, patch management, Jamf Protect et architecture à grande échelle.",
     level: "Expert",
     duration: "24 h",
-    icon: "🏆",
+    logo: "jamf",
     modulesCount: 3,
     labsCount: 2,
     examsCount: 1,
@@ -76,7 +78,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     description: "Déploiement Apple avec Microsoft Intune : APNs, ADE, profils, compliance et Platform SSO.",
     level: "Pro",
     duration: "20 h",
-    icon: "☁️",
+    logo: "intune",
     modulesCount: 15,
     labsCount: 11,
     examsCount: 1,
@@ -92,7 +94,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     description: "FileVault, Platform SSO, conformité, sécurité endpoint et durcissement macOS/iOS.",
     level: "Expert",
     duration: "18 h",
-    icon: "🛡️",
+    logo: "shield",
     modulesCount: 6,
     labsCount: 1,
     examsCount: 1,

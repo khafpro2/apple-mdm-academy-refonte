@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, Card, ButtonLink } from "@/components/ui";
-import { LogoIcon } from "@/components/ui/logo-icon";
+import { TrackLogo } from "@/components/ui/track-logo";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
-import type { LogoName } from "@/lib/navigation/logo-names";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -11,14 +10,6 @@ export const metadata = buildPageMetadata({
   description: "Parcours de certification Apple IT Professional, Jamf et Intune Apple.",
   path: "/certifications",
 });
-
-const certIcons: Record<string, LogoName> = {
-  "apple-certified-it-professional": "apple",
-  "jamf-100": "jamf",
-  "jamf-200": "jamf",
-  "intune-apple-specialist": "microsoft",
-  "apple-security-expert": "shield",
-};
 
 export default function CertificationsPage() {
   return (
@@ -38,7 +29,6 @@ export default function CertificationsPage() {
                 : path.examRouteSlug
                   ? `/examens/${path.examRouteSlug}`
                   : `/parcours/${path.trackSlug}`;
-            const icon = certIcons[path.slug] ?? "certificate";
 
             return (
               <Link
@@ -47,7 +37,7 @@ export default function CertificationsPage() {
                 className="group rounded-2xl border border-border-light bg-surface-elevated p-6 transition hover:border-accent/40 hover:shadow-sm"
               >
                 <div className="flex items-center gap-3">
-                  <LogoIcon name={icon} size={24} />
+                  <TrackLogo logo={path.logo} size={24} alt={path.title} />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-accent">{path.level}</p>
                     <h2 className="text-lg font-bold text-ink group-hover:text-accent">{path.title}</h2>

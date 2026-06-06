@@ -1,12 +1,14 @@
 /** Parcours certification — Jamf 100, Jamf 200, Apple Enterprise */
 
+import type { LogoName } from "@/lib/navigation/logo-names";
+
 export type CertificationPath = {
   slug: string;
   title: string;
   description: string;
   level: string;
   duration: string;
-  icon: string;
+  logo: LogoName;
   moduleNumbers: number[];
   examQuizSlug: string;
   passingScore: number;
@@ -21,7 +23,7 @@ export const certificationPaths: CertificationPath[] = [
       "Modules 12 à 14 : fondamentaux Jamf Pro, Smart Groups et Policies. Prépare la certification Jamf Certified Associate.",
     level: "Pro",
     duration: "8 h",
-    icon: "📱",
+    logo: "jamf",
     moduleNumbers: [12, 13, 14],
     examQuizSlug: "examen-jamf-100-blanc",
     passingScore: 75,
@@ -34,7 +36,7 @@ export const certificationPaths: CertificationPath[] = [
       "Modules 15 à 18 : scripts, patch management, Jamf Protect et sécurité Apple enterprise.",
     level: "Expert",
     duration: "12 h",
-    icon: "🏆",
+    logo: "jamf",
     moduleNumbers: [15, 16, 17, 18],
     examQuizSlug: "examen-jamf-200",
     passingScore: 75,
@@ -47,7 +49,7 @@ export const certificationPaths: CertificationPath[] = [
       "Parcours complet modules 1 à 18 : Intune Apple, Jamf Pro, sécurité et conformité enterprise.",
     level: "Expert",
     duration: "40 h",
-    icon: "🍏",
+    logo: "apple",
     moduleNumbers: Array.from({ length: 18 }, (_, i) => i + 1),
     examQuizSlug: "examen-apple-it-pro",
     passingScore: 80,

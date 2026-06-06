@@ -8,7 +8,7 @@ export const tracks: Track[] = [
     lessons: 18,
     description: "Maîtrise les bases de l'écosystème Apple : macOS, iOS, iPadOS, sécurité et services entreprise.",
     duration: "12 h",
-    icon: "🍏",
+    logo: "apple",
     certification: "Apple Fundamentals",
   },
   {
@@ -18,7 +18,7 @@ export const tracks: Track[] = [
     lessons: 32,
     description: "Prépare la certification Apple Device Support : dépannage macOS, réseau, comptes et support utilisateur.",
     duration: "24 h",
-    icon: "💻",
+    logo: "apple",
     certification: "Apple Device Support",
   },
   {
@@ -28,7 +28,7 @@ export const tracks: Track[] = [
     lessons: 40,
     description: "MDM Apple, Automated Device Enrollment, Apps & Books, APNs et architecture de sécurité entreprise.",
     duration: "30 h",
-    icon: "🔐",
+    logo: "shield",
     certification: "Apple IT Professional",
   },
   {
@@ -38,7 +38,7 @@ export const tracks: Track[] = [
     lessons: 20,
     description: "Fondamentaux Jamf Pro : inventaire, smart groups, configuration profiles et policies de base.",
     duration: "16 h",
-    icon: "📱",
+    logo: "jamf",
     certification: "Jamf Certified Associate",
   },
   {
@@ -48,7 +48,7 @@ export const tracks: Track[] = [
     lessons: 24,
     description: "Administration avancée Jamf Pro : extension attributes, scripts, Self Service et workflows.",
     duration: "20 h",
-    icon: "⚙️",
+    logo: "jamf",
     certification: "Jamf Certified Admin",
   },
   {
@@ -58,7 +58,7 @@ export const tracks: Track[] = [
     lessons: 28,
     description: "Expertise Jamf : API, patch management, integrations tierces et architecture à grande échelle.",
     duration: "24 h",
-    icon: "🏆",
+    logo: "jamf",
     certification: "Jamf Certified Expert",
   },
   {
@@ -68,7 +68,7 @@ export const tracks: Track[] = [
     lessons: 26,
     description: "Gestion Apple avec Intune : enrollment ABM, conformité, Conditional Access et déploiement macOS/iOS.",
     duration: "18 h",
-    icon: "☁️",
+    logo: "intune",
     certification: "Intune Apple Admin",
   },
   {
@@ -79,7 +79,7 @@ export const tracks: Track[] = [
     description:
       "Modules 11–18 : Intune Apple, Jamf Pro Fundamentals, Smart Groups, Policies, Scripts, Patch, Protect et sécurité Apple.",
     duration: "22 h",
-    icon: "🎓",
+    logo: "certificate",
     certification: "Jamf & Apple Enterprise",
   },
   {
@@ -89,7 +89,7 @@ export const tracks: Track[] = [
     lessons: 10,
     description: "Architecture avancée, API, webhooks, patch management et dépannage Jamf Pro niveau entreprise.",
     duration: "28 h",
-    icon: "🚀",
+    logo: "jamf",
     certification: "Jamf 300 Ready",
   },
   {
@@ -99,7 +99,7 @@ export const tracks: Track[] = [
     lessons: 10,
     description: "Automatisation, CI/CD, migration, reporting et projet final architecte Jamf.",
     duration: "32 h",
-    icon: "🏗️",
+    logo: "jamf",
     certification: "Jamf 400 Ready",
   },
   {
@@ -109,7 +109,7 @@ export const tracks: Track[] = [
     lessons: 10,
     description: "Platform Deployment, DDM, MDA, Platform SSO, compliance et déploiement international Apple.",
     duration: "30 h",
-    icon: "🍏",
+    logo: "apple",
     certification: "Apple Enterprise Expert",
   },
   {
@@ -119,7 +119,7 @@ export const tracks: Track[] = [
     lessons: 10,
     description: "Intune macOS avancé, Conditional Access, Defender, SCEP, VPN et troubleshooting Apple.",
     duration: "26 h",
-    icon: "☁️",
+    logo: "intune",
     certification: "Intune Apple Advanced",
   },
   {
@@ -129,7 +129,7 @@ export const tracks: Track[] = [
     lessons: 8,
     description: "Blueprints, Library Items, Auto Apps, Passport, Liftoff, EDR et compliance Kandji.",
     duration: "16 h",
-    icon: "🔷",
+    logo: "lab",
     certification: "Kandji Fundamentals",
   },
   {
@@ -139,7 +139,7 @@ export const tracks: Track[] = [
     lessons: 8,
     description: "Enrollment, profils, Apps & Books, Mosyle Auth, Fuse, sécurité et reporting.",
     duration: "16 h",
-    icon: "🟢",
+    logo: "lab",
     certification: "Mosyle Fundamentals",
   },
   {
@@ -149,7 +149,7 @@ export const tracks: Track[] = [
     lessons: 8,
     description: "GoLive, policies, Smart Software, compliance, remote management et dépannage.",
     duration: "16 h",
-    icon: "🟠",
+    logo: "lab",
     certification: "Addigy Fundamentals",
   },
   {
@@ -159,7 +159,7 @@ export const tracks: Track[] = [
     lessons: 8,
     description: "Enrollment Apple, profils macOS/iOS, apps, compliance, Conditional Access et reporting.",
     duration: "18 h",
-    icon: "🔵",
+    logo: "microsoft",
     certification: "Workspace ONE Apple Specialist",
   },
   {
@@ -169,7 +169,7 @@ export const tracks: Track[] = [
     lessons: 8,
     description: "Jamf, Intune, Kandji, Mosyle, Addigy et Workspace ONE — forces, limites et cas d'usage.",
     duration: "12 h",
-    icon: "📊",
+    logo: "dashboard",
     certification: "MDM Comparison Expert",
   },
 ];

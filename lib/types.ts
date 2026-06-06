@@ -1,3 +1,5 @@
+import type { LogoName } from "@/lib/navigation/logo-names";
+
 export type Track = {
   slug: string;
   title: string;
@@ -5,7 +7,7 @@ export type Track = {
   lessons: number;
   description: string;
   duration: string;
-  icon: string;
+  logo: LogoName;
   certification?: string;
 };
 

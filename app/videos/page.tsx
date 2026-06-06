@@ -8,6 +8,8 @@ import {
   getPopularVideoScripts,
   videoScripts,
 } from "@/src/lib/video-scripts";
+import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
+import type { VideoStoryboard } from "@/src/lib/video-lessons";
 
 export const metadata = {
   title: "Vidéos",
@@ -21,6 +23,7 @@ export default function VideosPage() {
   const jamf170 = getJamfVideoScriptsByTrack("jamf-170");
   const jamf200 = getJamfVideoScriptsByTrack("jamf-200");
   const fundamentals = getFundamentalVideoScripts();
+  const illustrated = getIllustratedVideoLessons();
 
   return (
     <PageShell>
@@ -53,6 +56,23 @@ export default function VideosPage() {
             </div>
           </section>
         )}
+
+        <section className="mt-12">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-bold text-ink">Vidéos illustrées — storyboards</h2>
+              <p className="mt-1 text-sm text-ink-secondary">
+                {illustrated.length} modules avec animations, diagrammes et scripts HeyGen scène par scène.
+              </p>
+            </div>
+            <Badge variant="accent">Apple Training Premium</Badge>
+          </div>
+          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {illustrated.map((lesson) => (
+              <IllustratedVideoCard key={lesson.slug} lesson={lesson} />
+            ))}
+          </div>
+        </section>
 
         <section className="mt-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -109,6 +129,36 @@ export default function VideosPage() {
         </section>
       </div>
     </PageShell>
+  );
+}
+
+function IllustratedVideoCard({ lesson }: { lesson: VideoStoryboard }) {
+  return (
+    <article className="group flex flex-col overflow-hidden rounded-3xl border border-accent/30 bg-surface-elevated shadow-sm transition hover:shadow-md">
+      <div className="relative flex aspect-video items-center justify-center gap-3 bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+        {["abm", "intune", "jamf"].map((icon) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={icon} src={`/illustrations/${icon}.svg`} alt="" width={32} height={32} className="opacity-80" />
+        ))}
+        <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white">
+          {lesson.duration}
+        </span>
+        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-ink">
+          {lesson.scenes.length} scènes
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <Badge variant="default" className="mb-2 self-start">{lesson.module}</Badge>
+        <h3 className="font-bold text-ink group-hover:text-accent">{lesson.title}</h3>
+        <p className="mt-2 flex-1 text-sm text-ink-secondary line-clamp-2">{lesson.objective}</p>
+        <Link
+          href={`/videos/${lesson.slug}`}
+          className="mt-4 inline-flex rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
+        >
+          Voir le storyboard
+        </Link>
+      </div>
+    </article>
   );
 }
 

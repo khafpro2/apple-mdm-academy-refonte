@@ -11,6 +11,7 @@ import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-panel";
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
+import { VideoProgressPanel } from "@/components/dashboard/video-progress-panel";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
@@ -118,6 +119,10 @@ export default async function DashboardPage() {
         <div className="mb-8 grid gap-8 lg:grid-cols-2">
           <ContinueLearningPanel />
           <ResourcesPanel trackProgress={trackProgress} />
+        </div>
+
+        <div className="mb-8">
+          <VideoProgressPanel />
         </div>
 
         <div className="mb-8">

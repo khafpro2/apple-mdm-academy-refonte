@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
+import { TrackLogo } from "@/components/ui/track-logo";
 import { getTrack, tracks, getQuizzesByTrack, getLabsByTrack } from "@/lib/data";
 
 export function generateStaticParams() {
@@ -29,7 +30,7 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
 
         <header className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-4xl" aria-hidden="true">{track.icon}</span>
+            <TrackLogo logo={track.logo} size={32} alt={track.title} className="h-14 w-14" />
             <Badge>{track.level}</Badge>
             <span className="text-sm text-ink-tertiary">{track.lessons} leçons · {track.duration}</span>
           </div>

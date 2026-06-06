@@ -1,5 +1,7 @@
 /** Phase 14 — Kandji, Mosyle, Addigy, Workspace ONE & comparatif MDM */
 
+import type { LogoName } from "@/lib/navigation/logo-names";
+
 export type AltMdmModuleDef = {
   slug: string;
   title: string;
@@ -99,7 +101,17 @@ export const allAltMdmModules = [
   ...mdmComparatifModules,
 ];
 
-export const altMdmTrackMeta = [
+export const altMdmTrackMeta: {
+  slug: string;
+  title: string;
+  level: "Pro";
+  lessons: number;
+  description: string;
+  duration: string;
+  logo: LogoName;
+  certification: string;
+  modules: AltMdmModuleDef[];
+}[] = [
   {
     slug: "kandji-fundamentals",
     title: "Kandji Fundamentals",
@@ -107,7 +119,7 @@ export const altMdmTrackMeta = [
     lessons: 8,
     description: "Blueprints, Library Items, Auto Apps, Passport, Liftoff, EDR et compliance Kandji pour macOS/iOS.",
     duration: "16 h",
-    icon: "🔷",
+    logo: "lab",
     certification: "Kandji Fundamentals",
     modules: kandjiModules,
   },
@@ -118,7 +130,7 @@ export const altMdmTrackMeta = [
     lessons: 8,
     description: "Enrollment, profils, Apps & Books, Mosyle Auth, Fuse, sécurité et reporting pour flottes Apple.",
     duration: "16 h",
-    icon: "🟢",
+    logo: "lab",
     certification: "Mosyle Fundamentals",
     modules: mosyleModules,
   },
@@ -129,7 +141,7 @@ export const altMdmTrackMeta = [
     lessons: 8,
     description: "GoLive, policies, Smart Software, compliance, remote management et dépannage Addigy.",
     duration: "16 h",
-    icon: "🟠",
+    logo: "lab",
     certification: "Addigy Fundamentals",
     modules: addigyModules,
   },
@@ -140,7 +152,7 @@ export const altMdmTrackMeta = [
     lessons: 8,
     description: "Enrollment Apple, profils macOS/iOS, apps, compliance, Conditional Access et reporting VMware.",
     duration: "18 h",
-    icon: "🔵",
+    logo: "microsoft",
     certification: "Workspace ONE Apple Specialist",
     modules: workspaceOneModules,
   },
@@ -151,7 +163,7 @@ export const altMdmTrackMeta = [
     lessons: 8,
     description: "Jamf, Intune, Kandji, Mosyle, Addigy et Workspace ONE — forces, limites, coûts et cas d'usage.",
     duration: "12 h",
-    icon: "📊",
+    logo: "dashboard",
     certification: "MDM Comparison Expert",
     modules: mdmComparatifModules,
   },

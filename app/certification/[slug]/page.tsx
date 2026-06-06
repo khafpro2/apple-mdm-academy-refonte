@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
+import { TrackLogo } from "@/components/ui/track-logo";
 import {
   certificationPaths,
   getCertificationPath,
@@ -45,7 +46,7 @@ export default async function CertificationPathPage({
 
         <header className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-4xl" aria-hidden="true">{path.icon}</span>
+            <TrackLogo logo={path.logo} size={32} alt={path.title} className="h-14 w-14" />
             <Badge>{path.level}</Badge>
             <span className="text-sm text-ink-tertiary">
               {path.moduleNumbers.length} modules · {path.duration}

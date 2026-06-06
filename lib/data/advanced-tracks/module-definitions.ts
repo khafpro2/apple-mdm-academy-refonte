@@ -1,5 +1,7 @@
 /** Définitions des 40 modules expert — Jamf 300/400, Apple Enterprise, Intune Advanced */
 
+import type { LogoName } from "@/lib/navigation/logo-names";
+
 export type AdvancedModuleDef = {
   slug: string;
   title: string;
@@ -96,7 +98,17 @@ export const allAdvancedModules = [
   ...intuneAdvancedModules,
 ];
 
-export const advancedTrackMeta = [
+export const advancedTrackMeta: {
+  slug: string;
+  title: string;
+  level: string;
+  lessons: number;
+  description: string;
+  duration: string;
+  logo: LogoName;
+  certification: string;
+  modules: AdvancedModuleDef[];
+}[] = [
   {
     slug: "jamf-300",
     title: "Jamf 300 Prep",
@@ -104,7 +116,7 @@ export const advancedTrackMeta = [
     lessons: 10,
     description: "Architecture avancée, API, webhooks, patch management et dépannage Jamf Pro niveau entreprise.",
     duration: "28 h",
-    icon: "🚀",
+    logo: "jamf",
     certification: "Jamf 300 Ready",
     modules: jamf300Modules,
   },
@@ -115,7 +127,7 @@ export const advancedTrackMeta = [
     lessons: 10,
     description: "Automatisation, CI/CD, migration, reporting et projet final architecte Jamf.",
     duration: "32 h",
-    icon: "🏗️",
+    logo: "jamf",
     certification: "Jamf 400 Ready",
     modules: jamf400Modules,
   },
@@ -126,7 +138,7 @@ export const advancedTrackMeta = [
     lessons: 10,
     description: "Platform Deployment, DDM, MDA, Platform SSO, compliance et déploiement international Apple.",
     duration: "30 h",
-    icon: "🍏",
+    logo: "apple",
     certification: "Apple Enterprise Expert",
     modules: appleEnterpriseModules,
   },
@@ -137,7 +149,7 @@ export const advancedTrackMeta = [
     lessons: 10,
     description: "Intune macOS avancé, Conditional Access, Defender, SCEP, VPN et troubleshooting Apple.",
     duration: "26 h",
-    icon: "☁️",
+    logo: "intune",
     certification: "Intune Apple Advanced",
     modules: intuneAdvancedModules,
   },

@@ -194,12 +194,12 @@ const ANIMATIONS: Record<AnimationSlug, React.ComponentType<{ progress: number }
 
 export function PedagogicalAnimation({ slug, playing = false, progress = 0 }: Props) {
   const Component = ANIMATIONS[slug];
-  const effectiveProgress = playing ? progress : 0;
+  const effectiveProgress = Math.min(Math.max(progress, 0), 1);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border-light bg-gradient-to-br from-surface-elevated to-surface">
       <div className="border-b border-border-light bg-ink px-4 py-2 text-xs font-medium text-white/80">
-        Animation pédagogique · style Apple Training Premium
+        Animation pédagogique · style Apple Training Premium{playing ? " · lecture" : ""}
       </div>
       <Component progress={effectiveProgress} />
     </div>

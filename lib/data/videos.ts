@@ -61,8 +61,6 @@ function chaptersFromScript(script: string): AcademyVideo["chapters"] {
 }
 
 function heygenFromScript(v: VideoScript): HeyGenConfig {
-  const isAdvancedScript = v.slug.startsWith("video-");
-  const isPedagogical = v.script.includes("Objectifs pédagogiques");
   const generated = getHeyGenVideoResult(v.slug);
 
   return {
@@ -71,7 +69,7 @@ function heygenFromScript(v: VideoScript): HeyGenConfig {
     avatarId: v.heygenAvatar,
     voiceId: HEYGEN_VIDEO_DEFAULTS.voice,
     durationEstimate: v.duration,
-    status: generated?.status ?? (isAdvancedScript || isPedagogical ? "ready" : "draft"),
+    status: generated?.status ?? "draft",
     videoUrl: generated?.videoUrl,
     sessionUrl: generated?.sessionUrl,
   };
