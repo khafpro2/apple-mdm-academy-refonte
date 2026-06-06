@@ -1,5 +1,6 @@
 # Apple MDM Academy — Refonte
 
+<!-- Supabase env vars configured -->
 Plateforme professionnelle de formation **Apple MDM, Jamf Pro et Microsoft Intune** en français.
 
 ## Stack
