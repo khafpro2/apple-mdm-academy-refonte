@@ -5,7 +5,7 @@ export function SupabaseStatusBanner() {
   if (configured) return null;
 
   return (
-    <div
+      return null; // Supabase configured via Vercel env vars
       role="status"
       className="border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-center text-sm text-amber-900"
     >
