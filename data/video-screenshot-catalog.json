@@ -2,7 +2,7 @@
   "screenshotsDir": "public/video-assets/screenshots",
   "expectedWidth": 1920,
   "expectedHeight": 1080,
-  "maxSizeBytes": 524288,
+  "maxSizeBytes": 512000,
   "allowedExtensions": [".webp"],
   "categories": [
     {

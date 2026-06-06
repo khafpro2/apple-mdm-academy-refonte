@@ -10,6 +10,7 @@
     "generate:screenshots": "node scripts/generate-screenshots.mjs",
     "generate:video-assets": "node scripts/generate-video-assets.mjs",
     "check:screenshots": "node scripts/check-video-screenshots.mjs",
+    "convert:screenshots": "node scripts/convert-screenshots-to-webp.mjs",
     "sync:jamf-officials": "node scripts/sync-jamf-officials.mjs",
     "sync:official-screenshots": "node scripts/sync-official-screenshots.mjs",
     "export:heygen": "node scripts/export-heygen-payloads.mjs",

@@ -378,6 +378,9 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           </dl>
         </div>
 
+        <Link href="/resources/guide-captures-video" className="block text-sm font-semibold text-accent hover:underline">
+          Guide captures vidéo →
+        </Link>
         <Link href="/resources/video-production-guide" className="block text-sm font-semibold text-accent hover:underline">
           Guide production vidéo →
         </Link>

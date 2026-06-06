@@ -8,7 +8,7 @@ import {
   SCREENSHOT_CATALOG,
 } from "@/src/lib/video-screenshots";
 import type { VideoProductionPhase } from "@/src/lib/video-publish-status";
-import { getVideoPublishLabel, getVideoPublishMeta } from "@/src/lib/video-publish-status";
+import { getVideoPublishLabel, resolveVideoPublishStatus } from "@/src/lib/video-publish-status";
 
 const BASE = "/video-assets";
 
@@ -501,7 +501,14 @@ export function exportVideoProductionPack(
   const assetPaths = pack ? resolveAssetPaths(pack) : [];
   const catalogShots = getScreenshotsForVideo(storyboard.slug);
   const presentSet = new Set(options?.presentScreenshotFiles ?? []);
-  const publish = getVideoPublishMeta(storyboard.slug);
+  const publish = resolveVideoPublishStatus(storyboard.slug, {
+    presentScreenshotFiles: options?.presentScreenshotFiles
+      ? new Set(options.presentScreenshotFiles)
+      : undefined,
+    validScreenshotFiles: options?.presentScreenshotFiles
+      ? new Set(options.presentScreenshotFiles)
+      : undefined,
+  });
 
   const lines = [
     `# Production Pack — ${storyboard.title}`,
@@ -588,7 +595,8 @@ export function exportVideoProductionPack(
     "- Musique corporate -18 dB sous la voix",
     "- Export 1920×1080 · H.264 · `/public/videos/" + storyboard.slug + ".mp4`",
     "",
-    "Guide complet : /resources/video-production-guide",
+    "Guide captures : /resources/guide-captures-video",
+    "Guide montage : /resources/video-production-guide",
     "",
     "---",
     "",
@@ -616,7 +624,10 @@ export function getVideoProductionStatus(options?: {
 
   const videos: VideoProductionStatus[] = storyboards.map((sb) => {
     const pack = getVideoAssets(sb.slug);
-    const publish = getVideoPublishMeta(sb.slug);
+    const publish = resolveVideoPublishStatus(sb.slug, {
+      validScreenshotFiles: presentSet,
+      presentScreenshotFiles: presentSet,
+    });
     const hasStoryboard = sb.scenes.length >= 5 && sb.narration.length > 100;
     const hasThumbnail = Boolean(pack?.thumbnailPath);
     const hasDiagram = Boolean(pack?.diagram);
@@ -636,7 +647,10 @@ export function getVideoProductionStatus(options?: {
       assetPaths.length >= 5,
       sb.allScreenshots.length > 0,
       catalogShots.length === 0 || screenshotFilesPresent === catalogShots.length,
-      publish.status === "published" || publish.status === "editing" || publish.status === "assets-ready",
+      publish.status === "screenshots-ready" ||
+        publish.status === "published" ||
+        publish.status === "ready-to-publish" ||
+        publish.status === "editing",
     ];
     const readyScore = Math.round((checks.filter(Boolean).length / checks.length) * 100);
     const productionReady = readyScore >= 75;

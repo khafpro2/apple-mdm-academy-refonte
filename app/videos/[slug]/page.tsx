@@ -5,6 +5,8 @@ import { PremiumVideoPlayer } from "@/components/video/premium-video-player";
 import { getVideoStoryboard, getAllIllustratedVideoSlugs } from "@/src/lib/video-storyboards";
 import { getVideoScript, getVideoScriptSlugs } from "@/src/lib/video-scripts";
 import { getVideo } from "@/lib/data/videos";
+import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
+import { enrichStoryboardWithPublishMeta } from "@/src/lib/video-publish-status";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,11 +27,18 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function VideoDetailPage({ params }: Props) {
   const { slug } = await params;
-  const storyboard = getVideoStoryboard(slug);
+  const rawStoryboard = getVideoStoryboard(slug);
   const script = getVideoScript(slug);
   const legacyVideo = getVideo(slug);
 
-  if (!storyboard && !legacyVideo) notFound();
+  if (!rawStoryboard && !legacyVideo) notFound();
+
+  let storyboard = rawStoryboard;
+  if (rawStoryboard) {
+    const inventory = await getScreenshotInventoryAsync();
+    const validFiles = getValidScreenshotFiles(inventory);
+    storyboard = enrichStoryboardWithPublishMeta(rawStoryboard, { validScreenshotFiles: validFiles });
+  }
 
   return (
     <PageShell>
