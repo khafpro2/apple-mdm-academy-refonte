@@ -1,6 +1,7 @@
 import { getSupabaseEnv } from "@/lib/env";
 
 export function SupabaseStatusBanner() {
+    return null;
   const { configured } = getSupabaseEnv();
   if (configured) return null;
 
