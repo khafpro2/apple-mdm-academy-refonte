@@ -2,21 +2,30 @@ import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading, ButtonLink } from "@/components/ui";
 import { SupportContactForm, SupportFaq } from "@/components/support/support-content";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 import Link from "next/link";
 
 export const metadata = buildPageMetadata({
   title: "Centre d'aide",
-  description: "FAQ, support technique, aide connexion, paiement et certificats — Apple MDM Academy.",
+  description: "FAQ, support technique, aide connexion et certificats — Apple MDM Academy.",
   path: "/support",
 });
 
-const helpTopics = [
-  { icon: "🔐", title: "Connexion & Auth", desc: "Supabase Auth, email de confirmation, mot de passe oublié", href: "#faq" },
-  { icon: "💳", title: "Paiement & Abonnement", desc: "Pro, facturation, annulation, Stripe", href: "/account/billing" },
-  { icon: "📜", title: "Certificats PDF", desc: "Téléchargement, vérification, examens blancs", href: "/certificat/verify" },
-  { icon: "🧪", title: "Labs & Cours", desc: "Progression, validation d'étapes, contenu Pro", href: "/labs" },
-  { icon: "📊", title: "Statut des services", desc: "Disponibilité application, auth, paiement", href: "/status" },
-];
+const helpTopics = isFreePlatformMode()
+  ? [
+      { icon: "🔐", title: "Connexion & Auth", desc: "Supabase Auth, email de confirmation, mot de passe oublié", href: "#faq" },
+      { icon: "🎓", title: "Accès gratuit", desc: "Accès complet à tous les contenus pendant la phase développement", href: "/pricing" },
+      { icon: "📜", title: "Certificats PDF", desc: "Téléchargement, vérification, examens blancs", href: "/certificat/verify" },
+      { icon: "🧪", title: "Labs & Cours", desc: "Progression, validation d'étapes, parcours", href: "/labs" },
+      { icon: "📊", title: "Statut des services", desc: "Disponibilité application et auth", href: "/status" },
+    ]
+  : [
+      { icon: "🔐", title: "Connexion & Auth", desc: "Supabase Auth, email de confirmation, mot de passe oublié", href: "#faq" },
+      { icon: "💳", title: "Paiement & Abonnement", desc: "Pro, facturation, annulation, Stripe", href: "/account/billing" },
+      { icon: "📜", title: "Certificats PDF", desc: "Téléchargement, vérification, examens blancs", href: "/certificat/verify" },
+      { icon: "🧪", title: "Labs & Cours", desc: "Progression, validation d'étapes, contenu Pro", href: "/labs" },
+      { icon: "📊", title: "Statut des services", desc: "Disponibilité application, auth, paiement", href: "/status" },
+    ];
 
 export default function SupportPage() {
   return (

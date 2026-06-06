@@ -1,10 +1,16 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { ButtonLink } from "@/components/ui";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
 export const metadata = { title: "Abonnement confirmé" };
 
 export default function CheckoutSuccessPage() {
+  if (isFreePlatformMode()) {
+    redirect("/dashboard");
+  }
+
   return (
     <PageShell>
       <div className="mx-auto max-w-lg px-6 py-20 text-center">

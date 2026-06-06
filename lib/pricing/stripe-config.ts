@@ -1,12 +1,13 @@
 /**
  * Architecture Stripe — prête pour intégration future.
- * Activer avec STRIPE_SECRET_KEY + NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ * Désactivé en mode FREE_PLATFORM_MODE.
  */
 
 import type { SubscriptionTier } from "@/lib/pricing/types";
+import { arePaymentsEnabled } from "@/lib/pricing/platform-access";
 
 export const stripeConfig = {
-  enabled: Boolean(
+  enabled: arePaymentsEnabled() && Boolean(
     process.env.STRIPE_SECRET_KEY &&
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ),

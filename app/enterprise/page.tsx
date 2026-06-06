@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading, ButtonLink } from "@/components/ui";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
 export const metadata = {
   title: "Entreprise",
@@ -73,12 +74,14 @@ export default function EnterprisePage() {
           </ButtonLink>
         </section>
 
-        <p className="mx-auto mt-12 max-w-xl text-center text-sm text-ink-secondary">
-          Déjà client ?{" "}
-          <Link href="/account/billing" className="font-semibold text-accent hover:underline">
-            Gérer votre contrat
-          </Link>
-        </p>
+        {!isFreePlatformMode() && (
+          <p className="mx-auto mt-12 max-w-xl text-center text-sm text-ink-secondary">
+            Déjà client ?{" "}
+            <Link href="/account/billing" className="font-semibold text-accent hover:underline">
+              Gérer votre contrat
+            </Link>
+          </p>
+        )}
       </div>
     </PageShell>
   );

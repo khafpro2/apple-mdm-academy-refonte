@@ -1,18 +1,68 @@
+import { PageShell } from "@/components/layout";
+import { SectionHeading, ButtonLink } from "@/components/ui";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+import { isFreePlatformMode, PLATFORM_ACCESS } from "@/lib/pricing/platform-access";
 import { commercialPlans, comparisonFeatures, PRICING_FAQ } from "@/lib/pricing/plans";
 import { PricingCardPremium } from "@/components/pricing/pricing-card-premium";
 import { PricingComparison } from "@/components/pricing/pricing-comparison";
-import { PageShell } from "@/components/layout";
-import { SectionHeading, ButtonLink } from "@/components/ui";
 import { stripeConfig } from "@/lib/pricing/stripe-config";
-import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
-  title: "Tarifs & Abonnements",
-  description: "Offres Gratuite, Pro et Entreprise pour Apple MDM Academy. Cours, labs, examens blancs et certificats PDF.",
+  title: "Tarifs",
+  description: "Apple MDM Academy — accès gratuit complet pendant la phase de développement.",
   path: "/pricing",
 });
 
+const FREE_INCLUDES = [
+  "Accès complet à tous les cours et parcours",
+  "Tous les labs pratiques",
+  "Examens blancs inclus",
+  "Certificats PDF inclus",
+  "Ressources et vidéos pédagogiques",
+  "Badges et dashboard apprenant",
+];
+
 export default function PricingPage() {
+  if (isFreePlatformMode()) {
+    return (
+      <PageShell>
+        <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
+          <SectionHeading
+            label="Accès"
+            title="Plateforme en accès gratuit"
+            description="Plateforme actuellement gratuite durant la phase de développement."
+            align="center"
+          />
+
+          <div className="mt-10 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-surface-elevated p-8 shadow-sm">
+            <p className="text-center text-lg font-semibold text-ink">
+              {PLATFORM_ACCESS.freeMessage}
+            </p>
+            <ul className="mx-auto mt-8 max-w-md space-y-3">
+              {FREE_INCLUDES.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-ink-secondary">
+                  <span className="mt-0.5 text-emerald-600" aria-hidden="true">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <ButtonLink href="/auth/signup">Créer un compte</ButtonLink>
+              <ButtonLink href="/parcours" variant="secondary">
+                Explorer les parcours
+              </ButtonLink>
+            </div>
+          </div>
+
+          <p className="mt-8 text-center text-xs text-ink-tertiary">
+            Les offres payantes (Pro / Entreprise) seront proposées ultérieurement. L&apos;architecture
+            de facturation est préparée pour une activation future.
+          </p>
+        </div>
+      </PageShell>
+    );
+  }
+
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">

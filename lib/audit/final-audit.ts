@@ -1,9 +1,9 @@
 import { getSupabaseEnv } from "@/lib/env";
 import { getProductionChecklist } from "@/lib/production/checklist";
-import { stripeConfig } from "@/lib/pricing/stripe-config";
 import { tracks, courses, labs, quizzes } from "@/lib/data";
 import { academyVideos } from "@/lib/data/videos";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
 export type AuditItem = {
   id: string;
@@ -27,7 +27,7 @@ export function getFinalAuditItems(): AuditItem[] {
     { id: "exams", label: "Examens", category: "Examens", done: quizzes.filter((q) => q.type === "examen").length >= 1, detail: `${quizzes.filter((q) => q.type === "examen").length} examens` },
     { id: "certificates", label: "Certificats", category: "Certificats", done: commercialCertificationPaths.length >= 5, detail: `${commercialCertificationPaths.length} parcours certifiants` },
     { id: "seo", label: "SEO", category: "SEO", done: prodMap.sitemap === true && prodMap.robots === true, detail: "Sitemap, robots, metadata" },
-    { id: "pricing", label: "Pricing", category: "Pricing", done: prodMap.pricing === true, detail: stripeConfig.enabled ? "Stripe activé" : "Mode démo (Stripe placeholder)" },
+    { id: "pricing", label: "Pricing", category: "Pricing", done: prodMap.pricing === true, detail: isFreePlatformMode() ? "Accès gratuit intégral" : "Stripe / offres payantes" },
     { id: "dashboard", label: "Dashboard", category: "Dashboard", done: true, detail: "/dashboard opérationnel" },
     { id: "mobile", label: "Mobile", category: "Mobile", done: true, detail: "/mobile-roadmap préparé" },
     { id: "enterprise", label: "Enterprise", category: "Enterprise", done: true, detail: "/enterprise/dashboard démo" },

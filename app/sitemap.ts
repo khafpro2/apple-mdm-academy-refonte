@@ -8,6 +8,7 @@ import { getExamRouteSlugs } from "@/lib/data/exams/pools";
 import { certificationPaths } from "@/lib/data/pro-modules/paths";
 import { getVideoSlugs } from "@/lib/data/videos";
 import { getResourceSlugs } from "@/src/lib/resources";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;
@@ -31,8 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/fr`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${base}/en`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${base}/contact-sales`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${base}/checkout`, lastModified: now, changeFrequency: "monthly", priority: 0.55 },
-    { url: `${base}/account/billing`, lastModified: now, changeFrequency: "weekly", priority: 0.5 },
+    ...(isFreePlatformMode()
+      ? []
+      : [
+          { url: `${base}/checkout`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.55 },
+          { url: `${base}/account/billing`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.5 },
+        ]),
     { url: `${base}/videos`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${base}/resources`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/dashboard`, lastModified: now, changeFrequency: "daily", priority: 0.5 },

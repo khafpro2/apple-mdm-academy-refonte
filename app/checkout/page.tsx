@@ -1,9 +1,15 @@
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading } from "@/components/ui";
 import { CheckoutContent } from "@/components/checkout/checkout-content";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
 export default function CheckoutPage() {
+  if (isFreePlatformMode()) {
+    redirect("/pricing");
+  }
+
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">

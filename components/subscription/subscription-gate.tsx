@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSubscription } from "@/lib/pricing/use-subscription";
 import type { SubscriptionTier } from "@/lib/pricing/types";
 import { tierMeetsRequirement } from "@/lib/pricing/access-control";
+import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 import { ButtonLink } from "@/components/ui";
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 export function SubscriptionGate({ requiredTier = "pro", featureLabel, children }: Props) {
   const { tier } = useSubscription();
 
-  if (tierMeetsRequirement(tier, requiredTier)) {
+  if (isFreePlatformMode() || tierMeetsRequirement(tier, requiredTier)) {
     return <>{children}</>;
   }
 

@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { AuthButtons } from "@/components/auth/auth-buttons";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SupabaseStatusBanner } from "@/components/layout/supabase-status-banner";
+import { FreePlatformBanner } from "@/components/layout/free-platform-banner";
 import { ButtonLink } from "@/components/ui";
 
 const navLinks = [
@@ -113,6 +114,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <SupabaseStatusBanner />
+      <FreePlatformBanner />
       <Nav />
       <main id="main-content" className="flex-1" tabIndex={-1}>
         {children}

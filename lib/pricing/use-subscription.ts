@@ -8,10 +8,33 @@ import {
   notifySubscriptionChange,
   setSubscriptionTier,
 } from "@/lib/pricing/subscription-storage";
-import type { SubscriptionState, SubscriptionTier } from "@/lib/pricing/types";
+import type { CommercialPlan, SubscriptionState, SubscriptionTier } from "@/lib/pricing/types";
 import { tierMeetsRequirement } from "@/lib/pricing/access-control";
+import { isFreePlatformMode, PLATFORM_ACCESS } from "@/lib/pricing/platform-access";
+
+const PREVIEW_PLAN: CommercialPlan = {
+  slug: "pro",
+  name: PLATFORM_ACCESS.planName,
+  price: 0,
+  priceLabel: "Gratuit",
+  period: "Phase développement",
+  description: PLATFORM_ACCESS.freeMessage,
+  tier: "enterprise",
+  features: [
+    "Tous les cours et parcours",
+    "Tous les labs pratiques",
+    "Examens blancs complets",
+    "Certificats PDF",
+    "Ressources et vidéos",
+  ],
+  cta: "Accès gratuit",
+  ctaHref: "/parcours",
+};
 
 function getSnapshot(): SubscriptionState {
+  if (isFreePlatformMode()) {
+    return { tier: "enterprise", status: "active", planSlug: "enterprise" };
+  }
   return loadSubscriptionState();
 }
 
@@ -29,31 +52,36 @@ export function useSubscription() {
   const state = useSyncExternalStore(subscribe, getSnapshot, () => getSnapshot());
 
   const upgradeToPro = useCallback(() => {
+    if (isFreePlatformMode()) return;
     setSubscriptionTier("pro");
     notifySubscriptionChange();
   }, []);
 
   const upgradeToEnterprise = useCallback(() => {
+    if (isFreePlatformMode()) return;
     setSubscriptionTier("enterprise");
     notifySubscriptionChange();
   }, []);
 
   const downgradeToFree = useCallback(() => {
+    if (isFreePlatformMode()) return;
     setSubscriptionTier("free");
     notifySubscriptionChange();
   }, []);
 
-  const plan = getPlanByTier(state.tier);
+  const plan = isFreePlatformMode() ? PREVIEW_PLAN : getPlanByTier(state.tier);
 
   return {
     ...state,
     plan,
-    isPro: tierMeetsRequirement(state.tier, "pro"),
-    isEnterprise: state.tier === "enterprise",
-    isFree: state.tier === "free",
+    statusLabel: isFreePlatformMode() ? PLATFORM_ACCESS.statusLabel : undefined,
+    isPreview: isFreePlatformMode(),
+    isPro: isFreePlatformMode() || tierMeetsRequirement(state.tier, "pro"),
+    isEnterprise: isFreePlatformMode() || state.tier === "enterprise",
+    isFree: !isFreePlatformMode() && state.tier === "free",
     upgradeToPro,
     upgradeToEnterprise,
     downgradeToFree,
-    canAccess: (required: SubscriptionTier) => tierMeetsRequirement(state.tier, required),
+    canAccess: (_required: SubscriptionTier) => isFreePlatformMode() || tierMeetsRequirement(state.tier, _required),
   };
 }

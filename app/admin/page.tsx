@@ -202,26 +202,6 @@ export default async function AdminPage() {
                 </table>
               </div>
             </section>
-            <section className="mt-10 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-              <h2 className="text-lg font-bold text-ink">Abonnements (placeholder)</h2>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                {[
-                  { label: "Utilisateurs Free", value: stats.subscriptionStats.freeUsers },
-                  { label: "Utilisateurs Pro", value: stats.subscriptionStats.proUsers },
-                  { label: "Utilisateurs Enterprise", value: stats.subscriptionStats.enterpriseUsers },
-                  { label: "MRR estimé", value: `${stats.subscriptionStats.estimatedMrr} €` },
-                  { label: "Taux conversion", value: `${stats.subscriptionStats.conversionRate}%` },
-                ].map((s) => (
-                  <div key={s.label} className="rounded-xl bg-surface p-4">
-                    <p className="text-xs text-ink-tertiary">{s.label}</p>
-                    <p className="mt-1 text-2xl font-bold text-ink">{s.value}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 text-xs text-ink-tertiary">
-                Estimations placeholder — connectez Stripe et ajoutez subscription_tier dans profiles.
-              </p>
-            </section>
           </>
         )}
 

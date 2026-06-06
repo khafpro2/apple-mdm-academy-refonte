@@ -67,7 +67,7 @@ export default async function DashboardPage() {
           description={
             user
               ? dbData?.fromDatabase
-                ? "Tableau de bord premium — progression synchronisée."
+                ? "Tableau de bord — progression synchronisée."
                 : "Connecté — exécutez supabase/schema.sql et schema-phase2.sql."
               : "Connectez-vous pour synchroniser votre progression."
           }
@@ -173,7 +173,7 @@ export default async function DashboardPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm lg:col-span-2">
-            <h2 className="text-lg font-bold text-ink">Badges premium</h2>
+            <h2 className="text-lg font-bold text-ink">Badges</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {badges.map((badge) => (
                 <div
