@@ -48,6 +48,44 @@ function scenarioForTitle(title: string, trackSlug: string): string {
   return "Votre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.";
 }
 
+/** Script vidéo foundation — enveloppe le contenu existant avec structure académie */
+export function buildFoundationVideoScript(input: {
+  title: string;
+  courseSlug: string;
+  labSlug: string;
+  body: string[];
+}): string {
+  const scenario = scenarioForTitle(input.title, input.courseSlug);
+  const labLine = input.labSlug
+    ? `Exercice pratique : ouvrez le lab « ${input.labSlug} » et validez sur un groupe pilote enterprise.`
+    : "Consultez la leçon associée pour les étapes pratiques sur appareil test.";
+
+  const points = input.body
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => (p.startsWith("•") ? p : `• ${p}`));
+
+  return [
+    input.title,
+    "",
+    "Objectifs pédagogiques :",
+    `• Comprendre « ${input.title} » en contexte enterprise Apple MDM.`,
+    "• Configurer et valider sur un groupe pilote avant généralisation.",
+    "• Documenter runbook support et critères de réussite.",
+    "",
+    "Scénario entreprise :",
+    scenario,
+    "",
+    "Points clés :",
+    ...points,
+    "",
+    labLine,
+    "",
+    "Résumé :",
+    `À l'issue de cette vidéo, vous savez appliquer « ${input.title} » avec méthode académie : cadrage, pilote, validation, industrialisation.`,
+  ].join("\n");
+}
+
 /** Script vidéo académie — objectifs, scénario, points clés, lab, quiz, résumé */
 export function buildModuleVideoScript(input: VideoScriptInput): string {
   const label = trackLabel(input.trackSlug, input.vendor);

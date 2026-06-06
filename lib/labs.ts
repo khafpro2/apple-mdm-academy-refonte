@@ -13,12 +13,18 @@ function lab(
   objectives: string[],
   prerequisites: string[],
   steps: Lab["steps"],
-  expectedResult: string
+  expectedResult: string,
+  scenario?: string
 ): Lab {
+  const enterpriseScenario =
+    scenario ?? `Organisation enterprise — valider « ${title} » sur groupe pilote (5–10 appareils).`;
+  const primaryObjective = objectives[0] ?? description;
   return {
     slug,
     title,
-    description,
+    description: description.includes("Scénario entreprise")
+      ? description
+      : `${description} Scénario entreprise : ${enterpriseScenario}`,
     level,
     duration,
     technology,
@@ -27,7 +33,10 @@ function lab(
     prerequisites,
     steps,
     expectedResult,
-    objective: objectives[0] ?? description,
+    objective:
+      primaryObjective.length >= 20
+        ? `${primaryObjective} — déploiement pilote enterprise documenté.`
+        : `${description.slice(0, 90)} — validation pilote enterprise avec runbook ITSM.`,
   };
 }
 

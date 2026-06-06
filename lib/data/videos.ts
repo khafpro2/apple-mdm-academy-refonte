@@ -47,8 +47,22 @@ const TRACK_BY_COURSE: Record<string, string> = {
   "parcours-professionnel": "parcours-professionnel",
 };
 
+function chaptersFromScript(script: string): AcademyVideo["chapters"] {
+  const markers: { marker: string; title: string }[] = [
+    { marker: "Objectifs pédagogiques", title: "Objectifs" },
+    { marker: "Scénario entreprise", title: "Scénario entreprise" },
+    { marker: "Points clés", title: "Points clés" },
+    { marker: "Exercice pratique", title: "Lab pratique" },
+    { marker: "Résumé", title: "Résumé" },
+  ];
+  return markers
+    .filter((m) => script.includes(m.marker))
+    .map((m, i) => ({ id: `ch-${i + 1}`, title: m.title, startSeconds: i * 120 }));
+}
+
 function heygenFromScript(v: VideoScript): HeyGenConfig {
   const isAdvancedScript = v.slug.startsWith("video-");
+  const isPedagogical = v.script.includes("Objectifs pédagogiques");
   const generated = getHeyGenVideoResult(v.slug);
 
   return {
@@ -57,7 +71,7 @@ function heygenFromScript(v: VideoScript): HeyGenConfig {
     avatarId: v.heygenAvatar,
     voiceId: HEYGEN_VIDEO_DEFAULTS.voice,
     durationEstimate: v.duration,
-    status: generated?.status ?? (isAdvancedScript ? "ready" : "draft"),
+    status: generated?.status ?? (isAdvancedScript || isPedagogical ? "ready" : "draft"),
     videoUrl: generated?.videoUrl,
     sessionUrl: generated?.sessionUrl,
   };
@@ -78,7 +92,7 @@ function toAcademyVideo(v: VideoScript): AcademyVideo {
     popular: v.popular,
     tags: [v.module, v.level],
     heygen: heygenFromScript(v),
-    chapters: [],
+    chapters: chaptersFromScript(v.script),
     resources: [],
     relatedLabSlug: v.relatedLabSlug,
     level: v.level,

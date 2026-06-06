@@ -25,7 +25,7 @@ export function HeroSection({ dict }: Props) {
               <ButtonLink href="/auth/signup" size="lg">
                 {dict.hero.ctaPrimary}
               </ButtonLink>
-              <ButtonLink href="#demo" variant="secondary" size="lg">
+              <ButtonLink href="/parcours" variant="secondary" size="lg">
                 {dict.hero.ctaSecondary}
               </ButtonLink>
             </div>

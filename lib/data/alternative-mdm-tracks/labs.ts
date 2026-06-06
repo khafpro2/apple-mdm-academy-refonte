@@ -27,7 +27,7 @@ function altLab(
     prerequisites,
     steps,
     expectedResult,
-    objective: objectives[0] ?? description,
+    objective: `${objectives[0] ?? description} — scénario enterprise pilote : ${scenario.slice(0, 70)}`,
   };
 }
 
@@ -206,7 +206,7 @@ const handCraftedAltMdmLabs: Lab[] = [
     [
       { id: "requirements", title: "Exigences", instruction: "Listez : budget, stack existant, Apple-only vs multi-OS, MSP, API needs.", expectedResult: "Grille exigences pondérée." },
       { id: "matrix", title: "Matrice", instruction: "Scorez Jamf, Intune, Kandji, Mosyle, Addigy, WS1 sur 10 critères.", expectedResult: "Tableau comparatif complet." },
-      { id: "cost", title: "Coûts placeholder", instruction: "Estimez €/device/mois × 800 devices × 3 ans (placeholder).", expectedResult: "TCO indicatif documenté." },
+      { id: "cost", title: "Estimation TCO", instruction: "Estimez le coût sur 3 ans : licence €/device/mois × 800 appareils + temps admin + migration + formation.", expectedResult: "TCO indicatif documenté avec hypothèses visibles." },
       { id: "recommend", title: "Recommandation", instruction: "Rédigez recommandation avec POC 30 jours proposé.", expectedResult: "Document décision DSI." },
       checklistStep("validate", "Validation", ["Matrice signée", "POC planifié", "Risques identifiés"]),
     ],

@@ -29,6 +29,15 @@ const WEAK_REPLACEMENTS: [RegExp, string][] = [
   [/\bcomptabilit[eé]\b/i, "Déléguer au service comptabilité"],
   [/\bdesign\b/i, "Choisir la palette couleurs du portail"],
   [/\bide\b/i, "Installer un IDE de développement web"],
+  [/\bpaie\b/i, "Déléguer la gestion MDM au service paie et RH"],
+  [/\bcommunication externe\b/i, "Externaliser la communication sans validation IT"],
+  [/\bdesigner\b/i, "Faire valider la policy par un designer UX"],
+  [/\brien\b/i, "Ne rien vérifier — ignorer scope et logs MDM"],
+  [/\bcouleur\b/i, "Personnaliser uniquement la couleur du portail admin"],
+  [/\bth[eè]me\b/i, "Changer le thème visuel du poste utilisateur"],
+  [/\bespace disque\b/i, "Libérer de l'espace disque en supprimant les profils MDM"],
+  [/\bbluetooth\b/i, "Désactiver Bluetooth pour forcer le check-in MDM"],
+  [/\bmarketing\b/i, "Confier le déploiement MDM à l'équipe marketing"],
 ];
 
 function padOption(option: string, targetLen: number): string {
@@ -58,6 +67,10 @@ const GENERIC_ENTERPRISE_WRONG = [
   "Ignorer le renouvellement certificat APNs jusqu'à expiration",
   "Supprimer les logs MDM pour libérer de l'espace disque",
   "Utiliser un compte Apple ID personnel pour Apps & Books",
+  "Effacer immédiatement toute la flotte en cas d'échec de policy",
+  "Désactiver FileVault pour simplifier le support utilisateur",
+  "Contourner ABM avec un enrollment manuel non supervisé",
+  "Révoquer tous les certificats Apple sans procédure documentée",
 ];
 
 function genericWrongAnswer(questionId: string): string {
@@ -70,7 +83,8 @@ function replaceWeakDistractors(q: Question): Question {
   const correct = q.options[q.correctIndex] ?? "";
   const options = q.options.map((opt, i) => {
     if (i === q.correctIndex) return opt;
-    if (!isWeakDistractor(opt, correct)) return opt;
+    const weak = isWeakDistractor(opt, correct);
+    if (!weak) return opt;
     for (const [re, replacement] of WEAK_REPLACEMENTS) {
       if (re.test(opt)) return replacement;
     }
@@ -80,7 +94,7 @@ function replaceWeakDistractors(q: Question): Question {
 }
 
 function addScenarioContext(q: Question): Question {
-  if (!lacksScenario(q) || q.text.length >= 80) return q;
+  if (!lacksScenario(q) || q.text.length >= 100) return q;
   const lowerFirst =
     q.text.charAt(0).toLowerCase() + q.text.slice(1);
   return {

@@ -1,5 +1,6 @@
 import { advancedVideoScripts, advancedLessonVideoMap } from "@/lib/data/advanced-tracks/heygen-videos";
 import { altMdmVideoScripts, altMdmLessonVideoMap } from "@/lib/data/alternative-mdm-tracks/heygen-videos";
+import { buildFoundationVideoScript } from "@/lib/data/shared/module-video-script";
 
 export type VideoLevel = "Débutant" | "Intermédiaire" | "Fondamental" | "Avancé";
 
@@ -54,10 +55,20 @@ function script(
     heygenStyle?: string;
   }
 ): VideoScript {
-  const fullScript = entry.script.trim();
+  let fullScript = entry.script.trim();
+  if (!fullScript.includes("Objectifs pédagogiques")) {
+    const paragraphs = fullScript.split(/\n+/).filter(Boolean);
+    fullScript = buildFoundationVideoScript({
+      title: entry.title,
+      courseSlug: entry.relatedCourseSlug,
+      labSlug: entry.relatedLabSlug,
+      body: paragraphs,
+    });
+  }
   const firstSentence = fullScript.split(/(?<=[.!?])\s+/)[0] ?? fullScript;
   return {
     ...entry,
+    script: fullScript,
     heygenAvatar: entry.heygenAvatar ?? HEYGEN_VIDEO_DEFAULTS.avatar,
     language: entry.language ?? HEYGEN_VIDEO_DEFAULTS.language,
     heygenStyle: entry.heygenStyle ?? (entry.jamfTrack ? HEYGEN_JAMF_STYLE : HEYGEN_VIDEO_DEFAULTS.style),

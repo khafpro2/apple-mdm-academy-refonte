@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { HeroSection } from "@/components/landing/hero-section";
-import { DemoSection } from "@/components/landing/demo-section";
 import { CertificationsSection } from "@/components/landing/certifications-section";
 import { StatsSection } from "@/components/landing/stats-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
@@ -21,7 +20,6 @@ export function LandingPage({ locale = "fr" }: Props) {
   return (
     <PageShell>
       <HeroSection dict={dict} />
-      <DemoSection />
       <CertificationsSection />
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">

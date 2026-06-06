@@ -26,7 +26,7 @@ function expertLab(
     prerequisites,
     steps,
     expectedResult,
-    objective: objectives[0] ?? description,
+    objective: `${objectives[0] ?? description} — scénario enterprise pilote : ${scenario.slice(0, 70)}`,
   };
 }
 
