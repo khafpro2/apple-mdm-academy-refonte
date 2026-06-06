@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
+import { getVideoPublishLabel } from "@/src/lib/video-publish-status";
 import { exportVideoProductionPack, getVideoAssets, getDiagramForVideo, resolveAssetPaths } from "@/src/lib/video-assets";
 import type { VideoScript } from "@/src/lib/video-scripts";
 import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
@@ -154,6 +155,22 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           />
         )}
 
+        {storyboard.status === "published" && storyboard.videoUrl && (
+          <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
+            <video
+              src={storyboard.videoUrl}
+              controls
+              className="aspect-video w-full"
+              poster={assetPack?.thumbnailPath}
+            >
+              Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+            <p className="border-t border-border-light bg-surface-elevated px-5 py-3 text-sm text-ink-secondary">
+              Vidéo publiée · {getVideoPublishLabel(storyboard.status)}
+            </p>
+          </div>
+        )}
+
         <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
           {animationSlug ? (
             <PedagogicalAnimation slug={animationSlug} playing={playing} progress={animProgress} />
@@ -195,6 +212,7 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           <div className="flex flex-wrap gap-2">
             <Badge variant="default">{storyboard.module}</Badge>
             <Badge variant="accent">{storyboard.level}</Badge>
+            <Badge>{getVideoPublishLabel(storyboard.status)}</Badge>
             <Badge>{storyboard.visualType}</Badge>
           </div>
           <h1 className="mt-3 text-2xl font-bold text-ink">{storyboard.title}</h1>
@@ -277,6 +295,16 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           <h2 className="font-bold text-ink">Informations</h2>
           <dl className="mt-4 space-y-3 text-sm">
             <div>
+              <dt className="text-xs text-ink-tertiary">Statut montage</dt>
+              <dd className="font-medium text-ink">{getVideoPublishLabel(storyboard.status)}</dd>
+            </div>
+            {storyboard.videoUrl && (
+              <div>
+                <dt className="text-xs text-ink-tertiary">Fichier vidéo</dt>
+                <dd className="font-mono text-xs text-accent">{storyboard.videoUrl}</dd>
+              </div>
+            )}
+            <div>
               <dt className="text-xs text-ink-tertiary">Module</dt>
               <dd className="font-medium text-ink">{storyboard.module}</dd>
             </div>
@@ -350,6 +378,9 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           </dl>
         </div>
 
+        <Link href="/resources/video-production-guide" className="block text-sm font-semibold text-accent hover:underline">
+          Guide production vidéo →
+        </Link>
         <Link href="/videos" className="block text-sm font-semibold text-accent hover:underline">
           ← Toutes les vidéos
         </Link>

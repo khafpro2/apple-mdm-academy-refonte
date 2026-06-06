@@ -11,6 +11,8 @@ import {
   type VideoStoryboard,
 } from "@/src/lib/video-lessons";
 import type { VideoLevel } from "@/src/lib/video-scripts";
+import type { VideoProductionPhase } from "@/src/lib/video-publish-status";
+import { getVideoPublishMeta } from "@/src/lib/video-publish-status";
 
 export type SceneInput = {
   narration: string;
@@ -79,6 +81,7 @@ export function createProductionStoryboard(input: ProductionStoryboardInput): Vi
   ];
 
   const durationSeconds = estimateDurationSeconds(scenes);
+  const publish = getVideoPublishMeta(input.slug);
 
   return {
     slug: input.slug,
@@ -97,6 +100,8 @@ export function createProductionStoryboard(input: ProductionStoryboardInput): Vi
     duration: formatDuration(durationSeconds),
     narration: buildNarrationFromScenes(scenes),
     allScreenshots: collectAllScreenshots(scenes),
+    status: publish.status,
+    videoUrl: publish.videoUrl,
     heygen: defaultHeygenMeta(),
   };
 }

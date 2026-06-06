@@ -2,6 +2,13 @@ import type { ArchitectureConnection, ArchitectureNode, VideoStoryboard } from "
 import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
 import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
 import type { VideoLevel } from "@/src/lib/video-scripts";
+import {
+  getScreenshotPublicPath,
+  getScreenshotsForVideo,
+  SCREENSHOT_CATALOG,
+} from "@/src/lib/video-screenshots";
+import type { VideoProductionPhase } from "@/src/lib/video-publish-status";
+import { getVideoPublishLabel, getVideoPublishMeta } from "@/src/lib/video-publish-status";
 
 const BASE = "/video-assets";
 
@@ -91,13 +98,20 @@ export type VideoProductionStatus = {
   title: string;
   module: string;
   level: VideoLevel;
+  status: VideoProductionPhase;
+  statusLabel: string;
   hasStoryboard: boolean;
   hasThumbnail: boolean;
   hasDiagram: boolean;
+  hasScript: boolean;
   screenshotCount: number;
+  screenshotFilesRequired: number;
+  screenshotFilesPresent: number;
   assetCount: number;
   missingAssets: string[];
+  missingScreenshotFiles: string[];
   missingScreenshots: string[];
+  videoUrl?: string;
   productionReady: boolean;
   readyScore: number;
 };
@@ -478,10 +492,16 @@ export function resolveAssetPaths(pack: VideoAssetPack): string[] {
 }
 
 /** Export pack complet pour montage (HeyGen, Screen Studio, Canva, CapCut) */
-export function exportVideoProductionPack(storyboard: VideoStoryboard): string {
+export function exportVideoProductionPack(
+  storyboard: VideoStoryboard,
+  options?: { presentScreenshotFiles?: string[] }
+): string {
   const pack = getVideoAssets(storyboard.slug);
   const diagram = pack?.diagram ? getVideoDiagram(pack.diagram) : undefined;
   const assetPaths = pack ? resolveAssetPaths(pack) : [];
+  const catalogShots = getScreenshotsForVideo(storyboard.slug);
+  const presentSet = new Set(options?.presentScreenshotFiles ?? []);
+  const publish = getVideoPublishMeta(storyboard.slug);
 
   const lines = [
     `# Production Pack — ${storyboard.title}`,
@@ -492,9 +512,15 @@ export function exportVideoProductionPack(storyboard: VideoStoryboard): string {
     `- **Module :** ${storyboard.module}`,
     `- **Niveau :** ${storyboard.level}`,
     `- **Durée :** ${storyboard.duration}`,
+    `- **Statut :** ${getVideoPublishLabel(publish.status)}`,
+    `- **Vidéo finale :** ${publish.videoUrl ?? storyboard.videoUrl ?? "(non publiée)"}`,
     `- **Cours :** /cours/${storyboard.courseSlug}`,
     `- **Lab :** /labs/${storyboard.labSlug}`,
     `- **Quiz :** /quiz/${storyboard.quizSlug}`,
+    "",
+    "## Script HeyGen",
+    "",
+    storyboard.narration,
     "",
     "## Miniature",
     "",
@@ -506,13 +532,37 @@ export function exportVideoProductionPack(storyboard: VideoStoryboard): string {
       ? [`- **${diagram.title}**`, `- Fichier : ${diagram.path}`, `- ${diagram.description}`, ""].join("\n")
       : "- Aucun diagramme workflow dédié",
     "",
-    "## Assets utilisés",
+    "## Assets SVG",
     "",
     ...(assetPaths.length ? assetPaths.map((p) => `- ${p}`) : ["- (pack non configuré)"]),
     "",
-    "## Captures nécessaires",
+    "## Captures nécessaires (storyboard)",
     "",
     ...storyboard.allScreenshots.map((s) => `- [ ] ${s}`),
+    "",
+    "## Captures fichiers (.webp 1920×1080)",
+    "",
+    "### Présentes",
+    "",
+    ...(catalogShots.filter((s) => presentSet.has(s.file)).length
+      ? catalogShots.filter((s) => presentSet.has(s.file)).map((s) => `- [x] ${getScreenshotPublicPath(s.file)} — ${s.label}`)
+      : ["- (aucune — exécuter node scripts/check-video-screenshots.mjs)"]),
+    "",
+    "### Manquantes",
+    "",
+    ...(catalogShots.filter((s) => !presentSet.has(s.file)).length
+      ? catalogShots.filter((s) => !presentSet.has(s.file)).map((s) => `- [ ] ${getScreenshotPublicPath(s.file)} — ${s.label}`)
+      : ["- Toutes les captures cataloguées sont présentes"]),
+    "",
+    "## Checklist montage",
+    "",
+    "- [ ] Enregistrer captures Screen Studio (1920×1080 · .webp · flouter données sensibles)",
+    "- [ ] Générer narration HeyGen (16:9 · sous-titres FR)",
+    "- [ ] Importer assets SVG + lower-thirds Canva",
+    "- [ ] Monter dans CapCut (transitions 200 ms · musique -18 dB)",
+    "- [ ] Exporter MP4 → `/public/videos/" + storyboard.slug + ".mp4`",
+    "- [ ] Mettre statut `published` dans video-publish-status.ts",
+    "- [ ] Valider lab + quiz associés",
     "",
     "## Instructions montage",
     "",
@@ -526,6 +576,7 @@ export function exportVideoProductionPack(storyboard: VideoStoryboard): string {
     "- Enregistrer les captures listées ci-dessus",
     "- Zoom 120 % sur les actions clés",
     "- Curseur visible, transitions 200 ms",
+    "- Flouter emails, serial numbers, tenant IDs",
     "",
     "### Canva",
     "- Importer backgrounds depuis `/public/video-assets/backgrounds/`",
@@ -535,7 +586,9 @@ export function exportVideoProductionPack(storyboard: VideoStoryboard): string {
     "### CapCut",
     "- Assembler HeyGen + captures + diagrammes",
     "- Musique corporate -18 dB sous la voix",
-    "- Export 1920×1080 · H.264",
+    "- Export 1920×1080 · H.264 · `/public/videos/" + storyboard.slug + ".mp4`",
+    "",
+    "Guide complet : /resources/video-production-guide",
     "",
     "---",
     "",
@@ -545,46 +598,68 @@ export function exportVideoProductionPack(storyboard: VideoStoryboard): string {
   return lines.join("\n");
 }
 
-export function getVideoProductionStatus(): {
+export function getVideoProductionStatus(options?: {
+  presentScreenshotFiles?: Set<string>;
+}): {
   videos: VideoProductionStatus[];
   totalVideos: number;
   withStoryboard: number;
   withThumbnail: number;
   withDiagram: number;
+  screenshotsPresent: number;
+  screenshotsRequired: number;
   productionReadyPercent: number;
 } {
   const storyboards = getIllustratedVideoLessons();
+  const presentSet = options?.presentScreenshotFiles ?? new Set<string>();
+  const totalCatalogShots = SCREENSHOT_CATALOG.categories.reduce((n, c) => n + c.items.length, 0);
+
   const videos: VideoProductionStatus[] = storyboards.map((sb) => {
     const pack = getVideoAssets(sb.slug);
+    const publish = getVideoPublishMeta(sb.slug);
     const hasStoryboard = sb.scenes.length >= 5 && sb.narration.length > 100;
     const hasThumbnail = Boolean(pack?.thumbnailPath);
     const hasDiagram = Boolean(pack?.diagram);
+    const hasScript = sb.narration.length > 200;
     const assetPaths = pack ? resolveAssetPaths(pack) : [];
     const missingAssets = pack ? [] : [`Pack assets manquant pour ${sb.slug}`];
-    const missingScreenshots = sb.allScreenshots.length === 0 ? ["Aucune capture listée"] : [];
+    const catalogShots = getScreenshotsForVideo(sb.slug);
+    const missingScreenshotFiles = catalogShots.filter((s) => !presentSet.has(s.file)).map((s) => s.file);
+    const screenshotFilesPresent = catalogShots.filter((s) => presentSet.has(s.file)).length;
+    const missingScreenshots =
+      sb.allScreenshots.length === 0 ? ["Aucune capture listée dans le storyboard"] : [];
 
     const checks = [
       hasStoryboard,
       hasThumbnail,
+      hasScript,
       assetPaths.length >= 5,
       sb.allScreenshots.length > 0,
-      sb.narration.length > 200,
+      catalogShots.length === 0 || screenshotFilesPresent === catalogShots.length,
+      publish.status === "published" || publish.status === "editing" || publish.status === "assets-ready",
     ];
     const readyScore = Math.round((checks.filter(Boolean).length / checks.length) * 100);
-    const productionReady = readyScore >= 80;
+    const productionReady = readyScore >= 75;
 
     return {
       slug: sb.slug,
       title: sb.title,
       module: sb.module,
       level: sb.level,
+      status: publish.status,
+      statusLabel: getVideoPublishLabel(publish.status),
       hasStoryboard,
       hasThumbnail,
       hasDiagram,
+      hasScript,
       screenshotCount: sb.allScreenshots.length,
+      screenshotFilesRequired: catalogShots.length,
+      screenshotFilesPresent,
       assetCount: assetPaths.length,
       missingAssets,
+      missingScreenshotFiles,
       missingScreenshots,
+      videoUrl: publish.videoUrl ?? sb.videoUrl,
       productionReady,
       readyScore,
     };
@@ -594,6 +669,7 @@ export function getVideoProductionStatus(): {
   const withStoryboard = videos.filter((v) => v.hasStoryboard).length;
   const withThumbnail = videos.filter((v) => v.hasThumbnail).length;
   const withDiagram = videos.filter((v) => v.hasDiagram).length;
+  const screenshotsPresent = presentSet.size;
   const productionReadyPercent =
     totalVideos === 0 ? 0 : Math.round(videos.reduce((s, v) => s + v.readyScore, 0) / totalVideos);
 
@@ -603,6 +679,8 @@ export function getVideoProductionStatus(): {
     withStoryboard,
     withThumbnail,
     withDiagram,
+    screenshotsPresent,
+    screenshotsRequired: totalCatalogShots,
     productionReadyPercent,
   };
 }

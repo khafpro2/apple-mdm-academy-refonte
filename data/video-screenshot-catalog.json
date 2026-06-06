@@ -1,0 +1,82 @@
+{
+  "screenshotsDir": "public/video-assets/screenshots",
+  "expectedWidth": 1920,
+  "expectedHeight": 1080,
+  "maxSizeBytes": 524288,
+  "allowedExtensions": [".webp"],
+  "categories": [
+    {
+      "id": "abm",
+      "label": "Apple Business Manager",
+      "items": [
+        { "id": "abm-dashboard", "file": "abm-dashboard.webp", "label": "Dashboard" },
+        { "id": "abm-devices", "file": "abm-devices.webp", "label": "Devices" },
+        { "id": "abm-mdm-servers", "file": "abm-mdm-servers.webp", "label": "MDM Servers" },
+        { "id": "abm-apps-books", "file": "abm-apps-books.webp", "label": "Apps & Books" },
+        { "id": "abm-users", "file": "abm-users.webp", "label": "Users" },
+        { "id": "abm-managed-apple-ids", "file": "abm-managed-apple-ids.webp", "label": "Managed Apple IDs" },
+        { "id": "abm-federation-entra", "file": "abm-federation-entra.webp", "label": "Federation Entra ID" }
+      ]
+    },
+    {
+      "id": "intune",
+      "label": "Microsoft Intune",
+      "items": [
+        { "id": "intune-devices", "file": "intune-devices.webp", "label": "Devices" },
+        { "id": "intune-apple-enrollment", "file": "intune-apple-enrollment.webp", "label": "Apple Enrollment" },
+        { "id": "intune-apns", "file": "intune-apns.webp", "label": "APNs" },
+        { "id": "intune-enrollment-program-tokens", "file": "intune-enrollment-program-tokens.webp", "label": "Enrollment Program Tokens" },
+        { "id": "intune-configuration-profiles", "file": "intune-configuration-profiles.webp", "label": "Configuration Profiles" },
+        { "id": "intune-compliance-policies", "file": "intune-compliance-policies.webp", "label": "Compliance Policies" },
+        { "id": "intune-platform-sso", "file": "intune-platform-sso.webp", "label": "Platform SSO" }
+      ]
+    },
+    {
+      "id": "jamf",
+      "label": "Jamf Pro",
+      "items": [
+        { "id": "jamf-dashboard", "file": "jamf-dashboard.webp", "label": "Dashboard" },
+        { "id": "jamf-computers", "file": "jamf-computers.webp", "label": "Computers" },
+        { "id": "jamf-smart-groups", "file": "jamf-smart-groups.webp", "label": "Smart Groups" },
+        { "id": "jamf-policies", "file": "jamf-policies.webp", "label": "Policies" },
+        { "id": "jamf-scripts", "file": "jamf-scripts.webp", "label": "Scripts" },
+        { "id": "jamf-patch-management", "file": "jamf-patch-management.webp", "label": "Patch Management" },
+        { "id": "jamf-self-service", "file": "jamf-self-service.webp", "label": "Self Service" },
+        { "id": "jamf-protect", "file": "jamf-protect.webp", "label": "Jamf Protect" }
+      ]
+    },
+    {
+      "id": "macos",
+      "label": "macOS",
+      "items": [
+        { "id": "macos-system-settings", "file": "macos-system-settings.webp", "label": "System Settings" },
+        { "id": "macos-filevault", "file": "macos-filevault.webp", "label": "FileVault" },
+        { "id": "macos-privacy-security", "file": "macos-privacy-security.webp", "label": "Privacy & Security" },
+        { "id": "macos-profiles", "file": "macos-profiles.webp", "label": "Profiles" },
+        { "id": "macos-terminal", "file": "macos-terminal.webp", "label": "Terminal" },
+        { "id": "macos-gatekeeper", "file": "macos-gatekeeper.webp", "label": "Gatekeeper" },
+        { "id": "macos-activation-lock", "file": "macos-activation-lock.webp", "label": "Activation Lock" }
+      ]
+    }
+  ],
+  "videoScreenshotMap": {
+    "apple-business-manager": ["abm-dashboard", "abm-devices", "abm-mdm-servers", "abm-users"],
+    "abm-intune": ["abm-mdm-servers", "intune-apple-enrollment", "intune-enrollment-program-tokens"],
+    "ade-iphone": ["abm-devices", "intune-apple-enrollment", "intune-devices"],
+    "ade-mac": ["abm-devices", "intune-apple-enrollment", "intune-devices"],
+    "apns": ["intune-apns", "intune-apple-enrollment"],
+    "apps-books": ["abm-apps-books", "intune-devices"],
+    "managed-apple-ids": ["abm-managed-apple-ids", "abm-users"],
+    "platform-sso": ["intune-platform-sso", "abm-federation-entra", "macos-system-settings"],
+    "ios-ipados-profiles": ["intune-configuration-profiles", "intune-devices"],
+    "macos-profiles": ["intune-configuration-profiles", "macos-profiles"],
+    "filevault": ["macos-filevault", "intune-configuration-profiles"],
+    "gatekeeper-xprotect-sip": ["macos-privacy-security", "macos-gatekeeper", "macos-terminal"],
+    "jamf-pro-fundamentals": ["jamf-dashboard", "jamf-computers"],
+    "jamf-smart-groups": ["jamf-smart-groups", "jamf-computers"],
+    "jamf-policies": ["jamf-policies", "jamf-computers"],
+    "jamf-scripts": ["jamf-scripts", "jamf-policies"],
+    "jamf-patch-management": ["jamf-patch-management", "jamf-computers"],
+    "jamf-protect": ["jamf-protect", "jamf-dashboard"]
+  }
+}

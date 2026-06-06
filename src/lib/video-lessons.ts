@@ -1,5 +1,6 @@
 import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
 import type { VideoLevel } from "@/src/lib/video-scripts";
+import type { VideoProductionPhase } from "@/src/lib/video-publish-status";
 
 /** Types de scènes visuelles pour les vidéos illustrées */
 export type VideoSceneVisualType =
@@ -71,6 +72,10 @@ export type VideoStoryboard = {
   quizSlug: string;
   /** Captures agrégées pour la production */
   allScreenshots: string[];
+  /** Statut pipeline production vidéo */
+  status: VideoProductionPhase;
+  /** URL MP4 finale (si publiée) */
+  videoUrl?: string;
   heygen: {
     avatar: string;
     voice: string;
