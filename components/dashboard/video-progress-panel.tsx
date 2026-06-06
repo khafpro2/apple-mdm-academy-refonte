@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { getIllustratedVideoLessons, getRecommendedVideoLessons } from "@/src/lib/video-storyboards";
-import { loadAllVideoProgress, loadLastContent } from "@/lib/video/progress-storage";
+import {
+  loadAllVideoProgress,
+  loadLastContent,
+  getContinueVideoProgress,
+  getTotalWatchMinutes,
+  formatWatchTime,
+} from "@/lib/video/progress-storage";
 import { ProgressBar } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
 import type { LogoName } from "@/lib/navigation/logo-names";
@@ -36,10 +42,28 @@ export function VideoProgressPanel() {
     () => loadLastContent(),
     () => null
   );
+  const continueVideo = useSyncExternalStore(
+    () => () => {},
+    () => getContinueVideoProgress(),
+    () => null
+  );
 
   const allLessons = getIllustratedVideoLessons();
+  const durationBySlug = useMemo(
+    () => Object.fromEntries(allLessons.map((l) => [l.slug, l.durationSeconds])),
+    [allLessons]
+  );
+  const totalWatchMinutes = useSyncExternalStore(
+    () => () => {},
+    () => getTotalWatchMinutes(durationBySlug),
+    () => 0
+  );
+
   const recommended = getRecommendedVideoLessons(4);
   const lastVideo = lastContent?.type === "video" ? allLessons.find((l) => l.slug === lastContent.slug) : null;
+  const continueLesson = continueVideo
+    ? allLessons.find((l) => l.slug === continueVideo.videoSlug)
+    : null;
 
   const completedCount = progressList.filter((p) => p.completed).length;
   const inProgress = progressList.filter((p) => !p.completed && p.currentSeconds > 0);
@@ -51,7 +75,7 @@ export function VideoProgressPanel() {
           <p className="text-sm font-semibold uppercase tracking-wider text-ink-tertiary">Vidéos illustrées</p>
           <h2 className="text-lg font-bold text-ink">Progression vidéos</h2>
           <p className="mt-1 text-sm text-ink-secondary">
-            {completedCount}/{allLessons.length} terminées · storyboards HeyGen prêts
+            {completedCount}/{allLessons.length} terminées · {formatWatchTime(totalWatchMinutes)} de formation
           </p>
         </div>
         <Link href="/videos" className="text-sm font-semibold text-accent hover:underline">
@@ -59,7 +83,24 @@ export function VideoProgressPanel() {
         </Link>
       </div>
 
-      {lastVideo && (
+      {continueLesson && continueVideo && (
+        <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/10 p-4">
+          <p className="text-xs font-semibold uppercase text-accent">Continuer la vidéo</p>
+          <Link href={`/videos/${continueLesson.slug}`} className="mt-1 block font-bold text-ink hover:text-accent">
+            {continueLesson.title}
+          </Link>
+          <p className="text-xs text-ink-tertiary">
+            Reprise à {Math.floor(continueVideo.currentSeconds / 60)}:
+            {String(Math.floor(continueVideo.currentSeconds % 60)).padStart(2, "0")}
+          </p>
+          <ProgressBar
+            value={Math.round((continueVideo.currentSeconds / continueLesson.durationSeconds) * 100)}
+            className="mt-2"
+          />
+        </div>
+      )}
+
+      {lastVideo && lastVideo.slug !== continueLesson?.slug && (
         <div className="mt-6 rounded-2xl border border-accent/20 bg-accent/5 p-4">
           <p className="text-xs font-semibold uppercase text-accent">Dernière vidéo ouverte</p>
           <Link href={`/videos/${lastVideo.slug}`} className="mt-1 block font-bold text-ink hover:text-accent">

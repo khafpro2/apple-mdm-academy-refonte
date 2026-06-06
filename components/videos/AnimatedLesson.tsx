@@ -11,9 +11,14 @@ import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
 import { VideoStoryboardPanel } from "@/components/videos/VideoStoryboard";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 import { VideoDiagram } from "@/components/videos/VideoDiagram";
+import { OfficialVideoPlayer } from "@/components/videos/OfficialVideoPlayer";
 import { PedagogicalAnimation } from "@/components/video/pedagogical-animation";
 import { Badge, ButtonLink } from "@/components/ui";
 import type { AnimationSlug } from "@/lib/types";
+import type { VideoTranscript } from "@/src/lib/video-transcripts";
+import type { VideoCourseNotes } from "@/src/lib/video-production";
+import { getCertificationHref } from "@/src/lib/video-production";
+import { downloadVideoNotesPdf } from "@/lib/video/export-notes-pdf";
 import {
   loadVideoProgress,
   saveLastContent,
@@ -42,9 +47,22 @@ const ANIMATION_BY_SLUG: Partial<Record<string, AnimationSlug>> = {
 type Props = {
   storyboard: VideoStoryboard;
   script?: VideoScript;
+  mp4Url?: string;
+  transcript?: VideoTranscript;
+  courseNotes?: VideoCourseNotes;
+  certificationLabel?: string;
+  certificationSlug?: string;
 };
 
-export function AnimatedLesson({ storyboard, script }: Props) {
+export function AnimatedLesson({
+  storyboard,
+  script,
+  mp4Url,
+  transcript,
+  courseNotes,
+  certificationLabel,
+  certificationSlug,
+}: Props) {
   const [playing, setPlaying] = useState(false);
   const [simTime, setSimTime] = useState(0);
   const [showScript, setShowScript] = useState(true);
@@ -140,6 +158,7 @@ export function AnimatedLesson({ storyboard, script }: Props) {
   const assetPack = getVideoAssets(storyboard.slug);
   const diagram = getDiagramForVideo(storyboard.slug);
   const assetPaths = assetPack ? resolveAssetPaths(assetPack) : [];
+  const hasOfficialMp4 = Boolean(mp4Url);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
@@ -155,58 +174,72 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           />
         )}
 
-        {storyboard.status === "published" && storyboard.videoUrl && (
-          <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
-            <video
-              src={storyboard.videoUrl}
-              controls
-              className="aspect-video w-full"
-              poster={assetPack?.thumbnailPath}
-            >
-              Votre navigateur ne supporte pas la lecture vidéo.
-            </video>
-            <p className="border-t border-border-light bg-surface-elevated px-5 py-3 text-sm text-ink-secondary">
-              Vidéo publiée · {getVideoPublishLabel(storyboard.status)}
-            </p>
-          </div>
-        )}
-
-        <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
-          {animationSlug ? (
-            <PedagogicalAnimation slug={animationSlug} playing={playing} progress={animProgress} />
-          ) : (
-            <div className="flex aspect-video flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-8 text-ink">
-              <div className="flex flex-wrap justify-center gap-4">
-                {["abm", "intune", "jamf", "apple-device"].map((icon) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={icon} src={`/illustrations/${icon}.svg`} alt="" width={40} height={40} className="opacity-80" />
-                ))}
+        {hasOfficialMp4 && mp4Url ? (
+          <OfficialVideoPlayer
+            slug={storyboard.slug}
+            title={storyboard.title}
+            mp4Url={mp4Url}
+            poster={assetPack?.thumbnailPath}
+            durationSeconds={durationSeconds}
+            durationLabel={storyboard.duration}
+            transcript={transcript}
+          />
+        ) : (
+          <>
+            {storyboard.status === "published" && storyboard.videoUrl && (
+              <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
+                <video
+                  src={storyboard.videoUrl}
+                  controls
+                  className="aspect-video w-full"
+                  poster={assetPack?.thumbnailPath}
+                >
+                  Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+                <p className="border-t border-border-light bg-surface-elevated px-5 py-3 text-sm text-ink-secondary">
+                  Vidéo publiée · {getVideoPublishLabel(storyboard.status)}
+                </p>
               </div>
-              <p className="mt-6 text-center text-sm font-semibold text-ink-secondary">
-                {storyboard.scenes[activeSceneIndex]?.title ?? storyboard.title}
-              </p>
-              <p className="mt-2 max-w-lg text-center text-xs text-ink-tertiary">
-                Vidéo illustrée · narration HeyGen · {HEYGEN_VIDEO_DEFAULTS.format}
-              </p>
-            </div>
-          )}
-          <div className="flex flex-wrap items-center gap-4 border-t border-border-light bg-surface-elevated px-5 py-4">
-            <button
-              type="button"
-              onClick={handlePlay}
-              className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white hover:opacity-90"
-            >
-              {playing ? "Pause" : "Lecture storyboard"}
-            </button>
-            <span className="text-sm text-ink-secondary">{storyboard.duration}</span>
-            <span className="text-sm text-ink-tertiary">
-              Scène {activeSceneIndex + 1}/{storyboard.scenes.length}
-            </span>
-            {progressPercent > 0 && (
-              <span className="ml-auto text-sm font-medium text-accent">{progressPercent}%</span>
             )}
-          </div>
-        </div>
+
+            <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
+              {animationSlug ? (
+                <PedagogicalAnimation slug={animationSlug} playing={playing} progress={animProgress} />
+              ) : (
+                <div className="flex aspect-video flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-8 text-ink">
+                  <div className="flex flex-wrap justify-center gap-4">
+                    {["abm", "intune", "jamf", "apple-device"].map((icon) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={icon} src={`/illustrations/${icon}.svg`} alt="" width={40} height={40} className="opacity-80" />
+                    ))}
+                  </div>
+                  <p className="mt-6 text-center text-sm font-semibold text-ink-secondary">
+                    {storyboard.scenes[activeSceneIndex]?.title ?? storyboard.title}
+                  </p>
+                  <p className="mt-2 max-w-lg text-center text-xs text-ink-tertiary">
+                    Vidéo illustrée · narration HeyGen · {HEYGEN_VIDEO_DEFAULTS.format}
+                  </p>
+                </div>
+              )}
+              <div className="flex flex-wrap items-center gap-4 border-t border-border-light bg-surface-elevated px-5 py-4">
+                <button
+                  type="button"
+                  onClick={handlePlay}
+                  className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white hover:opacity-90"
+                >
+                  {playing ? "Pause" : "Lecture storyboard"}
+                </button>
+                <span className="text-sm text-ink-secondary">{storyboard.duration}</span>
+                <span className="text-sm text-ink-tertiary">
+                  Scène {activeSceneIndex + 1}/{storyboard.scenes.length}
+                </span>
+                {progressPercent > 0 && (
+                  <span className="ml-auto text-sm font-medium text-accent">{progressPercent}%</span>
+                )}
+              </div>
+            </div>
+          </>
+        )}
 
         <header className="rounded-2xl border border-border-light bg-surface-elevated p-6">
           <div className="flex flex-wrap gap-2">
@@ -225,6 +258,20 @@ export function AnimatedLesson({ storyboard, script }: Props) {
             <ButtonLink href={`/quiz/${storyboard.quizSlug}`} variant="secondary">
               Passer le quiz
             </ButtonLink>
+            {certificationSlug && certificationLabel && (
+              <ButtonLink href={getCertificationHref(certificationSlug)} variant="secondary">
+                {certificationLabel}
+              </ButtonLink>
+            )}
+            {courseNotes && (
+              <button
+                type="button"
+                onClick={() => downloadVideoNotesPdf(courseNotes)}
+                className="inline-flex items-center rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+              >
+                Télécharger notes PDF
+              </button>
+            )}
           </div>
         </header>
 
@@ -344,6 +391,26 @@ export function AnimatedLesson({ storyboard, script }: Props) {
                 </Link>
               </dd>
             </div>
+            {certificationSlug && (
+              <div>
+                <dt className="text-xs text-ink-tertiary">Certification</dt>
+                <dd>
+                  <Link href={getCertificationHref(certificationSlug)} className="font-medium text-accent hover:underline">
+                    {certificationLabel ?? certificationSlug}
+                  </Link>
+                </dd>
+              </div>
+            )}
+            {transcript && (
+              <div>
+                <dt className="text-xs text-ink-tertiary">Transcript</dt>
+                <dd>
+                  <Link href={`/transcripts#${storyboard.slug}`} className="font-medium text-accent hover:underline">
+                    {transcript.wordCount} mots
+                  </Link>
+                </dd>
+              </div>
+            )}
           </dl>
         </div>
 

@@ -7,6 +7,9 @@ import { getVideoScript, getVideoScriptSlugs } from "@/src/lib/video-scripts";
 import { getVideo } from "@/lib/data/videos";
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
 import { enrichStoryboardWithPublishMeta } from "@/src/lib/video-publish-status";
+import { resolveMp4Url } from "@/src/lib/video-production.server";
+import { getOfficialVideo, getVideoCourseNotes } from "@/src/lib/video-production";
+import { getVideoTranscript } from "@/src/lib/video-transcripts";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -33,18 +36,38 @@ export default async function VideoDetailPage({ params }: Props) {
 
   if (!rawStoryboard && !legacyVideo) notFound();
 
+  const mp4Url = resolveMp4Url(slug);
+  const official = getOfficialVideo(slug);
+  const transcript = getVideoTranscript(slug);
+  const courseNotes = getVideoCourseNotes(slug);
+
   let storyboard = rawStoryboard;
   if (rawStoryboard) {
     const inventory = await getScreenshotInventoryAsync();
     const validFiles = getValidScreenshotFiles(inventory);
     storyboard = enrichStoryboardWithPublishMeta(rawStoryboard, { validScreenshotFiles: validFiles });
+    if (mp4Url) {
+      storyboard = {
+        ...storyboard,
+        status: "published",
+        videoUrl: mp4Url,
+      };
+    }
   }
 
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
         {storyboard ? (
-          <AnimatedLesson storyboard={storyboard} script={script} />
+          <AnimatedLesson
+            storyboard={storyboard}
+            script={script}
+            mp4Url={mp4Url}
+            transcript={transcript}
+            courseNotes={courseNotes}
+            certificationLabel={official?.certificationLabel}
+            certificationSlug={official?.certificationSlug}
+          />
         ) : legacyVideo ? (
           <PremiumVideoPlayer key={legacyVideo.slug} video={legacyVideo} />
         ) : null}

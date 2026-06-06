@@ -87,3 +87,26 @@ export function loadAllVideoProgress(): VideoProgress[] {
   }
   return results.sort((a, b) => b.updatedAt - a.updatedAt);
 }
+
+export function getTotalWatchMinutes(durationBySlug: Record<string, number>): number {
+  const progress = loadAllVideoProgress();
+  let totalSeconds = 0;
+  for (const p of progress) {
+    const duration = durationBySlug[p.videoSlug];
+    if (!duration) continue;
+    totalSeconds += p.completed ? duration : Math.min(p.currentSeconds, duration);
+  }
+  return Math.round(totalSeconds / 60);
+}
+
+export function formatWatchTime(minutes: number): string {
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m > 0 ? `${h} h ${m} min` : `${h} h`;
+}
+
+export function getContinueVideoProgress(): VideoProgress | null {
+  const inProgress = loadAllVideoProgress().filter((p) => !p.completed && p.currentSeconds > 10);
+  return inProgress[0] ?? null;
+}
