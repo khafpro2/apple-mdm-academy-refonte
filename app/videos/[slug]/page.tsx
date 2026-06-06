@@ -7,7 +7,7 @@ import { getVideoScript, getVideoScriptSlugs } from "@/src/lib/video-scripts";
 import { getVideo } from "@/lib/data/videos";
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
 import { enrichStoryboardWithPublishMeta } from "@/src/lib/video-publish-status";
-import { resolveMp4Url } from "@/src/lib/video-production.server";
+import { resolvePublishableMp4Url } from "@/src/lib/video-production.server";
 import { getOfficialVideo, getVideoCourseNotes } from "@/src/lib/video-production";
 import { getVideoTranscript } from "@/src/lib/video-transcripts";
 
@@ -36,7 +36,7 @@ export default async function VideoDetailPage({ params }: Props) {
 
   if (!rawStoryboard && !legacyVideo) notFound();
 
-  const mp4Url = resolveMp4Url(slug);
+  const mp4Url = resolvePublishableMp4Url(slug);
   const official = getOfficialVideo(slug);
   const transcript = getVideoTranscript(slug);
   const courseNotes = getVideoCourseNotes(slug);

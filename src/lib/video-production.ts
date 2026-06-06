@@ -1,5 +1,6 @@
 import { getVideoStoryboard, getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
 import { getScreenshotsForVideo } from "@/src/lib/video-screenshots";
+import { getResource } from "@/src/lib/resources";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 
 /** Statuts pipeline publication LMS */
@@ -38,6 +39,9 @@ export type VideoProductionRecord = OfficialVideoMeta & {
   status: VideoProductionStatus;
   flags: VideoProductionFlags;
   pipelinePercent: number;
+  score: VideoPipelineScore;
+  canPublish: boolean;
+  publishBlockers: PublishBlocker[];
   durationSeconds: number;
   durationLabel: string;
   hasStoryboard: boolean;
@@ -45,6 +49,59 @@ export type VideoProductionRecord = OfficialVideoMeta & {
   mp4Candidates: string[];
   quality: VideoQualityCheck;
 };
+
+export type VideoPipelineScore = {
+  storyboard: boolean;
+  script: boolean;
+  resource: boolean;
+  captures: boolean;
+  narration: boolean;
+  montage: boolean;
+  mp4: boolean;
+};
+
+export type PublishBlocker = {
+  id: "storyboard" | "transcript" | "resource" | "mp4" | "videoUrl";
+  label: string;
+};
+
+export const PIPELINE_SCORE_WEIGHTS: Record<keyof VideoPipelineScore, number> = {
+  storyboard: 15,
+  script: 15,
+  resource: 10,
+  captures: 25,
+  narration: 15,
+  montage: 10,
+  mp4: 10,
+};
+
+export const MANUAL_PIPELINE_ACTIONS = [
+  "Capturer les écrans avec Screen Studio",
+  "Exporter les captures en 1920×1080",
+  "Convertir en .webp : node scripts/convert-screenshots-to-webp.mjs",
+  "Générer la narration HeyGen (script sur /videos/[slug])",
+  "Monter la vidéo dans CapCut ou Screen Studio",
+  "Exporter en MP4 1080p H.264",
+  "Déposer dans /public/videos/{alias}.mp4",
+  "Relancer : node scripts/check-video-screenshots.mjs",
+] as const;
+
+export const PIPELINE_ADMIN_COMMANDS = [
+  "node scripts/check-video-screenshots.mjs",
+  "node scripts/convert-screenshots-to-webp.mjs",
+  "npm run lint",
+  "npm run build",
+] as const;
+
+export const PIPELINE_CRITERIA_LABELS: { key: keyof VideoPipelineScore; label: string; weight: number }[] = [
+  { key: "storyboard", label: "Storyboard prêt", weight: 15 },
+  { key: "script", label: "Script HeyGen prêt", weight: 15 },
+  { key: "resource", label: "Ressource associée", weight: 10 },
+  { key: "captures", label: "Captures présentes", weight: 25 },
+  { key: "narration", label: "Narration produite", weight: 15 },
+  { key: "montage", label: "Montage terminé", weight: 10 },
+  { key: "mp4", label: "MP4 publié", weight: 10 },
+];
 
 export type VideoQualityCheck = {
   storyboard: boolean;
@@ -130,6 +187,7 @@ export const OFFICIAL_LMS_VIDEOS: OfficialVideoMeta[] = [
     quizSlug: "quiz-abm-certification",
     certificationSlug: "apple-certified-it-professional",
     certificationLabel: "Apple IT Professional",
+    resourceSlug: "apns-checklist",
     priority: 4,
   },
   {
@@ -142,6 +200,7 @@ export const OFFICIAL_LMS_VIDEOS: OfficialVideoMeta[] = [
     quizSlug: "quiz-abm-certification",
     certificationSlug: "apple-certified-it-professional",
     certificationLabel: "Apple IT Professional",
+    resourceSlug: "managed-apple-ids-checklist",
     priority: 5,
   },
   {
@@ -154,6 +213,7 @@ export const OFFICIAL_LMS_VIDEOS: OfficialVideoMeta[] = [
     quizSlug: "quiz-ade-certification",
     certificationSlug: "apple-certified-it-professional",
     certificationLabel: "Apple IT Professional",
+    resourceSlug: "platform-sso-checklist",
     priority: 6,
   },
   {
@@ -166,6 +226,7 @@ export const OFFICIAL_LMS_VIDEOS: OfficialVideoMeta[] = [
     quizSlug: "quiz-jamf-100",
     certificationSlug: "jamf-100",
     certificationLabel: "Jamf 100",
+    resourceSlug: "checklist-jamf-fundamentals",
     priority: 7,
   },
   {
@@ -178,6 +239,7 @@ export const OFFICIAL_LMS_VIDEOS: OfficialVideoMeta[] = [
     quizSlug: "quiz-abm-certification",
     certificationSlug: "apple-certified-it-professional",
     certificationLabel: "Apple IT Professional",
+    resourceSlug: "filevault-checklist",
     priority: 8,
   },
 ];
@@ -236,13 +298,13 @@ export function getCertificationHref(certificationSlug: string): string {
 }
 
 function buildQuality(meta: OfficialVideoMeta, storyboard?: VideoStoryboard): VideoQualityCheck {
-  const hasStoryboard = Boolean(storyboard && storyboard.scenes.length >= 5);
-  const hasTranscript = Boolean(storyboard && storyboard.narration.length > 100);
+  const hasStoryboard = hasValidStoryboard(storyboard);
+  const hasTranscript = hasValidTranscript(storyboard);
   const quiz = Boolean(meta.quizSlug);
   const lab = Boolean(meta.labSlug);
-  const resource = Boolean(meta.resourceSlug);
+  const resource = hasValidResource(meta);
   const certification = Boolean(meta.certificationSlug);
-  const complete = hasStoryboard && hasTranscript && quiz && lab && certification;
+  const complete = hasStoryboard && hasTranscript && quiz && lab && resource && certification;
   return {
     storyboard: hasStoryboard,
     transcript: hasTranscript,
@@ -252,6 +314,109 @@ function buildQuality(meta: OfficialVideoMeta, storyboard?: VideoStoryboard): Vi
     certification,
     complete,
   };
+}
+
+function hasValidStoryboard(storyboard?: VideoStoryboard): boolean {
+  return Boolean(storyboard && storyboard.scenes.length >= 5);
+}
+
+function hasValidTranscript(storyboard?: VideoStoryboard): boolean {
+  return Boolean(storyboard && storyboard.narration.length > 100);
+}
+
+function hasValidResource(meta: OfficialVideoMeta): boolean {
+  return Boolean(meta.resourceSlug && getResource(meta.resourceSlug));
+}
+
+export function computePipelineScore(
+  meta: OfficialVideoMeta,
+  flags: VideoProductionFlags,
+  storyboard: VideoStoryboard | undefined,
+  mp4Available: boolean
+): VideoPipelineScore {
+  return {
+    storyboard: hasValidStoryboard(storyboard),
+    script: flags.scriptReady,
+    resource: hasValidResource(meta),
+    captures: flags.screenshotsReady,
+    narration: flags.voiceReady,
+    montage: flags.editingReady,
+    mp4: mp4Available,
+  };
+}
+
+export function computeWeightedPipelinePercent(score: VideoPipelineScore): number {
+  let total = 0;
+  for (const { key, weight } of PIPELINE_CRITERIA_LABELS) {
+    if (score[key]) total += weight;
+  }
+  return total;
+}
+
+export function getPublishBlockers(
+  record: {
+    slug: string;
+    resourceSlug?: string;
+    hasStoryboard: boolean;
+    hasTranscript: boolean;
+    score: VideoPipelineScore;
+  },
+  options?: { mp4Available?: boolean; videoUrl?: string }
+): PublishBlocker[] {
+  const blockers: PublishBlocker[] = [];
+  if (!record.hasStoryboard) {
+    blockers.push({ id: "storyboard", label: "Storyboard absent ou incomplet (< 5 scènes)" });
+  }
+  if (!record.hasTranscript) {
+    blockers.push({ id: "transcript", label: "Transcript absent ou trop court" });
+  }
+  if (!record.resourceSlug || !getResource(record.resourceSlug)) {
+    blockers.push({
+      id: "resource",
+      label: `Ressource associée absente (${record.resourceSlug ?? "resourceSlug non défini"})`,
+    });
+  }
+  if (!options?.mp4Available) {
+    blockers.push({ id: "mp4", label: "Fichier MP4 absent dans /public/videos/" });
+  }
+  if (options?.mp4Available && !options?.videoUrl) {
+    blockers.push({ id: "videoUrl", label: "videoUrl non résolu malgré MP4 détecté" });
+  }
+  return blockers;
+}
+
+export function canPublishVideo(
+  record: Parameters<typeof getPublishBlockers>[0],
+  options?: { mp4Available?: boolean; videoUrl?: string }
+): { ok: boolean; message: string; blockers: PublishBlocker[] } {
+  const blockers = getPublishBlockers(record, options);
+  if (blockers.length === 0) {
+    return { ok: true, message: "Prêt à publier", blockers: [] };
+  }
+  return {
+    ok: false,
+    message: "Impossible de publier : éléments manquants",
+    blockers,
+  };
+}
+
+export function getNextPipelineAction(
+  record: VideoProductionRecord,
+  options?: { presentScreenshotFiles?: Set<string> }
+): string {
+  if (!record.score.storyboard) return "Compléter le storyboard (5 scènes minimum)";
+  if (!record.score.script) return "Finaliser le script HeyGen sur /videos/" + record.slug;
+  if (!record.score.resource) return `Créer ou lier la ressource /resources/${record.resourceSlug ?? "?"}`;
+  if (!record.score.captures) {
+    const missing = getScreenshotsForVideo(record.slug).filter(
+      (s) => !options?.presentScreenshotFiles?.has(s.file)
+    ).length;
+    return `Produire ${missing} capture(s) Screen Studio → convertir en .webp`;
+  }
+  if (!record.score.narration) return "Enregistrer la narration HeyGen";
+  if (!record.score.montage) return "Monter la vidéo (CapCut / Screen Studio)";
+  if (!record.score.mp4) return `Exporter MP4 → /public/videos/${record.mp4Alias}.mp4`;
+  return "Vidéo prête — publication LMS active";
 }
 
 function resolveFlags(
@@ -277,60 +442,86 @@ function resolveFlags(
   };
 }
 
-function resolveStatus(flags: VideoProductionFlags, mp4Available: boolean): VideoProductionStatus {
-  if (flags.published || mp4Available) return "published";
+function resolveStatus(
+  flags: VideoProductionFlags,
+  mp4Available: boolean,
+  publishOk: boolean
+): VideoProductionStatus {
+  if (publishOk && mp4Available) return "published";
   if (flags.editingReady) return "ready-to-publish";
-  if (flags.voiceReady) return "voice-ready";
+  if (flags.voiceReady) return "editing";
   if (flags.screenshotsReady) return "screenshots-ready";
   if (flags.scriptReady) return "storyboard-ready";
   return "draft";
 }
 
+/** @deprecated Utiliser computeWeightedPipelinePercent */
 export function computePipelinePercent(flags: VideoProductionFlags, mp4Available: boolean): number {
-  const steps = [
-    flags.scriptReady,
-    flags.screenshotsReady,
-    flags.voiceReady,
-    flags.editingReady,
-    mp4Available || flags.published,
-  ];
-  return Math.round((steps.filter(Boolean).length / steps.length) * 100);
+  const score: VideoPipelineScore = {
+    storyboard: flags.scriptReady,
+    script: flags.scriptReady,
+    resource: false,
+    captures: flags.screenshotsReady,
+    narration: flags.voiceReady,
+    montage: flags.editingReady,
+    mp4: mp4Available,
+  };
+  return computeWeightedPipelinePercent(score);
 }
 
-export function getPipelineStages(flags: VideoProductionFlags, mp4Available: boolean): PipelineStage[] {
+export function getPipelineStages(
+  score: VideoPipelineScore,
+  publishOk: boolean
+): PipelineStage[] {
   return [
-    { id: "storyboards", label: "Storyboards", complete: flags.scriptReady },
-    { id: "captures", label: "Captures", complete: flags.screenshotsReady },
-    { id: "narration", label: "Narration", complete: flags.voiceReady },
-    { id: "montage", label: "Montage", complete: flags.editingReady },
+    { id: "storyboards", label: "Storyboards", complete: score.storyboard && score.script },
+    { id: "captures", label: "Captures", complete: score.captures },
+    { id: "narration", label: "Narration", complete: score.narration },
+    { id: "montage", label: "Montage", complete: score.montage },
     {
       id: "validation",
       label: "Validation",
-      complete: flags.editingReady && flags.voiceReady && flags.screenshotsReady,
+      complete: score.resource && score.storyboard && score.captures && score.narration,
     },
-    { id: "publication", label: "Publication", complete: mp4Available || flags.published },
+    { id: "publication", label: "Publication", complete: publishOk && score.mp4 },
   ];
 }
 
 export function buildVideoProductionRecord(
   meta: OfficialVideoMeta,
-  options?: { presentScreenshotFiles?: Set<string>; mp4Available?: boolean }
+  options?: { presentScreenshotFiles?: Set<string>; mp4Available?: boolean; mp4Url?: string }
 ): VideoProductionRecord {
   const storyboard = getVideoStoryboard(meta.slug);
   const flags = resolveFlags(meta.slug, storyboard, options?.presentScreenshotFiles);
   const mp4Available = options?.mp4Available ?? false;
+  const hasStoryboard = hasValidStoryboard(storyboard);
+  const hasTranscript = hasValidTranscript(storyboard);
+  const score = computePipelineScore(meta, flags, storyboard, mp4Available);
+  const pipelinePercent = computeWeightedPipelinePercent(score);
+  const publish = canPublishVideo(
+    { slug: meta.slug, resourceSlug: meta.resourceSlug, hasStoryboard, hasTranscript, score },
+    { mp4Available, videoUrl: options?.mp4Url }
+  );
   const overrideStatus = VIDEO_PRODUCTION_OVERRIDES[meta.slug]?.status;
-  const status = overrideStatus ?? resolveStatus(flags, mp4Available);
+  const status = overrideStatus ?? resolveStatus(flags, mp4Available, publish.ok);
+
+  const publishBlockers = publish.blockers;
 
   return {
     ...meta,
     status,
-    flags: { ...flags, published: status === "published" },
-    pipelinePercent: computePipelinePercent(flags, mp4Available),
+    flags: {
+      ...flags,
+      published: status === "published",
+    },
+    pipelinePercent,
+    score,
+    canPublish: publish.ok,
+    publishBlockers,
     durationSeconds: storyboard?.durationSeconds ?? 0,
     durationLabel: storyboard?.duration ?? "—",
-    hasStoryboard: Boolean(storyboard),
-    hasTranscript: Boolean(storyboard?.narration),
+    hasStoryboard,
+    hasTranscript,
     mp4Candidates: getMp4Candidates(meta.slug),
     quality: buildQuality(meta, storyboard),
   };
@@ -339,11 +530,13 @@ export function buildVideoProductionRecord(
 export function getOfficialVideoProductionRecords(options?: {
   presentScreenshotFiles?: Set<string>;
   mp4AvailableBySlug?: Record<string, boolean>;
+  mp4UrlBySlug?: Record<string, string | undefined>;
 }): VideoProductionRecord[] {
   return OFFICIAL_LMS_VIDEOS.map((meta) =>
     buildVideoProductionRecord(meta, {
       presentScreenshotFiles: options?.presentScreenshotFiles,
       mp4Available: options?.mp4AvailableBySlug?.[meta.slug] ?? false,
+      mp4Url: options?.mp4UrlBySlug?.[meta.slug],
     })
   );
 }
@@ -351,6 +544,7 @@ export function getOfficialVideoProductionRecords(options?: {
 export function getAllVideoLibraryRecords(options?: {
   presentScreenshotFiles?: Set<string>;
   mp4AvailableBySlug?: Record<string, boolean>;
+  mp4UrlBySlug?: Record<string, string | undefined>;
 }): VideoProductionRecord[] {
   const officialSlugs = new Set(OFFICIAL_LMS_VIDEOS.map((v) => v.slug));
   const official = getOfficialVideoProductionRecords(options);
@@ -373,6 +567,7 @@ export function getAllVideoLibraryRecords(options?: {
       return buildVideoProductionRecord(meta, {
         presentScreenshotFiles: options?.presentScreenshotFiles,
         mp4Available: options?.mp4AvailableBySlug?.[sb.slug] ?? false,
+        mp4Url: options?.mp4UrlBySlug?.[sb.slug],
       });
     });
 
@@ -413,6 +608,9 @@ export function getVideoCourseNotes(slug: string): VideoCourseNotes | undefined 
       { label: "Cours associé", href: `/cours/${storyboard.courseSlug}` },
       { label: "Lab associé", href: `/labs/${storyboard.labSlug}` },
       { label: "Quiz", href: `/quiz/${storyboard.quizSlug}` },
+      ...(official?.resourceSlug
+        ? [{ label: "Ressource checklist", href: `/resources/${official.resourceSlug}` }]
+        : []),
       ...(official
         ? [{ label: official.certificationLabel, href: getCertificationHref(official.certificationSlug) }]
         : []),

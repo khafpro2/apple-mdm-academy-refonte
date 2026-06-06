@@ -3,6 +3,7 @@ export type ResourceBadge = "Apple" | "Intune" | "Jamf" | "Sécurité";
 import { advancedResources } from "@/lib/data/advanced-tracks/resources-data";
 import { altMdmResources } from "@/lib/data/alternative-mdm-tracks/resources-data";
 import { platformDeploymentGuides } from "@/lib/data/apple-platform-deployment/resources-guides";
+import { videoLinkedResources } from "@/src/lib/video-linked-resources";
 
 export type ResourceCategory = "checklist" | "terminal" | "template" | "procedure";
 
@@ -17,12 +18,16 @@ export type AcademyResource = {
   slug: string;
   title: string;
   description: string;
+  /** Objectif pédagogique (ressources vidéo LMS) */
+  objective?: string;
   category: ResourceCategory;
   level: ResourceLevel;
   badge: ResourceBadge;
   module: string;
   relatedCourseSlug: string;
   relatedLabSlug: string;
+  /** Slug vidéo illustrée associée (/videos/[slug]) */
+  relatedVideoSlug?: string;
   sections: ResourceSection[];
   relatedResourceSlugs?: string[];
   popular?: boolean;
@@ -837,6 +842,7 @@ export const academyResources: AcademyResource[] = [
       },
     ],
   }),
+  ...videoLinkedResources,
   ...platformDeploymentGuides,
   ...advancedResources,
   ...altMdmResources,

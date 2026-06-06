@@ -7,7 +7,7 @@ import {
   getAllVideoLibraryRecords,
   getProductionStatusLabel,
 } from "@/src/lib/video-production";
-import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
+import { getMp4AvailabilityMap, getMp4UrlMap } from "@/src/lib/video-production.server";
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
 
 export const metadata = { title: "Bibliothèque vidéo", robots: { index: false, follow: false } };
@@ -31,9 +31,11 @@ export default async function VideoLibraryAdminPage() {
   const inventory = await getScreenshotInventoryAsync();
   const validFiles = getValidScreenshotFiles(inventory);
   const mp4Map = getMp4AvailabilityMap();
+  const mp4UrlMap = getMp4UrlMap();
   const records = getAllVideoLibraryRecords({
     presentScreenshotFiles: validFiles,
     mp4AvailableBySlug: mp4Map,
+    mp4UrlBySlug: mp4UrlMap,
   });
 
   const qualityComplete = records.filter((r) => r.quality.complete).length;

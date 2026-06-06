@@ -54,6 +54,12 @@ export function ResourceDetail({ resource }: Props) {
           </div>
           <h1 className="mt-4 text-2xl font-bold text-ink">{resource.title}</h1>
           <p className="mt-2 text-ink-secondary">{resource.description}</p>
+          {resource.objective && (
+            <p className="mt-3 rounded-xl bg-surface p-4 text-sm text-ink-secondary">
+              <span className="font-semibold text-ink">Objectif — </span>
+              {resource.objective}
+            </p>
+          )}
           <p className="mt-2 text-sm text-ink-tertiary">Module : {resource.module}</p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -78,6 +84,11 @@ export function ResourceDetail({ resource }: Props) {
             <ButtonLink href={`/labs/${resource.relatedLabSlug}`} variant="secondary">
               Faire le lab
             </ButtonLink>
+            {resource.relatedVideoSlug && (
+              <ButtonLink href={`/videos/${resource.relatedVideoSlug}`} variant="secondary">
+                Voir la vidéo
+              </ButtonLink>
+            )}
           </div>
         </header>
 

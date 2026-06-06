@@ -23,6 +23,10 @@ export const FREE_COURSE_SLUGS = new Set(["apple-fundamentals"]);
 export const FREE_RESOURCE_SLUGS = new Set([
   "checklist-abm",
   "checklist-apns",
+  "apns-checklist",
+  "managed-apple-ids-checklist",
+  "platform-sso-checklist",
+  "filevault-checklist",
   "checklist-jamf-fundamentals",
 ]);
 
