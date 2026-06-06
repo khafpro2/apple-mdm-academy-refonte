@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" aria-hidden="true">
+  <rect width="640" height="360" fill="#DEECF9"/>
+  <circle cx="520" cy="80" r="120" fill="#0078D4" opacity="0.08"/>
+  <image href="/video-assets/icons/intune.svg" x="40" y="40" width="64" height="64"/>
+  <text x="40" y="150" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="#48484A">ABM + Intune</text>
+  <text x="40" y="180" font-family="system-ui,sans-serif" font-size="14" fill="#86868B">Apple MDM Academy</text>
+  <rect x="40" y="300" width="120" height="28" rx="14" fill="#0078D4" opacity="0.15"/>
+  <text x="100" y="319" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#0078D4">Vidéo illustrée</text>
+</svg>

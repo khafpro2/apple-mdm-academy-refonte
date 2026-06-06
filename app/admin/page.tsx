@@ -38,6 +38,12 @@ export default async function AdminPage() {
             Gestion contenu
           </Link>
           <Link
+            href="/admin/video-production"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Production vidéo
+          </Link>
+          <Link
             href="/admin/production-checklist"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

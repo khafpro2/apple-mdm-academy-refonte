@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading, Badge } from "@/components/ui";
+import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
+import { getVideoAssets } from "@/src/lib/video-assets";
+import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import {
   getFundamentalVideoScripts,
   getJamfVideoScripts,
@@ -9,7 +12,6 @@ import {
   videoScripts,
 } from "@/src/lib/video-scripts";
 import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
-import type { VideoStoryboard } from "@/src/lib/video-lessons";
 
 export const metadata = {
   title: "Vidéos",
@@ -133,20 +135,26 @@ export default function VideosPage() {
 }
 
 function IllustratedVideoCard({ lesson }: { lesson: VideoStoryboard }) {
+  const pack = getVideoAssets(lesson.slug);
   return (
     <article className="group flex flex-col overflow-hidden rounded-3xl border border-accent/30 bg-surface-elevated shadow-sm transition hover:shadow-md">
-      <div className="relative flex aspect-video items-center justify-center gap-3 bg-gradient-to-br from-slate-50 to-blue-50 p-6">
-        {["abm", "intune", "jamf"].map((icon) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img key={icon} src={`/illustrations/${icon}.svg`} alt="" width={32} height={32} className="opacity-80" />
-        ))}
-        <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white">
-          {lesson.duration}
-        </span>
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-ink">
-          {lesson.scenes.length} scènes
-        </span>
-      </div>
+      {pack ? (
+        <VideoThumbnail
+          title={lesson.title}
+          module={lesson.module}
+          icon={pack.icon}
+          background={pack.background}
+          level={lesson.level}
+          thumbnailPath={pack.thumbnailPath}
+          className="rounded-none"
+        />
+      ) : (
+        <div className="relative flex aspect-video items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+          <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white">
+            {lesson.duration}
+          </span>
+        </div>
+      )}
       <div className="flex flex-1 flex-col p-5">
         <Badge variant="default" className="mb-2 self-start">{lesson.module}</Badge>
         <Badge variant="accent" className="mb-2 ml-2 self-start">{lesson.level}</Badge>

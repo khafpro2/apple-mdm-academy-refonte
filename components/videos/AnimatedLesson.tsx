@@ -4,9 +4,12 @@ import Link from "next/link";
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
+import { exportVideoProductionPack, getVideoAssets, getDiagramForVideo, resolveAssetPaths } from "@/src/lib/video-assets";
 import type { VideoScript } from "@/src/lib/video-scripts";
 import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
 import { VideoStoryboardPanel } from "@/components/videos/VideoStoryboard";
+import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
+import { VideoDiagram } from "@/components/videos/VideoDiagram";
 import { PedagogicalAnimation } from "@/components/video/pedagogical-animation";
 import { Badge, ButtonLink } from "@/components/ui";
 import type { AnimationSlug } from "@/lib/types";
@@ -122,9 +125,35 @@ export function AnimatedLesson({ storyboard, script }: Props) {
     URL.revokeObjectURL(url);
   }, [storyboard]);
 
+  const exportProductionPack = useCallback(() => {
+    const md = exportVideoProductionPack(storyboard);
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${storyboard.slug}-production-pack.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [storyboard]);
+
+  const assetPack = getVideoAssets(storyboard.slug);
+  const diagram = getDiagramForVideo(storyboard.slug);
+  const assetPaths = assetPack ? resolveAssetPaths(assetPack) : [];
+
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
       <div className="space-y-6">
+        {assetPack && (
+          <VideoThumbnail
+            title={storyboard.title}
+            module={storyboard.module}
+            icon={assetPack.icon}
+            background={assetPack.background}
+            level={storyboard.level}
+            thumbnailPath={assetPack.thumbnailPath}
+          />
+        )}
+
         <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
           {animationSlug ? (
             <PedagogicalAnimation slug={animationSlug} playing={playing} progress={animProgress} />
@@ -181,6 +210,17 @@ export function AnimatedLesson({ storyboard, script }: Props) {
           </div>
         </header>
 
+        {diagram && (
+          <VideoDiagram
+            nodes={diagram.nodes}
+            connections={diagram.connections}
+            activeNode={activeSceneIndex}
+            title={diagram.title}
+            description={diagram.description}
+            diagramPath={diagram.path}
+          />
+        )}
+
         <VideoStoryboardPanel
           storyboard={storyboard}
           activeSceneIndex={activeSceneIndex}
@@ -209,7 +249,14 @@ export function AnimatedLesson({ storyboard, script }: Props) {
                 onClick={exportMarkdown}
                 className="rounded-lg border border-border-light px-3 py-1.5 text-sm font-medium text-ink-secondary hover:bg-surface"
               >
-                Exporter storyboard
+                Télécharger storyboard
+              </button>
+              <button
+                type="button"
+                onClick={exportProductionPack}
+                className="rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-sm font-medium text-accent hover:bg-accent/10"
+              >
+                Pack production
               </button>
             </div>
           </div>
@@ -270,6 +317,16 @@ export function AnimatedLesson({ storyboard, script }: Props) {
               </dd>
             </div>
           </dl>
+        </div>
+
+        <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
+          <h2 className="font-bold text-ink">Assets utilisés</h2>
+          <p className="mt-1 text-xs text-ink-tertiary">{assetPaths.length} fichiers · HeyGen · Canva · CapCut</p>
+          <ul className="mt-3 max-h-40 space-y-1 overflow-y-auto text-xs text-ink-secondary">
+            {assetPaths.map((path) => (
+              <li key={path} className="truncate border-b border-border-light py-1 font-mono last:border-0">{path}</li>
+            ))}
+          </ul>
         </div>
 
         <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
