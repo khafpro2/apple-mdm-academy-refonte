@@ -2,7 +2,7 @@ import { advancedVideoScripts, advancedLessonVideoMap } from "@/lib/data/advance
 import { altMdmVideoScripts, altMdmLessonVideoMap } from "@/lib/data/alternative-mdm-tracks/heygen-videos";
 import { buildFoundationVideoScript } from "@/lib/data/shared/module-video-script";
 
-export type VideoLevel = "Débutant" | "Intermédiaire" | "Fondamental" | "Avancé";
+export type VideoLevel = "Débutant" | "Intermédiaire" | "Fondamental" | "Avancé" | "Pro" | "Expert";
 
 export type HeyGenVideoDefaults = {
   avatar: string;

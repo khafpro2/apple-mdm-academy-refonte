@@ -1,4 +1,5 @@
 import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
+import type { VideoLevel } from "@/src/lib/video-scripts";
 
 /** Types de scènes visuelles pour les vidéos illustrées */
 export type VideoSceneVisualType =
@@ -36,15 +37,21 @@ export type ArchitectureConnection = {
 export type VideoScene = {
   id: string;
   title: string;
-  visualType: VideoSceneVisualType;
-  narration: string;
   durationSeconds: number;
-  /** Indication visuelle pour production HeyGen / captures */
-  visualHint: string;
+  narration: string;
+  /** Visuel attendu (Canva / Screen Studio) */
+  visual: string;
+  /** Animation recommandée (CSS, CapCut, Screen Studio) */
+  animation: string;
+  visualType: VideoSceneVisualType;
+  requiredScreenshots: string[];
+  onScreenText: string[];
   nodes?: ArchitectureNode[];
   connections?: ArchitectureConnection[];
   checklistItems?: string[];
   comparison?: { left: string; right: string };
+  /** @deprecated alias de visual */
+  visualHint?: string;
   screenshotTarget?: string;
 };
 
@@ -54,14 +61,16 @@ export type VideoStoryboard = {
   module: string;
   duration: string;
   durationSeconds: number;
+  level: VideoLevel;
   objective: string;
-  /** Type visuel dominant de la vidéo */
   visualType: VideoSceneVisualType;
   scenes: VideoScene[];
-  /** Script narrateur complet (HeyGen) */
   narration: string;
-  relatedCourse: string;
-  relatedLab: string;
+  courseSlug: string;
+  labSlug: string;
+  quizSlug: string;
+  /** Captures agrégées pour la production */
+  allScreenshots: string[];
   heygen: {
     avatar: string;
     voice: string;
@@ -69,6 +78,10 @@ export type VideoStoryboard = {
     format: string;
     style: string;
   };
+  /** @deprecated */
+  relatedCourse?: string;
+  /** @deprecated */
+  relatedLab?: string;
 };
 
 export type VideoLesson = VideoStoryboard;
@@ -82,7 +95,7 @@ export function estimateDurationSeconds(scenes: VideoScene[]): number {
 }
 
 export function formatDuration(seconds: number): string {
-  const m = Math.round(seconds / 60);
+  const m = Math.max(1, Math.round(seconds / 60));
   return `${m} min`;
 }
 
@@ -96,23 +109,50 @@ export function defaultHeygenMeta() {
   };
 }
 
+export function collectAllScreenshots(scenes: VideoScene[]): string[] {
+  const set = new Set<string>();
+  for (const scene of scenes) {
+    scene.requiredScreenshots.forEach((s) => set.add(s));
+    if (scene.screenshotTarget) set.add(scene.screenshotTarget);
+  }
+  return [...set];
+}
+
+/** Alias demandé par la spec */
+export function exportStoryboardToMarkdown(storyboard: VideoStoryboard): string {
+  return exportStoryboardMarkdown(storyboard);
+}
+
 export function exportStoryboardMarkdown(storyboard: VideoStoryboard): string {
   const lines = [
     `# ${storyboard.title}`,
     "",
+    "## Métadonnées",
+    "",
     `- **Module :** ${storyboard.module}`,
-    `- **Durée estimée :** ${storyboard.duration}`,
-    `- **Objectif :** ${storyboard.objective}`,
-    `- **Cours associé :** \`${storyboard.relatedCourse}\``,
-    `- **Lab associé :** \`${storyboard.relatedLab}\``,
+    `- **Niveau :** ${storyboard.level}`,
+    `- **Durée estimée :** ${storyboard.duration} (${storyboard.durationSeconds}s)`,
+    `- **Objectif pédagogique :** ${storyboard.objective}`,
+    `- **Cours :** \`/cours/${storyboard.courseSlug}\``,
+    `- **Lab :** \`/labs/${storyboard.labSlug}\``,
+    `- **Quiz :** \`/quiz/${storyboard.quizSlug}\``,
     "",
-    "## Configuration HeyGen",
+    "## Instructions HeyGen",
     "",
-    `- Avatar : ${storyboard.heygen.avatar}`,
-    `- Voix : ${storyboard.heygen.voice}`,
+    `- Avatar : **${storyboard.heygen.avatar}**`,
+    `- Voix : **${storyboard.heygen.voice}**`,
     `- Langue : ${storyboard.heygen.language}`,
     `- Format : ${storyboard.heygen.format}`,
     `- Style : ${storyboard.heygen.style}`,
+    "- Sous-titres : français, texte court à l'écran",
+    "- Découpage : une prise par scène, fond clair Apple Training Premium",
+    "",
+    "## Instructions montage",
+    "",
+    "- **Screen Studio** : zooms sur captures ABM / Intune / Jamf / macOS",
+    "- **Canva** : slides intro + récap, icônes SVG `/public/illustrations/`",
+    "- **CapCut** : transitions 200ms, flèches animées entre scènes architecture",
+    "- Musique : discrète, corporate, -18 dB sous la voix",
     "",
     "## Script narrateur complet",
     "",
@@ -126,37 +166,43 @@ export function exportStoryboardMarkdown(storyboard: VideoStoryboard): string {
     lines.push(
       `### Scène ${index + 1} — ${scene.title}`,
       "",
-      `- **Type visuel :** ${scene.visualType}`,
       `- **Durée :** ${scene.durationSeconds}s`,
-      `- **Visuel à produire :** ${scene.visualHint}`,
-      scene.screenshotTarget ? `- **Capture :** ${scene.screenshotTarget}` : "",
+      `- **Type :** ${scene.visualType}`,
+      `- **Visuel :** ${scene.visual}`,
+      `- **Animation :** ${scene.animation}`,
+      "",
+      "**Texte à l'écran :**",
+      "",
+      ...(scene.onScreenText.length ? scene.onScreenText.map((t) => `- ${t}`) : ["- (narration seule)"]),
       "",
       "**Narration :**",
       "",
       scene.narration,
       ""
     );
+    if (scene.requiredScreenshots.length) {
+      lines.push("**Captures scène :**", "", ...scene.requiredScreenshots.map((s) => `- ${s}`), "");
+    }
     if (scene.checklistItems?.length) {
-      lines.push("**Checklist :**", "", ...scene.checklistItems.map((i) => `- ${i}`), "");
-    }
-    if (scene.comparison) {
-      lines.push(`**Comparaison :** ${scene.comparison.left} ↔ ${scene.comparison.right}`, "");
-    }
-    if (scene.nodes?.length) {
-      lines.push(
-        "**Architecture :**",
-        "",
-        ...scene.nodes.map((n) => `- ${n.label}${n.icon ? ` (${n.icon})` : ""}`),
-        ""
-      );
+      lines.push("**Points clés :**", "", ...scene.checklistItems.map((i) => `- ${i}`), "");
     }
   });
 
-  lines.push("## Captures nécessaires", "");
-  const captures = storyboard.scenes
-    .filter((s) => s.screenshotTarget || s.visualType === "screenshot")
-    .map((s) => `- ${s.screenshotTarget ?? s.visualHint}`);
-  lines.push(...(captures.length ? captures : ["- Aucune capture obligatoire — animations diagrammes suffisantes"]), "");
+  lines.push(
+    "## Captures nécessaires (liste complète)",
+    "",
+    ...storyboard.allScreenshots.map((s) => `- ${s}`),
+    "",
+    "## Checklist production",
+    "",
+    "- [ ] Enregistrer narration HeyGen (16:9)",
+    "- [ ] Capturer écrans listés ci-dessus",
+    "- [ ] Monter scènes dans CapCut / Screen Studio",
+    "- [ ] Ajouter sous-titres FR",
+    "- [ ] Publier sur `/videos/" + storyboard.slug + "`",
+    "- [ ] Valider lab + quiz associés",
+    ""
+  );
 
-  return lines.filter(Boolean).join("\n");
+  return lines.join("\n");
 }

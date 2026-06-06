@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
-import { exportStoryboardMarkdown } from "@/src/lib/video-lessons";
+import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
 import { VideoSceneView } from "@/components/videos/VideoScene";
 import { AnimatedArchitecture } from "@/components/videos/AnimatedArchitecture";
 
@@ -46,7 +46,7 @@ export function VideoStoryboardPanel({ storyboard, activeSceneIndex = 0, playing
           connections={activeScene.connections}
           activeStep={archStep}
           title={activeScene.title}
-          description={activeScene.visualHint}
+          description={activeScene.visual ?? activeScene.visualHint}
         />
       )}
 
@@ -67,7 +67,7 @@ export function VideoStoryboardPanel({ storyboard, activeSceneIndex = 0, playing
       <details className="rounded-2xl border border-dashed border-border-light bg-surface p-4">
         <summary className="cursor-pointer text-sm font-semibold text-ink">Aperçu export Markdown</summary>
         <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap text-xs text-ink-secondary">
-          {exportStoryboardMarkdown(storyboard).slice(0, 800)}…
+          {exportStoryboardToMarkdown(storyboard).slice(0, 800)}…
         </pre>
       </details>
     </section>

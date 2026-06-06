@@ -149,6 +149,7 @@ function IllustratedVideoCard({ lesson }: { lesson: VideoStoryboard }) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         <Badge variant="default" className="mb-2 self-start">{lesson.module}</Badge>
+        <Badge variant="accent" className="mb-2 ml-2 self-start">{lesson.level}</Badge>
         <h3 className="font-bold text-ink group-hover:text-accent">{lesson.title}</h3>
         <p className="mt-2 flex-1 text-sm text-ink-secondary line-clamp-2">{lesson.objective}</p>
         <Link

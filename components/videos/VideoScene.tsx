@@ -22,6 +22,8 @@ const TYPE_LABELS: Record<VideoScene["visualType"], string> = {
 };
 
 export function VideoSceneView({ scene, index, active, activeStep }: VideoSceneProps) {
+  const visual = scene.visual ?? scene.visualHint ?? "";
+
   return (
     <article
       className={`rounded-2xl border p-5 transition-all duration-300 ${
@@ -40,9 +42,21 @@ export function VideoSceneView({ scene, index, active, activeStep }: VideoSceneP
       </div>
       <h3 className="mt-3 font-bold text-ink">{scene.title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-ink-secondary">{scene.narration}</p>
-      <p className="mt-3 rounded-lg bg-surface px-3 py-2 text-xs text-ink-tertiary">
-        <span className="font-semibold text-ink-secondary">Visuel :</span> {scene.visualHint}
-      </p>
+
+      <div className="mt-3 space-y-2 rounded-lg bg-surface px-3 py-2 text-xs text-ink-tertiary">
+        <p><span className="font-semibold text-ink-secondary">Visuel :</span> {visual}</p>
+        <p><span className="font-semibold text-ink-secondary">Animation :</span> {scene.animation}</p>
+      </div>
+
+      {scene.onScreenText.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {scene.onScreenText.map((text) => (
+            <span key={text} className="rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-medium text-accent">
+              {text}
+            </span>
+          ))}
+        </div>
+      )}
 
       {scene.nodes && scene.connections && (
         <div className="mt-4">
@@ -77,10 +91,15 @@ export function VideoSceneView({ scene, index, active, activeStep }: VideoSceneP
         </div>
       )}
 
-      {scene.screenshotTarget && (
-        <p className="mt-3 text-xs font-medium text-accent">
-          Capture : {scene.screenshotTarget}
-        </p>
+      {scene.requiredScreenshots.length > 0 && (
+        <div className="mt-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-tertiary">Captures nécessaires</p>
+          <ul className="mt-2 space-y-1">
+            {scene.requiredScreenshots.map((shot) => (
+              <li key={shot} className="text-xs text-accent">{shot}</li>
+            ))}
+          </ul>
+        </div>
       )}
     </article>
   );

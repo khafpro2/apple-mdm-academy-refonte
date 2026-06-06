@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
-import { exportStoryboardMarkdown } from "@/src/lib/video-lessons";
+import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
 import type { VideoScript } from "@/src/lib/video-scripts";
 import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
 import { VideoStoryboardPanel } from "@/components/videos/VideoStoryboard";
@@ -18,7 +18,9 @@ import {
 
 const ANIMATION_BY_SLUG: Partial<Record<string, AnimationSlug>> = {
   "abm-intune": "abm-intune",
-  "automated-device-enrollment": "ade-enrollment",
+  "ade-iphone": "ade-enrollment",
+  "ade-mac": "ade-enrollment",
+  "gatekeeper-xprotect-sip": "filevault",
   apns: "apns-push",
   "apps-books": "apps-books",
   "platform-sso": "platform-sso",
@@ -110,7 +112,7 @@ export function AnimatedLesson({ storyboard, script }: Props) {
   }, [heygenScript]);
 
   const exportMarkdown = useCallback(() => {
-    const md = exportStoryboardMarkdown(storyboard);
+    const md = exportStoryboardToMarkdown(storyboard);
     const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -163,15 +165,18 @@ export function AnimatedLesson({ storyboard, script }: Props) {
         <header className="rounded-2xl border border-border-light bg-surface-elevated p-6">
           <div className="flex flex-wrap gap-2">
             <Badge variant="default">{storyboard.module}</Badge>
-            <Badge variant="accent">{storyboard.visualType}</Badge>
-            {script?.level && <Badge>{script.level}</Badge>}
+            <Badge variant="accent">{storyboard.level}</Badge>
+            <Badge>{storyboard.visualType}</Badge>
           </div>
           <h1 className="mt-3 text-2xl font-bold text-ink">{storyboard.title}</h1>
           <p className="mt-2 text-sm text-ink-secondary">{storyboard.objective}</p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <ButtonLink href={`/cours/${storyboard.relatedCourse}`}>Voir le cours</ButtonLink>
-            <ButtonLink href={`/labs/${storyboard.relatedLab}`} variant="secondary">
+            <ButtonLink href={`/cours/${storyboard.courseSlug}`}>Voir le cours</ButtonLink>
+            <ButtonLink href={`/labs/${storyboard.labSlug}`} variant="secondary">
               Faire le lab
+            </ButtonLink>
+            <ButtonLink href={`/quiz/${storyboard.quizSlug}`} variant="secondary">
+              Passer le quiz
             </ButtonLink>
           </div>
         </header>
@@ -237,22 +242,44 @@ export function AnimatedLesson({ storyboard, script }: Props) {
               <dd className="font-medium text-ink">{storyboard.scenes.length}</dd>
             </div>
             <div>
+              <dt className="text-xs text-ink-tertiary">Niveau</dt>
+              <dd className="font-medium text-ink">{storyboard.level}</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-ink-tertiary">Quiz associé</dt>
+              <dd>
+                <Link href={`/quiz/${storyboard.quizSlug}`} className="font-medium text-accent hover:underline">
+                  {storyboard.quizSlug}
+                </Link>
+              </dd>
+            </div>
+            <div>
               <dt className="text-xs text-ink-tertiary">Cours associé</dt>
               <dd>
-                <Link href={`/cours/${storyboard.relatedCourse}`} className="font-medium text-accent hover:underline">
-                  {storyboard.relatedCourse}
+                <Link href={`/cours/${storyboard.courseSlug}`} className="font-medium text-accent hover:underline">
+                  {storyboard.courseSlug}
                 </Link>
               </dd>
             </div>
             <div>
               <dt className="text-xs text-ink-tertiary">Lab associé</dt>
               <dd>
-                <Link href={`/labs/${storyboard.relatedLab}`} className="font-medium text-accent hover:underline">
-                  {storyboard.relatedLab}
+                <Link href={`/labs/${storyboard.labSlug}`} className="font-medium text-accent hover:underline">
+                  {storyboard.labSlug}
                 </Link>
               </dd>
             </div>
           </dl>
+        </div>
+
+        <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
+          <h2 className="font-bold text-ink">Captures production</h2>
+          <p className="mt-1 text-xs text-ink-tertiary">{storyboard.allScreenshots.length} écrans à enregistrer</p>
+          <ul className="mt-3 max-h-48 space-y-1 overflow-y-auto text-xs text-ink-secondary">
+            {storyboard.allScreenshots.map((shot) => (
+              <li key={shot} className="border-b border-border-light py-1 last:border-0">{shot}</li>
+            ))}
+          </ul>
         </div>
 
         <div className="rounded-2xl border border-dashed border-border-light bg-surface p-5 text-sm">
