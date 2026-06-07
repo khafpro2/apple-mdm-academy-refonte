@@ -1,0 +1,67 @@
+---
+description: Répartition des tâches Cursor (UI/LMS) vs Codex (technique) — branches et périmètres
+alwaysApply: true
+---
+
+# Cursor + Codex — répartition des tâches
+
+## Branches
+
+| Agent | Branche | Merge |
+|-------|---------|-------|
+| **Cursor** | `cursor/feature-lms-ui` | Jamais directement sur `main` sans validation |
+| **Codex** | `codex/technical-fixes` | Jamais directement sur `main` sans validation |
+
+Avant merge dans `main` : lint + build OK, pas de conflit, pages concernées testées.
+
+## Cursor — périmètre
+
+**Priorité :**
+- UI / UX, pages Next.js, composants React
+- Design responsive, navigation, dashboard, admin (UI)
+- Pages vidéos, cours, ressources pédagogiques
+- Intégration LMS côté présentation
+
+**Ne pas modifier en priorité :**
+- `scripts/check-video-*.mjs`, `scripts/convert-screenshots-to-webp.mjs`
+- `src/lib/video-publish-status.ts`, `src/lib/video-display-status.ts`, `src/lib/video-production.ts`
+- Migrations SQL sensibles, refactorings globaux sans demande
+
+## Codex — périmètre
+
+**Priorité :**
+- Scripts Node, tests, lint/build fixes, TypeScript
+- Validation MP4, captures, resourceSlug, transcripts
+- Optimisation utilitaires vidéo (fichiers ci-dessus)
+- Sécurité, corrections ciblées, détection de bugs
+
+**Ne pas modifier en priorité :**
+- Design global, wording pédagogique, structure marketing
+- Contenus de cours, UI majeure sans validation
+
+## Règle d’or
+
+**Ne jamais travailler sur les mêmes fichiers simultanément.**
+
+## Fin de tâche (chaque agent)
+
+```bash
+npm run lint
+npm run build
+git status
+git add .
+git commit -m "message clair"
+git push origin NOM_DE_BRANCHE
+```
+
+## Interdictions commit
+
+`.env`, `.env.local`, clés API, tokens, service role keys, captures non floutées.
+
+## Rapport final attendu
+
+- ✅ Fichiers modifiés
+- ✅ Commandes lancées
+- ✅ lint OK · build OK
+- ✅ commit SHA · branche utilisée
+- ⚠️ risques · ❌ bloquants

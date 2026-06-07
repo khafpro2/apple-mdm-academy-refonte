@@ -22,15 +22,27 @@ const BADGE_COLORS: Record<ResourceBadge, string> = {
   Sécurité: "bg-red-50 text-red-800",
 };
 
+const APPLE_TRAINING_GUIDES = [
+  "apple-it-professional-guide",
+  "apple-business-manager-guide",
+  "apple-deployment-guide",
+  "apple-security-guide",
+  "platform-sso-guide",
+  "ddm-guide",
+  "device-attestation-guide",
+] as const;
+
 export function ResourcesCatalog() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<ResourceCategory | "all">("all");
   const [level, setLevel] = useState<ResourceLevel | "all">("all");
   const [badge, setBadge] = useState<ResourceBadge | "all">("all");
+  const [appleTrainingOnly, setAppleTrainingOnly] = useState(false);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return academyResources.filter((r) => {
+      if (appleTrainingOnly && !(APPLE_TRAINING_GUIDES as readonly string[]).includes(r.slug)) return false;
       if (category !== "all" && r.category !== category) return false;
       if (level !== "all" && r.level !== level) return false;
       if (badge !== "all" && r.badge !== badge) return false;
@@ -41,7 +53,7 @@ export function ResourcesCatalog() {
         r.module.toLowerCase().includes(q)
       );
     });
-  }, [search, category, level, badge]);
+  }, [search, category, level, badge, appleTrainingOnly]);
 
   return (
     <div>
@@ -54,6 +66,14 @@ export function ResourcesCatalog() {
           className="w-full rounded-xl border border-border-light px-4 py-2.5 text-sm"
           aria-label="Rechercher"
         />
+        <div className="mt-4 flex flex-wrap gap-2">
+          <FilterChip active={!appleTrainingOnly} onClick={() => setAppleTrainingOnly(false)}>
+            Toutes ressources
+          </FilterChip>
+          <FilterChip active={appleTrainingOnly} onClick={() => setAppleTrainingOnly(true)}>
+            Guides Apple Training (7)
+          </FilterChip>
+        </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <FilterChip active={category === "all"} onClick={() => setCategory("all")}>Toutes catégories</FilterChip>
           {RESOURCE_CATEGORIES.map((c) => (

@@ -15,6 +15,7 @@ import {
   getLessonPoints,
   getTotalPoints,
 } from "@/lib/course/helpers";
+import { LessonQuickActions } from "@/components/course/lesson-quick-actions";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { LessonVideoCallout } from "@/components/video/lesson-video-callout";
 import { CourseReadingModeShell } from "@/components/course/CourseReadingModeShell";
@@ -24,6 +25,7 @@ import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
+import { academyResources } from "@/src/lib/resources";
 
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
@@ -80,6 +82,10 @@ export default async function LessonPage({
   const labSlug = getLabSlugForLesson(lessonSlug);
   const video = getVideoScriptForLesson(lessonSlug);
   const videoMp4 = video ? resolveMp4Url(video.slug) : undefined;
+  const linkedResource = labSlug
+    ? academyResources.find((r) => r.relatedLabSlug === labSlug)
+    : academyResources.find((r) => r.relatedCourseSlug === course.trackSlug && r.popular);
+  const resourceHref = linkedResource ? `/resources/${linkedResource.slug}` : undefined;
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -156,6 +162,14 @@ export default async function LessonPage({
                 )}
               </div>
             </header>
+
+            <LessonQuickActions
+              labSlug={labSlug}
+              quizHref={quizHref}
+              videoSlug={video?.slug}
+              videoHasMp4={Boolean(videoMp4)}
+              resourceHref={resourceHref}
+            />
 
             {video && <LessonVideoCallout video={video} hasMp4={Boolean(videoMp4)} />}
 
