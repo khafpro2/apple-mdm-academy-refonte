@@ -22,6 +22,10 @@ import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
 import { fetchDashboardData } from "@/lib/supabase/queries";
+import { DemoAccountBanner } from "@/components/dashboard/demo-account-banner";
+import { isInDemoMode } from "@/lib/demo/demo-user";
+import { getDemoDashboardData } from "@/lib/demo/demo-dashboard-data";
+import { isDemoSession } from "@/lib/demo/demo-session.server";
 import type { LearnerStats, LeaderboardEntry } from "@/lib/types";
 
 export const metadata = { title: "Dashboard" };
@@ -37,9 +41,18 @@ const defaultStats: LearnerStats = {
 
 export default async function DashboardPage() {
   const user = await getUser();
-  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Apprenant";
+  const demoSession = !user ? await isDemoSession() : false;
+  const inDemoMode = isInDemoMode(user, demoSession);
 
-  const dbData = user ? await fetchDashboardData(user.id) : null;
+  const displayName = inDemoMode
+    ? "Apprenant Démo"
+    : user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Apprenant";
+
+  const dbData = inDemoMode
+    ? getDemoDashboardData(user?.id ?? "demo-local")
+    : user
+      ? await fetchDashboardData(user.id)
+      : null;
 
   const globalPercent = dbData?.fromDatabase ? dbData.globalPercent : user ? 0 : mockProgress.globalPercent;
   const trackProgress = dbData?.fromDatabase ? dbData.tracks : user ? [] : mockProgress.tracks;
@@ -78,14 +91,16 @@ export default async function DashboardPage() {
           label="Espace apprenant"
           title={`Bonjour, ${displayName}`}
           description={
-            user
-              ? dbData?.fromDatabase
-                ? "Tableau de bord — progression synchronisée."
-                : "Connecté — exécutez supabase/schema.sql et schema-phase2.sql."
-              : "Connectez-vous pour synchroniser votre progression."
+            inDemoMode
+              ? "Mode démonstration — données fictives pour tester le dashboard sans paiement."
+              : user
+                ? dbData?.fromDatabase
+                  ? "Tableau de bord — progression synchronisée."
+                  : "Connecté — exécutez supabase/schema.sql et schema-phase2.sql."
+                : "Connectez-vous pour synchroniser votre progression."
           }
         />
-        {user && (
+        {(user || inDemoMode) && !inDemoMode && (
           <div className="mt-4">
             <Link
               href="/dashboard/transcript"
@@ -96,13 +111,15 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        {user && dbData?.fromDatabase && (
+        {inDemoMode && <DemoAccountBanner />}
+
+        {user && dbData?.fromDatabase && !inDemoMode && (
           <div className="mb-8 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
             Connecté · <strong>{user.email}</strong> · données en temps réel
           </div>
         )}
 
-        {!user && (
+        {!user && !inDemoMode && (
           <div className="mb-8 flex flex-wrap items-center gap-4 rounded-2xl border border-border-light bg-surface-elevated p-4">
             <p className="text-sm text-ink-secondary">
               Connectez-vous pour sauvegarder scores, badges et certificats PDF.

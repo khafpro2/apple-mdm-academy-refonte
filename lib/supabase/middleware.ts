@@ -2,23 +2,28 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
+import { DEMO_USER_EMAIL, DEMO_SESSION_COOKIE } from "@/lib/demo/constants";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
 const AUTH_PAGES = ["/auth/login", "/auth/signup"];
+
+function hasDemoSession(request: NextRequest): boolean {
+  return request.cookies.get(DEMO_SESSION_COOKIE)?.value === "1";
+}
 
 export async function updateSession(request: NextRequest) {
   const { url, anonKey, configured } = getSupabaseEnv();
   const pathname = request.nextUrl.pathname;
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
+  const demoSession = hasDemoSession(request);
 
   if (!configured) {
-    if (pathname.startsWith("/admin")) {
+    if (isProtected && !demoSession) {
       const redirectUrl = request.nextUrl.clone();
       redirectUrl.pathname = "/auth/login";
       redirectUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(redirectUrl);
     }
-
     return NextResponse.next({ request });
   }
 
@@ -39,11 +44,27 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user && isProtected) {
+    if (pathname.startsWith("/dashboard") && demoSession) {
+      return supabaseResponse;
+    }
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/auth/login";
     redirectUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (
+    user?.email?.toLowerCase() === DEMO_USER_EMAIL.toLowerCase() &&
+    pathname.startsWith("/admin")
+  ) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/dashboard";
+    redirectUrl.search = "";
     return NextResponse.redirect(redirectUrl);
   }
 

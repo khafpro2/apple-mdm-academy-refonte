@@ -1,7 +1,7 @@
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getSupabaseEnv } from "@/lib/env";
 
-const DEMO_USER_EMAIL = "demo@applemdmacademy.com";
+import { DEMO_USER_EMAIL } from "@/lib/demo/constants";
 
 function getAdminEmailsFromEnv(): string[] {
   return (

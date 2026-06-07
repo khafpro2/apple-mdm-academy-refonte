@@ -7,6 +7,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
 import { Button } from "@/components/ui";
 import { trackEvent } from "@/lib/analytics/events";
+import { DemoLoginButton } from "@/components/auth/demo-login-button";
 
 type AuthMode = "login" | "signup";
 
@@ -160,6 +161,8 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       <Button type="submit" disabled={loading} className="w-full">
         {loading ? "Chargement…" : isLogin ? "Se connecter" : "Créer mon compte"}
       </Button>
+
+      {isLogin && <DemoLoginButton />}
 
       <p className="text-center text-sm text-ink-secondary">
         {isLogin ? (
