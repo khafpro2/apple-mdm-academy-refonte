@@ -5,6 +5,9 @@
 
 export type Jamf116TopicId =
   | "fundamentals"
+  | "inventory"
+  | "enrollment"
+  | "configuration-profiles"
   | "smart-groups"
   | "policies"
   | "packages"
@@ -295,10 +298,121 @@ const TOPICS: Record<Jamf116TopicId, Jamf116TopicBlocks> = {
       "Self Service 11.16 = catalogue IT contrôlé, policies à la demande, branding et catégories soignés.",
     ],
   },
+  inventory: {
+    docRef: `${DOC_BASE}/Computer_Inventory`,
+    overview: [
+      "L'inventaire Jamf Pro consolide General, Hardware, Software, Security, Extension Attributes et Management History par appareil.",
+      "Advanced Search sert au reporting ad hoc ; Smart Groups servent au scope dynamique (doc 11.16).",
+    ],
+    architecture: [
+      "Check-in MDM → collecte inventaire → EA scripts/LDAP → critères Smart Groups / Advanced Search.",
+      "Last check-in et supervision indiquent la santé de la relation MDM appareil-serveur.",
+    ],
+    concepts: [
+      "Computers → fiche appareil : onglets General, Hardware, Software, Security.",
+      "Advanced Search : critères AND/OR, export CSV, saved searches.",
+      "Extension Attributes : enrichissement inventaire pour conformité métier.",
+      "Management History : profils et policies appliqués dans le temps.",
+    ],
+    steps: [
+      "Computers → recherche Mac pilote → vérifier inventaire complet post-enrollment.",
+      "Advanced Search : critère conformité (ex. FileVault OFF).",
+      "Créer EA pilote alimentée par script ou LDAP.",
+      "Comparer résultats Advanced Search vs Smart Group preview.",
+    ],
+    checks: [
+      "Inventaire Software et Security remontés sous 24 h post-enrollment.",
+      "Last check-in cohérent avec politique de maintenance.",
+      "EA sans erreur script dans logs.",
+    ],
+    pitfalls: [
+      "Utiliser Smart Groups pour reporting au lieu d'Advanced Search.",
+      "Ignorer Mac stale (check-in > 7 jours) avant campagne conformité.",
+      "EA script en échec silencieux faussant critères Smart Groups.",
+    ],
+    summary: [
+      "Inventaire 11.16 = source de vérité scope/conformité, Advanced Search reporting, EA pour champs métier.",
+    ],
+  },
+  enrollment: {
+    docRef: `${DOC_BASE}/Automated_Device_Enrollment`,
+    overview: [
+      "Automated Device Enrollment (ADE) via Apple Business Manager assigne appareils au serveur MDM Jamf avec supervision.",
+      "Computer/Mobile PreStage configure profils, policies et Self Service au Setup Assistant.",
+    ],
+    architecture: [
+      "ABM → token serveur MDM (.p7m) → sync appareils → PreStage scope → enrollment zero-touch.",
+      "APNs valide requis pour push commandes post-enrollment.",
+    ],
+    concepts: [
+      "Settings → Computer Management → Automated Device Enrollment : token ABM, sync.",
+      "Computer PreStage : scope initial, profils Wi-Fi/FileVault, packages agent.",
+      "Mobile Device PreStage pour iOS/iPadOS supervisés.",
+      "User-initiated enrollment vs ADE pour BYOD (hors scope certification Jamf 100).",
+    ],
+    steps: [
+      "Vérifier APNs et token ABM valides.",
+      "Sync appareils ABM → Jamf.",
+      "Créer Computer PreStage lean : profils essentiels + agent.",
+      "Tester erase Mac lab → enrollment ADE → validation profils.",
+    ],
+    checks: [
+      "Appareil supervisé post-ADE.",
+      "Profils PreStage installés au premier boot.",
+      "Token ABM et APNs dates expiration > 30 jours.",
+    ],
+    pitfalls: [
+      "PreStage trop lourd ralentissant Setup Assistant.",
+      "Token ABM non renouvelé → appareils non synchronisés.",
+      "APNs renouvelé avec Apple ID différent → push MDM cassé.",
+    ],
+    summary: [
+      "Enrollment 11.16 = ADE ABM + PreStage scoped + APNs valide pour zero-touch enterprise.",
+    ],
+  },
+  "configuration-profiles": {
+    docRef: `${DOC_BASE}/Configuration_Profiles`,
+    overview: [
+      "Configuration Profiles transportent payloads MDM Apple : Wi-Fi, VPN, restrictions, FileVault, PPPC, extensions.",
+      "Computers → Configuration Profiles → New : composer payloads, scope Smart Groups, déploiement push.",
+    ],
+    architecture: [
+      "Jamf Pro signe profil → push APNs → appareil installe payloads MDM dans Réglages → Profils.",
+      "Profils ≠ packages PKG : réglages MDM vs fichiers installables via policy Packages.",
+    ],
+    concepts: [
+      "Payload Wi-Fi enterprise WPA2-Enterprise + certificat.",
+      "Payload FileVault avec escrow clé recovery (Bootstrap Token requis).",
+      "Restrictions, PPPC, System Extensions selon cas enterprise.",
+      "Management History pour conflits profils multiples.",
+    ],
+    steps: [
+      "Configuration Profiles → New → payloads Wi-Fi + FileVault.",
+      "Scope Smart Group pilote ADE.",
+      "Save → check-in Mac pilote.",
+      "Vérifier Réglages → Profils et onglet Security inventaire.",
+    ],
+    checks: [
+      "Profils installés sans conflit SSID.",
+      "FileVault activé avec escrow visible Jamf.",
+      "Management History cohérent.",
+    ],
+    pitfalls: [
+      "Deux profils Wi-Fi même SSID → comportement imprévisible.",
+      "FileVault sans escrow IT → recovery impossible.",
+      "Scope production sans pilote.",
+    ],
+    summary: [
+      "Configuration Profiles 11.16 = payloads MDM scoped, distincts des packages, escrow FileVault enterprise.",
+    ],
+  },
 };
 
 export function resolveJamf116Topic(lessonSlug: string, moduleSlug?: string): Jamf116TopicId | null {
   const s = `${lessonSlug} ${moduleSlug ?? ""}`.toLowerCase();
+  if (s.includes("config-profile") || s.includes("config-profiles") || s.includes("profil")) return "configuration-profiles";
+  if (s.includes("inventaire") || s.includes("inventory") || s.includes("extension-attribute")) return "inventory";
+  if (s.includes("enrollment") || s.includes("prestage") || s.includes("ade")) return "enrollment";
   if (s.includes("smart") || s.includes("sg-") || s.includes("module-13")) return "smart-groups";
   if (s.includes("package") || s.includes("m14-package")) return "packages";
   if (s.includes("policy") || s.includes("m14-") || s.includes("policies-base") || s.includes("scope-deploiement"))

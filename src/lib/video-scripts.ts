@@ -353,13 +353,36 @@ Une erreur de scope est l'une des causes les plus fréquentes de policies qui ne
 Cette vidéo vous apprend à auditer le scope avant chaque déploiement production.`,
   }),
   script({
+    slug: "jamf-configuration-profiles",
+    title: "Configuration Profiles Jamf Pro",
+    duration: "18 min",
+    module: "Jamf Pro — Configuration Profiles",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-discovery",
+    jamfTrack: "jamf-100",
+    script: `Les Configuration Profiles Jamf Pro 11.16 transportent les payloads MDM Apple : Wi-Fi enterprise, VPN, FileVault, restrictions, PPPC et extensions système.
+
+Scénario entreprise : déployer Wi-Fi corporate et exiger FileVault avec escrow clé recovery sur Mac supervisés ADE.
+
+Computers → Configuration Profiles → New. Composez payloads Wi-Fi WPA2-Enterprise avec certificat utilisateur. Ajoutez payload FileVault avec escrow vers Jamf.
+
+Scope Smart Group ADE-SUPERVISED-MAC. Save. Au prochain check-in, vérifiez Réglages → Profils sur le Mac pilote et l'onglet Security de l'inventaire Jamf.
+
+Profils MDM ≠ packages PKG : les profils poussent des réglages Apple signés ; les packages s'installent via policy Packages payload.
+
+Erreurs fréquentes : conflits Wi-Fi duplicate SSID, FileVault sans Bootstrap Token, scope production sans pilote.
+
+Lab jamf-discovery, ressource PDF jamf-guide-configuration-profiles, quiz dédié. Préparation certification Jamf 100.`,
+  }),
+  script({
     slug: "jamf-self-service",
     title: "Jamf Self Service",
     duration: "12 min",
     module: "Jamf Pro — Self Service",
     level: "Débutant",
     relatedCourseSlug: "jamf-100",
-    relatedLabSlug: "jamf-policies",
+    relatedLabSlug: "jamf-self-service",
     jamfTrack: "jamf-100",
     script: `Jamf Self Service est le portail utilisateur qui permet aux collaborateurs d'installer des applications et des ressources en autonomie.
 L'application Self Service sur Mac affiche les policies configurées avec le trigger Self Service et les rend disponibles en un clic.
@@ -376,7 +399,7 @@ Nous verrons comment publier une application dans Self Service et mesurer son ad
     module: "Jamf Pro — Packages",
     level: "Intermédiaire",
     relatedCourseSlug: "jamf-100",
-    relatedLabSlug: "jamf-policies",
+    relatedLabSlug: "jamf-packages",
     jamfTrack: "jamf-100",
     script: `Le déploiement de packages est une compétence essentielle pour tout administrateur Jamf.
 Un package Jamf est généralement un fichier PKG ou DMG contenant une application ou un composant système.
@@ -500,7 +523,7 @@ const LESSON_VIDEO_SLUGS: Record<string, string> = {
   "architecture-jamf": "jamf-pro-fundamentals",
   "inventaire-recherche": "jamf-inventory",
   "smart-groups": "jamf-smart-groups",
-  "config-profiles-jamf": "jamf-pro-fundamentals",
+  "config-profiles-jamf": "jamf-configuration-profiles",
   "policies-base": "jamf-policies",
   "scope-deploiement": "jamf-scope",
   "extension-attributes": "jamf-inventory",

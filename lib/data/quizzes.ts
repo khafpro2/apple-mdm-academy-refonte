@@ -2,6 +2,7 @@ import type { Quiz } from "@/lib/types";
 import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { proModuleQuizzes as rawProModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 import { jamf116ModuleQuizExtras } from "@/lib/data/jamf/quiz-11-16-questions";
+import { jamfTrainingStandaloneQuizzes } from "@/lib/data/jamf/jamf-training-quiz-definitions";
 import { intuneLearnExamQuestions } from "@/lib/data/intune/quiz-learn-questions";
 
 const proModuleQuizzes = rawProModuleQuizzes.map((quiz) => {
@@ -456,6 +457,7 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     questions: examPools["examen-intune-apple-advanced"].slice(0, 5),
   },
   ...proModuleQuizzes,
+  ...jamfTrainingStandaloneQuizzes,
   ...advancedModuleQuizzes,
   ...altMdmModuleQuizzes,
   {

@@ -1,6 +1,7 @@
 import { createProductionStoryboard } from "@/src/lib/video-storyboard-factory";
+import { jamfTrainingStoryboards } from "@/lib/data/jamf/jamf-training-storyboards";
 
-/** 18 storyboards production — format standard 5 scènes */
+/** 18+ storyboards production — format standard 5 scènes */
 export const productionVideoStoryboards = [
   createProductionStoryboard({
     slug: "apple-business-manager",
@@ -1231,4 +1232,5 @@ export const productionVideoStoryboards = [
       onScreenText: ["Lab jamf-protect", "Examen Jamf 200"],
     },
   }),
+  ...jamfTrainingStoryboards,
 ];
