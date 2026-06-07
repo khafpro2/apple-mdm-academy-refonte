@@ -31,8 +31,23 @@ console.log(
 );
 
 async function validateItem(item) {
-  const filePath = join(dir, item.file);
   const ext = extname(item.file).toLowerCase();
+  const issues = [];
+
+  if (basename(item.file) !== item.file) {
+    issues.push("chemin invalide");
+  }
+  if (!catalog.allowedExtensions.includes(ext)) {
+    issues.push("extension incorrecte");
+  }
+
+  if (issues.length) {
+    console.log(`❌ Catalogue invalide ${item.file.padEnd(35)} — ${issues.join(", ")}`);
+    invalid++;
+    return;
+  }
+
+  const filePath = join(dir, item.file);
 
   if (!existsSync(filePath)) {
     console.log(`⚠️  Manquant         ${item.file.padEnd(40)} ${item.label}`);
@@ -41,14 +56,7 @@ async function validateItem(item) {
   }
 
   const stat = statSync(filePath);
-  const issues = [];
 
-  if (basename(filePath) !== item.file) {
-    issues.push("nom non conforme");
-  }
-  if (!catalog.allowedExtensions.includes(ext)) {
-    issues.push("extension incorrecte");
-  }
   if (stat.size < MIN_BYTES) {
     issues.push("image vide ou corrompue");
   }

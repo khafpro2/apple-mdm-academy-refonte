@@ -4,7 +4,7 @@
  * Usage: node scripts/convert-screenshots-to-webp.mjs
  */
 import { existsSync, mkdirSync, readdirSync, statSync } from "fs";
-import { join, dirname, parse, basename } from "path";
+import { basename, dirname, join, parse } from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 
@@ -21,7 +21,9 @@ const INPUT_EXT = new Set([".png", ".jpg", ".jpeg"]);
 mkdirSync(RAW_DIR, { recursive: true });
 mkdirSync(OUT_DIR, { recursive: true });
 
-const files = readdirSync(RAW_DIR).filter((f) => INPUT_EXT.has(parse(f).ext.toLowerCase()));
+const files = readdirSync(RAW_DIR, { withFileTypes: true })
+  .filter((entry) => entry.isFile() && INPUT_EXT.has(parse(entry.name).ext.toLowerCase()))
+  .map((entry) => entry.name);
 
 if (files.length === 0) {
   console.log("\n📁 Aucun fichier dans public/video-assets/screenshots/raw/");
@@ -36,6 +38,12 @@ async function main() {
   let failed = 0;
 
   for (const file of files) {
+    if (basename(file) !== file) {
+      console.log(`❌ ${file} — chemin invalide`);
+      failed++;
+      continue;
+    }
+
     const input = join(RAW_DIR, file);
     const base = basename(file, parse(file).ext);
     const output = join(OUT_DIR, `${base}.webp`);
