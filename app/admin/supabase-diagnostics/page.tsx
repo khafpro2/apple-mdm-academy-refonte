@@ -4,7 +4,9 @@ import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading, Badge } from "@/components/ui";
 import { SupabaseSetupGuide } from "@/components/status/supabase-setup-guide";
 import { requireAdmin } from "@/lib/supabase/admin";
-import { runSupabaseDiagnostics, type CheckDiagnostic, type EnvVarDiagnostic } from "@/lib/supabase/diagnostics.server";
+import { runSupabaseDiagnostics, type CheckDiagnostic, type EnvVarDiagnostic, type RuntimeEnvFingerprint } from "@/lib/supabase/diagnostics.server";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Diagnostics Supabase",
@@ -45,6 +47,48 @@ function CheckRow({ item }: { item: CheckDiagnostic }) {
         {item.status}
       </span>
     </li>
+  );
+}
+
+function FingerprintRow({ label, value }: { label: string; value: boolean | string }) {
+  const display =
+    typeof value === "boolean" ? (value ? "oui" : "non") : value || "non défini";
+  return (
+    <li className="flex items-center justify-between gap-4 rounded-xl border border-border-light bg-surface px-4 py-3 text-sm">
+      <span className="text-ink-secondary">{label}</span>
+      <span className="font-semibold text-ink">{display}</span>
+    </li>
+  );
+}
+
+function RuntimeFingerprintPanel({ fp }: { fp: RuntimeEnvFingerprint }) {
+  return (
+    <section className="mb-10 rounded-2xl border border-blue-200 bg-blue-50/50 p-6">
+      <h2 className="text-lg font-bold text-ink">Empreinte runtime (temporaire)</h2>
+      <p className="mt-1 text-sm text-ink-secondary">
+        Valeurs lues par ce déploiement — jamais la clé complète. Comparez avec Vercel après redéploiement.
+      </p>
+      <ul className="mt-4 space-y-2">
+        <FingerprintRow label="URL présente" value={fp.urlPresent} />
+        <FingerprintRow label='URL contient "aBcDe"' value={fp.urlContainsAbcDe} />
+        <FingerprintRow label='URL contient "uqlhjtgcfbbhkcvjdybs"' value={fp.urlContainsProjectRef} />
+        <FingerprintRow label="ANON KEY présente" value={fp.anonKeyPresent} />
+        <FingerprintRow label="ANON KEY commence par eyJ" value={fp.anonKeyStartsWithEyJ} />
+        <FingerprintRow label="SITE URL présente" value={fp.siteUrlPresent} />
+        <FingerprintRow label="Environnement" value={fp.environment} />
+        <FingerprintRow label="configured (lib/env)" value={fp.configured} />
+        <FingerprintRow label="VERCEL_URL" value={fp.vercelUrl ?? "—"} />
+        <FingerprintRow label="Commit déployé (7 car.)" value={fp.vercelGitCommitSha ?? "—"} />
+        <FingerprintRow label="Deployment ID (12 car.)" value={fp.vercelDeploymentId ?? "—"} />
+      </ul>
+      <p className="mt-4 text-xs text-ink-tertiary">{fp.nextPublicBuildTimeNote}</p>
+      <p className="mt-2 text-xs text-ink-tertiary">
+        Validation URL : {fp.urlValidationDetail} · Anon key : {fp.anonKeyValidationDetail}
+      </p>
+      <p className="mt-2 text-xs text-ink-tertiary">
+        Noms lus par le code : {fp.envVarNamesReadByApp.join(", ")} — aucun alias alternatif.
+      </p>
+    </section>
   );
 }
 
@@ -99,6 +143,8 @@ export default async function SupabaseDiagnosticsPage() {
             <SupabaseSetupGuide />
           </div>
         )}
+
+        <RuntimeFingerprintPanel fp={diagnostics.runtimeFingerprint} />
 
         <section className="mb-10">
           <h2 className="text-lg font-bold text-ink">Variables principales</h2>

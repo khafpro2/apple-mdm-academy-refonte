@@ -7,6 +7,7 @@ import {
   validateAnonKey,
   validateSiteUrl,
   validateSupabaseUrl,
+  isSupabaseConfigured,
   type EnvVarState,
 } from "@/lib/supabase/env-validation";
 
@@ -30,8 +31,31 @@ export type CheckDiagnostic = {
   detail: string;
 };
 
+export type RuntimeEnvFingerprint = {
+  /** production | preview | development */
+  environment: string;
+  urlPresent: boolean;
+  urlContainsAbcDe: boolean;
+  urlContainsProjectRef: boolean;
+  anonKeyPresent: boolean;
+  anonKeyStartsWithEyJ: boolean;
+  siteUrlPresent: boolean;
+  configured: boolean;
+  urlValidationDetail: string;
+  anonKeyValidationDetail: string;
+  /** Empreinte déploiement — confirme quel build tourne */
+  vercelEnv: string | null;
+  vercelUrl: string | null;
+  vercelGitCommitSha: string | null;
+  vercelDeploymentId: string | null;
+  /** NEXT_PUBLIC_* sont injectées au build — pas au runtime */
+  nextPublicBuildTimeNote: string;
+  envVarNamesReadByApp: string[];
+};
+
 export type SupabaseDiagnostics = {
   runtimeMode: RuntimeMode;
+  runtimeFingerprint: RuntimeEnvFingerprint;
   statusPageAuthDegraded: boolean;
   statusPageDbDegraded: boolean;
   rootCause: string;
@@ -47,6 +71,44 @@ export function getRuntimeMode(): RuntimeMode {
   if (vercelEnv === "production") return "Production";
   if (vercelEnv === "preview") return "Preview";
   return "Development";
+}
+
+/** Noms exacts lus par le code — aucun alias alternatif pour Supabase client. */
+export const SUPABASE_ENV_VAR_NAMES = [
+  "NEXT_PUBLIC_SUPABASE_URL",
+  "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+  "NEXT_PUBLIC_SITE_URL",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "ADMIN_EMAILS",
+] as const;
+
+export function getRuntimeEnvFingerprint(): RuntimeEnvFingerprint {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const urlValidation = validateSupabaseUrl(url);
+  const anonValidation = validateAnonKey(anonKey);
+  const vercelEnv = process.env.VERCEL_ENV ?? null;
+
+  return {
+    environment: vercelEnv ?? "development",
+    urlPresent: Boolean(url?.trim()),
+    urlContainsAbcDe: url?.includes("aBcDe") ?? false,
+    urlContainsProjectRef: url?.includes("uqlhjtgcfbbhkcvjdybs") ?? false,
+    anonKeyPresent: Boolean(anonKey?.trim()),
+    anonKeyStartsWithEyJ: anonKey?.trim().startsWith("eyJ") ?? false,
+    siteUrlPresent: Boolean(siteUrl?.trim()),
+    configured: isSupabaseConfigured(url, anonKey),
+    urlValidationDetail: urlValidation.detail,
+    anonKeyValidationDetail: anonValidation.detail,
+    vercelEnv,
+    vercelUrl: process.env.VERCEL_URL ?? null,
+    vercelGitCommitSha: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null,
+    vercelDeploymentId: process.env.VERCEL_DEPLOYMENT_ID?.slice(0, 12) ?? null,
+    nextPublicBuildTimeNote:
+      "NEXT_PUBLIC_* est injecté au moment du build (next build). Modifier les variables Vercel sans redéployer ne change pas /status. Vérifier aussi que les vars existent pour l'environnement actif (Production vs Preview).",
+    envVarNamesReadByApp: [...SUPABASE_ENV_VAR_NAMES],
+  };
 }
 
 function toDiagnosticStatus(state: EnvVarState | "optional"): DiagnosticStatus {
@@ -273,6 +335,7 @@ export async function runSupabaseDiagnostics(): Promise<SupabaseDiagnostics> {
   checks.push(await verifyServerClient());
 
   const hasInvalidEnv = primaryEnvVars.some((v) => v.state !== "configured");
+  const runtimeFingerprint = getRuntimeEnvFingerprint();
   const statusPageAuthDegraded = !configured;
   const statusPageDbDegraded = !configured;
 
@@ -281,13 +344,28 @@ export async function runSupabaseDiagnostics(): Promise<SupabaseDiagnostics> {
     const reasons = primaryEnvVars
       .filter((v) => v.state !== "configured")
       .map((v) => `${v.name} : ${v.presence}${v.note.includes("Placeholder") ? " (placeholder)" : ""}`);
+
+    const deployHints: string[] = [];
+    if (!runtimeFingerprint.urlContainsProjectRef && runtimeFingerprint.urlPresent) {
+      deployHints.push("l'URL runtime ne contient pas le project ref uqlhjtgcfbbhkcvjdybs (build ancien ou mauvais environnement Vercel ?)");
+    }
+    if (runtimeFingerprint.anonKeyPresent && !runtimeFingerprint.anonKeyStartsWithEyJ) {
+      deployHints.push("la clé anon runtime ne commence pas par eyJ (format JWT Supabase attendu)");
+    }
+    if (!runtimeFingerprint.vercelGitCommitSha) {
+      deployHints.push("pas sur Vercel ou build local — .env.local peut différer de Production");
+    }
+
     rootCause =
-      `getSupabaseEnv().configured === false → Authentification et Base de données en « Dégradé ». ` +
-      `Problèmes : ${reasons.join(" · ")}.`;
+      `getSupabaseEnv().configured === false → Auth et DB « Dégradé ». ` +
+      `Problèmes : ${reasons.join(" · ")}. ` +
+      (deployHints.length ? `Indices déploiement : ${deployHints.join(" · ")}. ` : "") +
+      runtimeFingerprint.nextPublicBuildTimeNote;
   }
 
   return {
     runtimeMode: getRuntimeMode(),
+    runtimeFingerprint,
     statusPageAuthDegraded,
     statusPageDbDegraded,
     rootCause,

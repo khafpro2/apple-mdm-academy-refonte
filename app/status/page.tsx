@@ -11,6 +11,9 @@ export const metadata = buildPageMetadata({
   path: "/status",
 });
 
+/** Pas de cache statique — relit process.env à chaque requête (NEXT_PUBLIC_* reste figé au build). */
+export const dynamic = "force-dynamic";
+
 type ServiceStatus = {
   name: string;
   status: "operational" | "degraded" | "maintenance";
