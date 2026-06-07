@@ -1,6 +1,8 @@
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getSupabaseEnv } from "@/lib/env";
 
+const DEMO_USER_EMAIL = "demo@applemdmacademy.com";
+
 function getAdminEmailsFromEnv(): string[] {
   return (
     process.env.ADMIN_EMAILS?.split(",")
@@ -25,6 +27,8 @@ async function syncAdminRole(userId: string): Promise<boolean> {
 }
 
 export async function checkIsAdmin(userId: string, email?: string | null): Promise<boolean> {
+  if (email?.toLowerCase() === DEMO_USER_EMAIL) return false;
+
   const adminEmails = getAdminEmailsFromEnv();
 
   const synced = await syncAdminRole(userId);
