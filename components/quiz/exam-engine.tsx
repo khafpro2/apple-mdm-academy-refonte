@@ -9,6 +9,7 @@ import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
 import { pickExamQuestions, formatDuration } from "@/lib/data/exams/exam-utils";
 import { pickAcitpExamQuestions } from "@/lib/data/acitp/exam-pool";
+import { pickAeaExamQuestions } from "@/lib/data/apple-enterprise-architect/exam-pool";
 import { ACITP_EXAM_REPORT_STORAGE_KEY } from "@/lib/data/acitp/exam-report-storage";
 import { getExamLoginRedirect } from "@/lib/data/exams/exam-routes";
 import {
@@ -201,7 +202,9 @@ export function ExamEngine({
     const picked =
       quiz.slug === "examen-apple-it-pro"
         ? pickAcitpExamQuestions(seed)
-        : pickExamQuestions(basePool, questionCount, seed);
+        : quiz.slug === "examen-apple-enterprise-architect"
+          ? pickAeaExamQuestions(seed)
+          : pickExamQuestions(basePool, questionCount, seed);
     beginExam(picked, seed);
   }
 

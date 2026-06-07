@@ -83,6 +83,11 @@ function questionsForModule(mod: AdvancedModuleDef): Question[] {
       q(`${p}-09`, "Declarative Management Apple utilise :", ["FTP", "Declarations MDM status/channel", "Email", "Bonjour"], 1, "DDM = modèle déclaratif avec status reports."),
       q(`${p}-10`, "Managed Device Attestation vérifie :", ["Wallpaper", "Intégrité device via attestations cryptographiques", "Langue", "iCloud photo"], 1, "MDA = confiance device pour accès Zero Trust.")
     );
+  } else if (mod.trackSlug === "apple-enterprise-architect") {
+    trackSpecific.push(
+      q(`${p}-09`, "Architecte Apple Enterprise — chaîne confiance inclut :", ["iTunes seul", "ABM + APNs + MDM + Entra PSSO", "DNS MX", "Printer"], 1, "Stack complet ABM/APNs/MDM/identité."),
+      q(`${p}-10`, "Capstone certification requiert :", ["Vidéo seule", "Modules + labs + examen ≥ 80 %", "Paiement", "Un email"], 1, "Parcours complet + examen architecte.")
+    );
   } else {
     trackSpecific.push(
       q(`${p}-09`, "Intune compliance pour Apple vérifie :", ["Wallpaper", "OS, FileVault, jailbreak, Defender", "Nom iCloud", "Modèle écran"], 1, "Compliance = état sécurité device."),

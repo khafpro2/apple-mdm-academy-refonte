@@ -87,6 +87,13 @@ export const trackCertificates: TrackCertificateDef[] = [
     passingScore: 80,
   },
   {
+    id: "apple-enterprise-architect-path",
+    title: "Apple Enterprise Architect",
+    trackSlug: "apple-enterprise-architect",
+    examQuizSlug: "examen-apple-enterprise-architect",
+    passingScore: 80,
+  },
+  {
     id: "intune-apple-advanced-path",
     title: "Intune Apple Advanced",
     trackSlug: "intune-apple-advanced",

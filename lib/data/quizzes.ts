@@ -401,6 +401,20 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     questions: examPools["examen-apple-enterprise-expert"].slice(0, 5),
   },
   {
+    slug: "examen-apple-enterprise-architect",
+    trackSlug: "apple-enterprise-architect",
+    title: "Examen final — Apple Enterprise Architect",
+    type: "examen",
+    description:
+      "200 questions expert — architecture, déploiement, sécurité, Jamf, Intune, Entra ID et dépannage Apple Enterprise.",
+    duration: "180 min",
+    durationMinutes: 180,
+    passingScore: 80,
+    examMode: true,
+    examQuestionCount: 200,
+    questions: examPools["examen-apple-enterprise-architect"].slice(0, 5),
+  },
+  {
     slug: "examen-intune-apple-advanced",
     trackSlug: "intune-apple-advanced",
     title: "Examen blanc — Intune Apple Advanced",

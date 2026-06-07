@@ -15,6 +15,7 @@ const TRACK_EXAM_SLUG: Record<string, string> = {
   "jamf-300": "examen-jamf-300",
   "jamf-400": "examen-jamf-400",
   "apple-enterprise-expert": "examen-apple-enterprise-expert",
+  "apple-enterprise-architect": "examen-apple-enterprise-architect",
   "intune-apple-advanced": "examen-intune-apple-advanced",
 };
 
@@ -29,6 +30,14 @@ export const expertLabSlugs = [
   "platform-sso-advanced",
   "intune-conditional-access",
   "microsoft-defender-macos",
+  "aea-architecture-stack",
+  "aea-identity-architecture",
+  "aea-jamf-500-mac",
+  "aea-intune-global",
+  "aea-security-audit",
+  "aea-automation-deploy",
+  "aea-troubleshooting-lab",
+  "aea-capstone-projects",
 ];
 
 export function buildAdvancedTrackStats(

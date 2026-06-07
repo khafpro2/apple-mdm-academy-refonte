@@ -13,8 +13,10 @@ export {
   workspaceOneApplePool,
 } from "@/lib/data/alternative-mdm-tracks/exam-pools";
 
+export { aeaExamPool200 } from "@/lib/data/apple-enterprise-architect/exam-pool";
 export { intuneApplePool } from "./intune-apple";
 
+import type { Question } from "@/lib/types";
 import { appleItProPool } from "./apple-it-pro";
 import { acitpExamPool200 } from "@/lib/data/acitp/exam-pool";
 import { jamf100Pool } from "./jamf-100";
@@ -30,7 +32,7 @@ import {
   addigyFundamentalsPool,
   workspaceOneApplePool,
 } from "@/lib/data/alternative-mdm-tracks/exam-pools";
-import type { Question } from "@/lib/types";
+import { aeaExamPool200 } from "@/lib/data/apple-enterprise-architect/exam-pool";
 
 export const examPools: Record<string, Question[]> = {
   "examen-apple-it-pro": acitpExamPool200,
@@ -41,6 +43,7 @@ export const examPools: Record<string, Question[]> = {
   "examen-jamf-300": jamf300Pool,
   "examen-jamf-400": jamf400Pool,
   "examen-apple-enterprise-expert": appleEnterpriseExpertPool,
+  "examen-apple-enterprise-architect": aeaExamPool200,
   "examen-intune-apple-advanced": intuneAppleAdvancedPool,
   "examen-kandji-fundamentals": kandjiFundamentalsPool,
   "examen-mosyle-fundamentals": mosyleFundamentalsPool,
@@ -57,6 +60,7 @@ export const examQuestionCounts: Record<string, number> = {
   "examen-jamf-300": 125,
   "examen-jamf-400": 150,
   "examen-apple-enterprise-expert": 100,
+  "examen-apple-enterprise-architect": 200,
   "examen-intune-apple-advanced": 100,
   "examen-kandji-fundamentals": 75,
   "examen-mosyle-fundamentals": 75,
@@ -73,6 +77,7 @@ export const examRouteToQuizSlug: Record<string, string> = {
   "jamf-300": "examen-jamf-300",
   "jamf-400": "examen-jamf-400",
   "apple-enterprise-expert": "examen-apple-enterprise-expert",
+  "apple-enterprise-architect": "examen-apple-enterprise-architect",
   "intune-apple-advanced": "examen-intune-apple-advanced",
   "kandji-fundamentals": "examen-kandji-fundamentals",
   "mosyle-fundamentals": "examen-mosyle-fundamentals",

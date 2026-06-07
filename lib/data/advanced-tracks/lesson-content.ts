@@ -2,6 +2,11 @@ import type { LessonContent } from "@/lib/types";
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
 import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
 import { buildAdvancedTheory } from "@/lib/data/shared/advanced-theory-builder";
+import {
+  getAeaModuleContent,
+  getAeaTroubleshootingForLesson,
+  AEA_REAL_PROJECTS,
+} from "@/lib/data/apple-enterprise-architect/content";
 
 const MODULE_THEORY: Record<string, { overview: string[]; concepts: string[]; enterprise: string[] }> = {
   "j300-m01": {
@@ -79,7 +84,38 @@ export function getAdvancedLessonContent(lessonSlug: string): LessonContent | nu
   const mod = allAdvancedModules.find((m) => m.slug === lessonSlug);
   if (!mod) return null;
 
-  const theory = MODULE_THEORY[lessonSlug] ?? defaultTheory(mod.title, mod.trackSlug, lessonSlug);
+  const aea = mod.trackSlug === "apple-enterprise-architect" ? getAeaModuleContent(lessonSlug) : undefined;
+  const theory = aea
+    ? { overview: aea.overview, concepts: aea.concepts, enterprise: aea.enterprise }
+    : MODULE_THEORY[lessonSlug] ?? defaultTheory(mod.title, mod.trackSlug, lessonSlug);
+
+  const theorySections: LessonContent["theory"] = [
+    { title: "Vue d'ensemble", body: theory.overview },
+    { title: "Concepts essentiels", body: theory.concepts },
+    { title: "Contexte entreprise", body: theory.enterprise },
+  ];
+  if (aea?.diagram) {
+    theorySections.push({
+      title: "Diagramme architecture",
+      body: [aea.diagramCaption, "```mermaid", aea.diagram, "```"],
+    });
+  }
+  if (lessonSlug === "aea-m07") {
+    theorySections.push({
+      title: "50 scénarios de dépannage",
+      body: getAeaTroubleshootingForLesson().slice(0, 50),
+    });
+  }
+  if (lessonSlug === "aea-m08") {
+    theorySections.push({
+      title: "Projets capstone",
+      body: AEA_REAL_PROJECTS.flatMap((p) => [
+        `${p.title} — ${p.objective}`,
+        `Livrables : ${p.deliverables.join(", ")}`,
+        `KPIs : ${p.kpis.join(", ")}`,
+      ]),
+    });
+  }
 
   return {
     objectives: [
@@ -93,11 +129,7 @@ export function getAdvancedLessonContent(lessonSlug: string): LessonContent | nu
       "Accès admin MDM ou environnement lab/sandbox.",
       mod.labSlug ? `Lab associé recommandé : ${mod.labSlug}` : "Environnement pilote documenté.",
     ],
-    theory: [
-      { title: "Vue d'ensemble", body: theory.overview },
-      { title: "Concepts essentiels", body: theory.concepts },
-      { title: "Contexte entreprise", body: theory.enterprise },
-    ],
+    theory: theorySections,
     steps: [
       { title: "Cadrer le scénario", description: `Définissez l'objectif de ${mod.title}, les appareils concernés, les versions OS supportées et les critères de réussite.` },
       { title: "Préparer l'environnement", description: "Vérifiez les droits admin, comptes de service, certificats, tokens, groupes pilote et accès réseau nécessaires." },

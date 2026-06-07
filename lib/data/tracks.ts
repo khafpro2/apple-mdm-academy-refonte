@@ -124,6 +124,17 @@ export const tracks: Track[] = [
     certification: "Apple Enterprise Expert",
   },
   {
+    slug: "apple-enterprise-architect",
+    title: "Apple Enterprise Architect",
+    level: "Expert",
+    lessons: 8,
+    description:
+      "Parcours architecte : stack Apple Enterprise, identité Entra, Jamf/Intune à l'échelle, sécurité, automatisation, dépannage et projets capstone.",
+    duration: "40 h",
+    logo: "apple",
+    certification: "Apple Enterprise Architect",
+  },
+  {
     slug: "intune-apple-advanced",
     title: "Microsoft Intune Apple Advanced",
     level: "Expert",

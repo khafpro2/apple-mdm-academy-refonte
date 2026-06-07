@@ -104,6 +104,23 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     color: "from-blue-600/10 to-cyan-600/10",
   },
   {
+    slug: "apple-enterprise-architect",
+    title: "Apple Enterprise Architect",
+    shortTitle: "Enterprise Architect",
+    description:
+      "Parcours architecte : stack Apple Enterprise, identité Entra, Jamf/Intune à l'échelle, sécurité, automatisation, 50 scénarios dépannage et projets capstone.",
+    level: "Architect",
+    duration: "40 h",
+    logo: "apple",
+    modulesCount: 8,
+    labsCount: 8,
+    examsCount: 1,
+    certificateName: "Certificat Apple Enterprise Architect",
+    trackSlug: "apple-enterprise-architect",
+    examRouteSlug: "apple-enterprise-architect",
+    color: "from-amber-600/10 to-orange-600/10",
+  },
+  {
     slug: "apple-security-expert",
     title: "Apple Security Expert",
     shortTitle: "Apple Security",

@@ -25,6 +25,7 @@ export const sidebarMainNav: SidebarNavItem[] = [
       { label: "Jamf 200", href: "/parcours/jamf-200", icon: "jamf" },
       { label: "Apple Security", href: "/certifications/apple-certified-it-professional", icon: "shield" },
       { label: "Apple Enterprise", href: "/parcours/apple-enterprise-expert", icon: "apple" },
+      { label: "Apple Enterprise Architect", href: "/parcours/apple-enterprise-architect", icon: "apple" },
     ],
   },
   {

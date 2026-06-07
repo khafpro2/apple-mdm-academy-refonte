@@ -10,6 +10,7 @@ const PREFIX_MODULES: { prefix: string; href: string; label: string }[] = [
   { prefix: "j300-", href: "/cours/jamf-300/j300-m01", label: "Jamf 300 Prep" },
   { prefix: "j400-", href: "/cours/jamf-400/j400-m01", label: "Jamf 400 Prep" },
   { prefix: "aee-", href: "/cours/apple-enterprise-expert/aee-m01", label: "Apple Enterprise Expert" },
+  { prefix: "aea-", href: "/cours/apple-enterprise-architect/aea-m01", label: "Apple Enterprise Architect" },
   { prefix: "iaa-", href: "/cours/intune-apple-advanced/iaa-m01", label: "Intune Apple Advanced" },
   { prefix: "kfd-", href: "/cours/kandji-fundamentals/kfd-m01", label: "Kandji Fundamentals" },
   { prefix: "msl-", href: "/cours/mosyle-fundamentals/msl-m01", label: "Mosyle Fundamentals" },

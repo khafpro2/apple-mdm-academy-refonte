@@ -192,6 +192,7 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     "examen-jamf-300",
     "examen-jamf-400",
     "examen-apple-enterprise-expert",
+    "examen-apple-enterprise-architect",
     "examen-intune-apple-advanced",
   ];
   const examStats: AdminExamStat[] = examSlugs.map((quizSlug) => {

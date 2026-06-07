@@ -12,6 +12,7 @@ function trackLabel(trackSlug: string, vendor?: string): string {
   if (trackSlug.startsWith("jamf-300")) return "Jamf 300 Prep";
   if (trackSlug.startsWith("jamf-400")) return "Jamf 400 Prep";
   if (trackSlug === "apple-enterprise-expert") return "Apple Enterprise Expert";
+  if (trackSlug === "apple-enterprise-architect") return "Apple Enterprise Architect";
   if (trackSlug === "intune-apple-advanced") return "Intune Apple Advanced";
   if (trackSlug === "kandji-fundamentals") return "Kandji Fundamentals";
   if (trackSlug === "mosyle-fundamentals") return "Mosyle Fundamentals";
@@ -45,6 +46,8 @@ function scenarioForTitle(title: string, trackSlug: string): string {
     return "Une organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.";
   if (trackSlug === "apple-enterprise-expert")
     return "Un architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.";
+  if (trackSlug === "apple-enterprise-architect")
+    return "Un Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.";
   return "Votre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.";
 }
 

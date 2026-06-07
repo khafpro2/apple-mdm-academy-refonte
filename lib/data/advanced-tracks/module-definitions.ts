@@ -78,6 +78,17 @@ export const appleEnterpriseModules: AdvancedModuleDef[] = [
   mod("apple-enterprise-expert", "aee", 10, "Déploiement international", null, "badge-apple-enterprise-expert"),
 ];
 
+export const appleEnterpriseArchitectModules: AdvancedModuleDef[] = [
+  mod("apple-enterprise-architect", "aea", 1, "Architecture Apple Enterprise", "aea-architecture-stack", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 2, "Identité Apple & Entra ID", "aea-identity-architecture", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 3, "Jamf Pro Enterprise", "aea-jamf-500-mac", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 4, "Intune Apple Enterprise", "aea-intune-global", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 5, "Sécurité Apple Enterprise", "aea-security-audit", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 6, "Automatisation des déploiements", "aea-automation-deploy", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 7, "Dépannage avancé Apple MDM", "aea-troubleshooting-lab", "badge-apple-enterprise-architect", 25),
+  mod("apple-enterprise-architect", "aea", 8, "Projets réels Enterprise", "aea-capstone-projects", "badge-apple-enterprise-architect", 25),
+];
+
 export const intuneAdvancedModules: AdvancedModuleDef[] = [
   mod("intune-apple-advanced", "iaa", 1, "Intune macOS avancé", null, "badge-intune-apple-advanced"),
   mod("intune-apple-advanced", "iaa", 2, "Conditional Access Apple", "intune-conditional-access", "badge-intune-apple-advanced"),
@@ -95,6 +106,7 @@ export const allAdvancedModules = [
   ...jamf300Modules,
   ...jamf400Modules,
   ...appleEnterpriseModules,
+  ...appleEnterpriseArchitectModules,
   ...intuneAdvancedModules,
 ];
 
@@ -141,6 +153,18 @@ export const advancedTrackMeta: {
     logo: "apple",
     certification: "Apple Enterprise Expert",
     modules: appleEnterpriseModules,
+  },
+  {
+    slug: "apple-enterprise-architect",
+    title: "Apple Enterprise Architect",
+    level: "Architect",
+    lessons: 8,
+    description:
+      "Parcours architecte : stack Apple Enterprise, identité Entra, Jamf/Intune à l'échelle, sécurité, automatisation, dépannage et projets capstone.",
+    duration: "40 h",
+    logo: "apple",
+    certification: "Apple Enterprise Architect",
+    modules: appleEnterpriseArchitectModules,
   },
   {
     slug: "intune-apple-advanced",

@@ -4,7 +4,7 @@ import { TrackLogo } from "@/components/ui/track-logo";
 import { advancedTrackMeta } from "@/lib/data/advanced-tracks/module-definitions";
 import { getExamRouteSlugs } from "@/lib/data/exams/pools";
 
-const advancedExamRoutes = ["jamf-300", "jamf-400", "apple-enterprise-expert", "intune-apple-advanced"];
+const advancedExamRoutes = ["jamf-300", "jamf-400", "apple-enterprise-expert", "apple-enterprise-architect", "intune-apple-advanced"];
 
 export function AdvancedTracksPanel() {
   return (

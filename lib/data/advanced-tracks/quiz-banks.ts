@@ -1,4 +1,5 @@
 import type { Question } from "@/lib/types";
+import { aeaModuleQuizBanks } from "@/lib/data/apple-enterprise-architect/quiz-banks";
 
 function q(
   id: string,
@@ -74,6 +75,7 @@ export const moduleQuizBanks: Record<string, Question[]> = {
     q("iaam04-2", "Defender health status :", ["M365 Defender portal Devices", "iCloud", "ABM", "DNS"], 0, "Portal Defender endpoint."),
     q("iaam04-3", "Tamper protection :", ["Disable", "Should remain enabled in production", "Optional always off", "User choice"], 1, "Tamper protection ON."),
   ],
+  ...aeaModuleQuizBanks,
 };
 
 export function getModuleQuizBank(moduleSlug: string): Question[] | undefined {

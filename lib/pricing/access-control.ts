@@ -39,6 +39,7 @@ export const ADVANCED_TRACK_SLUGS = new Set([
   "jamf-300",
   "jamf-400",
   "apple-enterprise-expert",
+  "apple-enterprise-architect",
   "intune-apple-advanced",
 ]);
 
@@ -50,9 +51,9 @@ export const ALT_MDM_TRACK_SLUGS = new Set([
   "mdm-comparatif-apple",
 ]);
 
-export const ENTERPRISE_TRACK_SLUGS = new Set(["jamf-400", "apple-enterprise-expert"]);
+export const ENTERPRISE_TRACK_SLUGS = new Set(["jamf-400", "apple-enterprise-expert", "apple-enterprise-architect"]);
 
-const ENTERPRISE_EXAM_ROUTES = new Set(["jamf-400", "apple-enterprise-expert"]);
+const ENTERPRISE_EXAM_ROUTES = new Set(["jamf-400", "apple-enterprise-expert", "apple-enterprise-architect"]);
 
 export function getRequiredTierForLab(_slug: string): SubscriptionTier {
   if (isFreePlatformMode()) return "free";
@@ -71,7 +72,7 @@ export function getRequiredTierForCourse(slug: string): SubscriptionTier {
 export function getRequiredTierForExam(routeOrQuizSlug: string): SubscriptionTier {
   if (isFreePlatformMode()) return "free";
   if (ENTERPRISE_EXAM_ROUTES.has(routeOrQuizSlug)) return "enterprise";
-  if (routeOrQuizSlug.includes("jamf-400") || routeOrQuizSlug.includes("apple-enterprise-expert")) return "enterprise";
+  if (routeOrQuizSlug.includes("jamf-400") || routeOrQuizSlug.includes("apple-enterprise-architect") || routeOrQuizSlug.includes("apple-enterprise-expert")) return "enterprise";
   if (routeOrQuizSlug.includes("jamf-300") || routeOrQuizSlug.includes("intune-apple-advanced")) return "pro";
   if (routeOrQuizSlug.includes("kandji") || routeOrQuizSlug.includes("mosyle") || routeOrQuizSlug.includes("addigy") || routeOrQuizSlug.includes("workspace-one")) return "pro";
   return "pro";
