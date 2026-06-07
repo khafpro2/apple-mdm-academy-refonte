@@ -3,6 +3,7 @@ import { SectionHeading, Badge, ButtonLink } from "@/components/ui";
 import { getExams } from "@/lib/data/quizzes";
 import { getExamRouteSlugs, examRouteToQuizSlug } from "@/lib/data/exams/pools";
 import { getQuiz } from "@/lib/data/quizzes";
+import { appleTrainingResources } from "@/lib/data/official-cert-links";
 
 export const metadata = { title: "Examens blancs" };
 
@@ -25,6 +26,24 @@ export default function ExamensPage() {
           title="Examens blancs"
           description="Mode examen, chronomètre, correction détaillée et historique des tentatives."
         />
+
+        <section className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-950">
+          <p className="font-semibold">Examens blancs — préparation uniquement</p>
+          <p className="mt-2 leading-relaxed">
+            Les examens Apple MDM Academy simulent les conditions de préparation. Les certifications Apple
+            officielles se planifient via Pearson VUE / OnVUE. Apple indique un délai de{" "}
+            {appleTrainingResources.retakeDelayDays} jours avant retake et{" "}
+            {appleTrainingResources.maxAttempts} tentatives maximum.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-3 font-semibold">
+            <a href={appleTrainingResources.resourcesUrl} target="_blank" rel="noopener noreferrer" className="text-amber-900 underline hover:no-underline">
+              Ressources Apple Training
+            </a>
+            <a href={appleTrainingResources.pearsonVueUrl} target="_blank" rel="noopener noreferrer" className="text-amber-900 underline hover:no-underline">
+              Pearson VUE Apple
+            </a>
+          </div>
+        </section>
 
         <div className="grid gap-5 sm:grid-cols-2">
           {examRoutes.map(({ routeSlug, quiz }) =>

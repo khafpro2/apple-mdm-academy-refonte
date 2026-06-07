@@ -1,6 +1,13 @@
 import type { Quiz } from "@/lib/types";
 import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
-import { proModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
+import { proModuleQuizzes as rawProModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
+import { jamf116ModuleQuizExtras } from "@/lib/data/jamf/quiz-11-16-questions";
+
+const proModuleQuizzes = rawProModuleQuizzes.map((quiz) => {
+  const extras = jamf116ModuleQuizExtras[quiz.slug];
+  if (!extras?.length) return quiz;
+  return { ...quiz, questions: [...quiz.questions, ...extras] };
+});
 import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
 import { altMdmModuleQuizzes } from "@/lib/data/alternative-mdm-tracks/quizzes";
 import { prepareExamPool, prepareQuiz } from "@/lib/quiz/prepare-quiz";

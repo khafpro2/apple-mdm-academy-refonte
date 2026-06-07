@@ -513,13 +513,17 @@ const GENERATED_TOPIC_OVERRIDES: Record<string, Partial<LessonTopic>> = {
     actions: ["Identifier le compte propriétaire du certificat.", "Planifier le renouvellement avant expiration.", "Tester une commande MDM après renouvellement."],
   },
   "architecture-jamf": {
-    focus: "l'architecture Jamf Pro et ses composants",
+    focus: "l'architecture Jamf Pro 11.16 et ses composants",
     concepts: [
-      "Jamf Pro orchestre inventaire, policies, profils, apps, scripts et Self Service.",
-      "Les endpoints client, APNs et services cloud doivent communiquer sans filtrage bloquant.",
-      "Sites, rôles et catégories structurent l'administration à grande échelle.",
+      "Jamf Pro 11.16 : Computers/Mobile Devices, Policies, Packages, Configuration Profiles, Patch Management, Self Service.",
+      "Chaîne push : Jamf Pro → APNs → check-in → commandes MDM (doc 11.16).",
+      "ADE/ABM token, PreStage Enrollment, Distribution Points et Sites pour scale enterprise.",
     ],
-    actions: ["Cartographier instance, rôles admin et flux réseau.", "Vérifier APNs et connectivité des Mac.", "Créer une convention de nommage pour objets Jamf."],
+    actions: [
+      "Vérifier APNs et token ADE (Settings → Global Management).",
+      "Cartographier rôles admin RBAC et convention de nommage.",
+      "Ouvrir inventaire Mac pilote : General, Software, Management History.",
+    ],
   },
   "inventaire-recherche": {
     focus: "l'inventaire et la recherche avancée Jamf Pro",
@@ -531,13 +535,17 @@ const GENERATED_TOPIC_OVERRIDES: Record<string, Partial<LessonTopic>> = {
     actions: ["Ouvrir un Computer Record.", "Créer une recherche avancée avec colonnes utiles.", "Exporter un inventaire pilote et vérifier les données manquantes."],
   },
   "smart-groups": {
-    focus: "les Smart Groups Jamf et leurs critères dynamiques",
+    focus: "les Smart Groups Jamf Pro 11.16",
     concepts: [
-      "Un Smart Group calcule automatiquement ses membres à partir de critères d'inventaire.",
-      "Il peut déclencher scopes, exclusions, patch policies et rapports.",
-      "Des critères trop larges peuvent provoquer un déploiement massif involontaire.",
+      "Smart Groups : membership dynamique selon inventaire (Computers → Smart Computer Groups).",
+      "Jamf 11.16 : utiliser pour scope/déploiement — Advanced Search pour reporting.",
+      "Éviter critères circulaires entre deux Smart Groups interdépendants.",
     ],
-    actions: ["Créer un Smart Group pilote.", "Tester les critères avec Preview.", "Utiliser exclusions et groupes statiques pour sécuriser le rollout."],
+    actions: [
+      "Computers → Smart Computer Groups → New → critères AND/OR.",
+      "Preview membership avant scope production.",
+      "Scope policy pilote ; valider membre vs non-membre.",
+    ],
   },
   "config-profiles-jamf": {
     focus: "les Configuration Profiles dans Jamf Pro",
@@ -585,13 +593,17 @@ const GENERATED_TOPIC_OVERRIDES: Record<string, Partial<LessonTopic>> = {
     actions: ["Écrire un script idempotent.", "Le publier avec paramètres documentés.", "Tester logs, code retour et rollback."],
   },
   "self-service": {
-    focus: "Jamf Self Service et le catalogue utilisateur",
+    focus: "Jamf Self Service 11.16",
     concepts: [
-      "Self Service transforme certaines actions IT en services à la demande.",
-      "Les catégories, icônes et descriptions réduisent les tickets support.",
-      "Les policies Self Service doivent être sûres à relancer.",
+      "Settings → Self Service macOS : branding, catégories, policies utilisateur.",
+      "Policy → onglet Self Service : display name, description Markdown.",
+      "Patch policies en Self Service n'apparaissent pas dans la recherche (doc 11.16).",
     ],
-    actions: ["Créer une policy disponible dans Self Service.", "Ajouter icône, description et catégorie.", "Tester installation, réinstallation et désinstallation si prévue."],
+    actions: [
+      "Configurer branding et catégories catalogue.",
+      "Publier policy pilote non destructive dans Self Service.",
+      "Tester deferrals et Policy Logs sur Mac utilisateur.",
+    ],
   },
   "workflows-enrollment": {
     focus: "les workflows d'enrollment Jamf",
@@ -603,13 +615,17 @@ const GENERATED_TOPIC_OVERRIDES: Record<string, Partial<LessonTopic>> = {
     actions: ["Créer un PreStage pilote.", "Définir les policies Enrollment Complete indispensables.", "Mesurer le temps jusqu'à Mac prêt."],
   },
   "patch-management-intro": {
-    focus: "l'introduction au Patch Management Jamf",
+    focus: "Patch Management Jamf Pro 11.16",
     concepts: [
-      "Patch Management suit versions installées, définitions de titres et politiques de mise à jour.",
-      "Les patch policies doivent concilier sécurité, disponibilité et expérience utilisateur.",
-      "Les rapports de conformité guident les vagues de remédiation.",
+      "Software Titles → Patch Policy : version cible, eligible computers, Patch Unknown Versions.",
+      "Install automatique vs disponibilité Self Service (hors recherche SS).",
+      "Dashboard Patch Management pour conformité et échecs.",
     ],
-    actions: ["Sélectionner un titre patch.", "Analyser versions installées.", "Créer une policy pilote avec délai utilisateur raisonnable."],
+    actions: [
+      "Vérifier Software Update Inventory.",
+      "Create Patch Policy → preview eligible computers.",
+      "Scope pilote → rapport conformité avant production.",
+    ],
   },
   "api-jamf": {
     focus: "l'API Jamf Pro REST",

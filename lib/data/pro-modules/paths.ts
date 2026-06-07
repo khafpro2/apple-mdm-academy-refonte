@@ -20,7 +20,7 @@ export const certificationPaths: CertificationPath[] = [
     slug: "parcours-jamf-100",
     title: "Parcours Certification Jamf 100",
     description:
-      "Modules 12 à 14 : fondamentaux Jamf Pro, Smart Groups et Policies. Prépare la certification Jamf Certified Associate.",
+      "Modules 12 à 14 : fondamentaux Jamf Pro 11.16, Smart Groups, Policies et Packages. Prépare Jamf Certified Associate (Jamf 100).",
     level: "Pro",
     duration: "8 h",
     logo: "jamf",
@@ -33,7 +33,7 @@ export const certificationPaths: CertificationPath[] = [
     slug: "parcours-jamf-200",
     title: "Parcours Certification Jamf 200",
     description:
-      "Modules 15 à 18 : scripts, patch management, Jamf Protect et sécurité Apple enterprise.",
+      "Modules 15 à 18 : scripts, patch management 11.16, Self Service avancé, Jamf Protect et sécurité Apple. Prépare Jamf Certified Admin (Jamf 200).",
     level: "Expert",
     duration: "12 h",
     logo: "jamf",

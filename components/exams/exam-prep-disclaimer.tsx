@@ -1,4 +1,4 @@
-import { getOfficialCertLinkForExamRoute } from "@/lib/data/official-cert-links";
+import { appleTrainingResources, getOfficialCertLinkForExamRoute } from "@/lib/data/official-cert-links";
 
 type Props = {
   examRouteSlug: string;
@@ -32,6 +32,9 @@ export function ExamPrepDisclaimer({ examRouteSlug, examTitle }: Props) {
       )}
       <p className="mt-3 text-xs text-amber-800">
         Le certificat PDF obtenu ici atteste votre réussite sur la plateforme, pas une certification vendor.
+        Pour les certifications Apple, consultez Apple Training : examens via Pearson VUE / OnVUE, retake après{" "}
+        {appleTrainingResources.retakeDelayDays} jours et {appleTrainingResources.maxAttempts} tentatives maximum.
+        Les badges Apple officiels sont vérifiés dans Credly.
       </p>
     </div>
   );

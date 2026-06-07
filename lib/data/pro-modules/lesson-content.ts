@@ -1,6 +1,11 @@
 import type { LessonContent } from "@/lib/types";
 import { proModules, type ProModule } from "@/lib/data/pro-modules/index";
 import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
+import {
+  getJamf116TopicBlocks,
+  getJamf116DocVersion,
+  resolveJamf116Topic,
+} from "@/lib/data/jamf/jamf-pro-11-16-content";
 
 function findModuleForLesson(lessonSlug: string): ProModule | undefined {
   return proModules.find((m) => m.lessons.some((l) => l.slug === lessonSlug));
@@ -250,12 +255,24 @@ function buildProLessonTopic(proModule: ProModule, lessonTitle: string, lessonSl
 
 function buildContent(proModule: ProModule, lessonTitle: string, lessonSlug: string): LessonContent {
   const domain = proModule.number <= 11 ? "Microsoft Intune" : proModule.number >= 18 ? "Apple Security" : "Jamf Pro";
-  const topic = buildProLessonTopic(proModule, lessonTitle, lessonSlug, domain);
+  const jamfTopic = proModule.number >= 12 && proModule.number <= 17 ? resolveJamf116Topic(lessonSlug, proModule.slug) : null;
+  const jamf116 = jamfTopic ? getJamf116TopicBlocks(jamfTopic) : null;
+  const topic = jamf116
+    ? {
+        overview: jamf116.overview,
+        concepts: [...jamf116.architecture.map((a) => `[Architecture] ${a}`), ...jamf116.concepts],
+        steps: jamf116.steps,
+        checks: jamf116.checks,
+        pitfalls: jamf116.pitfalls,
+        summary: jamf116.summary,
+        docRef: jamf116.docRef,
+      }
+    : { ...buildProLessonTopic(proModule, lessonTitle, lessonSlug, domain), summary: [] as string[], docRef: undefined as string | undefined };
 
   return {
     objectives: [
-      `Maîtriser « ${lessonTitle} » dans le module ${proModule.number} — ${proModule.title}.`,
-      `Appliquer les procédures ${domain} en environnement enterprise.`,
+      `Maîtriser « ${lessonTitle} » aligné Jamf Pro ${getJamf116DocVersion()}.`,
+      `Appliquer les procédures ${domain} documentées dans la console Jamf Pro 11.16.`,
       `Préparer le quiz « ${proModule.quizSlug} » et le lab « ${proModule.labSlug} ».`,
       `Obtenir le badge ${proModule.badgeName} après validation (score ≥ 80 %).`,
     ],
@@ -268,14 +285,18 @@ function buildContent(proModule: ProModule, lessonTitle: string, lessonSlug: str
       {
         title: "Contexte",
         body: [
-          `${lessonTitle} fait partie du parcours professionnel Jamf & Apple Enterprise (module ${proModule.number}/18).`,
+          `${lessonTitle} — module ${proModule.number}/18 · Jamf Pro ${getJamf116DocVersion()}.`,
           ...topic.overview,
-          `Référence module : ${proModule.description}`,
+          topic.docRef ? `Référence : ${topic.docRef}` : `Référence module : ${proModule.description}`,
         ],
       },
       {
+        title: "Architecture Jamf Pro 11.16",
+        body: jamf116?.architecture ?? topic.concepts.slice(0, 3),
+      },
+      {
         title: "Concepts clés",
-        body: topic.concepts,
+        body: jamf116 ? jamf116.concepts : topic.concepts,
       },
       {
         title: "Validation attendue",
@@ -321,6 +342,7 @@ function buildContent(proModule: ProModule, lessonTitle: string, lessonSlug: str
         solution: "Assurez-vous d'être connecté, d'avoir score ≥ 80 % et d'avoir complété le lab associé.",
       },
     ].slice(0, 5),
+    summary: topic.summary.length > 0 ? topic.summary : undefined,
     finalQuizSlug: proModule.quizSlug,
   };
 }

@@ -3,6 +3,8 @@ import { PageShell } from "@/components/layout";
 import { SectionHeading, Card, ButtonLink } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
+import { appleTrainingResources } from "@/lib/data/official-cert-links";
+import { JAMF_CERTIFICATION_COVERAGE } from "@/lib/data/jamf/jamf-pro-11-16-content";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -53,6 +55,43 @@ export default function CertificationsPage() {
         </div>
 
         <Card className="mt-10 p-6">
+          <h2 className="text-lg font-bold text-ink">Couverture Jamf Pro 11.16</h2>
+          <p className="mt-2 text-sm text-ink-secondary">
+            Modules, labs et pondération examen alignés sur la documentation officielle Jamf Pro{" "}
+            {JAMF_CERTIFICATION_COVERAGE.jamf100.docVersion}.
+          </p>
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            {(["jamf100", "jamf200"] as const).map((key) => {
+              const cov = JAMF_CERTIFICATION_COVERAGE[key];
+              return (
+                <div key={key} className="rounded-2xl border border-border-light bg-surface p-5">
+                  <h3 className="font-bold text-ink">{cov.label}</h3>
+                  <p className="mt-1 text-xs text-ink-tertiary">
+                    {cov.totalExamQuestions} questions examen · seuil {cov.passingScore}%
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    {cov.modules.map((m) => (
+                      <li key={m.id} className="flex justify-between text-sm">
+                        <span className="text-ink-secondary">
+                          {m.title} · lab <code className="text-xs">{m.lab}</code>
+                        </span>
+                        <span className="font-semibold text-accent">{m.examWeight}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={key === "jamf100" ? "/examens/jamf-100" : "/examens/jamf-200"}
+                    className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
+                  >
+                    Examen blanc →
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        <Card className="mt-10 p-6">
           <h2 className="text-lg font-bold text-ink">Apple Certified IT Professional</h2>
           <p className="mt-2 text-sm text-ink-secondary">
             Parcours complet francophone — 200 questions, 10 labs, certificat Apple IT Professional Ready.
@@ -61,6 +100,29 @@ export default function CertificationsPage() {
             Voir le parcours ACITP
           </ButtonLink>
         </Card>
+
+        <section className="mt-10 rounded-2xl border border-border-light bg-surface-elevated p-6">
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent">Référence officielle Apple</p>
+          <h2 className="mt-2 text-lg font-bold text-ink">Examens, badges et politiques Apple</h2>
+          <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
+            Apple indique que ses examens de certification sont principalement délivrés via Pearson VUE / OnVUE,
+            que les examens blancs Apple durent {appleTrainingResources.practiceExamDuration}, qu&apos;un nouvel
+            essai est possible après {appleTrainingResources.retakeDelayDays} jours, avec{" "}
+            {appleTrainingResources.maxAttempts} tentatives maximum. Les badges numériques Apple sont gérés via
+            Credly et leur validité est {appleTrainingResources.badgeValidity}.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+            <a href={appleTrainingResources.resourcesUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Ressources Apple Training
+            </a>
+            <a href={appleTrainingResources.pearsonVueUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Pearson VUE Apple
+            </a>
+            <a href={appleTrainingResources.credlyDirectoryUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Annuaire Credly Apple
+            </a>
+          </div>
+        </section>
       </div>
     </PageShell>
   );

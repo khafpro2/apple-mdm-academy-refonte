@@ -1,4 +1,5 @@
 import type { Question } from "@/lib/types";
+import { jamf116ExamQuestions } from "@/lib/data/jamf/quiz-11-16-questions";
 
 function q(
   id: string,
@@ -37,4 +38,5 @@ export const jamf100Pool: Question[] = [
   q("j100-23", "Mobile config profile signé :", ["Non requis", "Recommandé pour confiance", "Interdit", "Remplace APNs"], 1, "Signature garantit intégrité du profil."),
   q("j100-24", "Jamf Pro cloud vs on-prem :", ["Identiques fonctionnellement", "Cloud = SaaS Jamf", "On-prem = pas d'APNs", "Cloud = sans DEP"], 1, "Jamf Cloud est l'offre hébergée."),
   q("j100-25", "Device Enrollment Program est aujourd'hui :", ["ADE", "VPP", "APNs", "SIP"], 0, "DEP renommé Automated Device Enrollment."),
+  ...jamf116ExamQuestions,
 ];

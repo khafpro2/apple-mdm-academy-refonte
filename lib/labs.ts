@@ -440,7 +440,7 @@ export const labs: Lab[] = [
       {
         id: "smart-group-new",
         title: "Nouveau Smart Group",
-        instruction: "Computers → Smart Computer Groups → New → nommez « MacOS-14-Production ».",
+        instruction: "Computers → Smart Computer Groups → New → nommez « MacOS-14-Production ». Preview membership (Jamf 11.16).",
         expectedResult: "Formulaire de critères ouvert.",
       },
       {
@@ -515,6 +515,115 @@ export const labs: Lab[] = [
       },
     ],
     "Policy Jamf déployée et exécutée avec succès sur le parc Mac cible."
+  ),
+  lab(
+    "jamf-packages",
+    "Déployer un package Jamf Pro 11.16",
+    "Ajoutez un PKG/DMG au Distribution Point, créez une policy Packages et validez l'installation sur un Mac pilote.",
+    "Intermédiaire",
+    "45 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Uploader un package vers le Distribution Point",
+      "Créer une policy avec payload Packages",
+      "Valider install et logs policy",
+    ],
+    [
+      "Jamf Pro admin",
+      "PKG ou DMG de test signé",
+      "Mac enrollé dans Smart Group pilote",
+    ],
+    [
+      {
+        id: "upload-package",
+        title: "Ajouter le package",
+        instruction:
+          "Computers → Packages → New → upload PKG/DMG. Vérifier Distribution Point et OS requirements (doc 11.16 Packages).",
+        expectedResult: "Package listé dans Jamf Pro avec taille et checksum.",
+      },
+      {
+        id: "policy-packages",
+        title: "Policy payload Packages",
+        instruction:
+          "Computers → Policies → New → General (trigger Recurring Check-in). Payload Packages → Add → Action Install → Distribution Point.",
+        expectedResult: "Package attaché avec action Install configurée.",
+      },
+      {
+        id: "scope-pilot",
+        title: "Scope pilote",
+        instruction: "Scope → Smart Group pilote (1–3 Mac). Restart Options si le package requiert reboot.",
+        expectedResult: "Policy enabled, scope limité.",
+      },
+      {
+        id: "self-service-opt",
+        title: "Self Service (optionnel)",
+        instruction: "Onglet Self Service → rendre la policy disponible avec description utilisateur.",
+        expectedResult: "Policy visible dans catalogue Self Service sur Mac test.",
+      },
+      {
+        id: "verify-install",
+        title: "Valider installation",
+        instruction: "Forcer check-in ou `sudo jamf policy`. Vérifier app/fichier installé + Policy Logs.",
+        expectedResult: "Installation réussie, logs Completed.",
+      },
+    ],
+    "Package Jamf Pro 11.16 déployé via policy Packages avec logs validés."
+  ),
+  lab(
+    "jamf-self-service",
+    "Configurer Jamf Self Service 11.16",
+    "Branding, catégories et policies Self Service pour un catalogue utilisateur contrôlé.",
+    "Intermédiaire",
+    "40 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Configurer branding Self Service macOS",
+      "Publier policies dans Self Service",
+      "Tester expérience utilisateur sur Mac",
+    ],
+    [
+      "Jamf Pro admin",
+      "Mac avec app Self Service installée",
+      "Policy pilote non destructive",
+    ],
+    [
+      {
+        id: "ss-branding",
+        title: "Branding Self Service",
+        instruction:
+          "Settings → Self Service → macOS : logo, couleurs, notifications. Vérifier Configuration Profile Self Service sur Mac.",
+        expectedResult: "App Self Service branded sur appareil pilote.",
+      },
+      {
+        id: "ss-categories",
+        title: "Catégories catalogue",
+        instruction: "Créer catégories (Productivity, Security). Assigner policies/apps aux catégories.",
+        expectedResult: "Catalogue organisé par catégories.",
+      },
+      {
+        id: "ss-policy",
+        title: "Policy Self Service",
+        instruction:
+          "Computers → Policies → policy pilote → onglet Self Service : display name, description Markdown, bouton.",
+        expectedResult: "Policy disponible dans Self Service (trigger Self Service ou hybrid).",
+      },
+      {
+        id: "ss-user-test",
+        title: "Test utilisateur",
+        instruction: "Sur Mac utilisateur : ouvrir Self Service → exécuter policy → vérifier deferrals/messages.",
+        expectedResult: "Policy exécutée, feedback UX documenté.",
+      },
+      {
+        id: "ss-patch-note",
+        title: "Limite patch policies",
+        instruction:
+          "Documenter : patch policies peuvent être en Self Service mais n'apparaissent pas dans la recherche (Jamf 11.16).",
+        expectedResult: "Runbook Self Service incluant cette limitation.",
+      },
+    ],
+    "Self Service 11.16 configuré avec catalogue, policy pilote testée et limitations documentées."
   ),
   lab(
     "filevault",
@@ -615,7 +724,7 @@ export const labs: Lab[] = [
     ],
     [
       { id: "inventory", title: "Software Update Inventory", instruction: "Computers → Patch Management → Software Update Inventory. Vérifiez que les Mac remontent les updates disponibles.", expectedResult: "Updates visibles dans Patch Management." },
-      { id: "patch-policy", title: "Créer Patch Policy", instruction: "Patch Management → Software Titles → sélectionnez une update → Create Patch Policy. Définissez deadline et notifications.", expectedResult: "Patch policy créée avec titre et version cible." },
+      { id: "patch-policy", title: "Créer Patch Policy", instruction: "Patch Management → Software Titles → Create Patch Policy. General : target version, Patch Unknown Versions, Self Service si besoin.", expectedResult: "Patch policy créée avec version cible et eligible computers preview." },
       { id: "scope-pilot", title: "Scope pilote", instruction: "Scope la patch policy à un Smart Group pilote (5–10 Mac max).", expectedResult: "Policy scoped au groupe pilote uniquement." },
       { id: "deploy", title: "Déclencher le déploiement", instruction: "Force un check-in ou attendez la fenêtre. Surveillez Patch Management → Dashboard.", expectedResult: "Mac pilotes passent en Pending puis Completed." },
       { id: "report", title: "Rapport de conformité", instruction: "Exportez le rapport de patch compliance et documentez les échecs éventuels.", expectedResult: "Rapport avec % de conformité patch documenté." },

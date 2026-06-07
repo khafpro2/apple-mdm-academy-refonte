@@ -401,6 +401,235 @@ export const academyResources: AcademyResource[] = [
     ],
   }),
   res({
+    slug: "jamf-smart-groups",
+    title: "Smart Groups Jamf Pro 11.16",
+    description: "Procédure complète : critères inventaire, preview membership, scope et bonnes pratiques doc officielle.",
+    objective: "Créer des Smart Groups fiables pour scope policies, profils et patch policies sans recalcul circulaire.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Jamf",
+    module: "Smart Groups",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-smart-groups",
+    relatedResourceSlugs: ["jamf-policies", "checklist-jamf-smart-groups"],
+    sections: [
+      {
+        title: "Architecture (Jamf 11.16)",
+        items: [
+          "Computers → Smart Computer Groups : membership dynamique basée sur inventaire",
+          "Utiliser pour scope, déploiement et actions — pas pour reporting (Advanced Search)",
+          "Éviter deux Smart Groups dépendant mutuellement de l'appartenance l'autre",
+        ],
+      },
+      {
+        title: "Procédure",
+        items: [
+          "Computers → Smart Computer Groups → New",
+          "Définir critères AND/OR (OS, apps, EA, last check-in)",
+          "Preview membership → comparer avec Advanced Search",
+          "Scope policy pilote → valider membre / non-membre",
+        ],
+      },
+      {
+        title: "Dépannage",
+        items: [
+          "Membership vide : critères trop restrictifs ou inventaire stale → force recon",
+          "Trop de membres : critère trop large → affiner ou ajouter exclusions",
+          "Performance : réduire Smart Groups circulaires ou critères coûteux",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "jamf-policies",
+    title: "Policies Jamf Pro 11.16",
+    description: "Triggers, payloads, scope, Self Service et User Interaction selon la documentation Policies.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Jamf",
+    module: "Policies",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-policies",
+    relatedResourceSlugs: ["jamf-packages", "jamf-smart-groups"],
+    sections: [
+      {
+        title: "Architecture",
+        items: [
+          "General : trigger, execution frequency, category, target drive",
+          "Payloads : Scripts, Packages, Maintenance, Directory Binding…",
+          "Scope + exclusions ; retrait scope ≠ rollback changements déjà appliqués",
+        ],
+      },
+      {
+        title: "Procédure Deploy Package (11.16)",
+        items: [
+          "Computers → Policies → New → General payload",
+          "Packages payload → Add → Action Install → Distribution Point",
+          "Scope tab → Self Service tab (optionnel) → Save",
+        ],
+      },
+      {
+        title: "Bonnes pratiques",
+        items: [
+          "Policy pilote non destructive avant production",
+          "Policy Logs + sudo jamf policy pour test",
+          "User Interaction pour deferrals sur actions longues",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "jamf-packages",
+    title: "Packages Jamf Pro 11.16",
+    description: "PKG/DMG, Distribution Point, policy Packages et actions Install/Cache/Uninstall.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Jamf",
+    module: "Packages",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-packages",
+    relatedResourceSlugs: ["jamf-policies", "jamf-self-service"],
+    sections: [
+      {
+        title: "Concepts Packages 11.16",
+        items: [
+          "Package = PKG ou DMG (Composer ou outil tiers)",
+          "Distribution Point stocke le fichier ; Jamf Pro référence métadonnées",
+          "Déploiement via policy payload Packages — pas via Configuration Profile",
+        ],
+      },
+      {
+        title: "Procédure",
+        items: [
+          "Computers → Packages → New → upload",
+          "Computers → Policies → New → Packages payload",
+          "Restart Options si reboot requis ; Scope Smart Group pilote",
+        ],
+      },
+      {
+        title: "Erreurs fréquentes",
+        items: [
+          "Package absent du Distribution Point distant",
+          "OS requirement non respecté",
+          "Action Cache vs Install mal choisie",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "jamf-scripts",
+    title: "Scripts Jamf Pro 11.16",
+    description: "Upload scripts, policy payload Scripts, paramètres, logs et idempotence.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Jamf",
+    module: "Scripts",
+    relatedCourseSlug: "jamf-170",
+    relatedLabSlug: "jamf-scripts",
+    relatedResourceSlugs: ["jamf-policies", "terminal-macos-admin"],
+    sections: [
+      {
+        title: "Architecture",
+        items: [
+          "Settings → Computer Management → Scripts",
+          "Policy → Scripts payload → exécution via jamf framework",
+          "Extension Attributes alimentés par scripts pour Smart Groups",
+        ],
+      },
+      {
+        title: "Procédure",
+        items: [
+          "Script idempotent + logging + exit codes explicites",
+          "Upload Jamf → policy Once per computer sur pilote",
+          "Policy Logs + validation fichier témoin sur Mac",
+        ],
+      },
+      {
+        title: "Dépannage",
+        items: [
+          "Exit 0 sans effet : ajouter validation post-action",
+          "PATH/TCC différent du Terminal interactif",
+          "Secrets : jamais en clair dans le script",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "jamf-patch-management",
+    title: "Patch Management Jamf Pro 11.16",
+    description: "Software Titles, patch policies, eligible computers et Self Service limitations.",
+    category: "procedure",
+    level: "Avancé",
+    badge: "Jamf",
+    module: "Patch Management",
+    relatedCourseSlug: "jamf-200",
+    relatedLabSlug: "jamf-patch-management",
+    relatedResourceSlugs: ["jamf-self-service", "checklist-jamf-patch"],
+    sections: [
+      {
+        title: "Architecture Patch Policy 11.16",
+        items: [
+          "Software Update Inventory → Software Title → Patch Policy",
+          "Eligible computers auto-générés ; preview avant scope",
+          "Patch Unknown Versions pour versions inconnues",
+        ],
+      },
+      {
+        title: "Procédure",
+        items: [
+          "Patch Management → Software Titles → Create Patch Policy",
+          "General : target version, install auto vs Self Service",
+          "Scope pilote → dashboard conformité",
+        ],
+      },
+      {
+        title: "Self Service",
+        items: [
+          "Patch policies disponibles en Self Service mais absentes de la recherche",
+          "Description Markdown supportée pour UX utilisateur",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "jamf-self-service",
+    title: "Self Service Jamf Pro 11.16",
+    description: "Branding, catégories, policies utilisateur et catalogue IT contrôlé.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Jamf",
+    module: "Self Service",
+    relatedCourseSlug: "jamf-100",
+    relatedLabSlug: "jamf-self-service",
+    relatedResourceSlugs: ["jamf-policies", "jamf-patch-management"],
+    sections: [
+      {
+        title: "Architecture",
+        items: [
+          "Settings → Self Service macOS/iOS + app sur appareil",
+          "Policies exposées via onglet Self Service",
+          "Apps VPP / eBooks selon scope et licences",
+        ],
+      },
+      {
+        title: "Procédure",
+        items: [
+          "Branding : logo, couleurs, notifications",
+          "Catégories catalogue + policies pilotes non destructives",
+          "Test utilisateur : deferrals, messages, logs",
+        ],
+      },
+      {
+        title: "Bonnes pratiques",
+        items: [
+          "Catalogue limité et compréhensible",
+          "Jamais de policy destructive sans garde-fous",
+          "Documenter limites patch policies dans recherche SS",
+        ],
+      },
+    ],
+  }),
+  res({
     slug: "checklist-jamf-fundamentals",
     title: "Checklist Jamf Pro Fundamentals",
     description: "Premiers pas avec Jamf Pro : instance, APNs, enrollment et inventaire.",

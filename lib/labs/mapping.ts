@@ -17,6 +17,8 @@ export const lessonToLabSlug: Record<string, string> = {
   "platform-sso": "platform-sso",
   "smart-groups": "jamf-smart-groups",
   "policies-base": "jamf-policies",
+  "self-service": "jamf-self-service",
+  "m14-packages-deploiement": "jamf-packages",
   "filevault-chiffrement": "filevault",
   "macos-security": "macos-security",
   "compliance-policies": "intune-compliance",

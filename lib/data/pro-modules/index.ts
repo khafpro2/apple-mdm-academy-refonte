@@ -102,6 +102,7 @@ export const proModules: ProModule[] = [
       { slug: "m14-policy-frequence", title: "Fréquence et planification", duration: "30 min", points: 30 },
       { slug: "m14-policy-scope", title: "Scope et ciblage", duration: "35 min", points: 35 },
       { slug: "m14-policy-exclusions", title: "Exclusions et exceptions", duration: "25 min", points: 25 },
+      { slug: "m14-packages-deploiement", title: "Packages et déploiement logiciel", duration: "35 min", points: 35 },
     ],
   },
   {

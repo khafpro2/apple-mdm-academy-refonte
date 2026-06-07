@@ -1,5 +1,20 @@
 /** Liens vers certifications officielles — nos examens sont des simulations prep */
 
+export const appleTrainingResources = {
+  resourcesUrl: "https://training.apple.com/resources",
+  trainingUrl: "https://training.apple.com/",
+  practiceExamUrl: "https://training.apple.com/resources",
+  pearsonVueUrl: "https://wsr.pearsonvue.com/testtaker/registration/SelectExamPage/APPLE",
+  credlyDirectoryUrl: "https://www.credly.com/organizations/apple/directory",
+  identityGuidelinesUrl:
+    "https://www.apple.com/certificateauthority/Apple_Identity_Guidelines_for_Channel_Affiliates_and_Apple_Certified_Individuals.pdf",
+  examFaqUrl: "https://training.apple.com/resources",
+  retakeDelayDays: 7,
+  maxAttempts: 4,
+  practiceExamDuration: "2 h",
+  badgeValidity: "généralement 2 ans, selon la date affichée dans Credly",
+} as const;
+
 export type OfficialCertLink = {
   id: string;
   label: string;
@@ -34,8 +49,8 @@ export const officialCertLinks: OfficialCertLink[] = [
     id: "apple-it-pro",
     label: "Apple Certified IT Professional",
     provider: "Apple / Pearson VUE",
-    url: "https://training.apple.com/",
-    note: "Examen Apple via Pearson VUE. Notre examen blanc simule le format, pas l'examen officiel.",
+    url: appleTrainingResources.trainingUrl,
+    note: "Examen Apple planifié via Pearson VUE. Notre examen blanc prépare et simule, il ne remplace pas l'examen officiel.",
   },
   {
     id: "intune",

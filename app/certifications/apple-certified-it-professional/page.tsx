@@ -10,6 +10,7 @@ import {
 } from "@/lib/data/acitp/curriculum";
 import { ACITP_EXAM_TOTAL, ACITP_EXAM_DURATION_MINUTES, ACITP_PASSING_SCORE } from "@/lib/data/acitp/domains";
 import { getCommercialCertPath } from "@/lib/data/commercial-certification-paths";
+import { appleTrainingResources } from "@/lib/data/official-cert-links";
 import { labs } from "@/lib/labs";
 
 export const metadata = buildPageMetadata({
@@ -38,7 +39,7 @@ export default function AcitpCertificationPage() {
           <div className="flex flex-wrap items-center gap-3">
             <TrackLogo logo={path.logo} size={32} alt={path.title} className="h-14 w-14" />
             <Badge>{path.level}</Badge>
-            <Badge variant="accent">Préparation officielle</Badge>
+            <Badge variant="accent">Préparation alignée Apple</Badge>
           </div>
           <h1 className="mt-4 text-3xl font-bold text-ink md:text-4xl">{path.title}</h1>
           <p className="mt-4 max-w-3xl text-lg text-ink-secondary">{path.description}</p>
@@ -64,6 +65,34 @@ export default function AcitpCertificationPage() {
             sécurité, Apple Business Manager, MDM et dépannage enterprise — aligné sur les compétences
             réellement évaluées par Apple.
           </p>
+        </section>
+
+        <section className="mt-10 rounded-2xl border border-border-light bg-surface-elevated p-6">
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent">À savoir avant l&apos;examen officiel</p>
+          <h2 className="mt-2 text-xl font-bold text-ink">Règles Apple Training</h2>
+          <div className="mt-4 grid gap-4 text-sm text-ink-secondary md:grid-cols-2">
+            <p>
+              Les examens Apple sont planifiés via Pearson VUE / OnVUE ou, selon disponibilité locale,
+              dans certains centres physiques. L&apos;inscription officielle, l&apos;identité requise et les
+              consignes de passage viennent de Pearson VUE.
+            </p>
+            <p>
+              Si vous échouez, Apple indique un délai de {appleTrainingResources.retakeDelayDays} jours avant
+              une nouvelle tentative, avec {appleTrainingResources.maxAttempts} tentatives maximum pour réussir
+              l&apos;examen. Les badges Apple sont émis et vérifiés via Credly.
+            </p>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3 text-sm font-semibold">
+            <a href={appleTrainingResources.resourcesUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Ressources Apple
+            </a>
+            <a href={appleTrainingResources.pearsonVueUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Planifier via Pearson VUE
+            </a>
+            <a href={appleTrainingResources.identityGuidelinesUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+              Guidelines identité Apple
+            </a>
+          </div>
         </section>
 
         <section className="mt-10">
@@ -134,7 +163,8 @@ export default function AcitpCertificationPage() {
           <h2 className="text-xl font-bold text-ink">Score de préparation & certificat interne</h2>
           <p className="mt-2 text-sm text-ink-secondary">
             Obtenez le certificat <strong>Apple IT Professional Ready</strong> (Apple MDM Academy) avec{" "}
-            {ACITP_PASSING_SCORE} % minimum à l&apos;examen blanc et les 10 labs terminés.
+            {ACITP_PASSING_SCORE} % minimum à l&apos;examen blanc et les 10 labs terminés. Ce certificat interne
+            atteste votre préparation sur la plateforme, pas la certification officielle Apple ni le badge Credly.
           </p>
           <div className="mt-4">
             <ButtonLink href="/dashboard" variant="secondary">
