@@ -17,7 +17,8 @@
     "export:heygen": "node scripts/export-heygen-payloads.mjs",
     "import:heygen": "node scripts/import-heygen-results.mjs",
     "audit:quizzes": "npx --yes tsx scripts/audit-quiz-quality.ts",
-    "audit:pedagogy": "npx --yes tsx -e \"import { runPedagogicalAudit } from './lib/audit/pedagogical-audit.ts'; const a=runPedagogicalAudit(); console.log('Score global:', a.scores.global, a.scores);\""
+    "audit:pedagogy": "npx --yes tsx -e \"import { runPedagogicalAudit } from './lib/audit/pedagogical-audit.ts'; const a=runPedagogicalAudit(); console.log('Score global:', a.scores.global, a.scores);\"",
+    "seed:demo": "npx --yes tsx scripts/seed-demo-user.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
