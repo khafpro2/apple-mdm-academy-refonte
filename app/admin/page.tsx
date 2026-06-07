@@ -68,6 +68,12 @@ export default async function AdminPage() {
             Bibliothèque vidéo
           </Link>
           <Link
+            href="/admin/supabase-diagnostics"
+            className="rounded-full border border-red-200 bg-red-50 px-5 py-2 text-sm font-semibold text-red-900 hover:bg-red-100"
+          >
+            Diagnostics Supabase
+          </Link>
+          <Link
             href="/admin/production-checklist"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >

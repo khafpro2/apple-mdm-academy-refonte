@@ -1,5 +1,6 @@
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading, ButtonLink } from "@/components/ui";
+import { SupabaseSetupGuide } from "@/components/status/supabase-setup-guide";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getSupabaseEnv } from "@/lib/env";
 import { stripeConfig } from "@/lib/pricing/stripe-config";
@@ -28,12 +29,16 @@ function getServices(): ServiceStatus[] {
     {
       name: "Authentification",
       status: supabase.configured ? "operational" : "degraded",
-      description: supabase.configured ? "Supabase Auth opérationnel" : "Supabase non configuré — mode dégradé",
+      description: supabase.configured
+        ? "Supabase Auth opérationnel"
+        : "Variables Supabase invalides ou placeholders détectés",
     },
     {
       name: "Base de données",
       status: supabase.configured ? "operational" : "degraded",
-      description: supabase.configured ? "Supabase PostgreSQL connecté" : "Variables Supabase manquantes",
+      description: supabase.configured
+        ? "Supabase PostgreSQL connecté"
+        : "Variables Supabase invalides ou placeholders détectés",
     },
     {
       name: "Paiement",
@@ -55,6 +60,7 @@ const statusStyles = {
 };
 
 export default function StatusPage() {
+  const supabase = getSupabaseEnv();
   const services = getServices();
   const allOperational = services.every((s) => s.status === "operational");
 
@@ -80,6 +86,8 @@ export default function StatusPage() {
             Dernière vérification : {new Date().toLocaleString("fr-FR")}
           </p>
         </div>
+
+        {!supabase.configured && <SupabaseSetupGuide />}
 
         <ul className="mt-8 space-y-3" aria-label="Liste des services">
           {services.map((service) => {
