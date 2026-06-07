@@ -1,5 +1,6 @@
 "use client";
 
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { JamfLogo } from "@/components/brands/JamfLogo";
 import type { ArchitectureConnection, ArchitectureNode } from "@/src/lib/video-lessons";
 import type { IllustrationName } from "@/src/lib/video-lessons";
@@ -21,6 +22,13 @@ function NodeIcon({ name }: { name?: IllustrationName | string }) {
     return (
       <div className="mx-auto mb-2 flex justify-center">
         <JamfLogo variant="mark" size={32} alt="Jamf" />
+      </div>
+    );
+  }
+  if (name === "intune") {
+    return (
+      <div className="mx-auto mb-2 flex justify-center">
+        <IntuneLogo size={32} alt="Microsoft Intune" />
       </div>
     );
   }

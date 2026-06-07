@@ -6,6 +6,9 @@ import type { AcademyResource } from "@/src/lib/resources";
 import { getCategoryLabel, getResource, resourceToPlainText } from "@/src/lib/resources";
 import { downloadResourcePdf } from "@/lib/resources/export-pdf";
 import { saveResourceView } from "@/lib/resources/progress-storage";
+import { MicrosoftLearnReference } from "@/components/brands/MicrosoftLearnReference";
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
+import { getMicrosoftLearnLink } from "@/lib/brands/microsoft-learn-links";
 import { Badge, ButtonLink } from "@/components/ui";
 
 type Props = {
@@ -43,11 +46,16 @@ export function ResourceDetail({ resource }: Props) {
     }
   };
 
+  const learnRef = getMicrosoftLearnLink(resource.slug);
+  const isIntuneResource =
+    resource.slug.startsWith("intune-") || resource.badge === "Intune";
+
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
       <div className="space-y-6">
         <header className="rounded-2xl border border-border-light bg-surface-elevated p-6">
           <div className="flex flex-wrap gap-2">
+            {isIntuneResource && <IntuneLogo size={24} alt="Microsoft Intune" />}
             <Badge variant="accent">{resource.badge}</Badge>
             <Badge variant="default">{getCategoryLabel(resource.category)}</Badge>
             <Badge variant="default">{resource.level}</Badge>
@@ -91,6 +99,10 @@ export function ResourceDetail({ resource }: Props) {
             )}
           </div>
         </header>
+
+        {learnRef && (
+          <MicrosoftLearnReference href={learnRef.href} description={learnRef.description} />
+        )}
 
         <div className="space-y-6">
           {resource.sections.map((section) => (

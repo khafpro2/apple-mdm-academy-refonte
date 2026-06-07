@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" aria-hidden="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: Remplacer par le logo officiel Microsoft Intune validé. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" role="img" aria-label="Microsoft Intune">
+  <title>Microsoft Intune</title>
   <defs>
     <linearGradient id="intune-a" x1="8.05" y1="11.32" x2="8.05" y2="1.26" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#0078d4"/>

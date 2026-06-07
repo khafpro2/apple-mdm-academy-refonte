@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { JamfLogo } from "@/components/brands/JamfLogo";
 import { Badge, ButtonLink, ProgressBar } from "@/components/ui";
 import type { ExamCatalogItem } from "@/lib/exam/exam-catalog";
@@ -38,6 +39,10 @@ function isJamfExam(routeSlug: string): boolean {
   return routeSlug.startsWith("jamf");
 }
 
+function isIntuneExam(routeSlug: string): boolean {
+  return routeSlug.includes("intune");
+}
+
 function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
   const session = loadExamSession(item.routeSlug, item.quizSlug);
   const stats = getExamAttemptStats(item.routeSlug);
@@ -53,6 +58,7 @@ function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
       >
         <div className="flex flex-wrap items-center gap-2">
           {isJamfExam(item.routeSlug) && <JamfLogo variant="mark" size={22} alt="Jamf" />}
+          {isIntuneExam(item.routeSlug) && <IntuneLogo size={22} alt="Microsoft Intune" />}
           <Badge variant="accent">Examen blanc</Badge>
           {!item.bankComplete && (
             <Badge variant="default" className="border-amber-200 bg-amber-50 text-amber-900">

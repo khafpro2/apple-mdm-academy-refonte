@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { EntraLogo } from "@/components/brands/EntraLogo";
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
+import { MicrosoftLearnReference } from "@/components/brands/MicrosoftLearnReference";
+import { getMicrosoftLearnLink } from "@/lib/brands/microsoft-learn-links";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
 import {
@@ -59,6 +63,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const trackLabs = getLabsByTrack(course.trackSlug);
   const pilotVideos = getPilotVideosForCourse(slug);
   const enriched = getCourseEnrichedContent(slug);
+  const learnRef = getMicrosoftLearnLink(slug);
 
   return (
     <PageShell>
@@ -78,6 +83,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         <header className="overflow-hidden rounded-[2rem] border border-border-light bg-surface-elevated shadow-sm">
           <div className="bg-gradient-to-br from-surface via-surface-elevated to-blue-50/40 px-6 py-10 md:px-10 md:py-12">
             <div className="flex flex-wrap items-center gap-3">
+              {slug === "intune-mac" && <IntuneLogo size={28} showLabel alt="Microsoft Intune" />}
+              {slug === "azure-for-apple-admins" && <EntraLogo size={28} showLabel alt="Microsoft Entra ID" />}
               {track && <Badge variant="accent">{track.level}</Badge>}
               <Badge>{totalLessons} leçons</Badge>
             </div>
@@ -121,6 +128,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             </ul>
           </div>
         </header>
+
+        {learnRef && (
+          <MicrosoftLearnReference href={learnRef.href} description={learnRef.description} className="mt-6" />
+        )}
 
         {enriched && <CourseEnrichedSections content={enriched} />}
 

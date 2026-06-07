@@ -18,7 +18,7 @@ export function CertificationsSection() {
         {commercialCertificationPaths.map((path) => (
           <Card key={path.slug} hover className={`bg-gradient-to-br ${path.color}`}>
             <div className="flex items-start justify-between">
-              <TrackLogo logo={path.logo} alt={path.title} />
+              <TrackLogo logo={path.logo} trackSlug={path.trackSlug} alt={path.title} />
               <span className="rounded-full bg-surface px-3 py-1 text-xs font-semibold text-ink-secondary">
                 {path.level}
               </span>

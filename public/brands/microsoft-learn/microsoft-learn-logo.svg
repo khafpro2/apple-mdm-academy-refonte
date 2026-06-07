@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: Remplacer par le logo officiel Microsoft Learn validé. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 24" role="img" aria-label="Microsoft Learn">
+  <title>Microsoft Learn</title>
+  <rect x="2" y="4" width="16" height="16" rx="2" fill="#0078D4"/>
+  <path fill="#ffffff" d="M6 8h8v2H6V8zm0 4h8v2H6v-2z"/>
+  <path fill="#107C10" d="M4 18h12v2H4v-2z" opacity="0"/>
+  <text x="24" y="17" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600" fill="#0078D4">Learn</text>
+  <text x="24" y="10" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="9" font-weight="600" fill="#107C10">Microsoft</text>
+</svg>

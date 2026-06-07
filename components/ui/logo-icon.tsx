@@ -1,4 +1,6 @@
 import { JamfLogo } from "@/components/brands/JamfLogo";
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
+import { MicrosoftLogo } from "@/components/brands/MicrosoftLogo";
 import type { LogoName } from "@/lib/navigation/logo-names";
 
 const DEFAULT_ALT: Record<LogoName, string> = {
@@ -48,18 +50,8 @@ const icons: Record<LogoName, (size: number) => React.ReactNode> = {
       />
     </Svg>
   ),
-  microsoft: (size) => (
-    <Svg size={size}>
-      <path fill="currentColor" d="M3 3h9v9H3V3zm10 0h9v9h-9V3zM3 14h9v9H3v-9zm10 0h9v9h-9v-9z" />
-    </Svg>
-  ),
-  intune: (size) => (
-    <Svg size={size}>
-      <rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="1.75" />
-      <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" fill="none" />
-      <circle cx="17" cy="7" r="2" fill="currentColor" />
-    </Svg>
-  ),
+  microsoft: (size) => <MicrosoftLogo size={size} alt="Microsoft" />,
+  intune: (size) => <IntuneLogo size={size} alt="Microsoft Intune" />,
   jamf: (size) => <JamfLogo variant="mark" size={size} alt="Jamf" />,
   supabase: (size) => (
     <Svg size={size}>

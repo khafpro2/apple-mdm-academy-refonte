@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { EntraLogo } from "@/components/brands/EntraLogo";
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { JamfLogo } from "@/components/brands/JamfLogo";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
@@ -33,8 +35,12 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
           <div className="flex flex-wrap items-center gap-3">
             {track.logo === "jamf" ? (
               <JamfLogo variant="full" size={28} alt={track.title} />
+            ) : track.logo === "intune" ? (
+              <IntuneLogo size={28} showLabel alt={track.title} />
+            ) : track.logo === "microsoft" && slug === "azure-for-apple-admins" ? (
+              <EntraLogo size={28} showLabel alt={track.title} />
             ) : (
-              <TrackLogo logo={track.logo} size={32} alt={track.title} className="h-14 w-14" />
+              <TrackLogo logo={track.logo} trackSlug={slug} size={32} alt={track.title} className="h-14 w-14" />
             )}
             <Badge>{track.level}</Badge>
             <span className="text-sm text-ink-tertiary">{track.lessons} leçons · {track.duration}</span>

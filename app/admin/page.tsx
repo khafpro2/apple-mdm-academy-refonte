@@ -122,6 +122,12 @@ export default async function AdminPage() {
             Audit LMS
           </Link>
           <Link
+            href="/admin/brand-assets"
+            className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2 text-sm font-semibold text-blue-900 hover:bg-blue-100"
+          >
+            Audit marques & logos
+          </Link>
+          <Link
             href="/admin/jamf-content-status"
             className="rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100"
           >

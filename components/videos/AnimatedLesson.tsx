@@ -13,6 +13,7 @@ import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 import { VideoDiagram } from "@/components/videos/VideoDiagram";
 import { OfficialVideoPlayer } from "@/components/videos/OfficialVideoPlayer";
 import { PedagogicalAnimation } from "@/components/video/pedagogical-animation";
+import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { JamfLogo } from "@/components/brands/JamfLogo";
 import { Badge, ButtonLink } from "@/components/ui";
 import type { AnimationSlug } from "@/lib/types";
@@ -208,14 +209,18 @@ export function AnimatedLesson({
               ) : (
                 <div className="flex aspect-video flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-8 text-ink">
                   <div className="flex flex-wrap justify-center gap-4">
-                    {["abm", "intune", "jamf", "apple-device"].map((icon) =>
-                      icon === "jamf" ? (
-                        <JamfLogo key={icon} variant="mark" size={40} alt="" />
-                      ) : (
+                    {["abm", "intune", "jamf", "apple-device"].map((icon) => {
+                      if (icon === "jamf") {
+                        return <JamfLogo key={icon} variant="mark" size={40} alt="Jamf" />;
+                      }
+                      if (icon === "intune") {
+                        return <IntuneLogo key={icon} size={40} alt="Microsoft Intune" />;
+                      }
+                      return (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img key={icon} src={`/illustrations/${icon}.svg`} alt="" width={40} height={40} className="opacity-80" />
-                      )
-                    )}
+                      );
+                    })}
                   </div>
                   <p className="mt-6 text-center text-sm font-semibold text-ink-secondary">
                     {storyboard.scenes[activeSceneIndex]?.title ?? storyboard.title}

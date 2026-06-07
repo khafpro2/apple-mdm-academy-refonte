@@ -10,6 +10,7 @@ import {
 import type { VideoProductionPhase } from "@/src/lib/video-publish-status";
 import { getVideoPublishLabel, resolveVideoPublishStatus } from "@/src/lib/video-publish-status";
 import { JAMF_BRAND } from "@/lib/brands/jamf";
+import { INTUNE_BRAND } from "@/lib/brands/intune";
 
 const BASE = "/video-assets";
 
@@ -119,7 +120,7 @@ export type VideoProductionStatus = {
 
 export const VIDEO_ICONS: VideoIconAsset[] = [
   { id: "abm", label: "Apple Business Manager", path: `${BASE}/icons/abm.svg` },
-  { id: "intune", label: "Intune", path: `${BASE}/icons/intune.svg` },
+  { id: "intune", label: "Intune", path: INTUNE_BRAND.logo },
   { id: "jamf", label: "Jamf", path: JAMF_BRAND.logo },
   { id: "apns", label: "APNs", path: `${BASE}/icons/apns.svg` },
   { id: "ade", label: "ADE", path: `${BASE}/icons/ade.svg` },

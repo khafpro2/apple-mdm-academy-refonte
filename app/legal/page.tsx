@@ -47,10 +47,20 @@ const sections = [
     ],
   },
   {
+    id: "marques",
+    title: "Marques et propriété intellectuelle tierces",
+    content: [
+      "Jamf® est une marque déposée de Jamf Software, LLC.",
+      "Microsoft, Microsoft Intune, Microsoft Entra ID et Microsoft Learn sont des marques de Microsoft Corporation.",
+      "Apple MDM Academy est une plateforme indépendante et n'est pas affiliée à Jamf, Microsoft ou Apple Inc.",
+      "Les logos et marques cités appartiennent à leurs propriétaires respectifs.",
+    ],
+  },
+  {
     id: "propriete",
     title: "Propriété intellectuelle",
     content: [
-      `L'ensemble du contenu du site ${siteConfig.url} est protégé.`,
+      `L'ensemble du contenu pédagogique original du site ${siteConfig.url} est protégé.`,
       "Toute reproduction non autorisée est interdite.",
       "Apple, Jamf, Microsoft et leurs logos sont des marques déposées de leurs propriétaires respectifs.",
     ],

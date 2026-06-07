@@ -47,7 +47,7 @@ export default function CertificationsPage() {
                 className="group rounded-2xl border border-border-light bg-surface-elevated p-6 transition hover:border-accent/40 hover:shadow-sm"
               >
                 <div className="flex items-center gap-3">
-                  <TrackLogo logo={path.logo} size={24} alt={path.title} />
+                  <TrackLogo logo={path.logo} trackSlug={path.trackSlug} size={24} alt={path.title} />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-accent">{path.level}</p>
                     <h2 className="text-lg font-bold text-ink group-hover:text-accent">{path.title}</h2>

@@ -7,7 +7,7 @@ export function TrackCard({ track }: { track: Track }) {
   return (
     <Card hover className="flex flex-col">
       <div className="mb-4 flex items-start justify-between">
-        <TrackLogo logo={track.logo} alt={track.title} />
+        <TrackLogo logo={track.logo} trackSlug={track.slug} alt={track.title} />
         <Badge>{track.level}</Badge>
       </div>
       <h3 className="text-xl font-bold text-ink">{track.title}</h3>

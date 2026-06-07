@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: Remplacer par le logo officiel Microsoft validé. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 24" role="img" aria-label="Microsoft Entra ID">
+  <title>Microsoft Entra ID</title>
+  <path fill="#ffffff" d="M12 2L22 7v10l-10 5L2 17V7L12 2zm0 3.2L5.5 8.5V15.5L12 18.8l6.5-3.3V8.5L12 5.2z"/>
+  <path fill="#50E6FF" d="M12 8l4 2v4l-4 2-4-2v-4l4-2z"/>
+  <text x="28" y="17" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff">Entra ID</text>
+</svg>

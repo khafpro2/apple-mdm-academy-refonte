@@ -40,7 +40,7 @@ export const sidebarMainNav: SidebarNavItem[] = [
       },
       { label: "Jamf 100", href: "/examens/jamf-100", icon: "jamf" },
       { label: "Jamf 200", href: "/examens/jamf-200", icon: "jamf" },
-      { label: "Intune Apple", href: "/examens/intune-apple", icon: "microsoft" },
+      { label: "Intune Apple", href: "/examens/intune-apple", icon: "intune" },
     ],
   },
   { label: "Labs pratiques", href: "/labs", icon: "lab" },
