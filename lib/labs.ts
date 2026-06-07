@@ -867,6 +867,268 @@ export const labs: Lab[] = [
     "Managed Apple ID fédérés avec Entra ID, connexion testée et runbook documenté."
   ),
   lab(
+    "enrollment-program-token",
+    "Importer et renouveler l'Enrollment Program Token",
+    "Téléchargez le token ABM (.p7m), importez-le dans Intune et planifiez le renouvellement annuel.",
+    "Intermédiaire",
+    "35 min",
+    "ABM + Intune",
+    "intune-mac",
+    [
+      "Télécharger server_token.p7m depuis ABM",
+      "Importer dans Intune Enrollment Program Tokens",
+      "Synchroniser et vérifier l'expiration",
+    ],
+    [
+      "Accès admin Apple Business Manager",
+      "Rôle Intune Administrator",
+      "Serveur MDM ABM déjà créé avec clé Intune",
+    ],
+    [
+      {
+        id: "download-p7m",
+        title: "Télécharger le token ABM",
+        instruction:
+          "ABM → Settings → Device Management → sélectionnez le serveur MDM Intune → Download Token.",
+        expectedResult: "Fichier server_token.p7m téléchargé et archivé sécurisé.",
+      },
+      {
+        id: "import-token",
+        title: "Importer dans Intune",
+        instruction:
+          "Intune → Devices → Enrollment → Apple → Enrollment program tokens → Add → upload .p7m.",
+        expectedResult: "Token status Active avec date expiration visible (≈365 jours).",
+      },
+      {
+        id: "sync-now",
+        title: "Forcer synchronisation",
+        instruction: "Sélectionnez le token → Sync → vérifiez le nombre d'appareils importés.",
+        expectedResult: "Device count cohérent avec inventaire ABM assigné au serveur MDM.",
+      },
+      {
+        id: "renewal-doc",
+        title: "Documenter renouvellement",
+        instruction: "Créez ticket récurrent J-30 avec procédure download → re-import même compte ABM.",
+        expectedResult: "Runbook renouvellement token avec propriétaire et calendrier.",
+      },
+      {
+        id: "verify-profile",
+        title: "Vérifier profils ADE",
+        instruction: "Confirmez qu'un profil ADE iOS/macOS est rattaché au token pour les appareils pilotes.",
+        expectedResult: "Profil ADE assigné, prêt pour zero-touch enrollment.",
+      },
+    ],
+    "Enrollment Program Token importé, sync OK, renouvellement documenté."
+  ),
+  lab(
+    "ios-configuration-profile",
+    "Créer un profil de configuration iOS",
+    "Déployez Wi-Fi enterprise et restrictions sur iPhone supervisé via Intune.",
+    "Intermédiaire",
+    "45 min",
+    "ADE + Intune",
+    "intune-mac",
+    [
+      "Créer profil iOS/iPadOS",
+      "Ajouter payloads Wi-Fi et restrictions",
+      "Assigner et valider sur iPhone pilote",
+    ],
+    [
+      "iPhone supervisé enrollé Intune (lab ade-iphone)",
+      "Certificat Wi-Fi enterprise si 802.1X",
+      "Groupe dynamique iOS devices",
+    ],
+    [
+      {
+        id: "create-profile",
+        title: "Nouveau profil iOS",
+        instruction: "Intune → Devices → Configuration profiles → Create → iOS/iPadOS → Templates or Settings catalog.",
+        expectedResult: "Profil créé avec nom conventionné (ORG-iOS-WIFI-01).",
+      },
+      {
+        id: "wifi-payload",
+        title: "Payload Wi-Fi",
+        instruction: "Ajoutez Wi-Fi enterprise : SSID, security type, certificat ou username/password selon lab.",
+        expectedResult: "Payload Wi-Fi configuré sans erreur validation.",
+      },
+      {
+        id: "restrictions",
+        title: "Restrictions supervisées",
+        instruction: "Ajoutez Device restrictions : ex. disable App Store install, camera off selon politique lab.",
+        expectedResult: "Restrictions compatibles mode supervisé.",
+      },
+      {
+        id: "assign",
+        title: "Assigner le profil",
+        instruction: "Assign Required au groupe iPhone pilotes. Save.",
+        expectedResult: "Assignment active, devices targeted.",
+      },
+      {
+        id: "validate-device",
+        title: "Validation iPhone",
+        instruction: "Force sync MDM. Vérifiez Réglages → Général → VPN et appareil géré + Intune per-profile status Succeeded.",
+        expectedResult: "Profil installé, Wi-Fi connecté, restrictions actives.",
+      },
+    ],
+    "Profil iOS déployé : Wi-Fi + restrictions validés sur iPhone supervisé."
+  ),
+  lab(
+    "macos-configuration-profile",
+    "Créer un profil de configuration macOS",
+    "Déployez firewall, restrictions et préférences système sur Mac ADE via Intune.",
+    "Intermédiaire",
+    "50 min",
+    "Sécurité macOS",
+    "intune-mac",
+    [
+      "Créer profil macOS",
+      "Payloads firewall et restrictions",
+      "Assigner Mac ADE et valider",
+    ],
+    [
+      "Mac supervisé enrollé Intune (lab ade-macos)",
+      "Intune Administrator",
+      "Mac de test non production",
+    ],
+    [
+      {
+        id: "create-macos",
+        title: "Nouveau profil macOS",
+        instruction: "Intune → Configuration profiles → Create → macOS → Settings catalog or Templates.",
+        expectedResult: "Profil macOS créé (ORG-MAC-SEC-01).",
+      },
+      {
+        id: "firewall",
+        title: "Payload Firewall",
+        instruction: "Activez Firewall : on, block incoming, enable stealth mode selon baseline.",
+        expectedResult: "Firewall payload configuré.",
+      },
+      {
+        id: "restrictions-macos",
+        title: "Restrictions macOS",
+        instruction: "Device restrictions : disable Apple ID modifications, USB policy selon lab.",
+        expectedResult: "Restrictions alignées politique entreprise.",
+      },
+      {
+        id: "assign-mac",
+        title: "Assigner aux Mac",
+        instruction: "Required assignment groupe Mac corporate. Save.",
+        expectedResult: "Mac pilote dans scope.",
+      },
+      {
+        id: "validate-mac",
+        title: "Validation Mac",
+        instruction: "sudo profiles renew -type enrollment ou Company Portal sync. Vérifiez Réglages Système + Intune device config.",
+        expectedResult: "Profil Succeeded, firewall actif.",
+      },
+    ],
+    "Profil macOS déployé : firewall et restrictions validés sur Mac ADE."
+  ),
+  lab(
+    "intune-conditional-access-mac",
+    "Conditional Access pour appareils Apple",
+    "Liez compliance Intune à Entra CA et testez blocage accès M365 sur Mac non conforme.",
+    "Avancé",
+    "55 min",
+    "Microsoft Entra ID",
+    "intune-mac",
+    [
+      "Compliance policy macOS FileVault",
+      "Policy CA require compliant device",
+      "Tests conforme / non conforme",
+    ],
+    [
+      "Entra ID P1+ et Intune",
+      "Mac enrollé Intune lab",
+      "Utilisateur test M365",
+    ],
+    [
+      {
+        id: "compliance-ca",
+        title: "Compliance macOS",
+        instruction: "Intune → Compliance policies → macOS : require FileVault ON, min OS 14.",
+        expectedResult: "Policy assignée au Mac test.",
+      },
+      {
+        id: "ca-policy",
+        title: "Créer policy CA",
+        instruction: "Entra → Security → Conditional Access → New : All users, Office 365, Grant require compliant device. Start report-only.",
+        expectedResult: "Policy CA créée en report-only.",
+      },
+      {
+        id: "analyze-logs",
+        title: "Analyser sign-in logs",
+        instruction: "Entra sign-in logs → filtrer utilisateur test → vérifier conditionalAccessStatus.",
+        expectedResult: "Logs cohérents avant enforcement.",
+      },
+      {
+        id: "enforce-pilot",
+        title: "Activer enforcement pilote",
+        instruction: "Limitez policy au groupe pilote. Activez On.",
+        expectedResult: "CA enforcement pour groupe pilote uniquement.",
+      },
+      {
+        id: "test-block",
+        title: "Test blocage",
+        instruction: "Mac non conforme (FileVault off lab) → tenter Outlook web/app. Puis remediate et retest.",
+        expectedResult: "Blocage puis accès après conformité.",
+      },
+    ],
+    "Conditional Access actif : accès M365 conditionné à la conformité Intune Apple."
+  ),
+  lab(
+    "defender-macos-intune",
+    "Microsoft Defender pour macOS via Intune",
+    "Onboardez Defender for Endpoint sur Mac avec une policy Intune Endpoint security.",
+    "Avancé",
+    "60 min",
+    "Microsoft Defender",
+    "intune-mac",
+    [
+      "Vérifier licences Defender",
+      "Policy onboarding macOS",
+      "Valider health portal Defender",
+    ],
+    [
+      "Licence Microsoft Defender for Endpoint",
+      "Mac enrollé Intune",
+      "Intune Endpoint security admin",
+    ],
+    [
+      {
+        id: "license-check",
+        title: "Licences Defender",
+        instruction: "M365 Defender portal → Settings → Endpoints → vérifiez licensing.",
+        expectedResult: "Licences EDR disponibles pour macOS.",
+      },
+      {
+        id: "onboard-policy",
+        title: "Policy onboarding",
+        instruction: "Intune → Endpoint security → Microsoft Defender ATP → macOS onboarding → Create policy → assign Mac pilote.",
+        expectedResult: "Onboarding profile assigned.",
+      },
+      {
+        id: "agent-install",
+        title: "Installation agent",
+        instruction: "Force sync Mac. Vérifiez processus Microsoft Defender dans Activity Monitor.",
+        expectedResult: "Agent Defender installé et running.",
+      },
+      {
+        id: "fda",
+        title: "Full Disk Access",
+        instruction: "Si degraded : Réglages → Confidentialité → Full Disk Access → Microsoft Defender.",
+        expectedResult: "Permissions système accordées.",
+      },
+      {
+        id: "health-portal",
+        title: "Health status",
+        instruction: "Defender portal → Devices → Mac test → Health healthy, AV active.",
+        expectedResult: "Status Healthy green, definitions up to date.",
+      },
+    ],
+    "Defender macOS onboarded via Intune, agent healthy dans M365 Defender portal."
+  ),
+  lab(
     "jamf-discovery",
     "Découverte de Jamf Pro",
     "Explorez la console Jamf Pro : inventaire, Smart Groups, policies, Self Service et architecture.",

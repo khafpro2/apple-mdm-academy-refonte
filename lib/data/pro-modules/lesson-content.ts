@@ -6,6 +6,11 @@ import {
   getJamf116DocVersion,
   resolveJamf116Topic,
 } from "@/lib/data/jamf/jamf-pro-11-16-content";
+import {
+  getIntuneLearnTopicBlocks,
+  getIntuneLearnDocVersion,
+  resolveIntuneLearnTopic,
+} from "@/lib/data/intune/microsoft-learn-content";
 
 function findModuleForLesson(lessonSlug: string): ProModule | undefined {
   return proModules.find((m) => m.lessons.some((l) => l.slug === lessonSlug));
@@ -255,24 +260,41 @@ function buildProLessonTopic(proModule: ProModule, lessonTitle: string, lessonSl
 
 function buildContent(proModule: ProModule, lessonTitle: string, lessonSlug: string): LessonContent {
   const domain = proModule.number <= 11 ? "Microsoft Intune" : proModule.number >= 18 ? "Apple Security" : "Jamf Pro";
+  const intuneTopic = proModule.number === 11 ? resolveIntuneLearnTopic(lessonSlug) : null;
+  const intuneLearn = intuneTopic ? getIntuneLearnTopicBlocks(intuneTopic) : null;
   const jamfTopic = proModule.number >= 12 && proModule.number <= 17 ? resolveJamf116Topic(lessonSlug, proModule.slug) : null;
   const jamf116 = jamfTopic ? getJamf116TopicBlocks(jamfTopic) : null;
-  const topic = jamf116
+  const topic = intuneLearn
     ? {
-        overview: jamf116.overview,
-        concepts: [...jamf116.architecture.map((a) => `[Architecture] ${a}`), ...jamf116.concepts],
-        steps: jamf116.steps,
-        checks: jamf116.checks,
-        pitfalls: jamf116.pitfalls,
-        summary: jamf116.summary,
-        docRef: jamf116.docRef,
+        overview: intuneLearn.overview,
+        concepts: [...intuneLearn.architecture.map((a) => `[Architecture] ${a}`), ...intuneLearn.concepts],
+        steps: intuneLearn.steps,
+        checks: intuneLearn.checks,
+        pitfalls: intuneLearn.pitfalls,
+        summary: intuneLearn.summary,
+        docRef: intuneLearn.docRef,
       }
-    : { ...buildProLessonTopic(proModule, lessonTitle, lessonSlug, domain), summary: [] as string[], docRef: undefined as string | undefined };
+    : jamf116
+      ? {
+          overview: jamf116.overview,
+          concepts: [...jamf116.architecture.map((a) => `[Architecture] ${a}`), ...jamf116.concepts],
+          steps: jamf116.steps,
+          checks: jamf116.checks,
+          pitfalls: jamf116.pitfalls,
+          summary: jamf116.summary,
+          docRef: jamf116.docRef,
+        }
+      : { ...buildProLessonTopic(proModule, lessonTitle, lessonSlug, domain), summary: [] as string[], docRef: undefined as string | undefined };
+
+  const docVersion =
+    proModule.number === 11 ? getIntuneLearnDocVersion() : proModule.number <= 17 ? `Jamf Pro ${getJamf116DocVersion()}` : domain;
+  const consoleName =
+    proModule.number === 11 ? "Microsoft Intune admin center" : proModule.number <= 17 ? "Jamf Pro 11.16" : domain;
 
   return {
     objectives: [
-      `Maîtriser « ${lessonTitle} » aligné Jamf Pro ${getJamf116DocVersion()}.`,
-      `Appliquer les procédures ${domain} documentées dans la console Jamf Pro 11.16.`,
+      `Maîtriser « ${lessonTitle} » aligné ${docVersion}.`,
+      `Appliquer les procédures ${domain} documentées dans ${consoleName}.`,
       `Préparer le quiz « ${proModule.quizSlug} » et le lab « ${proModule.labSlug} ».`,
       `Obtenir le badge ${proModule.badgeName} après validation (score ≥ 80 %).`,
     ],
@@ -285,18 +307,18 @@ function buildContent(proModule: ProModule, lessonTitle: string, lessonSlug: str
       {
         title: "Contexte",
         body: [
-          `${lessonTitle} — module ${proModule.number}/18 · Jamf Pro ${getJamf116DocVersion()}.`,
+          `${lessonTitle} — module ${proModule.number}/18 · ${docVersion}.`,
           ...topic.overview,
           topic.docRef ? `Référence : ${topic.docRef}` : `Référence module : ${proModule.description}`,
         ],
       },
       {
-        title: "Architecture Jamf Pro 11.16",
-        body: jamf116?.architecture ?? topic.concepts.slice(0, 3),
+        title: proModule.number === 11 ? "Architecture Intune Apple" : "Architecture Jamf Pro 11.16",
+        body: intuneLearn?.architecture ?? jamf116?.architecture ?? topic.concepts.slice(0, 3),
       },
       {
         title: "Concepts clés",
-        body: jamf116 ? jamf116.concepts : topic.concepts,
+        body: intuneLearn ? intuneLearn.concepts : jamf116 ? jamf116.concepts : topic.concepts,
       },
       {
         title: "Validation attendue",

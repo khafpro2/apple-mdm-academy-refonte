@@ -164,6 +164,8 @@ export type LabTechnology =
   | "FileVault"
   | "Sécurité macOS"
   | "Intune Compliance"
+  | "Microsoft Entra ID"
+  | "Microsoft Defender"
   | "Managed Apple ID + Federation"
   | "Kandji"
   | "Mosyle"

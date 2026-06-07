@@ -14,6 +14,7 @@ import {
   abmIntuneTheory,
   abmIntuneTroubleshooting,
 } from "@/lib/data/lessons/abm-intune-content";
+import { buildIntuneLearnLessonContent } from "@/lib/data/intune/microsoft-learn-content";
 
 function getAbmIntuneFallbackContent(): LessonContent {
   return {
@@ -957,6 +958,18 @@ export function getLessonContent(
 
   if (course.slug === "intune-mac" && lesson.slug === "abm-intune") {
     return getAbmIntuneFallbackContent();
+  }
+
+  if (course.slug === "intune-mac") {
+    const intuneEnriched = buildIntuneLearnLessonContent(lesson.title, lesson.slug, {
+      finalQuizSlug: getQuizzesByTrack(course.trackSlug)[0]?.slug,
+    });
+    if (intuneEnriched) {
+      return {
+        ...intuneEnriched,
+        screenshots: generateScreenshots(course, lesson, topicContext(course, module, lesson)),
+      };
+    }
   }
 
   const ctx = topicContext(course, module, lesson);

@@ -1071,6 +1071,275 @@ export const academyResources: AcademyResource[] = [
       },
     ],
   }),
+  res({
+    slug: "intune-apns-guide",
+    title: "Guide APNs Intune — Microsoft Learn",
+    description: "Création, import et renouvellement du certificat Apple MDM Push dans Intune.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Intune",
+    module: "APNs",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "apns",
+    relatedVideoSlug: "apns",
+    relatedResourceSlugs: ["checklist-apns", "intune-ade-guide"],
+    sections: [
+      {
+        title: "Prérequis",
+        items: [
+          "Apple ID entreprise dédié MDM (jamais personnel)",
+          "Rôle Intune Administrator",
+          "Accès identity.apple.com/pushcert",
+        ],
+      },
+      {
+        title: "Procédure",
+        items: [
+          "Intune → Devices → Enrollment → Apple → Apple MDM Push Certificate → Create CSR",
+          "Upload CSR sur identity.apple.com/pushcert",
+          "Download .pem immédiatement (une seule chance)",
+          "Import .pem dans Intune → vérifier expiration",
+        ],
+      },
+      {
+        title: "Renouvellement",
+        items: [
+          "Alerte calendrier J-30",
+          "Renouveler avec le MÊME Apple ID",
+          "Documenter Apple ID + date dans runbook IT",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "intune-ade-guide",
+    title: "Guide ADE Intune — Microsoft Learn",
+    description: "Automated Device Enrollment iOS et macOS via Apple Business Manager et Intune.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Intune",
+    module: "ADE",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "ade-iphone",
+    relatedVideoSlug: "ade-iphone",
+    relatedResourceSlugs: ["checklist-ade-iphone", "intune-apns-guide"],
+    sections: [
+      {
+        title: "Architecture",
+        items: [
+          "ABM inventaire → assignation serveur MDM → token Intune → profils ADE",
+          "Supervision automatique pour appareils organisation",
+          "Locked enrollment empêche retrait MDM utilisateur",
+        ],
+      },
+      {
+        title: "Profils ADE",
+        items: [
+          "Profils distincts iOS et macOS recommandés",
+          "Skip Setup Items selon politique entreprise",
+          "Await Device Configured pour retarder fin Setup Assistant",
+        ],
+      },
+      {
+        title: "Validation",
+        items: [
+          "Remote Management au Setup Assistant",
+          "Intune : Managed + Supervised",
+          "Profils Required en Succeeded",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "intune-compliance-guide",
+    title: "Guide Compliance Intune Apple",
+    description: "Compliance policies macOS/iOS, actions non-conformité et lien Entra ID.",
+    category: "procedure",
+    level: "Intermédiaire",
+    badge: "Intune",
+    module: "Compliance",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "intune-compliance",
+    relatedResourceSlugs: ["intune-conditional-access-guide"],
+    sections: [
+      {
+        title: "Règles Apple",
+        items: [
+          "OS min/max, jailbreak/root detection",
+          "FileVault required (macOS)",
+          "Microsoft Defender threat level (macOS)",
+        ],
+      },
+      {
+        title: "Actions",
+        items: [
+          "Notifications utilisateur",
+          "Email admin",
+          "Retire device après grace period",
+        ],
+      },
+      {
+        title: "Dépannage",
+        items: [
+          "Délai evaluation jusqu'à 4h — force sync accélère",
+          "Vérifier assignment groupes dynamiques",
+          "Device compliance blade pour détail règles",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "intune-platform-sso-guide",
+    title: "Guide Platform SSO Intune macOS",
+    description: "Configuration Platform SSO avec Microsoft Entra ID et profil Intune.",
+    category: "procedure",
+    level: "Avancé",
+    badge: "Intune",
+    module: "Platform SSO",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "platform-sso",
+    relatedVideoSlug: "platform-sso",
+    relatedResourceSlugs: ["checklist-platform-sso"],
+    sections: [
+      {
+        title: "Prérequis",
+        items: [
+          "macOS 14+ sur Mac ADE enrollé",
+          "Application Enterprise SSO dans Entra ID",
+          "Extension Microsoft Enterprise SSO plug-in",
+        ],
+      },
+      {
+        title: "Profil Intune",
+        items: [
+          "Configuration profile → macOS → Platform SSO",
+          "Team ID et bundle identifier extension",
+          "Assign Required aux Mac cibles",
+        ],
+      },
+      {
+        title: "Tests",
+        items: [
+          "Login utilisateur Entra au Mac",
+          "Apps M365 sans re-saisie mot de passe",
+          "MFA via Conditional Access si requis",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "intune-defender-guide",
+    title: "Guide Microsoft Defender macOS Intune",
+    description: "Onboarding Defender for Endpoint sur Mac via Endpoint security Intune.",
+    category: "procedure",
+    level: "Avancé",
+    badge: "Intune",
+    module: "Defender",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "defender-macos-intune",
+    relatedVideoSlug: "defender-macos",
+    sections: [
+      {
+        title: "Licences",
+        items: [
+          "Microsoft Defender for Endpoint plan 1 ou 2",
+          "Vérification M365 Defender portal → licensing",
+        ],
+      },
+      {
+        title: "Déploiement",
+        items: [
+          "Intune → Endpoint security → Microsoft Defender ATP",
+          "macOS onboarding policy → assign Mac corporate",
+          "Full Disk Access si agent degraded",
+        ],
+      },
+      {
+        title: "Compliance",
+        items: [
+          "Option : require Defender healthy dans compliance policy",
+          "Intégration threat level avec Conditional Access",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "intune-conditional-access-guide",
+    title: "Guide Conditional Access Apple",
+    description: "Entra Conditional Access avec conformité Intune pour Mac et iOS.",
+    category: "procedure",
+    level: "Avancé",
+    badge: "Intune",
+    module: "Conditional Access",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "intune-conditional-access-mac",
+    relatedVideoSlug: "conditional-access-apple",
+    relatedResourceSlugs: ["intune-compliance-guide"],
+    sections: [
+      {
+        title: "Conception",
+        items: [
+          "Report-only avant enforcement",
+          "Exclure comptes break-glass",
+          "Require compliant device pour M365",
+        ],
+      },
+      {
+        title: "Tests",
+        items: [
+          "What If tool Entra",
+          "Sign-in logs conditionalAccessStatus",
+          "Mac conforme vs non conforme",
+        ],
+      },
+      {
+        title: "Erreurs fréquentes",
+        items: [
+          "Compliance unknown (policy non assignée)",
+          "Enforcement global sans pilote",
+          "Oublier App Protection pour BYOD",
+        ],
+      },
+    ],
+  }),
+  res({
+    slug: "intune-troubleshooting-guide",
+    title: "Guide dépannage Intune Apple",
+    description: "Méthode de troubleshooting enrollment, profils, compliance et apps.",
+    category: "procedure",
+    level: "Avancé",
+    badge: "Intune",
+    module: "Troubleshooting",
+    relatedCourseSlug: "intune-mac",
+    relatedLabSlug: "intune-compliance",
+    relatedResourceSlugs: ["intune-apns-guide", "intune-ade-guide"],
+    sections: [
+      {
+        title: "Méthode en couches",
+        items: [
+          "1. APNs actif → 2. Token ABM → 3. Enrollment → 4. Profils → 5. Compliance → 6. CA → 7. Apps",
+          "Intune device timeline + per-setting errors",
+          "Entra sign-in logs pour CA",
+        ],
+      },
+      {
+        title: "Enrollment",
+        items: [
+          "Token expiré / appareil non assigné ABM",
+          "Profil ADE manquant",
+          "APNs invalide → commandes pending",
+        ],
+      },
+      {
+        title: "Profils & apps",
+        items: [
+          "Conflit payload → isoler profils",
+          "Supervision requise pour certaines restrictions",
+          "VPP licences non assignées MDM server",
+        ],
+      },
+    ],
+  }),
   ...videoLinkedResources,
   ...platformDeploymentGuides,
   ...advancedResources,

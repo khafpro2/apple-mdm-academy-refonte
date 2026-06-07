@@ -1,4 +1,5 @@
 import type { Question } from "@/lib/types";
+import { intuneLearnExamQuestions } from "@/lib/data/intune/quiz-learn-questions";
 
 export const intuneApplePool: Question[] = [
   {
@@ -121,4 +122,5 @@ export const intuneApplePool: Question[] = [
     correctIndex: 0,
     explanation: "L'escrow stocke la clé de récupération FileVault dans la console MDM pour support IT.",
   },
+  ...intuneLearnExamQuestions,
 ];

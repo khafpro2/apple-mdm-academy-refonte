@@ -72,6 +72,17 @@ export const tracks: Track[] = [
     certification: "Intune Apple Admin",
   },
   {
+    slug: "azure-for-apple-admins",
+    title: "Azure essentiel pour Apple Administrators",
+    level: "Intermédiaire",
+    lessons: 8,
+    description:
+      "Compétences Microsoft Entra ID, Conditional Access, Platform SSO et Defender nécessaires aux admins Apple modernes.",
+    duration: "10 h",
+    logo: "microsoft",
+    certification: "Apple IT Professional · Intune Administrator · Endpoint Administrator",
+  },
+  {
     slug: "parcours-professionnel",
     title: "Parcours Jamf Professionnel",
     level: "Expert",

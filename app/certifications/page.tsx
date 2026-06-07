@@ -5,6 +5,7 @@ import { TrackLogo } from "@/components/ui/track-logo";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
 import { appleTrainingResources } from "@/lib/data/official-cert-links";
 import { JAMF_CERTIFICATION_COVERAGE } from "@/lib/data/jamf/jamf-pro-11-16-content";
+import { INTUNE_CERTIFICATION_COVERAGE } from "@/lib/data/intune/microsoft-learn-content";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -84,6 +85,42 @@ export default function CertificationsPage() {
                     className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
                   >
                     Examen blanc →
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        <Card className="mt-10 p-6">
+          <h2 className="text-lg font-bold text-ink">Couverture Microsoft Intune Apple</h2>
+          <p className="mt-2 text-sm text-ink-secondary">
+            Modules, labs et pondération alignés sur Microsoft Learn — parcours Intune Apple Administrator.
+          </p>
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            {(["appleItProfessional", "intuneAppleAdministrator", "endpointAdministrator"] as const).map((key) => {
+              const cov = INTUNE_CERTIFICATION_COVERAGE[key];
+              return (
+                <div key={key} className="rounded-2xl border border-border-light bg-surface p-5">
+                  <h3 className="font-bold text-ink">{cov.label}</h3>
+                  <p className="mt-1 text-xs text-ink-tertiary">
+                    Couverture {cov.coveragePercent}% · {cov.totalExamQuestions} questions · seuil {cov.passingScore}%
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    {cov.modules.map((m) => (
+                      <li key={m.id} className="flex justify-between text-sm">
+                        <span className="text-ink-secondary">
+                          {m.title} · lab <code className="text-xs">{m.lab}</code>
+                        </span>
+                        <span className="font-semibold text-accent">{m.examWeight}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={key === "intuneAppleAdministrator" ? "/examens/intune-apple" : "/parcours/intune-mac"}
+                    className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
+                  >
+                    {key === "intuneAppleAdministrator" ? "Examen blanc →" : "Parcours Intune →"}
                   </Link>
                 </div>
               );

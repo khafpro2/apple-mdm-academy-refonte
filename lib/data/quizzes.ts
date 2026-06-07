@@ -2,6 +2,7 @@ import type { Quiz } from "@/lib/types";
 import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { proModuleQuizzes as rawProModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 import { jamf116ModuleQuizExtras } from "@/lib/data/jamf/quiz-11-16-questions";
+import { intuneLearnExamQuestions } from "@/lib/data/intune/quiz-learn-questions";
 
 const proModuleQuizzes = rawProModuleQuizzes.map((quiz) => {
   const extras = jamf116ModuleQuizExtras[quiz.slug];
@@ -313,6 +314,7 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
         correctIndex: 0,
         explanation: "Les compliance policies vérifient l'état de sécurité : OS, chiffrement, jailbreak, etc.",
       },
+      ...intuneLearnExamQuestions.slice(0, 10),
     ],
   },
   {

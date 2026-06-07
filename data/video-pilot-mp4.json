@@ -19,19 +19,35 @@
     },
     {
       "slug": "ade-iphone",
-      "filename": "automated-device-enrollment.mp4",
-      "title": "Comprendre Automated Device Enrollment",
+      "filename": "automated-device-enrollment-iphone.mp4",
+      "title": "Déployer un iPhone avec ADE",
       "courseSlug": "intune-mac",
       "labSlug": "ade-iphone",
       "resourceSlug": "checklist-ade-iphone"
     },
     {
+      "slug": "ade-mac",
+      "filename": "automated-device-enrollment-mac.mp4",
+      "title": "Déployer un Mac avec ADE",
+      "courseSlug": "intune-mac",
+      "labSlug": "ade-macos",
+      "resourceSlug": "intune-ade-guide"
+    },
+    {
+      "slug": "enrollment-program-token",
+      "filename": "enrollment-program-token.mp4",
+      "title": "Importer l'Enrollment Program Token",
+      "courseSlug": "intune-mac",
+      "labSlug": "enrollment-program-token",
+      "resourceSlug": "intune-ade-guide"
+    },
+    {
       "slug": "apns",
-      "filename": "apns.mp4",
-      "title": "Comprendre APNs",
-      "courseSlug": "apple-it-professional",
+      "filename": "apns-intune.mp4",
+      "title": "Configurer APNs dans Intune",
+      "courseSlug": "intune-mac",
       "labSlug": "apns",
-      "resourceSlug": "apns-checklist"
+      "resourceSlug": "intune-apns-guide"
     },
     {
       "slug": "managed-apple-ids",
@@ -44,10 +60,26 @@
     {
       "slug": "platform-sso",
       "filename": "platform-sso.mp4",
-      "title": "Platform SSO",
+      "title": "Platform SSO macOS avec Intune",
       "courseSlug": "intune-mac",
       "labSlug": "platform-sso",
-      "resourceSlug": "platform-sso-checklist"
+      "resourceSlug": "intune-platform-sso-guide"
+    },
+    {
+      "slug": "defender-macos",
+      "filename": "defender-macos-intune.mp4",
+      "title": "Microsoft Defender pour macOS",
+      "courseSlug": "intune-mac",
+      "labSlug": "defender-macos-intune",
+      "resourceSlug": "intune-defender-guide"
+    },
+    {
+      "slug": "conditional-access-apple",
+      "filename": "conditional-access-apple.mp4",
+      "title": "Conditional Access pour appareils Apple",
+      "courseSlug": "intune-mac",
+      "labSlug": "intune-conditional-access-mac",
+      "resourceSlug": "intune-conditional-access-guide"
     },
     {
       "slug": "jamf-pro-fundamentals",

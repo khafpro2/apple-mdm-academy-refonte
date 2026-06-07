@@ -1,4 +1,5 @@
 import type { Quiz } from "@/lib/types";
+import { intuneModule11QuizQuestions } from "@/lib/data/intune/quiz-learn-questions";
 
 export const proModuleQuizzes: Quiz[] = [
   {
@@ -196,6 +197,7 @@ export const proModuleQuizzes: Quiz[] = [
         explanation:
           "La chaîne ABM (assignation MDM) + Intune (APNs, profils d'inscription) doit être complète avant un déploiement fiable.",
       },
+      ...intuneModule11QuizQuestions,
     ],
   },
   {

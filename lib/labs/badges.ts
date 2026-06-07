@@ -13,6 +13,8 @@ export const TECHNOLOGY_STYLES: Record<LabTechnology, string> = {
   FileVault: "bg-purple-700 text-white",
   "Sécurité macOS": "bg-emerald-700 text-white",
   "Intune Compliance": "bg-cyan-700 text-white",
+  "Microsoft Entra ID": "bg-blue-800 text-white",
+  "Microsoft Defender": "bg-red-700 text-white",
   "Managed Apple ID + Federation": "bg-slate-900 text-white",
   Kandji: "bg-blue-700 text-white",
   Mosyle: "bg-green-700 text-white",

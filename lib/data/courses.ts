@@ -196,6 +196,12 @@ export const courses: Course[] = [
     ],
     modules: [
       {
+        title: "Fondamentaux Intune",
+        lessons: [
+          { slug: "intune-introduction", title: "Introduction à Microsoft Intune", duration: "35 min", points: 35 },
+        ],
+      },
+      {
         title: "Enrollment Apple",
         lessons: [
           { slug: "abm-intune", title: "Lier ABM à Intune", duration: "40 min", points: 40 },
@@ -258,6 +264,72 @@ export const courses: Course[] = [
           { slug: "compliance-policies", title: "Compliance policies Apple", duration: "45 min" },
           { slug: "conditional-access", title: "Conditional Access", duration: "40 min" },
           { slug: "app-protection", title: "App Protection Policies", duration: "35 min" },
+          { slug: "intune-defender-macos", title: "Microsoft Defender pour macOS", duration: "50 min", points: 50 },
+          { slug: "intune-troubleshooting", title: "Dépannage Intune Apple", duration: "45 min", points: 45 },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "azure-for-apple-admins",
+    trackSlug: "azure-for-apple-admins",
+    title: "Azure essentiel pour Apple Administrators",
+    description:
+      "Les compétences Microsoft Entra ID et sécurité cloud nécessaires pour gérer des flottes Apple avec ABM, Intune, Platform SSO et Defender.",
+    duration: "10 h",
+    objectives: [
+      "Comprendre Microsoft Entra ID sans devenir généraliste Azure",
+      "Relier utilisateurs, groupes, licences et rôles aux workflows Apple",
+      "Déployer MFA, Conditional Access, Platform SSO et Defender pour macOS",
+      "Utiliser Entra ID comme socle identité pour ABM et Intune",
+    ],
+    modules: [
+      {
+        title: "Module 1 — Introduction à Microsoft Entra ID",
+        lessons: [
+          { slug: "azure-entra-id-introduction", title: "Introduction à Microsoft Entra ID", duration: "45 min", points: 45 },
+        ],
+      },
+      {
+        title: "Module 2 — Authentification moderne",
+        lessons: [
+          { slug: "azure-modern-authentication", title: "SSO, MFA, Passwordless et Passkeys", duration: "50 min", points: 50 },
+        ],
+      },
+      {
+        title: "Module 3 — Groupes Entra ID",
+        lessons: [
+          { slug: "azure-entra-groups", title: "Groupes statiques, dynamiques et affectations Intune", duration: "45 min", points: 45 },
+        ],
+      },
+      {
+        title: "Module 4 — Apple Business Manager + Entra ID",
+        lessons: [
+          { slug: "azure-abm-entra-federation", title: "Fédération ABM, Managed Apple IDs et synchronisation", duration: "55 min", points: 55 },
+        ],
+      },
+      {
+        title: "Module 5 — Intune + Entra ID",
+        lessons: [
+          { slug: "azure-intune-entra-enrollment", title: "Groupes, affectations et enrollment macOS", duration: "55 min", points: 55 },
+        ],
+      },
+      {
+        title: "Module 6 — Conditional Access",
+        lessons: [
+          { slug: "azure-conditional-access-macos", title: "Accès conditionnel, conformité et risques", duration: "60 min", points: 60 },
+        ],
+      },
+      {
+        title: "Module 7 — Platform SSO",
+        lessons: [
+          { slug: "azure-platform-sso", title: "Architecture Platform SSO avec Entra ID et macOS", duration: "60 min", points: 60 },
+        ],
+      },
+      {
+        title: "Module 8 — Microsoft Defender",
+        lessons: [
+          { slug: "azure-defender-macos", title: "Onboarding, sécurité et reporting Defender macOS", duration: "55 min", points: 55 },
         ],
       },
     ],
