@@ -16,6 +16,7 @@ const PREFIX_MODULES: { prefix: string; href: string; label: string }[] = [
   { prefix: "adg-", href: "/cours/addigy-fundamentals/adg-m01", label: "Addigy Fundamentals" },
   { prefix: "wsa-", href: "/cours/workspace-one-apple/wsa-m01", label: "Workspace ONE Apple" },
   { prefix: "mdm-", href: "/cours/mdm-comparatif-apple/mdm-m01", label: "Comparatif MDM Apple" },
+  { prefix: "azap-", href: "/cours/azure-for-apple-admins/azure-entra-id-introduction", label: "Azure essentiel pour Apple Administrators" },
 ];
 
 export function enrichQuestionWithModule(q: Question): Question {

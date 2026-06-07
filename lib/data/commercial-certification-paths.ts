@@ -88,6 +88,22 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     color: "from-sky-600/10 to-blue-600/10",
   },
   {
+    slug: "azure-for-apple-admins",
+    title: "Azure essentiel pour Apple Administrators",
+    shortTitle: "Azure Apple Admin",
+    description:
+      "Microsoft Entra ID, MFA, groupes, ABM federation, Intune, Conditional Access, Platform SSO et Defender pour admins Apple.",
+    level: "Débutant → Intermédiaire",
+    duration: "10 h",
+    logo: "microsoft",
+    modulesCount: 8,
+    labsCount: 8,
+    examsCount: 1,
+    certificateName: "Apple IT Professional · Intune Administrator · Endpoint Administrator",
+    trackSlug: "azure-for-apple-admins",
+    color: "from-blue-600/10 to-cyan-600/10",
+  },
+  {
     slug: "apple-security-expert",
     title: "Apple Security Expert",
     shortTitle: "Apple Security",
