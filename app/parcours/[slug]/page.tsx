@@ -46,7 +46,16 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
                 Passer le quiz
               </ButtonLink>
             )}
+            {trackLabs[0] && (
+              <ButtonLink href={`/labs/${trackLabs[0].slug}`} variant="secondary">
+                Lab pratique
+              </ButtonLink>
+            )}
           </div>
+          <p className="mt-4 max-w-2xl text-sm text-ink-secondary">
+            Parcours recommandé : lire le cours module par module, pratiquer le lab associé, puis valider avec le quiz.
+            Votre progression de lecture est enregistrée localement sur chaque leçon.
+          </p>
         </header>
 
         {trackLabs.length > 0 && (

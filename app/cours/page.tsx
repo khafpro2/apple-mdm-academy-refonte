@@ -20,6 +20,15 @@ export default function CoursIndexPage() {
           description="Parcourez l'ensemble des modules structurés par certification et technologie."
         />
 
+        <section className="mt-8 rounded-2xl border border-border-light bg-surface-elevated p-5">
+          <p className="text-sm font-semibold text-ink">Conseil de lecture</p>
+          <p className="mt-1 text-sm text-ink-secondary">
+            Chaque leçon propose un mode lecture (colonne étroite, raccourci{" "}
+            <kbd className="rounded border border-border-light bg-surface px-1.5 py-0.5 text-xs font-semibold">R</kbd>
+            ), un sommaire avec sections actives et des raccourcis vers lab, quiz et ressources PDF.
+          </p>
+        </section>
+
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {courses.map((course) => {
             const lessonCount = course.modules.reduce((n, m) => n + m.lessons.length, 0);

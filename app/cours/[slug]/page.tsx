@@ -1,20 +1,13 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
-import {
-  CourseMetaGrid,
-  CourseProgressBar,
-  LessonStatusBadge,
-  LessonStatusIcon,
-} from "@/components/course/course-ui";
+import { CourseMetaGrid, CourseProgressBar } from "@/components/course/course-ui";
 import {
   getFlatLessons,
   getTotalPoints,
   getLessonStatus,
   getLessonPoints,
 } from "@/lib/course/helpers";
-import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
@@ -24,6 +17,8 @@ import { getCourseEnrichedContent } from "@/src/lib/course-enriched-content";
 import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { CourseVideoInProductionBlock } from "@/components/course/CourseVideoInProductionBlock";
 import { CourseEnrichedSections } from "@/components/course/CourseEnrichedSections";
+import { CourseContinueBanner } from "@/components/course/CourseContinueBanner";
+import { CourseLessonListItem } from "@/components/course/CourseLessonListItem";
 import { CourseLearningPath } from "@/components/course/CourseLearningPath";
 
 export function generateStaticParams() {
@@ -59,6 +54,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const trackLabs = getLabsByTrack(course.trackSlug);
   const pilotVideos = getPilotVideosForCourse(slug);
   const enriched = getCourseEnrichedContent(slug);
+  const lessonSlugs = flatLessons.map((f) => f.lesson.slug);
+  const lessonTitles = Object.fromEntries(flatLessons.map((f) => [f.lesson.slug, f.lesson.title]));
 
   return (
     <PageShell>
@@ -122,6 +119,13 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </div>
         </header>
 
+        <CourseContinueBanner
+          courseSlug={slug}
+          courseTitle={course.title}
+          lessonSlugs={lessonSlugs}
+          lessonTitles={lessonTitles}
+        />
+
         {enriched && <CourseEnrichedSections content={enriched} />}
 
         {pilotVideos.length > 0 && (
@@ -170,28 +174,17 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   const labSlug = getLabSlugForLesson(lesson.slug);
 
                   return (
-                    <li key={lesson.slug}>
-                      <div className="rounded-2xl border border-border-light bg-surface px-4 py-4 transition hover:border-accent/30 hover:shadow-md">
-                        <Link href={href} className="group flex items-center gap-4">
-                          <LessonStatusIcon status={status} />
-                          <div className="min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="font-semibold text-ink group-hover:text-accent">
-                                {lesson.title}
-                              </span>
-                              <LessonStatusBadge status={status} />
-                            </div>
-                            <p className="mt-1 text-xs text-ink-tertiary">
-                              {lesson.duration} · {points} points
-                            </p>
-                          </div>
-                          <span className="hidden text-accent sm:inline" aria-hidden="true">
-                            →
-                          </span>
-                        </Link>
-                        {labSlug && <LabLessonLink labSlug={labSlug} compact />}
-                      </div>
-                    </li>
+                    <CourseLessonListItem
+                      key={lesson.slug}
+                      courseSlug={course.slug}
+                      lessonSlug={lesson.slug}
+                      lessonTitle={lesson.title}
+                      href={href}
+                      duration={lesson.duration}
+                      points={points}
+                      status={status}
+                      labSlug={labSlug}
+                    />
                   );
                 })}
               </ul>

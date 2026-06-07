@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
-import { LessonContentView, LessonTableOfContents } from "@/components/course/lesson-content-view";
+import { LessonContentView } from "@/components/course/lesson-content-view";
+import { LessonTableOfContentsNav } from "@/components/course/LessonTableOfContentsNav";
+import { CourseLessonQuickActions } from "@/components/course/CourseLessonQuickActions";
 import {
   CourseMetaGrid,
   CourseProgressBar,
@@ -23,6 +25,7 @@ import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack } from "@/lib/data";
+import { getOfficialVideo } from "@/src/lib/video-production";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 
 export function generateStaticParams() {
@@ -80,6 +83,7 @@ export default async function LessonPage({
   const labSlug = getLabSlugForLesson(lessonSlug);
   const video = getVideoScriptForLesson(lessonSlug);
   const videoMp4 = video ? resolveMp4Url(video.slug) : undefined;
+  const officialVideo = video ? getOfficialVideo(video.slug) : undefined;
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -93,11 +97,19 @@ export default async function LessonPage({
 
         <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[240px_minmax(0,1fr)]">
           <aside className="mb-8 lg:sticky lg:top-28 lg:mb-0 lg:self-start">
-            {CustomToc ? <CustomToc /> : <LessonTableOfContents showComparison={course.trackSlug === "mdm-comparatif-apple"} />}
+            {CustomToc ? (
+              <CustomToc />
+            ) : (
+              <LessonTableOfContentsNav showComparison={course.trackSlug === "mdm-comparatif-apple"} />
+            )}
           </aside>
 
           <div>
-            {CustomToc ? <CustomToc mobile /> : <LessonTableOfContents mobile showComparison={course.trackSlug === "mdm-comparatif-apple"} />}
+            {CustomToc ? (
+              <CustomToc mobile />
+            ) : (
+              <LessonTableOfContentsNav mobile showComparison={course.trackSlug === "mdm-comparatif-apple"} />
+            )}
 
             <header className="overflow-hidden rounded-[2rem] border border-border-light bg-surface-elevated shadow-sm">
               <div className="bg-gradient-to-br from-surface via-surface-elevated to-indigo-50/40 px-6 py-8 md:px-10 md:py-10">
@@ -158,6 +170,15 @@ export default async function LessonPage({
             </header>
 
             {video && <LessonVideoCallout video={video} hasMp4={Boolean(videoMp4)} />}
+
+            <CourseLessonQuickActions
+              courseSlug={slug}
+              lessonSlug={lessonSlug}
+              labSlug={labSlug}
+              quizHref={quizHref}
+              videoSlug={video?.slug}
+              resourceSlug={officialVideo?.resourceSlug}
+            />
 
             <CourseReadingModeShell courseSlug={slug} lessonSlug={lessonSlug}>
               <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">

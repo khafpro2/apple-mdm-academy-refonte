@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { saveLessonProgress } from "@/app/actions/progress";
 import {
   loadReadingModeEnabled,
@@ -18,6 +18,8 @@ type Props = {
   children: React.ReactNode;
 };
 
+const FONT_SCALES = [1, 1.05, 1.12] as const;
+
 export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Props) {
   const readingMode = useSyncExternalStore(
     subscribeReadingProgress,
@@ -30,6 +32,8 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
     () => loadReadingProgress(courseSlug, lessonSlug),
     () => null
   );
+
+  const [fontScaleIndex, setFontScaleIndex] = useState(1);
 
   const scrollPercent = progress?.scrollPercent ?? 0;
   const isRead = progress?.read ?? false;
@@ -55,6 +59,18 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
     return () => window.removeEventListener("scroll", onScroll);
   }, [courseSlug, lessonSlug]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA") return;
+        saveReadingModeEnabled(courseSlug, !readingMode);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [courseSlug, readingMode]);
+
   const toggleMode = useCallback(() => {
     saveReadingModeEnabled(courseSlug, !readingMode);
   }, [courseSlug, readingMode]);
@@ -64,18 +80,47 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
     await saveLessonProgress({ lessonSlug, courseSlug, score: 100 });
   }, [courseSlug, lessonSlug]);
 
+  const fontScale = FONT_SCALES[fontScaleIndex];
+
   return (
     <div className={readingMode ? "reading-mode-active" : ""}>
-      <div className="sticky top-20 z-10 mb-6 flex flex-wrap items-center gap-3 rounded-2xl border border-border-light bg-surface-elevated/95 p-4 shadow-sm backdrop-blur">
+      <div
+        id="lecture-toolbar"
+        className="sticky top-20 z-10 mb-6 flex flex-wrap items-center gap-3 rounded-2xl border border-border-light bg-surface-elevated/95 p-4 shadow-sm backdrop-blur"
+      >
         <button
           type="button"
           onClick={toggleMode}
+          title="Raccourci clavier : R"
           className={`rounded-full px-4 py-2 text-sm font-semibold ${
             readingMode ? "bg-accent text-white" : "border border-border-light text-ink-secondary"
           }`}
         >
           {readingMode ? "Mode lecture actif" : "Activer le mode lecture"}
         </button>
+        {readingMode && (
+          <div className="flex items-center gap-1 rounded-full border border-border-light bg-surface px-2 py-1">
+            <button
+              type="button"
+              aria-label="Réduire la taille du texte"
+              disabled={fontScaleIndex === 0}
+              onClick={() => setFontScaleIndex((i) => Math.max(0, i - 1))}
+              className="rounded-full px-2 py-1 text-xs font-bold text-ink-secondary disabled:opacity-40"
+            >
+              A−
+            </button>
+            <span className="px-1 text-xs text-ink-tertiary">Texte</span>
+            <button
+              type="button"
+              aria-label="Augmenter la taille du texte"
+              disabled={fontScaleIndex === FONT_SCALES.length - 1}
+              onClick={() => setFontScaleIndex((i) => Math.min(FONT_SCALES.length - 1, i + 1))}
+              className="rounded-full px-2 py-1 text-xs font-bold text-ink-secondary disabled:opacity-40"
+            >
+              A+
+            </button>
+          </div>
+        )}
         <div className="min-w-[140px] flex-1">
           <div className="flex justify-between text-xs text-ink-tertiary">
             <span>Progression de lecture</span>
@@ -93,10 +138,19 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
         </button>
       </div>
 
+      {readingMode && (
+        <p className="mb-4 rounded-xl bg-blue-50 px-4 py-3 text-sm text-ink-secondary">
+          Mode lecture : colonne étroite, texte agrandi, moins de distractions. Appuyez sur{" "}
+          <kbd className="rounded border border-border-light bg-white px-1.5 py-0.5 text-xs font-semibold">R</kbd>{" "}
+          pour basculer.
+        </p>
+      )}
+
       <div
+        style={readingMode ? { fontSize: `${fontScale}rem` } : undefined}
         className={
           readingMode
-            ? "mx-auto max-w-3xl text-[1.05rem] leading-8 [&_p]:text-ink-secondary [&_h2]:text-2xl [&_h3]:text-xl"
+            ? "mx-auto max-w-3xl leading-8 [&_p]:text-ink-secondary [&_h2]:text-2xl [&_h3]:text-xl"
             : ""
         }
       >
