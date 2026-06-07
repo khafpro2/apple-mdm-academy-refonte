@@ -51,7 +51,7 @@ export function CertificationReadinessPanel({
     ),
     readinessFromTrack(
       "Jamf 100",
-      "/certification/parcours-jamf-100",
+      "/examens/jamf-100",
       examScores.has("examen-jamf-100-blanc") ? 70 : 20,
       labSet.has("jamf-smart-groups") ? 80 : 30,
       getBestExamScore(examScores, "examen-jamf-100-blanc"),
@@ -59,7 +59,7 @@ export function CertificationReadinessPanel({
     ),
     readinessFromTrack(
       "Jamf 200",
-      "/certification/parcours-jamf-200",
+      "/examens/jamf-200",
       40,
       labSet.has("jamf-patch-management") ? 70 : 25,
       getBestExamScore(examScores, "examen-jamf-200"),

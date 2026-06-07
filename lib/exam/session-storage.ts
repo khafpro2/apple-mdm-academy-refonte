@@ -46,6 +46,7 @@ export function saveExamSession(session: ExamSession): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(key(session.routeSlug), JSON.stringify(session));
+    window.dispatchEvent(new CustomEvent("exam-session-updated", { detail: { routeSlug: session.routeSlug } }));
   } catch {
     /* quota exceeded */
   }

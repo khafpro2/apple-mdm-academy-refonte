@@ -1,3 +1,6 @@
+import type { UserAnswer } from "@/lib/quiz/scoring";
+import { recordExamAttempt } from "@/lib/exam/exam-attempts-storage";
+
 export type ExamHistoryEntry = {
   routeSlug: string;
   quizSlug: string;
@@ -58,7 +61,8 @@ export function recordExamCompletion(
   quizTitle: string,
   percent: number,
   passed: boolean,
-  elapsedSeconds: number
+  elapsedSeconds: number,
+  detail?: { correct: number; total: number; answers: Record<string, UserAnswer> }
 ): void {
   const withoutProgress = readAll().filter(
     (e) => !(e.routeSlug === routeSlug && e.status === "in_progress")
@@ -74,6 +78,17 @@ export function recordExamCompletion(
     status: "completed",
   });
   writeAll(withoutProgress);
+
+  recordExamAttempt(routeSlug, {
+    score: percent,
+    percent,
+    elapsedSeconds,
+    status: "completed",
+    passed,
+    correct: detail?.correct ?? 0,
+    total: detail?.total ?? 0,
+    answers: detail?.answers ?? {},
+  });
 }
 
 export function getExamHistory(): ExamHistoryEntry[] {

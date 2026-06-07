@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, Card, ButtonLink } from "@/components/ui";
+import { ExamFeatureCard } from "@/components/exams/exam-feature-card";
 import { TrackLogo } from "@/components/ui/track-logo";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
 import { appleTrainingResources } from "@/lib/data/official-cert-links";
@@ -27,6 +28,8 @@ export default function CertificationsPage() {
           title="Préparez vos certifications"
           description="Examens blancs, labs et parcours alignés sur les compétences Apple, Jamf et Microsoft."
         />
+
+        <ExamFeatureCard className="mt-8" />
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {commercialCertificationPaths.map((path) => {

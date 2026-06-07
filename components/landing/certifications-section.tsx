@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SectionHeading, Card, ProgressBar } from "@/components/ui";
+import { ExamFeatureCard } from "@/components/exams/exam-feature-card";
 import { TrackLogo } from "@/components/ui/track-logo";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
 
@@ -12,6 +13,7 @@ export function CertificationsSection() {
         description="Parcours complets alignés sur Apple, Jamf et Microsoft — modules, labs, examens blancs et certificat."
         align="center"
       />
+      <ExamFeatureCard className="mx-auto mt-8 max-w-3xl" />
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {commercialCertificationPaths.map((path) => (
           <Card key={path.slug} hover className={`bg-gradient-to-br ${path.color}`}>

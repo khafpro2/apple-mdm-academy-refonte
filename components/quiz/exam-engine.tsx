@@ -166,7 +166,11 @@ export function ExamEngine({
         tierLabel: tier.label,
       });
 
-      recordExamCompletion(routeSlug, quiz.slug, quiz.title, percent, passed, duration);
+      recordExamCompletion(routeSlug, quiz.slug, quiz.title, percent, passed, duration, {
+        correct,
+        total: t,
+        answers: finalAnswers,
+      });
 
       if (isAuthenticated && !savedRef.current) {
         savedRef.current = true;
