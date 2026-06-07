@@ -5,6 +5,7 @@ import { examRouteToQuizSlug } from "@/lib/data/exams/pools";
 import { getQuiz } from "@/lib/data/quizzes";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
 import Link from "next/link";
+import { ExamFeatureCard } from "@/components/exams/exam-feature-card";
 import { useSyncExternalStore } from "react";
 
 function subscribe() {
@@ -25,15 +26,9 @@ export function ExamProgressPanel() {
 
   if (history.length === 0) {
     return (
-      <section className="mb-8 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-        <h2 className="text-lg font-bold text-ink">Examens blancs</h2>
-        <p className="mt-2 text-sm text-ink-secondary">
-          Aucune tentative enregistrée. Passez un examen blanc pour suivre vos scores ici.
-        </p>
-        <Link href="/examens" className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
-          Voir les examens →
-        </Link>
-      </section>
+      <div className="mb-8">
+        <ExamFeatureCard />
+      </div>
     );
   }
 

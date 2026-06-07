@@ -1,6 +1,5 @@
 import { PageShell } from "@/components/layout";
 import { SectionHeading } from "@/components/ui";
-import { ExamFeatureCard } from "@/components/exams/exam-feature-card";
 import { ExamCatalogGrid } from "@/components/exams/exam-catalog-grid";
 import { buildExamCatalog } from "@/lib/exam/exam-catalog";
 import { appleTrainingResources } from "@/lib/data/official-cert-links";
@@ -20,8 +19,6 @@ export default function ExamensPage() {
           title="Examens blancs"
           description="Mode examen, chronomètre, correction détaillée et historique des tentatives."
         />
-
-        <ExamFeatureCard className="mb-8" />
 
         <section className="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-950">
           <p className="font-semibold">Examens blancs — préparation uniquement</p>
