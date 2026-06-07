@@ -116,6 +116,12 @@ export default async function AdminPage() {
             Audit LMS
           </Link>
           <Link
+            href="/admin/jamf-content-status"
+            className="rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100"
+          >
+            Statut Jamf Premium
+          </Link>
+          <Link
             href="/admin/content-gap-analysis"
             className="rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100"
           >

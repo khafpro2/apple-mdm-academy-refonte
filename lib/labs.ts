@@ -733,6 +733,92 @@ export const labs: Lab[] = [
     "Patch policy Jamf déployée sur le groupe pilote avec rapport de conformité."
   ),
   lab(
+    "jamf-mobile-devices",
+    "Gérer iPhone et iPad supervisés dans Jamf Pro",
+    "Enrollment ADE mobile, profil Wi-Fi iOS et validation VPP sur iPad pilote supervisé.",
+    "Intermédiaire",
+    "45 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Enroller iPad pilote via ADE",
+      "Créer et scope profil Wi-Fi iOS",
+      "Valider profils et inventaire mobile",
+    ],
+    ["Jamf Pro admin", "iPad supervisé ADE", "Token ABM valide"],
+    [
+      { id: "enroll", title: "Enrollment pilote", instruction: "Mobile Devices → vérifier iPad pilote ADE supervisé.", expectedResult: "iPad visible avec statut Supervised." },
+      { id: "profile", title: "Profil Wi-Fi iOS", instruction: "Mobile Devices → Configuration Profiles → New → payload Wi-Fi enterprise.", expectedResult: "Profil créé sans erreur payload." },
+      { id: "scope", title: "Scope pilote", instruction: "Scope profil au Static Group iPad pilote.", expectedResult: "Profil installé sur iPad (Réglages → Général → VPN et appareil)." },
+      { id: "verify", title: "Vérification", instruction: "Management History iPad + Last Check-in.", expectedResult: "Profil Completed dans history." },
+    ],
+    "iPad pilote supervisé avec profil Wi-Fi enterprise installé via Jamf Pro."
+  ),
+  lab(
+    "jamf-static-groups",
+    "Static Groups et exclusions policies",
+    "Créer Static Groups VIP/labo et configurer exclusions sur policy maintenance.",
+    "Intermédiaire",
+    "35 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Créer Static Groups LAB et VIP",
+      "Scope policy Smart Group avec exclusions",
+      "Valider Policy Logs sur Mac labo exclu",
+    ],
+    ["Jamf Pro admin", "Smart Group existant", "Mac pilote labo et production"],
+    [
+      { id: "static", title: "Static Groups", instruction: "Computers → Static Computer Groups → New LAB et VIP.", expectedResult: "Groupes créés avec Mac assignés." },
+      { id: "policy", title: "Policy scope", instruction: "Policy maintenance → scope Smart Group production → Exclusions Static LAB + VIP.", expectedResult: "Scope configuré avec exclusions." },
+      { id: "test", title: "Test exclusion", instruction: "Forcer policy sur Mac labo — doit être exclu.", expectedResult: "Mac labo absent Policy Logs policy." },
+    ],
+    "Policy scoped avec exclusions Static LAB/VIP validées."
+  ),
+  lab(
+    "jamf-reporting",
+    "Reporting Jamf — Advanced Search et exports",
+    "Requête Advanced Search conformité FileVault et export CSV audit trimestriel.",
+    "Intermédiaire",
+    "40 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Créer Advanced Search FileVault",
+      "Exporter CSV audit",
+      "Sauvegarder recherche réutilisable",
+    ],
+    ["Jamf Pro admin", "Inventaire FileVault remonté"],
+    [
+      { id: "search", title: "Advanced Search", instruction: "Computers → Advanced Computer Searches → New → FileVault Status = Off.", expectedResult: "Liste Mac non chiffrés générée." },
+      { id: "export", title: "Export CSV", instruction: "Export results → CSV pour audit.", expectedResult: "Fichier CSV avec serials et statuts." },
+      { id: "save", title: "Sauvegarder", instruction: "Save search ADV-FV-OFF-TRIM.", expectedResult: "Recherche réutilisable pour audit trimestriel." },
+    ],
+    "Advanced Search FileVault exportée et sauvegardée pour audit."
+  ),
+  lab(
+    "jamf-troubleshooting",
+    "Troubleshooting Jamf — Policy Logs et runbook L1",
+    "Diagnostiquer policy package Failed : Policy Logs, DP, espace disque, runbook L1.",
+    "Intermédiaire",
+    "45 min",
+    "Jamf Pro",
+    "jamf-100",
+    [
+      "Reproduire échec policy package",
+      "Analyser Policy Logs et Management History",
+      "Documenter runbook L1",
+    ],
+    ["Jamf Pro admin", "Policy package test", "Mac pilote"],
+    [
+      { id: "repro", title: "Reproduction", instruction: "Scope policy package test sur Mac pilote — reproduire Failed si possible.", expectedResult: "Échec documenté avec timestamp." },
+      { id: "logs", title: "Policy Logs", instruction: "Policy → Logs + fiche Mac Management History.", expectedResult: "Cause identifiée (DP, espace, scope)." },
+      { id: "fix", title: "Correction", instruction: "Corriger cause (DP access, espace) et re-run.", expectedResult: "Policy Completed sur Mac pilote." },
+      { id: "runbook", title: "Runbook L1", instruction: "Documenter checklist L1 package Failed.", expectedResult: "Runbook partagé équipe support." },
+    ],
+    "Échec policy diagnostiqué et runbook L1 documenté."
+  ),
+  lab(
     "jamf-protect",
     "Activer Jamf Protect sur le parc Mac",
     "Plan déploiement Jamf Protect : plan, policy analytics et alertes sur un Mac supervisé.",

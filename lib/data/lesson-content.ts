@@ -15,6 +15,7 @@ import {
   abmIntuneTroubleshooting,
 } from "@/lib/data/lessons/abm-intune-content";
 import { buildIntuneLearnLessonContent } from "@/lib/data/intune/microsoft-learn-content";
+import { getJamfFundamentalsLessonContent } from "@/lib/data/jamf/jamf-fundamentals-lesson-content";
 
 function getAbmIntuneFallbackContent(): LessonContent {
   return {
@@ -947,6 +948,11 @@ export function getLessonContent(
   globalIndex: number,
   totalLessons: number
 ): LessonContent {
+  if (course.slug === "jamf-fundamentals") {
+    const jfContent = getJamfFundamentalsLessonContent(course.slug, lesson.slug);
+    if (jfContent) return jfContent;
+  }
+
   const proContent = getProModuleLessonContent(lesson.slug);
   if (proContent) return proContent;
 

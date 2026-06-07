@@ -133,6 +133,56 @@ export const courses: Course[] = [
     ],
   },
   {
+    slug: "jamf-fundamentals",
+    trackSlug: "jamf-100",
+    title: "Jamf Fundamentals Premium",
+    description:
+      "Parcours premium francophone — 15 modules Jamf Pro : interface, inventaire, groups, policies, profils, Self Service, packages, scripts, patch, reporting et troubleshooting.",
+    duration: "24 h",
+    objectives: [
+      "Maîtriser les 15 piliers Jamf Pro 11.16 en contexte enterprise",
+      "Préparer certification Jamf 100 et Jamf 200",
+      "Déployer avec labs, quiz et guides PDF premium",
+    ],
+    modules: [
+      {
+        title: "Fondations Jamf Pro",
+        lessons: [
+          { slug: "jf-intro-jamf-pro", title: "Introduction à Jamf Pro", duration: "35 min" },
+          { slug: "jf-interface-jamf", title: "Interface Jamf", duration: "30 min" },
+          { slug: "jf-inventory", title: "Inventory", duration: "40 min" },
+          { slug: "jf-computers", title: "Computers", duration: "35 min" },
+          { slug: "jf-mobile-devices", title: "Mobile Devices", duration: "40 min" },
+        ],
+      },
+      {
+        title: "Ciblage et déploiement",
+        lessons: [
+          { slug: "jf-smart-groups", title: "Smart Groups", duration: "45 min" },
+          { slug: "jf-static-groups", title: "Static Groups", duration: "30 min" },
+          { slug: "jf-policies", title: "Policies", duration: "45 min" },
+          { slug: "jf-configuration-profiles", title: "Configuration Profiles", duration: "45 min" },
+        ],
+      },
+      {
+        title: "Autonomie et automation",
+        lessons: [
+          { slug: "jf-self-service", title: "Self Service", duration: "35 min" },
+          { slug: "jf-packages", title: "Packages", duration: "40 min" },
+          { slug: "jf-scripts", title: "Scripts", duration: "45 min" },
+        ],
+      },
+      {
+        title: "Opérations et dépannage",
+        lessons: [
+          { slug: "jf-patch-management", title: "Patch Management", duration: "45 min" },
+          { slug: "jf-reporting", title: "Reporting", duration: "35 min" },
+          { slug: "jf-troubleshooting", title: "Troubleshooting", duration: "40 min" },
+        ],
+      },
+    ],
+  },
+  {
     slug: "jamf-170",
     trackSlug: "jamf-170",
     title: "Jamf 170 — Administration",

@@ -463,6 +463,113 @@ Les plans Protect regroupent policies analytics, blocages et réponses automatis
 Jamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, réponse aux incidents et durcissement macOS.
 Cette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.`,
   }),
+  script({
+    slug: "jamf-computers",
+    title: "Computers — fiche Mac Jamf Pro",
+    duration: "12 min",
+    module: "Jamf Pro — Computers",
+    level: "Débutant",
+    relatedCourseSlug: "jamf-fundamentals",
+    relatedLabSlug: "jamf-discovery",
+    jamfTrack: "jamf-100",
+    script: `La section Computers est le centre opérationnel Jamf Pro pour chaque Mac géré.
+
+Scénario enterprise : diagnostiquer une policy profil Wi-Fi échouée sur un Mac finance.
+
+Ouvrez Computers → recherche serial → fiche Mac. Onglets Inventory, Management History, Scope, Security.
+
+Management History montre la timeline profils et policies. Update Inventory force un check-in.
+
+Policy Logs depuis la fiche Mac ou la policy. Actions distantes : Lock, Wipe, Unmanage — avec prudence.
+
+Erreurs fréquentes : diagnostic sans Update Inventory, Wipe sans validation asset tag.
+
+Lab jamf-discovery. Quiz quiz-jamf-computers. Parcours Jamf Fundamentals Premium module 4.`,
+  }),
+  script({
+    slug: "jamf-mobile-devices",
+    title: "Mobile Devices — iPhone et iPad Jamf Pro",
+    duration: "14 min",
+    module: "Jamf Pro — Mobile Devices",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-fundamentals",
+    relatedLabSlug: "jamf-mobile-devices",
+    jamfTrack: "jamf-100",
+    script: `Mobile Devices gère iPhone et iPad supervisés via MDM Apple dans Jamf Pro.
+
+Scénario : déployer Wi-Fi corporate sur 200 iPad retail supervisés ADE.
+
+PreStage mobile, profils iOS, VPP apps. Supervision requise pour options avancées.
+
+Mobile Devices → iPad pilote → Profiles, Apps, Management History.
+
+Erreurs : profils macOS copiés sur iOS, VPP sans token, wipe sans procédure Lost Mode.
+
+Lab jamf-mobile-devices. Quiz quiz-jamf-mobile-devices.`,
+  }),
+  script({
+    slug: "jamf-static-groups",
+    title: "Static Groups Jamf Pro",
+    duration: "10 min",
+    module: "Jamf Pro — Static Groups",
+    level: "Débutant",
+    relatedCourseSlug: "jamf-fundamentals",
+    relatedLabSlug: "jamf-static-groups",
+    jamfTrack: "jamf-100",
+    script: `Les Static Groups sont des listes manuelles de Mac, mobile ou users.
+
+Scénario : exclure Mac labo et VIP d'une policy maintenance nocturne.
+
+Static Groups LAB et VIP. Policy scope Smart Group production + exclusions Static.
+
+Complément Smart Groups : VIP, labo, tests stables. Maintenance membership trimestrielle.
+
+Erreurs : Static obsolète, confusion avec Advanced Search reporting.
+
+Lab jamf-static-groups. Quiz quiz-jamf-static-groups.`,
+  }),
+  script({
+    slug: "jamf-reporting",
+    title: "Reporting Jamf Pro — Advanced Search",
+    duration: "12 min",
+    module: "Jamf Pro — Reporting",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-fundamentals",
+    relatedLabSlug: "jamf-reporting",
+    jamfTrack: "jamf-100",
+    script: `Reporting Jamf : Advanced Search, exports CSV et dashboards patch.
+
+Scénario : audit trimestriel FileVault — export CSV Mac non chiffrés.
+
+Advanced Search ≠ Smart Group. Smart Groups pour scope ; Advanced Search pour reporting ad hoc.
+
+Computers → Advanced Computer Searches → critères → Export CSV → Save search ADV-*.
+
+Patch dashboard pour conformité versions apps. API REST pour BI externe.
+
+Lab jamf-reporting. Quiz quiz-jamf-reporting.`,
+  }),
+  script({
+    slug: "jamf-troubleshooting",
+    title: "Troubleshooting Jamf Pro",
+    duration: "15 min",
+    module: "Jamf Pro — Troubleshooting",
+    level: "Intermédiaire",
+    relatedCourseSlug: "jamf-fundamentals",
+    relatedLabSlug: "jamf-troubleshooting",
+    jamfTrack: "jamf-100",
+    script: `Troubleshooting Jamf — méthode L1/L2 structurée.
+
+Scénario : policy package Failed sur Mac distant.
+
+Checklist L1 : scope, Policy Logs, Management History, DP accessible, espace disque, check-in sudo jamf policy.
+
+Profils : conflits payload, certificats. Enrollment : token ABM, APNs expiry Dashboard alert.
+
+Smart Groups circulaires → perf serveur. Escalade L2 : serial + policy ID + logs.
+
+Lab jamf-troubleshooting. Quiz quiz-jamf-troubleshooting. Runbook L1 documenté.`,
+  }),
   ...advancedVideoScripts,
   ...altMdmVideoScripts,
 ];
@@ -575,6 +682,21 @@ const LESSON_VIDEO_SLUGS: Record<string, string> = {
   "m18-xprotect-sip": "macos-security",
   "m18-compliance": "macos-security",
   "m18-zero-trust": "platform-sso",
+  "jf-intro-jamf-pro": "jamf-pro-fundamentals",
+  "jf-interface-jamf": "jamf-dashboard",
+  "jf-inventory": "jamf-inventory",
+  "jf-computers": "jamf-computers",
+  "jf-mobile-devices": "jamf-mobile-devices",
+  "jf-smart-groups": "jamf-smart-groups",
+  "jf-static-groups": "jamf-static-groups",
+  "jf-policies": "jamf-policies",
+  "jf-configuration-profiles": "jamf-configuration-profiles",
+  "jf-self-service": "jamf-self-service",
+  "jf-packages": "jamf-packages",
+  "jf-scripts": "jamf-scripts",
+  "jf-patch-management": "jamf-patch-management",
+  "jf-reporting": "jamf-reporting",
+  "jf-troubleshooting": "jamf-troubleshooting",
   ...advancedLessonVideoMap,
   ...altMdmLessonVideoMap,
 };

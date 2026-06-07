@@ -1,5 +1,6 @@
 import { createProductionStoryboard } from "@/src/lib/video-storyboard-factory";
 import { jamfTrainingStoryboards } from "@/lib/data/jamf/jamf-training-storyboards";
+import { jamfFundamentalsPremiumStoryboards } from "@/lib/data/jamf/jamf-fundamentals-premium-storyboards";
 
 /** 18+ storyboards production — format standard 5 scènes */
 export const productionVideoStoryboards = [
@@ -1233,4 +1234,5 @@ export const productionVideoStoryboards = [
     },
   }),
   ...jamfTrainingStoryboards,
+  ...jamfFundamentalsPremiumStoryboards,
 ];

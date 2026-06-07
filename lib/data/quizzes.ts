@@ -3,6 +3,7 @@ import { examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { proModuleQuizzes as rawProModuleQuizzes } from "@/lib/data/pro-modules/quizzes";
 import { jamf116ModuleQuizExtras } from "@/lib/data/jamf/quiz-11-16-questions";
 import { jamfTrainingStandaloneQuizzes } from "@/lib/data/jamf/jamf-training-quiz-definitions";
+import { JAMF_FUNDAMENTALS_PREMIUM_QUIZZES } from "@/lib/data/jamf/jamf-fundamentals-premium-quizzes";
 import { intuneLearnExamQuestions } from "@/lib/data/intune/quiz-learn-questions";
 
 const proModuleQuizzes = rawProModuleQuizzes.map((quiz) => {
@@ -10,6 +11,17 @@ const proModuleQuizzes = rawProModuleQuizzes.map((quiz) => {
   if (!extras?.length) return quiz;
   return { ...quiz, questions: [...quiz.questions, ...extras] };
 });
+
+const jamfFundamentalsPremiumQuizzes: Quiz[] = JAMF_FUNDAMENTALS_PREMIUM_QUIZZES.map((quiz) => ({
+  slug: quiz.slug,
+  trackSlug: quiz.trackSlug,
+  title: quiz.title,
+  type: "quiz" as const,
+  description: `Quiz premium parcours Jamf Fundamentals — ${quiz.title}.`,
+  duration: "10 min",
+  passingScore: 70,
+  questions: quiz.questions,
+}));
 
 const jamfTrainingQuizzes = jamfTrainingStandaloneQuizzes.map((quiz) => {
   const extras = jamf116ModuleQuizExtras[quiz.slug];
@@ -464,6 +476,7 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
   },
   ...proModuleQuizzes,
   ...jamfTrainingQuizzes,
+  ...jamfFundamentalsPremiumQuizzes,
   ...advancedModuleQuizzes,
   ...altMdmModuleQuizzes,
   {

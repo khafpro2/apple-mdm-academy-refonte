@@ -21,6 +21,9 @@ const PLACEHOLDER_SUBSTRINGS = [
   "insert-",
 ] as const;
 
+/** Patterns considérés invalides (export diagnostic). */
+export const PLACEHOLDER_PATTERNS = PLACEHOLDER_SUBSTRINGS;
+
 export function isPlaceholderValue(value?: string | null): boolean {
   if (!value?.trim()) return false;
   const normalized = value.trim().toLowerCase();

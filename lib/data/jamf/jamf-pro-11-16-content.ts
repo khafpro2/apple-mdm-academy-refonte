@@ -410,6 +410,17 @@ const TOPICS: Record<Jamf116TopicId, Jamf116TopicBlocks> = {
 
 export function resolveJamf116Topic(lessonSlug: string, moduleSlug?: string): Jamf116TopicId | null {
   const s = `${lessonSlug} ${moduleSlug ?? ""}`.toLowerCase();
+  if (s.includes("jf-intro") || s.includes("jf-interface")) return "fundamentals";
+  if (s.includes("jf-inventory") || s.includes("jf-reporting")) return "inventory";
+  if (s.includes("jf-computers") || s.includes("jf-mobile")) return "inventory";
+  if (s.includes("jf-smart") || s.includes("jf-static")) return "smart-groups";
+  if (s.includes("jf-policies")) return "policies";
+  if (s.includes("jf-configuration")) return "configuration-profiles";
+  if (s.includes("jf-self")) return "self-service";
+  if (s.includes("jf-packages")) return "packages";
+  if (s.includes("jf-scripts")) return "scripts";
+  if (s.includes("jf-patch")) return "patch-management";
+  if (s.includes("jf-troubleshoot")) return "fundamentals";
   if (s.includes("config-profile") || s.includes("config-profiles") || s.includes("m12-configuration")) return "configuration-profiles";
   if (s.includes("inventaire") || s.includes("inventory") || s.includes("extension-attribute")) return "inventory";
   if (s.includes("enrollment") || s.includes("prestage") || s.includes("ade")) return "enrollment";

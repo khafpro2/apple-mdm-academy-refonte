@@ -37,6 +37,23 @@ const CORE_LESSON_SCREENSHOT_IDS: Record<string, string[]> = {
   "policies-base": ["69", "71"],
   "scope-deploiement": ["69", "67", "68"],
 
+  // Jamf Fundamentals Premium
+  "jf-intro-jamf-pro": ["64", "65", "75"],
+  "jf-interface-jamf": ["64", "65"],
+  "jf-inventory": ["74", "65"],
+  "jf-computers": ["65", "69"],
+  "jf-mobile-devices": ["66", "77"],
+  "jf-smart-groups": ["67", "68"],
+  "jf-static-groups": ["68", "67"],
+  "jf-policies": ["69", "71"],
+  "jf-configuration-profiles": ["70", "85"],
+  "jf-self-service": ["77", "71"],
+  "jf-packages": ["71", "69"],
+  "jf-scripts": ["72", "69"],
+  "jf-patch-management": ["73", "71"],
+  "jf-reporting": ["74", "67"],
+  "jf-troubleshooting": ["64", "69", "74"],
+
   // Jamf 170
   "extension-attributes": ["74", "67"],
   "scripts-policies": ["72", "69"],

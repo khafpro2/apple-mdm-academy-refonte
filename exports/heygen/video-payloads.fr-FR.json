@@ -345,6 +345,81 @@
     }
   },
   {
+    "slug": "jamf-computers",
+    "relatedCourseSlug": "jamf-fundamentals",
+    "relatedLabSlug": "jamf-discovery",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Computers — fiche Mac Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Computers — fiche Mac Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• La section Computers est le centre opérationnel Jamf Pro pour chaque Mac géré.\n• Scénario enterprise : diagnostiquer une policy profil Wi-Fi échouée sur un Mac finance.\n• Ouvrez Computers → recherche serial → fiche Mac. Onglets Inventory, Management History, Scope, Security.\n• Management History montre la timeline profils et policies. Update Inventory force un check-in.\n• Policy Logs depuis la fiche Mac ou la policy. Actions distantes : Lock, Wipe, Unmanage — avec prudence.\n• Erreurs fréquentes : diagnostic sans Update Inventory, Wipe sans validation asset tag.\n• Lab jamf-discovery. Quiz quiz-jamf-computers. Parcours Jamf Fundamentals Premium module 4.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Computers — fiche Mac Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Computers — fiche Mac Jamf Pro",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "jamf-mobile-devices",
+    "relatedCourseSlug": "jamf-fundamentals",
+    "relatedLabSlug": "jamf-mobile-devices",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Mobile Devices — iPhone et iPad Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Mobile Devices — iPhone et iPad Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Mobile Devices gère iPhone et iPad supervisés via MDM Apple dans Jamf Pro.\n• Scénario : déployer Wi-Fi corporate sur 200 iPad retail supervisés ADE.\n• PreStage mobile, profils iOS, VPP apps. Supervision requise pour options avancées.\n• Mobile Devices → iPad pilote → Profiles, Apps, Management History.\n• Erreurs : profils macOS copiés sur iOS, VPP sans token, wipe sans procédure Lost Mode.\n• Lab jamf-mobile-devices. Quiz quiz-jamf-mobile-devices.\n\nExercice pratique : ouvrez le lab « jamf-mobile-devices » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Mobile Devices — iPhone et iPad Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Mobile Devices — iPhone et iPad Jamf Pro",
+      "duration": "14 min"
+    }
+  },
+  {
+    "slug": "jamf-static-groups",
+    "relatedCourseSlug": "jamf-fundamentals",
+    "relatedLabSlug": "jamf-static-groups",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Static Groups Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Static Groups Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Les Static Groups sont des listes manuelles de Mac, mobile ou users.\n• Scénario : exclure Mac labo et VIP d'une policy maintenance nocturne.\n• Static Groups LAB et VIP. Policy scope Smart Group production + exclusions Static.\n• Complément Smart Groups : VIP, labo, tests stables. Maintenance membership trimestrielle.\n• Erreurs : Static obsolète, confusion avec Advanced Search reporting.\n• Lab jamf-static-groups. Quiz quiz-jamf-static-groups.\n\nExercice pratique : ouvrez le lab « jamf-static-groups » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Static Groups Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Static Groups Jamf Pro",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "jamf-reporting",
+    "relatedCourseSlug": "jamf-fundamentals",
+    "relatedLabSlug": "jamf-reporting",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Reporting Jamf Pro — Advanced Search\n\nObjectifs pédagogiques :\n• Comprendre « Reporting Jamf Pro — Advanced Search » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Reporting Jamf : Advanced Search, exports CSV et dashboards patch.\n• Scénario : audit trimestriel FileVault — export CSV Mac non chiffrés.\n• Advanced Search ≠ Smart Group. Smart Groups pour scope ; Advanced Search pour reporting ad hoc.\n• Computers → Advanced Computer Searches → critères → Export CSV → Save search ADV-*.\n• Patch dashboard pour conformité versions apps. API REST pour BI externe.\n• Lab jamf-reporting. Quiz quiz-jamf-reporting.\n\nExercice pratique : ouvrez le lab « jamf-reporting » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Reporting Jamf Pro — Advanced Search » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Reporting Jamf Pro — Advanced Search",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "jamf-troubleshooting",
+    "relatedCourseSlug": "jamf-fundamentals",
+    "relatedLabSlug": "jamf-troubleshooting",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Troubleshooting Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Troubleshooting Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Troubleshooting Jamf — méthode L1/L2 structurée.\n• Scénario : policy package Failed sur Mac distant.\n• Checklist L1 : scope, Policy Logs, Management History, DP accessible, espace disque, check-in sudo jamf policy.\n• Profils : conflits payload, certificats. Enrollment : token ABM, APNs expiry Dashboard alert.\n• Smart Groups circulaires → perf serveur. Escalade L2 : serial + policy ID + logs.\n• Lab jamf-troubleshooting. Quiz quiz-jamf-troubleshooting. Runbook L1 documenté.\n\nExercice pratique : ouvrez le lab « jamf-troubleshooting » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Troubleshooting Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Troubleshooting Jamf Pro",
+      "duration": "15 min"
+    }
+  },
+  {
     "slug": "video-j300-m01",
     "relatedCourseSlug": "jamf-300",
     "relatedLabSlug": "",

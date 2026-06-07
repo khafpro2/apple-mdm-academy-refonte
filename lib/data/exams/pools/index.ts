@@ -61,7 +61,7 @@ export const examQuestionCounts: Record<string, number> = {
   "examen-apple-it-pro": 200,
   "examen-jamf-100-blanc": 100,
   "examen-jamf-100": 100,
-  "examen-jamf-200": 150,
+  "examen-jamf-200": 200,
   "examen-intune-apple": 100,
   "examen-jamf-300": 125,
   "examen-jamf-400": 150,
