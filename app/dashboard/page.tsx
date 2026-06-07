@@ -6,6 +6,7 @@ import { LearnerStatsGrid } from "@/components/dashboard/learner-stats";
 import { LeaderboardPanel } from "@/components/dashboard/leaderboard-panel";
 import { ContinueLearningPanel } from "@/components/dashboard/continue-learning-panel";
 import { SubscriptionStatusBanner } from "@/components/dashboard/subscription-status-banner";
+import { DemoAccountBanner } from "@/components/dashboard/demo-account-banner";
 import { ResourcesPanel } from "@/components/dashboard/resources-panel";
 import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-panel";
@@ -20,6 +21,8 @@ import { userProgress as mockProgress, badges as mockBadges, certificates as moc
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
 import { fetchDashboardData } from "@/lib/supabase/queries";
+import { isDemoUser } from "@/lib/demo/demo-user";
+import { getDemoDashboardData } from "@/lib/demo/demo-dashboard-data";
 import type { LearnerStats, LeaderboardEntry } from "@/lib/types";
 
 export const metadata = { title: "Dashboard" };
@@ -35,9 +38,15 @@ const defaultStats: LearnerStats = {
 
 export default async function DashboardPage() {
   const user = await getUser();
-  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Apprenant";
+  const displayName = isDemoUser(user)
+    ? "Apprenant Démo"
+    : user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Apprenant";
 
-  const dbData = user ? await fetchDashboardData(user.id) : null;
+  const dbData = user
+    ? isDemoUser(user)
+      ? getDemoDashboardData(user.id)
+      : await fetchDashboardData(user.id)
+    : null;
 
   const globalPercent = dbData?.fromDatabase ? dbData.globalPercent : user ? 0 : mockProgress.globalPercent;
   const trackProgress = dbData?.fromDatabase ? dbData.tracks : user ? [] : mockProgress.tracks;
@@ -94,7 +103,9 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        {user && dbData?.fromDatabase && (
+        {user && isDemoUser(user) && <DemoAccountBanner />}
+
+        {user && dbData?.fromDatabase && !isDemoUser(user) && (
           <div className="mb-8 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
             Connecté · <strong>{user.email}</strong> · données en temps réel
           </div>

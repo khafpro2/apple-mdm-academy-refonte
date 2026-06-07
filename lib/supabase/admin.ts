@@ -1,5 +1,6 @@
 import { createClient, getUser } from "@/lib/supabase/server";
 import { getSupabaseEnv } from "@/lib/env";
+import { isDemoUserEmail } from "@/lib/demo/demo-user";
 
 function getAdminEmailsFromEnv(): string[] {
   return (
@@ -25,6 +26,8 @@ async function syncAdminRole(userId: string): Promise<boolean> {
 }
 
 export async function checkIsAdmin(userId: string, email?: string | null): Promise<boolean> {
+  if (isDemoUserEmail(email)) return false;
+
   const adminEmails = getAdminEmailsFromEnv();
 
   const synced = await syncAdminRole(userId);

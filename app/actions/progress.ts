@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getUser } from "@/lib/supabase/server";
+import { blockDemoWrite } from "@/lib/demo/demo-write-guard";
 import {
   insertQuizResult,
   upsertTrackProgress,
@@ -32,6 +33,9 @@ export type SaveVideoProgressPayload = {
 export async function saveVideoProgressAction(
   payload: SaveVideoProgressPayload
 ): Promise<{ ok: boolean }> {
+  const demoBlock = await blockDemoWrite();
+  if (demoBlock.blocked) return { ok: false };
+
   const user = await getUser();
   if (!user) return { ok: false };
 
@@ -70,6 +74,9 @@ export type SaveLabProgressPayload = {
 };
 
 export async function saveLabProgress(payload: SaveLabProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {
+  const demoBlock = await blockDemoWrite();
+  if (demoBlock.blocked) return { ok: false, newBadges: [] };
+
   const user = await getUser();
   if (!user) return { ok: false, newBadges: [] };
 
@@ -114,6 +121,9 @@ export type SaveLessonProgressPayload = {
 };
 
 export async function saveLessonProgress(payload: SaveLessonProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {
+  const demoBlock = await blockDemoWrite();
+  if (demoBlock.blocked) return { ok: false, newBadges: [] };
+
   const user = await getUser();
   if (!user) return { ok: false, newBadges: [] };
 
@@ -153,9 +163,14 @@ async function createClient() {
 
 export type SaveQuizResultResponse =
   | { ok: true; newBadges: string[]; resultId?: string }
-  | { ok: false; reason: "not_authenticated" | "not_configured" | "error"; message?: string };
+  | { ok: false; reason: "not_authenticated" | "not_configured" | "error" | "demo_readonly"; message?: string };
 
 export async function saveQuizResult(payload: SaveQuizResultPayload): Promise<SaveQuizResultResponse> {
+  const demoBlock = await blockDemoWrite();
+  if (demoBlock.blocked) {
+    return { ok: false, reason: "demo_readonly", message: "Compte démo en lecture seule." };
+  }
+
   const user = await getUser();
   if (!user) {
     return { ok: false, reason: "not_authenticated" };

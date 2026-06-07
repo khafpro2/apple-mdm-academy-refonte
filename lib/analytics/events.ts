@@ -4,6 +4,7 @@
 export type AnalyticsEvent =
   | "inscription"
   | "connexion"
+  | "connexion_demo"
   | "module_termine"
   | "lab_termine"
   | "quiz_termine"

@@ -28,6 +28,8 @@ export type UserBadgeRow = {
 
 export type DashboardData = {
   fromDatabase: boolean;
+  /** Compte démo — données figées, lecture seule */
+  isDemo?: boolean;
   globalPercent: number;
   tracks: { slug: string; title: string; percent: number }[];
   recentActivity: { label: string; date: string; type: string }[];
