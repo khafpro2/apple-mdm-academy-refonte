@@ -6,7 +6,11 @@ import { commercialCertificationPaths } from "@/lib/data/commercial-certificatio
 import { appleTrainingResources } from "@/lib/data/official-cert-links";
 import { JAMF_CERTIFICATION_COVERAGE } from "@/lib/data/jamf/jamf-pro-11-16-content";
 import { INTUNE_CERTIFICATION_COVERAGE } from "@/lib/data/intune/microsoft-learn-content";
+import { APPLE_TRAINING_COVERAGE } from "@/lib/data/apple-training/coverage";
+import { runAppleTrainingAudit } from "@/lib/data/apple-training/audit";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+
+const appleAudit = runAppleTrainingAudit();
 
 export const metadata = buildPageMetadata({
   title: "Certifications",
@@ -125,6 +129,78 @@ export default function CertificationsPage() {
                 </div>
               );
             })}
+          </div>
+        </Card>
+
+        <Card className="mt-10 p-6">
+          <h2 className="text-lg font-bold text-ink">Couverture Apple Training</h2>
+          <p className="mt-2 text-sm text-ink-secondary">
+            Audit qualité {appleAudit.globalQualityScore}/100 · ACITP {appleAudit.acitpCoveragePercent}% ·
+            Déploiement {appleAudit.deploymentCoveragePercent}% · Sécurité {appleAudit.securityCoveragePercent}%
+          </p>
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            {(["acitp", "deployment", "security", "enterprise"] as const).map((key) => {
+              const cov = APPLE_TRAINING_COVERAGE[key];
+              return (
+                <div key={key} className="rounded-2xl border border-border-light bg-surface p-5">
+                  <h3 className="font-bold text-ink">{cov.label}</h3>
+                  <p className="mt-1 text-xs text-ink-tertiary">
+                    Couverture {cov.coveragePercent}% · {cov.totalExamQuestions} questions · seuil {cov.passingScore}%
+                  </p>
+                  <ul className="mt-4 max-h-48 space-y-2 overflow-y-auto">
+                    {cov.modules.slice(0, 8).map((m) => (
+                      <li key={m.id} className="flex justify-between text-sm">
+                        <span className="text-ink-secondary">
+                          {m.title}
+                          {m.lab !== "—" && (
+                            <>
+                              {" "}
+                              · lab <code className="text-xs">{m.lab}</code>
+                            </>
+                          )}
+                        </span>
+                        <span className="font-semibold text-accent">{m.coveragePercent ?? m.examWeight}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {cov.examRoute && (
+                    <Link
+                      href={
+                        key === "acitp"
+                          ? "/certifications/apple-certified-it-professional"
+                          : `/examens/${cov.examRoute}`
+                      }
+                      className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
+                    >
+                      {key === "acitp" ? "Parcours ACITP →" : "Examen blanc →"}
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm">
+            <Link href="/resources/apple-it-professional-guide" className="font-semibold text-accent hover:underline">
+              Guide IT Professional
+            </Link>
+            <Link href="/resources/apple-business-manager-guide" className="font-semibold text-accent hover:underline">
+              Guide ABM
+            </Link>
+            <Link href="/resources/apple-deployment-guide" className="font-semibold text-accent hover:underline">
+              Guide Déploiement
+            </Link>
+            <Link href="/resources/apple-security-guide" className="font-semibold text-accent hover:underline">
+              Guide Sécurité
+            </Link>
+            <Link href="/resources/platform-sso-guide" className="font-semibold text-accent hover:underline">
+              Guide Platform SSO
+            </Link>
+            <Link href="/resources/ddm-guide" className="font-semibold text-accent hover:underline">
+              Guide DDM
+            </Link>
+            <Link href="/resources/device-attestation-guide" className="font-semibold text-accent hover:underline">
+              Guide Attestation
+            </Link>
           </div>
         </Card>
 

@@ -27,6 +27,48 @@ function guide(
 /** 7 guides Apple Platform Deployment — français, PDF via export existant */
 export const platformDeploymentGuides: AcademyResource[] = [
   guide(
+    "apple-it-professional-guide",
+    "Guide Apple Certified IT Professional",
+    "Référence francophone ACITP : macOS, apps Apple, identité, ABM, MDM, sécurité et dépannage enterprise.",
+    "Apple IT Professional",
+    "apple-it-professional",
+    "acitp-lab-01-mac-setup",
+    [
+      {
+        title: "Compétences macOS",
+        items: [
+          "Finder, Dock, Spotlight — navigation et support utilisateur",
+          "Safari, Mail, Notes, Calendar, Messages, FaceTime en contexte enterprise",
+          "Accessibilité et diagnostic Console.app",
+        ],
+      },
+      {
+        title: "Identité & services",
+        items: [
+          "Apple ID vs Managed Apple ID — restrictions MDM",
+          "iCloud services granulaires (Drive, Photos, Keychain)",
+          "Platform SSO et fédération Entra ID",
+        ],
+      },
+      {
+        title: "Management & sécurité",
+        items: [
+          "ABM, ADE, Apps & Books, APNs — chaîne déploiement",
+          "FileVault, Gatekeeper, SIP, XProtect, Activation Lock",
+          "MDM Intune/Jamf : profils, compliance, dépannage push",
+        ],
+      },
+      {
+        title: "Préparation examen",
+        items: [
+          "200 questions · 7 domaines · seuil 80 %",
+          "10 labs obligatoires · rapport préparation domaines",
+          "Aligné ressources Apple Training officielles",
+        ],
+      },
+    ]
+  ),
+  guide(
     "apple-deployment-guide",
     "Guide Apple Platform Deployment",
     "Guide complet francophone : architecture déploiement Apple enterprise, ADE, MDM et cycle de vie appareil.",
@@ -194,6 +236,40 @@ export const platformDeploymentGuides: AcademyResource[] = [
           "Software Update enforcement",
           "Passcode et restrictions déclaratives",
           "Monitoring conformité via status reports",
+        ],
+      },
+    ]
+  ),
+  guide(
+    "device-attestation-guide",
+    "Guide Managed Device Attestation",
+    "Attestation appareils supervisés iOS/macOS, Conditional Access Entra, Intune compliance et Jamf.",
+    "Managed Device Attestation",
+    "apple-it-professional",
+    "apple-training-lab-ddm",
+    [
+      {
+        title: "Principes",
+        items: [
+          "Attestation matérielle appareils supervisés ADE",
+          "OS minimum iOS 17+ / macOS 14+ pour MDA enterprise",
+          "Signal device trust pour Conditional Access Entra",
+        ],
+      },
+      {
+        title: "Intune + Jamf",
+        items: [
+          "Intune compliance policy attestation requirement",
+          "Jamf Protect / compliance extensions attestation",
+          "Lien CA : exiger appareil attesté pour M365",
+        ],
+      },
+      {
+        title: "Dépannage",
+        items: [
+          "BYOD user enrollment — attestation non disponible",
+          "OS sous minimum — mise à jour ou exclusion CA",
+          "Supervision ADE requise — migrer flotte non supervisée",
         ],
       },
     ]

@@ -11,6 +11,7 @@ import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-panel";
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
+import { AppleTrainingProgressPanel } from "@/components/dashboard/apple-training-progress-panel";
 import { VideoProgressPanel } from "@/components/dashboard/video-progress-panel";
 import { ContinueWithoutVideoPanel } from "@/components/dashboard/ContinueWithoutVideoPanel";
 import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
@@ -117,6 +118,12 @@ export default async function DashboardPage() {
         <SubscriptionStatusBanner />
 
         <CertificationReadinessPanel
+          completedLessonSlugs={completedLessonSlugs}
+          completedLabSlugs={completedLabSlugs}
+          examScores={maxExamScores}
+        />
+
+        <AppleTrainingProgressPanel
           completedLessonSlugs={completedLessonSlugs}
           completedLabSlugs={completedLabSlugs}
           examScores={maxExamScores}

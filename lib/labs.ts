@@ -3,6 +3,7 @@ import { expertLabs } from "@/lib/data/advanced-tracks/expert-labs";
 import { altMdmLabs } from "@/lib/data/alternative-mdm-tracks/labs";
 import { applePlatformDeploymentLabs } from "@/lib/data/apple-platform-deployment/labs";
 import { acitpCertificationLabs } from "@/lib/data/acitp/labs";
+import { appleTrainingLabs } from "@/lib/data/apple-training/labs";
 
 function lab(
   slug: string,
@@ -1338,6 +1339,7 @@ export const labs: Lab[] = [
   ),
   ...applePlatformDeploymentLabs,
   ...acitpCertificationLabs,
+  ...appleTrainingLabs,
   ...expertLabs,
   ...altMdmLabs,
 ];

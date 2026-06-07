@@ -14,6 +14,8 @@ export {
 } from "@/lib/data/alternative-mdm-tracks/exam-pools";
 
 export { aeaExamPool200 } from "@/lib/data/apple-enterprise-architect/exam-pool";
+export { appleDeploymentExamPool100 } from "@/lib/data/apple-training/exam-apple-deployment";
+export { appleSecurityExamPool100 } from "@/lib/data/apple-training/exam-apple-security";
 export { intuneApplePool } from "./intune-apple";
 
 import type { Question } from "@/lib/types";
@@ -33,6 +35,8 @@ import {
   workspaceOneApplePool,
 } from "@/lib/data/alternative-mdm-tracks/exam-pools";
 import { aeaExamPool200 } from "@/lib/data/apple-enterprise-architect/exam-pool";
+import { appleDeploymentExamPool100 } from "@/lib/data/apple-training/exam-apple-deployment";
+import { appleSecurityExamPool100 } from "@/lib/data/apple-training/exam-apple-security";
 
 export const examPools: Record<string, Question[]> = {
   "examen-apple-it-pro": acitpExamPool200,
@@ -44,6 +48,8 @@ export const examPools: Record<string, Question[]> = {
   "examen-jamf-400": jamf400Pool,
   "examen-apple-enterprise-expert": appleEnterpriseExpertPool,
   "examen-apple-enterprise-architect": aeaExamPool200,
+  "examen-apple-deployment": appleDeploymentExamPool100,
+  "examen-apple-security": appleSecurityExamPool100,
   "examen-intune-apple-advanced": intuneAppleAdvancedPool,
   "examen-kandji-fundamentals": kandjiFundamentalsPool,
   "examen-mosyle-fundamentals": mosyleFundamentalsPool,
@@ -61,6 +67,8 @@ export const examQuestionCounts: Record<string, number> = {
   "examen-jamf-400": 150,
   "examen-apple-enterprise-expert": 100,
   "examen-apple-enterprise-architect": 200,
+  "examen-apple-deployment": 100,
+  "examen-apple-security": 100,
   "examen-intune-apple-advanced": 100,
   "examen-kandji-fundamentals": 75,
   "examen-mosyle-fundamentals": 75,
@@ -78,6 +86,8 @@ export const examRouteToQuizSlug: Record<string, string> = {
   "jamf-400": "examen-jamf-400",
   "apple-enterprise-expert": "examen-apple-enterprise-expert",
   "apple-enterprise-architect": "examen-apple-enterprise-architect",
+  "apple-deployment": "examen-apple-deployment",
+  "apple-security": "examen-apple-security",
   "intune-apple-advanced": "examen-intune-apple-advanced",
   "kandji-fundamentals": "examen-kandji-fundamentals",
   "mosyle-fundamentals": "examen-mosyle-fundamentals",
