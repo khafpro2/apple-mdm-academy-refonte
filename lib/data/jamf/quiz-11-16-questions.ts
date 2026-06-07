@@ -124,7 +124,21 @@ export const jamf116ExamQuestions: Question[] = [
   ),
 ];
 
-export const jamf116ModuleQuizExtras: Record<string, Question[]> = {
+const jamf116ExamById = Object.fromEntries(jamf116ExamQuestions.map((question) => [question.id, question]));
+
+/** Répartition des 15 Q Jamf 11.16 vers quiz modules / standalone */
+const JAMF116_EXAM_DISTRIBUTION: Record<string, string[]> = {
+  "quiz-module-12-jamf-fundamentals": ["j116-14"],
+  "quiz-module-13-smart-groups": ["j116-01", "j116-02"],
+  "quiz-module-14-policies": ["j116-03", "j116-07", "j116-10", "j116-15"],
+  "quiz-jamf-packages": ["j116-04", "j116-09"],
+  "quiz-module-15-scripts": ["j116-08"],
+  "quiz-module-16-patch": ["j116-05", "j116-06", "j116-11"],
+  "quiz-jamf-inventory": ["j116-12"],
+  "quiz-jamf-enrollment": ["j116-13"],
+};
+
+const jamf116ManualModuleExtras: Record<string, Question[]> = {
   "quiz-module-13-smart-groups": [
     q(
       "m13-j116-1",
@@ -166,4 +180,30 @@ export const jamf116ModuleQuizExtras: Record<string, Question[]> = {
       "Option General patch policy 11.16."
     ),
   ],
+  "quiz-module-12-jamf-fundamentals": [
+    q(
+      "m12-j116-2",
+      "Configuration Profiles transportent :",
+      ["PKG signés uniquement", "Payloads MDM Apple", "Scripts bash seuls", "Distribution Points"],
+      1,
+      "Profils = payloads MDM signés."
+    ),
+  ],
 };
+
+function buildJamf116ModuleQuizExtras(): Record<string, Question[]> {
+  const merged: Record<string, Question[]> = {};
+
+  for (const [quizSlug, questionIds] of Object.entries(JAMF116_EXAM_DISTRIBUTION)) {
+    const fromExam = questionIds.map((id) => jamf116ExamById[id]).filter(Boolean);
+    if (fromExam.length) merged[quizSlug] = fromExam;
+  }
+
+  for (const [quizSlug, manual] of Object.entries(jamf116ManualModuleExtras)) {
+    merged[quizSlug] = [...(merged[quizSlug] ?? []), ...manual];
+  }
+
+  return merged;
+}
+
+export const jamf116ModuleQuizExtras = buildJamf116ModuleQuizExtras();

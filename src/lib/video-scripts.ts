@@ -543,6 +543,7 @@ const LESSON_VIDEO_SLUGS: Record<string, string> = {
   "m12-architecture-jamf": "jamf-dashboard",
   "m12-inventaire-jamf": "jamf-inventory",
   "m12-enrollment-jamf": "jamf-enrollment",
+  "m12-configuration-profiles": "jamf-configuration-profiles",
   "m12-self-service": "jamf-self-service",
   "m13-sg-intro": "jamf-smart-groups",
   "m13-sg-criteres": "jamf-smart-groups",

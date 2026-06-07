@@ -410,7 +410,7 @@ const TOPICS: Record<Jamf116TopicId, Jamf116TopicBlocks> = {
 
 export function resolveJamf116Topic(lessonSlug: string, moduleSlug?: string): Jamf116TopicId | null {
   const s = `${lessonSlug} ${moduleSlug ?? ""}`.toLowerCase();
-  if (s.includes("config-profile") || s.includes("config-profiles") || s.includes("profil")) return "configuration-profiles";
+  if (s.includes("config-profile") || s.includes("config-profiles") || s.includes("m12-configuration")) return "configuration-profiles";
   if (s.includes("inventaire") || s.includes("inventory") || s.includes("extension-attribute")) return "inventory";
   if (s.includes("enrollment") || s.includes("prestage") || s.includes("ade")) return "enrollment";
   if (s.includes("smart") || s.includes("sg-") || s.includes("module-13")) return "smart-groups";

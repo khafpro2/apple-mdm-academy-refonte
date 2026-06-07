@@ -9,7 +9,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Bonjour et bienvenue dans Apple MDM Academy.\nDans cette formation, vous allez apprendre à administrer les appareils Apple en entreprise avec Apple Business Manager, Microsoft Intune et Jamf Pro.\nL'objectif est de vous préparer aux certifications Apple Certified IT Professional, Apple Deployment and Management, Jamf 100 et Jamf 200.\nChaque module contient un cours, un quiz, un laboratoire pratique et une validation de progression.\nÀ la fin du parcours, vous serez capable de déployer, sécuriser et administrer une flotte Apple professionnelle.",
+      "script": "Bienvenue dans Apple MDM Academy\n\nObjectifs pédagogiques :\n• Comprendre « Bienvenue dans Apple MDM Academy » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nL'IT doit enrôler 150 iPad éducation ou Mac corporate via ABM sans intervention manuelle au setup assistant.\n\nPoints clés :\n• Bonjour et bienvenue dans Apple MDM Academy.\n• Dans cette formation, vous allez apprendre à administrer les appareils Apple en entreprise avec Apple Business Manager, Microsoft Intune et Jamf Pro.\n• L'objectif est de vous préparer aux certifications Apple Certified IT Professional, Apple Deployment and Management, Jamf 100 et Jamf 200.\n• Chaque module contient un cours, un quiz, un laboratoire pratique et une validation de progression.\n• À la fin du parcours, vous serez capable de déployer, sécuriser et administrer une flotte Apple professionnelle.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Bienvenue dans Apple MDM Academy » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Bienvenue dans Apple MDM Academy",
       "duration": "5 min"
     }
@@ -24,7 +24,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Apple Business Manager est le point de départ d'un déploiement Apple moderne.\nIl permet de gérer les appareils, les utilisateurs, les licences applicatives et les serveurs MDM.\nLes appareils achetés auprès de revendeurs agréés peuvent apparaître automatiquement dans l'inventaire.\nL'administrateur peut ensuite les affecter à Intune ou Jamf Pro.\nApple Business Manager permet aussi de gérer Apps and Books, les Managed Apple IDs et la fédération Microsoft Entra ID.",
+      "script": "Comprendre Apple Business Manager\n\nObjectifs pédagogiques :\n• Comprendre « Comprendre Apple Business Manager » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Apple Business Manager est le point de départ d'un déploiement Apple moderne.\n• Il permet de gérer les appareils, les utilisateurs, les licences applicatives et les serveurs MDM.\n• Les appareils achetés auprès de revendeurs agréés peuvent apparaître automatiquement dans l'inventaire.\n• L'administrateur peut ensuite les affecter à Intune ou Jamf Pro.\n• Apple Business Manager permet aussi de gérer Apps and Books, les Managed Apple IDs et la fédération Microsoft Entra ID.\n\nExercice pratique : ouvrez le lab « abm-intune » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Comprendre Apple Business Manager » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Comprendre Apple Business Manager",
       "duration": "12 min"
     }
@@ -39,7 +39,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Dans cette leçon, nous allons connecter Apple Business Manager à Microsoft Intune.\nCette intégration permet d'automatiser le déploiement des iPhone, iPad et Mac.\nLa première étape consiste à créer ou vérifier le certificat APNs.\nEnsuite, nous créons un serveur MDM dans Apple Business Manager.\nNous téléchargeons le fichier server_token.p7m, puis nous l'importons dans Intune.\nUne fois la synchronisation terminée, les appareils Apple deviennent visibles dans Intune.",
+      "script": "Lier Apple Business Manager à Microsoft Intune\n\nObjectifs pédagogiques :\n• Comprendre « Lier Apple Business Manager à Microsoft Intune » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Dans cette leçon, nous allons connecter Apple Business Manager à Microsoft Intune.\n• Cette intégration permet d'automatiser le déploiement des iPhone, iPad et Mac.\n• La première étape consiste à créer ou vérifier le certificat APNs.\n• Ensuite, nous créons un serveur MDM dans Apple Business Manager.\n• Nous téléchargeons le fichier server_token.p7m, puis nous l'importons dans Intune.\n• Une fois la synchronisation terminée, les appareils Apple deviennent visibles dans Intune.\n\nExercice pratique : ouvrez le lab « abm-intune » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Lier Apple Business Manager à Microsoft Intune » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Lier Apple Business Manager à Microsoft Intune",
       "duration": "15 min"
     }
@@ -54,7 +54,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Automated Device Enrollment, ou ADE, permet de déployer des appareils Apple sans intervention manuelle.\nLorsqu'un utilisateur démarre un iPhone ou un Mac, l'appareil contacte les serveurs Apple.\nApple détecte l'affectation au serveur MDM et télécharge automatiquement le profil de gestion.\nL'appareil devient supervisé et reçoit ses profils, applications et paramètres de sécurité.\nCette approche est appelée Zero Touch Deployment.",
+      "script": "Automated Device Enrollment\n\nObjectifs pédagogiques :\n• Comprendre « Automated Device Enrollment » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nL'IT doit enrôler 150 iPad éducation ou Mac corporate via ABM sans intervention manuelle au setup assistant.\n\nPoints clés :\n• Automated Device Enrollment, ou ADE, permet de déployer des appareils Apple sans intervention manuelle.\n• Lorsqu'un utilisateur démarre un iPhone ou un Mac, l'appareil contacte les serveurs Apple.\n• Apple détecte l'affectation au serveur MDM et télécharge automatiquement le profil de gestion.\n• L'appareil devient supervisé et reçoit ses profils, applications et paramètres de sécurité.\n• Cette approche est appelée Zero Touch Deployment.\n\nExercice pratique : ouvrez le lab « ade-iphone » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Automated Device Enrollment » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Automated Device Enrollment",
       "duration": "15 min"
     }
@@ -69,7 +69,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Apple Push Notification service, ou APNs, est essentiel au fonctionnement du MDM.\nLorsqu'un administrateur envoie une commande depuis Intune ou Jamf, APNs réveille l'appareil.\nL'appareil contacte ensuite son serveur MDM pour exécuter l'action.\nSans APNs, aucune commande distante, aucun inventaire et aucune installation applicative ne peuvent fonctionner correctement.\nIl faut donc surveiller et renouveler le certificat APNs avant expiration.",
+      "script": "Comprendre APNs\n\nObjectifs pédagogiques :\n• Comprendre « Comprendre APNs » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Apple Push Notification service, ou APNs, est essentiel au fonctionnement du MDM.\n• Lorsqu'un administrateur envoie une commande depuis Intune ou Jamf, APNs réveille l'appareil.\n• L'appareil contacte ensuite son serveur MDM pour exécuter l'action.\n• Sans APNs, aucune commande distante, aucun inventaire et aucune installation applicative ne peuvent fonctionner correctement.\n• Il faut donc surveiller et renouveler le certificat APNs avant expiration.\n\nExercice pratique : ouvrez le lab « apns » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Comprendre APNs » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Comprendre APNs",
       "duration": "10 min"
     }
@@ -84,7 +84,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Apps and Books permet de distribuer des applications Apple à grande échelle.\nLes licences peuvent être achetées en volume puis synchronisées vers Intune ou Jamf.\nLes applications peuvent être attribuées à des utilisateurs ou directement à des appareils.\nCette méthode évite l'utilisation d'Apple ID personnels.\nElle simplifie la gestion des licences et permet de récupérer une licence quand un collaborateur quitte l'entreprise.",
+      "script": "Apps and Books\n\nObjectifs pédagogiques :\n• Comprendre « Apps and Books » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Apps and Books permet de distribuer des applications Apple à grande échelle.\n• Les licences peuvent être achetées en volume puis synchronisées vers Intune ou Jamf.\n• Les applications peuvent être attribuées à des utilisateurs ou directement à des appareils.\n• Cette méthode évite l'utilisation d'Apple ID personnels.\n• Elle simplifie la gestion des licences et permet de récupérer une licence quand un collaborateur quitte l'entreprise.\n\nExercice pratique : ouvrez le lab « apps-books » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Apps and Books » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Apps and Books",
       "duration": "10 min"
     }
@@ -99,7 +99,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Les Managed Apple IDs sont des identifiants Apple appartenant à l'organisation.\nIls sont créés et administrés depuis Apple Business Manager ou Apple School Manager.\nIls permettent l'authentification professionnelle, la gestion centralisée et l'intégration avec Microsoft Entra ID.\nContrairement aux Apple ID personnels, ils restent sous le contrôle de l'entreprise.\nIls sont importants pour les environnements modernes Apple Enterprise.",
+      "script": "Managed Apple IDs\n\nObjectifs pédagogiques :\n• Comprendre « Managed Apple IDs » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Les Managed Apple IDs sont des identifiants Apple appartenant à l'organisation.\n• Ils sont créés et administrés depuis Apple Business Manager ou Apple School Manager.\n• Ils permettent l'authentification professionnelle, la gestion centralisée et l'intégration avec Microsoft Entra ID.\n• Contrairement aux Apple ID personnels, ils restent sous le contrôle de l'entreprise.\n• Ils sont importants pour les environnements modernes Apple Enterprise.\n\nExercice pratique : ouvrez le lab « managed-apple-ids » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Managed Apple IDs » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Managed Apple IDs",
       "duration": "12 min"
     }
@@ -114,7 +114,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Platform SSO est une fonctionnalité moderne de macOS.\nElle permet d'utiliser l'identité Microsoft Entra ID pour ouvrir une session sur Mac.\nL'utilisateur bénéficie d'une authentification unifiée et d'une meilleure expérience.\nLe mot de passe peut être synchronisé automatiquement.\nPlatform SSO améliore la sécurité tout en simplifiant l'administration des comptes macOS.",
+      "script": "Platform SSO\n\nObjectifs pédagogiques :\n• Comprendre « Platform SSO » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Platform SSO est une fonctionnalité moderne de macOS.\n• Elle permet d'utiliser l'identité Microsoft Entra ID pour ouvrir une session sur Mac.\n• L'utilisateur bénéficie d'une authentification unifiée et d'une meilleure expérience.\n• Le mot de passe peut être synchronisé automatiquement.\n• Platform SSO améliore la sécurité tout en simplifiant l'administration des comptes macOS.\n\nExercice pratique : ouvrez le lab « platform-sso » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Platform SSO » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Platform SSO",
       "duration": "15 min"
     }
@@ -129,7 +129,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "Jamf Pro est l'une des solutions les plus utilisées pour gérer les appareils Apple en entreprise.\nElle permet l'inventaire, l'enrôlement, le déploiement d'applications, les profils de configuration, les scripts, les politiques et le Self Service.\nDans ce module, nous découvrons les composants essentiels utilisés par les administrateurs Apple au quotidien.",
+      "script": "Jamf Pro Fundamentals\n\nObjectifs pédagogiques :\n• Comprendre « Jamf Pro Fundamentals » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Jamf Pro est l'une des solutions les plus utilisées pour gérer les appareils Apple en entreprise.\n• Elle permet l'inventaire, l'enrôlement, le déploiement d'applications, les profils de configuration, les scripts, les politiques et le Self Service.\n• Dans ce module, nous découvrons les composants essentiels utilisés par les administrateurs Apple au quotidien.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Jamf Pro Fundamentals » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Jamf Pro Fundamentals",
       "duration": "15 min"
     }
@@ -144,7 +144,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium",
-      "script": "La sécurité macOS repose sur plusieurs couches.\nFileVault chiffre les données du disque.\nGatekeeper contrôle l'exécution des applications.\nXProtect détecte les logiciels malveillants.\nSystem Integrity Protection protège les composants critiques du système.\nActivation Lock protège contre le vol.\nCes technologies peuvent être contrôlées et supervisées avec Intune, Jamf et Apple Business Manager.",
+      "script": "Sécurité macOS\n\nObjectifs pédagogiques :\n• Comprendre « Sécurité macOS » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• La sécurité macOS repose sur plusieurs couches.\n• FileVault chiffre les données du disque.\n• Gatekeeper contrôle l'exécution des applications.\n• XProtect détecte les logiciels malveillants.\n• System Integrity Protection protège les composants critiques du système.\n• Activation Lock protège contre le vol.\n• Ces technologies peuvent être contrôlées et supervisées avec Intune, Jamf et Apple Business Manager.\n\nExercice pratique : ouvrez le lab « macos-security » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Sécurité macOS » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Sécurité macOS",
       "duration": "20 min"
     }
@@ -159,7 +159,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Bienvenue dans cette vidéo consacrée au dashboard Jamf Pro.\nLe dashboard est votre point d'entrée quotidien pour piloter la santé de votre parc Apple.\nDès la connexion, vous visualisez le nombre de Mac, iPhone et iPad gérés, les alertes critiques et les policies en attente d'exécution.\nLes widgets vous permettent de suivre la conformité, les enrollments récents et l'état des certificats APNs.\nLe menu latéral organise l'inventaire, les policies, les profils de configuration, les Smart Groups et les rapports.\nUn administrateur Jamf efficace commence chaque journée par une revue du dashboard avant d'intervenir sur les appareils.\nDans le lab associé, vous explorerez chaque section et configurerez vos favoris pour un accès rapide.",
+      "script": "Découvrir le dashboard Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Découvrir le dashboard Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Bienvenue dans cette vidéo consacrée au dashboard Jamf Pro.\n• Le dashboard est votre point d'entrée quotidien pour piloter la santé de votre parc Apple.\n• Dès la connexion, vous visualisez le nombre de Mac, iPhone et iPad gérés, les alertes critiques et les policies en attente d'exécution.\n• Les widgets vous permettent de suivre la conformité, les enrollments récents et l'état des certificats APNs.\n• Le menu latéral organise l'inventaire, les policies, les profils de configuration, les Smart Groups et les rapports.\n• Un administrateur Jamf efficace commence chaque journée par une revue du dashboard avant d'intervenir sur les appareils.\n• Dans le lab associé, vous explorerez chaque section et configurerez vos favoris pour un accès rapide.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Découvrir le dashboard Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Découvrir le dashboard Jamf Pro",
       "duration": "10 min"
     }
@@ -174,7 +174,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "L'inventaire Jamf Pro centralise toutes les informations remontées par vos appareils Apple.\nChaque enregistrement contient le modèle, le numéro de série, la version macOS ou iOS, l'utilisateur assigné et la date du dernier check-in.\nJamf collecte ces données via l'agent Jamf et les extension attributes personnalisées.\nLa recherche avancée permet de filtrer par critère : version OS, application installée, statut FileVault ou valeur d'un Extension Attribute.\nUn inventaire fiable est la base de tout déploiement réussi : sans données exactes, les Smart Groups et les policies ciblent les mauvais appareils.\nPensez à surveiller les Mac qui n'ont pas effectué de check-in depuis plus de sept jours.\nDans votre lab, vous interrogez l'inventaire et exportez un rapport pour votre équipe support.",
+      "script": "Comprendre l'inventaire Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Comprendre l'inventaire Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• L'inventaire Jamf Pro centralise toutes les informations remontées par vos appareils Apple.\n• Chaque enregistrement contient le modèle, le numéro de série, la version macOS ou iOS, l'utilisateur assigné et la date du dernier check-in.\n• Jamf collecte ces données via l'agent Jamf et les extension attributes personnalisées.\n• La recherche avancée permet de filtrer par critère : version OS, application installée, statut FileVault ou valeur d'un Extension Attribute.\n• Un inventaire fiable est la base de tout déploiement réussi : sans données exactes, les Smart Groups et les policies ciblent les mauvais appareils.\n• Pensez à surveiller les Mac qui n'ont pas effectué de check-in depuis plus de sept jours.\n• Dans votre lab, vous interrogez l'inventaire et exportez un rapport pour votre équipe support.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Comprendre l'inventaire Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Comprendre l'inventaire Jamf Pro",
       "duration": "12 min"
     }
@@ -189,7 +189,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "L'enrollment est le processus qui lie un Mac à votre instance Jamf Pro.\nIl existe plusieurs méthodes : Automated Device Enrollment via Apple Business Manager, enrollment manuel par invitation ou enrollment par profil téléchargé.\nPour un déploiement enterprise, ADE est la méthode recommandée : l'appareil est supervisé dès la première activation.\nLors de l'enrollment, Jamf installe le profil MDM, enregistre l'appareil dans l'inventaire et exécute les policies de type Enrollment Complete.\nVous devez vérifier que le certificat APNs est valide et que le serveur MDM est correctement configuré dans ABM.\nUn Mac correctement enrollé affiche le statut Managed dans Jamf et peut recevoir des commandes silencieuses.\nLe lab vous guide pas à pas pour enrôler un Mac de test et valider la remontée d'inventaire.",
+      "script": "Enrôler un Mac dans Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Enrôler un Mac dans Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• L'enrollment est le processus qui lie un Mac à votre instance Jamf Pro.\n• Il existe plusieurs méthodes : Automated Device Enrollment via Apple Business Manager, enrollment manuel par invitation ou enrollment par profil téléchargé.\n• Pour un déploiement enterprise, ADE est la méthode recommandée : l'appareil est supervisé dès la première activation.\n• Lors de l'enrollment, Jamf installe le profil MDM, enregistre l'appareil dans l'inventaire et exécute les policies de type Enrollment Complete.\n• Vous devez vérifier que le certificat APNs est valide et que le serveur MDM est correctement configuré dans ABM.\n• Un Mac correctement enrollé affiche le statut Managed dans Jamf et peut recevoir des commandes silencieuses.\n• Le lab vous guide pas à pas pour enrôler un Mac de test et valider la remontée d'inventaire.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Enrôler un Mac dans Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Enrôler un Mac dans Jamf Pro",
       "duration": "15 min"
     }
@@ -204,7 +204,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "PreStage Enrollment est la fonctionnalité phare de Jamf pour le zero-touch deployment Mac.\nUn PreStage Enrollment regroupe les paramètres d'enrollment ADE : compte local, Skip Setup Assistant, policies initiales et restrictions.\nVous pouvez créer plusieurs PreStages selon les profils utilisateurs : développeurs, marketing, direction.\nLors de l'activation, le Mac télécharge automatiquement le PreStage assigné dans Apple Business Manager.\nLes options Skip permettent de masquer les écrans Apple ID, Siri ou Analytics pour une expérience corporate fluide.\nUn PreStage bien configuré réduit le temps de mise en service de plusieurs heures à quelques minutes.\nDans cette leçon, nous construisons un PreStage production-ready avec scope, compte admin local et policies de bootstrap.",
+      "script": "PreStage Enrollment\n\nObjectifs pédagogiques :\n• Comprendre « PreStage Enrollment » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nL'IT doit enrôler 150 iPad éducation ou Mac corporate via ABM sans intervention manuelle au setup assistant.\n\nPoints clés :\n• PreStage Enrollment est la fonctionnalité phare de Jamf pour le zero-touch deployment Mac.\n• Un PreStage Enrollment regroupe les paramètres d'enrollment ADE : compte local, Skip Setup Assistant, policies initiales et restrictions.\n• Vous pouvez créer plusieurs PreStages selon les profils utilisateurs : développeurs, marketing, direction.\n• Lors de l'activation, le Mac télécharge automatiquement le PreStage assigné dans Apple Business Manager.\n• Les options Skip permettent de masquer les écrans Apple ID, Siri ou Analytics pour une expérience corporate fluide.\n• Un PreStage bien configuré réduit le temps de mise en service de plusieurs heures à quelques minutes.\n• Dans cette leçon, nous construisons un PreStage production-ready avec scope, compte admin local et policies de bootstrap.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « PreStage Enrollment » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "PreStage Enrollment",
       "duration": "15 min"
     }
@@ -219,7 +219,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Les Smart Groups sont des groupes dynamiques qui se mettent à jour automatiquement selon des critères d'inventaire.\nContrairement aux groupes statiques, un Smart Group recalcule ses membres à chaque check-in Jamf.\nVous pouvez combiner des critères : version macOS supérieure à 14, présence d'une application, Extension Attribute égal à une valeur, appartenance à un site.\nLes opérateurs AND et OR permettent des règles complexes pour cibler précisément vos populations.\nLes Smart Groups sont utilisés partout dans Jamf : scope des policies, profils, patch management et rapports.\nUn Smart Group mal conçu peut exclure des appareils critiques ou en inclure trop — testez toujours sur un groupe pilote.\nLe lab associé vous fait créer un Smart Group production avec Extension Attribute et validation du scope.",
+      "script": "Smart Groups Jamf\n\nObjectifs pédagogiques :\n• Comprendre « Smart Groups Jamf » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUn administrateur Jamf cible dynamiquement les Mac sans FileVault avant d'appliquer une restriction réseau.\n\nPoints clés :\n• Les Smart Groups sont des groupes dynamiques qui se mettent à jour automatiquement selon des critères d'inventaire.\n• Contrairement aux groupes statiques, un Smart Group recalcule ses membres à chaque check-in Jamf.\n• Vous pouvez combiner des critères : version macOS supérieure à 14, présence d'une application, Extension Attribute égal à une valeur, appartenance à un site.\n• Les opérateurs AND et OR permettent des règles complexes pour cibler précisément vos populations.\n• Les Smart Groups sont utilisés partout dans Jamf : scope des policies, profils, patch management et rapports.\n• Un Smart Group mal conçu peut exclure des appareils critiques ou en inclure trop — testez toujours sur un groupe pilote.\n• Le lab associé vous fait créer un Smart Group production avec Extension Attribute et validation du scope.\n\nExercice pratique : ouvrez le lab « jamf-smart-groups » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Smart Groups Jamf » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Smart Groups Jamf",
       "duration": "15 min"
     }
@@ -234,7 +234,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Les Policies Jamf Pro sont le moteur d'automatisation de votre flotte Mac.\nUne policy regroupe des actions : installation de packages, exécution de scripts, maintenance, messages utilisateur ou reboot.\nLe trigger définit quand la policy s'exécute : Enrollment Complete, Recurring Check-in, Login, Logout ou Self Service.\nLa fréquence contrôle la répétition : once per computer, once per user ou à chaque check-in.\nLes policies sont ordonnées par priorité : Before, After ou au sein d'une catégorie.\nChaque policy doit être scoped à un Smart Group ou un groupe statique pour limiter son impact.\nUn administrateur Jamf 100 maîtrise la création, le test et le dépannage des policies via les logs Jamf et la commande sudo jamf policy.\nLe lab vous guide pour créer une policy complète avec package et validation sur Mac de test.",
+      "script": "Policies Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Policies Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Les Policies Jamf Pro sont le moteur d'automatisation de votre flotte Mac.\n• Une policy regroupe des actions : installation de packages, exécution de scripts, maintenance, messages utilisateur ou reboot.\n• Le trigger définit quand la policy s'exécute : Enrollment Complete, Recurring Check-in, Login, Logout ou Self Service.\n• La fréquence contrôle la répétition : once per computer, once per user ou à chaque check-in.\n• Les policies sont ordonnées par priorité : Before, After ou au sein d'une catégorie.\n• Chaque policy doit être scoped à un Smart Group ou un groupe statique pour limiter son impact.\n• Un administrateur Jamf 100 maîtrise la création, le test et le dépannage des policies via les logs Jamf et la commande sudo jamf policy.\n• Le lab vous guide pour créer une policy complète avec package et validation sur Mac de test.\n\nExercice pratique : ouvrez le lab « jamf-policies » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Policies Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Policies Jamf Pro",
       "duration": "18 min"
     }
@@ -249,22 +249,37 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Le scope détermine quels appareils ou utilisateurs reçoivent une policy, un profil ou une application Jamf.\nL'onglet Scope permet d'ajouter des groupes cibles et de définir des exclusions pour retirer des machines spécifiques.\nLes limitations affinent le ciblage : par site Jamf, par réseau, par version OS ou par type d'appareil.\nUne exclusion est utile pour retirer les Mac de test ou les machines VIP d'un déploiement massif.\nLes conflits de scope entre plusieurs policies sont résolus par la priorité et l'ordre d'exécution.\nUne erreur de scope est l'une des causes les plus fréquentes de policies qui ne s'appliquent pas — vérifiez toujours les membres du groupe et les exclusions actives.\nCette vidéo vous apprend à auditer le scope avant chaque déploiement production.",
+      "script": "Scope, exclusions et limitations\n\nObjectifs pédagogiques :\n• Comprendre « Scope, exclusions et limitations » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Le scope détermine quels appareils ou utilisateurs reçoivent une policy, un profil ou une application Jamf.\n• L'onglet Scope permet d'ajouter des groupes cibles et de définir des exclusions pour retirer des machines spécifiques.\n• Les limitations affinent le ciblage : par site Jamf, par réseau, par version OS ou par type d'appareil.\n• Une exclusion est utile pour retirer les Mac de test ou les machines VIP d'un déploiement massif.\n• Les conflits de scope entre plusieurs policies sont résolus par la priorité et l'ordre d'exécution.\n• Une erreur de scope est l'une des causes les plus fréquentes de policies qui ne s'appliquent pas — vérifiez toujours les membres du groupe et les exclusions actives.\n• Cette vidéo vous apprend à auditer le scope avant chaque déploiement production.\n\nExercice pratique : ouvrez le lab « jamf-policies » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Scope, exclusions et limitations » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Scope, exclusions et limitations",
       "duration": "12 min"
     }
   },
   {
-    "slug": "jamf-self-service",
+    "slug": "jamf-configuration-profiles",
     "relatedCourseSlug": "jamf-100",
-    "relatedLabSlug": "jamf-policies",
+    "relatedLabSlug": "jamf-discovery",
     "payload": {
       "avatar": "Professional IT Instructor",
       "voice": "French professional male voice",
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Jamf Self Service est le portail utilisateur qui permet aux collaborateurs d'installer des applications et des ressources en autonomie.\nL'application Self Service sur Mac affiche les policies configurées avec le trigger Self Service et les rend disponibles en un clic.\nVous personnalisez l'interface : catégories, icônes, descriptions et notifications pour guider l'utilisateur.\nSelf Service réduit la charge du helpdesk en déléguant l'installation de logiciels approuvés aux utilisateurs finaux.\nLes policies Self Service peuvent inclure des applications, des scripts, des liens web ou des documents internes.\nUn catalogue Self Service bien organisé améliore l'expérience utilisateur et accélère l'onboarding des nouveaux arrivants.\nNous verrons comment publier une application dans Self Service et mesurer son adoption via les rapports Jamf.",
+      "script": "Configuration Profiles Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Configuration Profiles Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Les Configuration Profiles Jamf Pro 11.16 transportent les payloads MDM Apple : Wi-Fi enterprise, VPN, FileVault, restrictions, PPPC et extensions système.\n• Scénario entreprise : déployer Wi-Fi corporate et exiger FileVault avec escrow clé recovery sur Mac supervisés ADE.\n• Computers → Configuration Profiles → New. Composez payloads Wi-Fi WPA2-Enterprise avec certificat utilisateur. Ajoutez payload FileVault avec escrow vers Jamf.\n• Scope Smart Group ADE-SUPERVISED-MAC. Save. Au prochain check-in, vérifiez Réglages → Profils sur le Mac pilote et l'onglet Security de l'inventaire Jamf.\n• Profils MDM ≠ packages PKG : les profils poussent des réglages Apple signés ; les packages s'installent via policy Packages payload.\n• Erreurs fréquentes : conflits Wi-Fi duplicate SSID, FileVault sans Bootstrap Token, scope production sans pilote.\n• Lab jamf-discovery, ressource PDF jamf-guide-configuration-profiles, quiz dédié. Préparation certification Jamf 100.\n\nExercice pratique : ouvrez le lab « jamf-discovery » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Configuration Profiles Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Configuration Profiles Jamf Pro",
+      "duration": "18 min"
+    }
+  },
+  {
+    "slug": "jamf-self-service",
+    "relatedCourseSlug": "jamf-100",
+    "relatedLabSlug": "jamf-self-service",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Jamf Self Service\n\nObjectifs pédagogiques :\n• Comprendre « Jamf Self Service » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Jamf Self Service est le portail utilisateur qui permet aux collaborateurs d'installer des applications et des ressources en autonomie.\n• L'application Self Service sur Mac affiche les policies configurées avec le trigger Self Service et les rend disponibles en un clic.\n• Vous personnalisez l'interface : catégories, icônes, descriptions et notifications pour guider l'utilisateur.\n• Self Service réduit la charge du helpdesk en déléguant l'installation de logiciels approuvés aux utilisateurs finaux.\n• Les policies Self Service peuvent inclure des applications, des scripts, des liens web ou des documents internes.\n• Un catalogue Self Service bien organisé améliore l'expérience utilisateur et accélère l'onboarding des nouveaux arrivants.\n• Nous verrons comment publier une application dans Self Service et mesurer son adoption via les rapports Jamf.\n\nExercice pratique : ouvrez le lab « jamf-self-service » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Jamf Self Service » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Jamf Self Service",
       "duration": "12 min"
     }
@@ -272,14 +287,14 @@
   {
     "slug": "jamf-packages",
     "relatedCourseSlug": "jamf-100",
-    "relatedLabSlug": "jamf-policies",
+    "relatedLabSlug": "jamf-packages",
     "payload": {
       "avatar": "Professional IT Instructor",
       "voice": "French professional male voice",
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Le déploiement de packages est une compétence essentielle pour tout administrateur Jamf.\nUn package Jamf est généralement un fichier PKG ou DMG contenant une application ou un composant système.\nVous uploadez le package dans Jamf Pro → Computer Management → Packages, puis vous l'associez à une policy.\nLes options d'installation incluent l'installation silencieuse, la vérification de l'existence avant install et la suppression après échec.\nPour les applications complexes, utilisez Composer ou des outils comme AutoPKG pour automatiser la création de packages.\nTestez toujours sur un Mac isolé avant de scoper à toute la flotte — un mauvais package peut bloquer des centaines de machines.\nCette leçon couvre le cycle complet : préparation du PKG, upload Jamf, policy d'installation et vérification post-déploiement.",
+      "script": "Déployer des packages\n\nObjectifs pédagogiques :\n• Comprendre « Déployer des packages » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Le déploiement de packages est une compétence essentielle pour tout administrateur Jamf.\n• Un package Jamf est généralement un fichier PKG ou DMG contenant une application ou un composant système.\n• Vous uploadez le package dans Jamf Pro → Computer Management → Packages, puis vous l'associez à une policy.\n• Les options d'installation incluent l'installation silencieuse, la vérification de l'existence avant install et la suppression après échec.\n• Pour les applications complexes, utilisez Composer ou des outils comme AutoPKG pour automatiser la création de packages.\n• Testez toujours sur un Mac isolé avant de scoper à toute la flotte — un mauvais package peut bloquer des centaines de machines.\n• Cette leçon couvre le cycle complet : préparation du PKG, upload Jamf, policy d'installation et vérification post-déploiement.\n\nExercice pratique : ouvrez le lab « jamf-packages » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Déployer des packages » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Déployer des packages",
       "duration": "15 min"
     }
@@ -294,7 +309,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Les scripts Jamf Pro étendent les capacités d'automatisation au-delà des packages standard.\nUn script shell ou bash est stocké dans Jamf et exécuté via une policy avec le payload Scripts.\nLes bonnes pratiques incluent l'idempotence : le script doit pouvoir s'exécuter plusieurs fois sans effet de bord.\nUtilisez des chemins absolus, journalisez dans /var/log/jamf.log et retournez un code de sortie explicite pour le dépannage.\nLes Extension Attributes basés sur scripts enrichissent l'inventaire avec des données métier personnalisées.\nJamf 170 et Jamf 200 exigent une maîtrise des scripts pour l'automatisation avancée et l'intégration API.\nLe lab associé vous fait rédiger un script idempotent, le déployer via policy et analyser les logs d'exécution.",
+      "script": "Scripts Jamf Pro\n\nObjectifs pédagogiques :\n• Comprendre « Scripts Jamf Pro » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Les scripts Jamf Pro étendent les capacités d'automatisation au-delà des packages standard.\n• Un script shell ou bash est stocké dans Jamf et exécuté via une policy avec le payload Scripts.\n• Les bonnes pratiques incluent l'idempotence : le script doit pouvoir s'exécuter plusieurs fois sans effet de bord.\n• Utilisez des chemins absolus, journalisez dans /var/log/jamf.log et retournez un code de sortie explicite pour le dépannage.\n• Les Extension Attributes basés sur scripts enrichissent l'inventaire avec des données métier personnalisées.\n• Jamf 170 et Jamf 200 exigent une maîtrise des scripts pour l'automatisation avancée et l'intégration API.\n• Le lab associé vous fait rédiger un script idempotent, le déployer via policy et analyser les logs d'exécution.\n\nExercice pratique : ouvrez le lab « jamf-scripts » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Scripts Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Scripts Jamf Pro",
       "duration": "20 min"
     }
@@ -309,7 +324,7 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Le Patch Management Jamf automatise la distribution des mises à jour macOS et des correctifs applicatifs.\nJamf collecte l'inventaire Software Update de chaque Mac et affiche les updates disponibles dans Patch Management.\nUne patch policy définit le titre logiciel cible, la deadline, les notifications utilisateur et le comportement en cas de report.\nVous scopez les patch policies à des Smart Groups pour un déploiement progressif : pilote, production, retardataires.\nLe dashboard Patch Management montre le taux de conformité et les Mac en échec nécessitant une intervention.\nCette fonctionnalité est centrale pour Jamf 200 et la conformité sécurité en entreprise.\nNous configurons une patch policy macOS complète avec fenêtre de maintenance et rapport de conformité exportable.",
+      "script": "Patch Management Jamf\n\nObjectifs pédagogiques :\n• Comprendre « Patch Management Jamf » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Le Patch Management Jamf automatise la distribution des mises à jour macOS et des correctifs applicatifs.\n• Jamf collecte l'inventaire Software Update de chaque Mac et affiche les updates disponibles dans Patch Management.\n• Une patch policy définit le titre logiciel cible, la deadline, les notifications utilisateur et le comportement en cas de report.\n• Vous scopez les patch policies à des Smart Groups pour un déploiement progressif : pilote, production, retardataires.\n• Le dashboard Patch Management montre le taux de conformité et les Mac en échec nécessitant une intervention.\n• Cette fonctionnalité est centrale pour Jamf 200 et la conformité sécurité en entreprise.\n• Nous configurons une patch policy macOS complète avec fenêtre de maintenance et rapport de conformité exportable.\n\nExercice pratique : ouvrez le lab « jamf-patch-management » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Patch Management Jamf » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Patch Management Jamf",
       "duration": "15 min"
     }
@@ -324,9 +339,1329 @@
       "language": "fr-FR",
       "format": "16:9",
       "style": "Apple Training Premium + Jamf Training Catalog",
-      "script": "Jamf Protect est la solution de sécurité et d'analyse comportementale de l'écosystème Jamf.\nElle complète Jamf Pro en détectant les menaces, en collectant la télémétrie endpoint et en appliquant des plans de protection.\nL'agent Protect s'installe sur les Mac via un plan de déploiement lié à votre instance Jamf Pro.\nLe portail Protect affiche les alertes, les analytics Unified Logs et les conformités CIS ou NIST.\nLes plans Protect regroupent policies analytics, blocages et réponses automatisées aux incidents.\nJamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, réponse aux incidents et durcissement macOS.\nCette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.",
+      "script": "Introduction à Jamf Protect\n\nObjectifs pédagogiques :\n• Comprendre « Introduction à Jamf Protect » en contexte enterprise Apple MDM.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Documenter runbook support et critères de réussite.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Jamf Protect est la solution de sécurité et d'analyse comportementale de l'écosystème Jamf.\n• Elle complète Jamf Pro en détectant les menaces, en collectant la télémétrie endpoint et en appliquant des plans de protection.\n• L'agent Protect s'installe sur les Mac via un plan de déploiement lié à votre instance Jamf Pro.\n• Le portail Protect affiche les alertes, les analytics Unified Logs et les conformités CIS ou NIST.\n• Les plans Protect regroupent policies analytics, blocages et réponses automatisées aux incidents.\n• Jamf 200 inclut Protect dans les scénarios enterprise : intégration SIEM, réponse aux incidents et durcissement macOS.\n• Cette vidéo présente l'architecture Protect, la création d'un plan pilote et la validation des alertes sur un Mac de test.\n\nExercice pratique : ouvrez le lab « jamf-protect » et validez sur un groupe pilote enterprise.\n\nRésumé :\nÀ l'issue de cette vidéo, vous savez appliquer « Introduction à Jamf Protect » avec méthode académie : cadrage, pilote, validation, industrialisation.",
       "title": "Introduction à Jamf Protect",
       "duration": "15 min"
+    }
+  },
+  {
+    "slug": "video-j300-m01",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Architecture Jamf Pro avancée.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Architecture Jamf Pro avancée » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Architecture Jamf Pro avancée » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Architecture Jamf Pro avancée",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m02",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Smart Groups avancés.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Smart Groups avancés » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn administrateur Jamf cible dynamiquement les Mac sans FileVault avant d'appliquer une restriction réseau.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Smart Groups avancés » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Smart Groups avancés",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m03",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "jamf-extension-attributes",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Extension Attributes.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Extension Attributes » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-extension-attributes » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Extension Attributes » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Extension Attributes",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m04",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "jamf-advanced-scripts",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Scripts avancés macOS.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Scripts avancés macOS » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-advanced-scripts » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Scripts avancés macOS » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Scripts avancés macOS",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m05",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Packages avancés.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Packages avancés » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Packages avancés » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Packages avancés",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m06",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Policies complexes.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Policies complexes » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Policies complexes » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Policies complexes",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m07",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "jamf-api",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Jamf API.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Jamf API » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nL'équipe automation synchronise l'inventaire MDM vers ServiceNow toutes les 15 minutes via API REST.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-api » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Jamf API » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Jamf API",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m08",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "jamf-webhooks",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Webhooks Jamf.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Webhooks Jamf » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nL'équipe automation synchronise l'inventaire MDM vers ServiceNow toutes les 15 minutes via API REST.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-webhooks » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Webhooks Jamf » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Webhooks Jamf",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m09",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Patch Management avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Patch Management avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m09 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Patch Management avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Patch Management avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j300-m10",
+    "relatedCourseSlug": "jamf-300",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 300 Prep — Dépannage Jamf Pro.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Dépannage Jamf Pro » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j300-m10 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Dépannage Jamf Pro » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Dépannage Jamf Pro",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m01",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Automatisation avancée Jamf.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Automatisation avancée Jamf » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Automatisation avancée Jamf » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Automatisation avancée Jamf",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m02",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "jamf-api",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Workflows API.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Workflows API » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nL'équipe automation synchronise l'inventaire MDM vers ServiceNow toutes les 15 minutes via API REST.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-api » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Workflows API » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Workflows API",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m03",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Intégration CI/CD.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Intégration CI/CD » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Intégration CI/CD » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Intégration CI/CD",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m04",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Sécurité avancée macOS.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Sécurité avancée macOS » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Sécurité avancée macOS » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Sécurité avancée macOS",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m05",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Déploiement zero-touch avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Déploiement zero-touch avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Déploiement zero-touch avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Déploiement zero-touch avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m06",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Reporting avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Reporting avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Reporting avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Reporting avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m07",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "jamf-advanced-scripts",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Scripts Bash avancés.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Scripts Bash avancés » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-advanced-scripts » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Scripts Bash avancés » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Scripts Bash avancés",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m08",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Dépannage entreprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Dépannage entreprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Dépannage entreprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Dépannage entreprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m09",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "jamf-migration",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Migration Jamf.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Migration Jamf » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « jamf-migration » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m09 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Migration Jamf » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Migration Jamf",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-j400-m10",
+    "relatedCourseSlug": "jamf-400",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + Jamf Training Catalog",
+      "script": "Parcours Jamf 400 Prep — Projet final Jamf 400.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Projet final Jamf 400 » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-j400-m10 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Projet final Jamf 400 » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Projet final Jamf 400",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m01",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Apple Platform Deployment.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Apple Platform Deployment » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Apple Platform Deployment » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Apple Platform Deployment",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m02",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Apple Business Manager avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Apple Business Manager avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Apple Business Manager avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Apple Business Manager avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m03",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Managed Apple IDs avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Managed Apple IDs avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Managed Apple IDs avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Managed Apple IDs avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m04",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "platform-sso-advanced",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Platform SSO avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Platform SSO avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « platform-sso-advanced » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Platform SSO avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Platform SSO avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m05",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "declarative-device-management",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Declarative Device Management.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Declarative Device Management » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « declarative-device-management » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Declarative Device Management » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Declarative Device Management",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m06",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "managed-device-attestation",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Managed Device Attestation.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Managed Device Attestation » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « managed-device-attestation » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Managed Device Attestation » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Managed Device Attestation",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m07",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Return to Service.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Return to Service » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Return to Service » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Return to Service",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m08",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Apple Security Compliance.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Apple Security Compliance » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Apple Security Compliance » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Apple Security Compliance",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m09",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Apple Silicon en entreprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Apple Silicon en entreprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m09 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Apple Silicon en entreprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Apple Silicon en entreprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aee-m10",
+    "relatedCourseSlug": "apple-enterprise-expert",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Expert — Déploiement international.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Déploiement international » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aee-m10 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Déploiement international » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Déploiement international",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m01",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-architecture-stack",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Architecture Apple Enterprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Architecture Apple Enterprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-architecture-stack » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Architecture Apple Enterprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Architecture Apple Enterprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m02",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-identity-architecture",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Identité Apple & Entra ID.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Identité Apple & Entra ID » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-identity-architecture » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Identité Apple & Entra ID » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Identité Apple & Entra ID",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m03",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-jamf-500-mac",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Jamf Pro Enterprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Jamf Pro Enterprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-jamf-500-mac » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Jamf Pro Enterprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Jamf Pro Enterprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m04",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-intune-global",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Intune Apple Enterprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Intune Apple Enterprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-intune-global » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Intune Apple Enterprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Intune Apple Enterprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m05",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-security-audit",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Sécurité Apple Enterprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Sécurité Apple Enterprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-security-audit » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Sécurité Apple Enterprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Sécurité Apple Enterprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m06",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-automation-deploy",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Automatisation des déploiements.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Automatisation des déploiements » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-automation-deploy » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Automatisation des déploiements » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Automatisation des déploiements",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m07",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-troubleshooting-lab",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Dépannage avancé Apple MDM.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Dépannage avancé Apple MDM » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-troubleshooting-lab » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Dépannage avancé Apple MDM » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Dépannage avancé Apple MDM",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-aea-m08",
+    "relatedCourseSlug": "apple-enterprise-architect",
+    "relatedLabSlug": "aea-capstone-projects",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Apple Enterprise Architect — Projets réels Enterprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Projets réels Enterprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn Apple Enterprise Architect orchestre ABM, Entra ID, Jamf et Intune pour 5 000 postes multi-régions.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « aea-capstone-projects » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 25 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-aea-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Projets réels Enterprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Projets réels Enterprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m01",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Intune macOS avancé.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Intune macOS avancé » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Intune macOS avancé » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Intune macOS avancé",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m02",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "intune-conditional-access",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Conditional Access Apple.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Conditional Access Apple » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « intune-conditional-access » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Conditional Access Apple » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Conditional Access Apple",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m03",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Compliance avancée.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Compliance avancée » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Compliance avancée » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Compliance avancée",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m04",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "microsoft-defender-macos",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Microsoft Defender macOS.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Microsoft Defender macOS » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « microsoft-defender-macos » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Microsoft Defender macOS » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Microsoft Defender macOS",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m05",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — SCEP et certificats.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « SCEP et certificats » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « SCEP et certificats » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "SCEP et certificats",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m06",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Wi-Fi 802.1X.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Wi-Fi 802.1X » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Wi-Fi 802.1X » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Wi-Fi 802.1X",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m07",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — VPN entreprise.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « VPN entreprise » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « VPN entreprise » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "VPN entreprise",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m08",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "platform-sso-advanced",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Platform SSO + Entra ID.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Platform SSO + Entra ID » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « platform-sso-advanced » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Platform SSO + Entra ID » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Platform SSO + Entra ID",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m09",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Reporting Intune.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Reporting Intune » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m09 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Reporting Intune » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Reporting Intune",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-iaa-m10",
+    "relatedCourseSlug": "intune-apple-advanced",
+    "relatedLabSlug": "",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium",
+      "script": "Parcours Intune Apple Advanced — Troubleshooting Intune Apple.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Troubleshooting Intune Apple » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nConsultez les étapes pratiques de la leçon pour valider sur appareil test.\nQuiz module : 20 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-iaa-m10 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Troubleshooting Intune Apple » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Troubleshooting Intune Apple",
+      "duration": "12 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m01",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "lab-kfd-m01",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Introduction à Kandji.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Introduction à Kandji » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-kfd-m01 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Introduction à Kandji » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Introduction à Kandji",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m02",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "kandji-blueprint",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Blueprints Kandji.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Blueprints Kandji » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne scale-up de 400 Mac doit standardiser l'onboarding développeurs avec Blueprint Kandji et Library Items réutilisables.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « kandji-blueprint » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Blueprints Kandji » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Blueprints Kandji",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m03",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "lab-kfd-m03",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Library Items.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Library Items » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUne scale-up de 400 Mac doit standardiser l'onboarding développeurs avec Blueprint Kandji et Library Items réutilisables.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-kfd-m03 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Library Items » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Library Items",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m04",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "lab-kfd-m04",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Auto Apps.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Auto Apps » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-kfd-m04 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Auto Apps » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Auto Apps",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m05",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "lab-kfd-m05",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Passport.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Passport » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLe premier jour d'un nouvel employé : Mac livré en zero-touch, Liftoff brandé, Passport SSO et apps métier installées automatiquement.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-kfd-m05 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Passport » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Passport",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m06",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "kandji-liftoff",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Liftoff.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Liftoff » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLe premier jour d'un nouvel employé : Mac livré en zero-touch, Liftoff brandé, Passport SSO et apps métier installées automatiquement.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « kandji-liftoff » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Liftoff » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Liftoff",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m07",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "lab-kfd-m07",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Kandji EDR.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Kandji EDR » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-kfd-m07 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Kandji EDR » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Kandji EDR",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-kfd-m08",
+    "relatedCourseSlug": "kandji-fundamentals",
+    "relatedLabSlug": "lab-kfd-m08",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Kandji — Compliance Kandji.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Compliance Kandji » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-kfd-m08 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-kfd-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Compliance Kandji » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Compliance Kandji",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m01",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "lab-msl-m01",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Introduction à Mosyle.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Introduction à Mosyle » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-msl-m01 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Introduction à Mosyle » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Introduction à Mosyle",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m02",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "mosyle-enrollment",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Enrollment Mosyle.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Enrollment Mosyle » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nL'IT doit enrôler 150 iPad éducation ou Mac corporate via ABM sans intervention manuelle au setup assistant.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « mosyle-enrollment » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Enrollment Mosyle » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Enrollment Mosyle",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m03",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "lab-msl-m03",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Management Profiles.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Management Profiles » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-msl-m03 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Management Profiles » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Management Profiles",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m04",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "lab-msl-m04",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Apps et Books.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Apps et Books » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-msl-m04 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Apps et Books » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Apps et Books",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m05",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "mosyle-auth",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Mosyle Auth.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Mosyle Auth » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « mosyle-auth » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Mosyle Auth » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Mosyle Auth",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m06",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "lab-msl-m06",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Mosyle Fuse.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Mosyle Fuse » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-msl-m06 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Mosyle Fuse » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Mosyle Fuse",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m07",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "lab-msl-m07",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Sécurité Mosyle.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Sécurité Mosyle » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-msl-m07 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Sécurité Mosyle » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Sécurité Mosyle",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-msl-m08",
+    "relatedCourseSlug": "mosyle-fundamentals",
+    "relatedLabSlug": "lab-msl-m08",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Mosyle — Reporting Mosyle.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Reporting Mosyle » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-msl-m08 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-msl-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Reporting Mosyle » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Reporting Mosyle",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m01",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "lab-adg-m01",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Introduction à Addigy.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Introduction à Addigy » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-adg-m01 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Introduction à Addigy » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Introduction à Addigy",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m02",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "addigy-golive",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — GoLive.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « GoLive » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn MSP intervient à distance sur un Mac client via GoLive pour diagnostiquer un échec de policy.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « addigy-golive » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « GoLive » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "GoLive",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m03",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "addigy-policy",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Policies Addigy.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Policies Addigy » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « addigy-policy » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Policies Addigy » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Policies Addigy",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m04",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "lab-adg-m04",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Smart Software.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Smart Software » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-adg-m04 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Smart Software » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Smart Software",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m05",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "lab-adg-m05",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Compliance.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Compliance » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-adg-m05 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Compliance » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Compliance",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m06",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "lab-adg-m06",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Remote Management.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Remote Management » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nUn MSP intervient à distance sur un Mac client via GoLive pour diagnostiquer un échec de policy.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-adg-m06 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Remote Management » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Remote Management",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m07",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "lab-adg-m07",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Reporting.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Reporting » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-adg-m07 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Reporting » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Reporting",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-adg-m08",
+    "relatedCourseSlug": "addigy-fundamentals",
+    "relatedLabSlug": "lab-adg-m08",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Addigy — Dépannage.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Dépannage » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-adg-m08 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-adg-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Dépannage » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Dépannage",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m01",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "lab-wsa-m01",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Introduction Workspace ONE UEM.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Introduction Workspace ONE UEM » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-wsa-m01 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Introduction Workspace ONE UEM » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Introduction Workspace ONE UEM",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m02",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "workspace-one-apple-enrollment",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Apple Enrollment.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Apple Enrollment » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nL'IT doit enrôler 150 iPad éducation ou Mac corporate via ABM sans intervention manuelle au setup assistant.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « workspace-one-apple-enrollment » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Apple Enrollment » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Apple Enrollment",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m03",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "lab-wsa-m03",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Profils macOS.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Profils macOS » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-wsa-m03 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Profils macOS » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Profils macOS",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m04",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "lab-wsa-m04",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Profils iOS.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Profils iOS » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-wsa-m04 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Profils iOS » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Profils iOS",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m05",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "lab-wsa-m05",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Applications.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Applications » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-wsa-m05 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Applications » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Applications",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m06",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "workspace-one-compliance",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Compliance.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Compliance » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « workspace-one-compliance » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Compliance » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Compliance",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m07",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "lab-wsa-m07",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Conditional Access.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Conditional Access » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLa sécurité exige que seuls les appareils conformes (FileVault, OS à jour) accèdent à M365 ou aux apps SaaS.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-wsa-m07 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Conditional Access » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Conditional Access",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-wsa-m08",
+    "relatedCourseSlug": "workspace-one-apple",
+    "relatedLabSlug": "lab-wsa-m08",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours Workspace ONE UEM — Reporting.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Reporting » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-wsa-m08 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-wsa-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Reporting » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Reporting",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m01",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m01",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Introduction comparatif MDM Apple.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Introduction comparatif MDM Apple » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLe DSI doit choisir entre Jamf, Intune et Kandji pour 800 Mac — POC 30 jours sur deux finalistes.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m01 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m01 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Introduction comparatif MDM Apple » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Introduction comparatif MDM Apple",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m02",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m02",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Jamf Pro dans l'écosystème.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Jamf Pro dans l'écosystème » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m02 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m02 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Jamf Pro dans l'écosystème » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Jamf Pro dans l'écosystème",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m03",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m03",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Microsoft Intune pour Apple.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Microsoft Intune pour Apple » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m03 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m03 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Microsoft Intune pour Apple » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Microsoft Intune pour Apple",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m04",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m04",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Kandji — forces et limites.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Kandji — forces et limites » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m04 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m04 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Kandji — forces et limites » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Kandji — forces et limites",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m05",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m05",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Mosyle — forces et limites.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Mosyle — forces et limites » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m05 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m05 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Mosyle — forces et limites » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Mosyle — forces et limites",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m06",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m06",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Addigy — forces et limites.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Addigy — forces et limites » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m06 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m06 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Addigy — forces et limites » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Addigy — forces et limites",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m07",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "lab-mdm-m07",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Workspace ONE UEM pour Apple.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Workspace ONE UEM pour Apple » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nVotre équipe IT administre une flotte Apple en entreprise et doit maîtriser ce module en conditions réelles.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « lab-mdm-m07 » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m07 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Workspace ONE UEM pour Apple » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Workspace ONE UEM pour Apple",
+      "duration": "10 min"
+    }
+  },
+  {
+    "slug": "video-mdm-m08",
+    "relatedCourseSlug": "mdm-comparatif-apple",
+    "relatedLabSlug": "mdm-comparison",
+    "payload": {
+      "avatar": "Professional IT Instructor",
+      "voice": "French professional male voice",
+      "language": "fr-FR",
+      "format": "16:9",
+      "style": "Apple Training Premium + MDM Vendor Catalog",
+      "script": "Parcours MDM Apple Enterprise — Matrice de décision & cas d'usage.\n\nObjectifs pédagogiques :\n• Comprendre le rôle de « Matrice de décision & cas d'usage » en production enterprise.\n• Configurer et valider sur un groupe pilote avant généralisation.\n• Diagnostiquer les erreurs courantes et documenter le runbook support.\n\nScénario entreprise :\nLe DSI doit choisir entre Jamf, Intune et Kandji pour 800 Mac — POC 30 jours sur deux finalistes.\n\nPoints clés :\n• Toujours tester en sandbox ou pilot group (5–10 appareils) avant déploiement global.\n• Vérifier prérequis ABM, APNs, IdP et droits admin avant toute modification.\n• Capturer preuves : console MDM, état appareil, logs et checklist signée.\n\nExercice pratique : ouvrez le lab « mdm-comparison » et reproduisez le scénario sur votre environnement pilote.\nQuiz module : 15 questions — seuil 75 % pour valider.\nTéléchargez la ressource resource-mdm-m08 pour votre runbook et checklist validation.\n\nRésumé :\nÀ l'issue de ce module, vous savez implémenter « Matrice de décision & cas d'usage » avec méthode académie : cadrage, pilote, validation, industrialisation.",
+      "title": "Matrice de décision & cas d'usage",
+      "duration": "10 min"
     }
   }
 ]

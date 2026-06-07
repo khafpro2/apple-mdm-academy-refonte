@@ -40,6 +40,8 @@ export type JamfContentGapRow = {
   videoSlug: string;
   quizSlug: string;
   resourceSlug: string;
+  courseSlug: string;
+  moduleSlug: string;
 };
 
 export type JamfContentGapReport = {
@@ -120,6 +122,8 @@ function analyzeTopic(topic: JamfTrainingTopic): JamfContentGapRow {
     videoSlug: topic.videoSlug,
     quizSlug: topic.quizSlug,
     resourceSlug: topic.resourceSlug,
+    courseSlug: topic.courseSlug,
+    moduleSlug: topic.moduleSlug,
   };
 }
 

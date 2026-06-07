@@ -74,6 +74,7 @@ export default function ContentGapAnalysisPage() {
                 <th className="px-3 py-3">Storyboard</th>
                 <th className="px-3 py-3">Script HeyGen</th>
                 <th className="px-3 py-3">PDF</th>
+                <th className="px-3 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -100,6 +101,30 @@ export default function ContentGapAnalysisPage() {
                   <td className="px-3 py-3"><OkBadge ok={row.storyboardCreated} /></td>
                   <td className="px-3 py-3"><OkBadge ok={row.heygenScriptCreated} /></td>
                   <td className="px-3 py-3"><OkBadge ok={row.pdfResourceCreated} /></td>
+                  <td className="px-3 py-3">
+                    <div className="flex flex-col gap-1 text-xs">
+                      <Link href={`/videos#${row.videoSlug}`} className="font-semibold text-accent hover:underline">
+                        Vidéo
+                      </Link>
+                      <Link href={`/quiz/${row.quizSlug}`} className="font-semibold text-accent hover:underline">
+                        Quiz
+                      </Link>
+                      <Link href={`/labs/${row.labSlug}`} className="font-semibold text-accent hover:underline">
+                        Lab
+                      </Link>
+                      <Link href={`/resources/${row.resourceSlug}`} className="font-semibold text-accent hover:underline">
+                        PDF
+                      </Link>
+                      {row.lessonSlugs[0] ? (
+                        <Link
+                          href={`/cours/${row.courseSlug}/${row.lessonSlugs[0]}`}
+                          className="text-ink-secondary hover:text-ink hover:underline"
+                        >
+                          Leçon
+                        </Link>
+                      ) : null}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

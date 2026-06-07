@@ -37,6 +37,9 @@ export default function ContentAuditPage() {
         />
 
         <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/admin/content-gap-analysis" className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-accent hover:underline">
+            Analyse écarts Jamf Training →
+          </Link>
           <Link href="/admin/pedagogical-report" className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-accent hover:underline">
             Rapport pédagogique →
           </Link>

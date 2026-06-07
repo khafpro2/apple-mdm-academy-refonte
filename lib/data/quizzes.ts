@@ -10,6 +10,12 @@ const proModuleQuizzes = rawProModuleQuizzes.map((quiz) => {
   if (!extras?.length) return quiz;
   return { ...quiz, questions: [...quiz.questions, ...extras] };
 });
+
+const jamfTrainingQuizzes = jamfTrainingStandaloneQuizzes.map((quiz) => {
+  const extras = jamf116ModuleQuizExtras[quiz.slug];
+  if (!extras?.length) return quiz;
+  return { ...quiz, questions: [...quiz.questions, ...extras] };
+});
 import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
 import { altMdmModuleQuizzes } from "@/lib/data/alternative-mdm-tracks/quizzes";
 import { azureForAppleAdminsQuiz } from "@/lib/data/azure-for-apple-admins/quizzes";
@@ -457,7 +463,7 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     questions: examPools["examen-intune-apple-advanced"].slice(0, 5),
   },
   ...proModuleQuizzes,
-  ...jamfTrainingStandaloneQuizzes,
+  ...jamfTrainingQuizzes,
   ...advancedModuleQuizzes,
   ...altMdmModuleQuizzes,
   {

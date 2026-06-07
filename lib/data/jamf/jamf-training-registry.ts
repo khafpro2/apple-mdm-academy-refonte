@@ -82,7 +82,7 @@ export const JAMF_TRAINING_TOPICS: JamfTrainingTopic[] = [
     sourceVideoKeywords: ["Configuration Profiles", "MDM profiles", "payloads", "Wi-Fi", "FileVault"],
     courseSlug: "jamf-100",
     moduleSlug: "module-12-jamf-fundamentals",
-    lessonSlugs: ["config-profiles-jamf", "m12-architecture-jamf"],
+    lessonSlugs: ["config-profiles-jamf", "m12-configuration-profiles", "m12-architecture-jamf"],
     labSlug: "jamf-discovery",
     videoSlug: "jamf-configuration-profiles",
     quizSlug: "quiz-jamf-configuration-profiles",

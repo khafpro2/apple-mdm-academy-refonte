@@ -61,6 +61,7 @@ export const proModules: ProModule[] = [
       { slug: "m12-architecture-jamf", title: "Architecture Jamf Pro", duration: "40 min", points: 40 },
       { slug: "m12-inventaire-jamf", title: "Inventaire et recherche", duration: "35 min", points: 35 },
       { slug: "m12-enrollment-jamf", title: "Enrollment et PreStage", duration: "45 min", points: 45 },
+      { slug: "m12-configuration-profiles", title: "Configuration Profiles", duration: "40 min", points: 40 },
       { slug: "m12-self-service", title: "Self Service", duration: "35 min", points: 35 },
     ],
   },
