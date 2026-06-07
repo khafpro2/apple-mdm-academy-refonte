@@ -3,6 +3,7 @@ import type { VideoDisplayBadge, VideoDisplayBadgeId } from "@/src/lib/video-dis
 const BADGE_CLASS: Partial<Record<VideoDisplayBadgeId, string>> = {
   published: "bg-green-100 text-green-800 border-green-200",
   "in-production": "bg-amber-100 text-amber-900 border-amber-200 ring-1 ring-amber-300/50",
+  "media-required": "bg-red-50 text-red-800 border-red-100",
   "storyboard-ready": "bg-violet-50 text-violet-900 border-violet-200",
   "script-ready": "bg-blue-50 text-blue-900 border-blue-100",
 };
@@ -10,6 +11,7 @@ const BADGE_CLASS: Partial<Record<VideoDisplayBadgeId, string>> = {
 const BADGE_TITLE: Partial<Record<VideoDisplayBadgeId, string>> = {
   published: "Vidéo MP4 disponible — lecture officielle",
   "in-production": "MP4 en montage — mode démo actif (storyboard + script)",
+  "media-required": "MP4 détecté mais publication bloquée par des médias requis",
   "storyboard-ready": "Storyboard animé disponible sur la page",
   "script-ready": "Script HeyGen prêt à copier",
 };

@@ -1,5 +1,6 @@
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import { getScreenshotsForVideo } from "@/src/lib/video-screenshots";
+import { getOfficialMp4Path } from "@/src/lib/video-production";
 
 export type VideoProductionPhase =
   | "draft"
@@ -61,10 +62,12 @@ const MANUAL_STATUSES: VideoProductionPhase[] = [
 export type ResolvePublishContext = {
   presentScreenshotFiles?: Set<string>;
   validScreenshotFiles?: Set<string>;
+  mp4Available?: boolean;
+  videoUrl?: string;
 };
 
 export function getExpectedVideoPath(slug: string): string {
-  return `/videos/${slug}.mp4`;
+  return getOfficialMp4Path(slug);
 }
 
 export function videoFileExists(_slug: string): boolean {
@@ -78,18 +81,22 @@ export function resolveVideoPublishStatus(
 ): VideoPublishMeta {
   const manual = VIDEO_PUBLISH_REGISTRY[slug] ?? { status: "assets-ready" as VideoProductionPhase };
   const presentSet = context?.validScreenshotFiles ?? context?.presentScreenshotFiles;
+  const resolvedVideoUrl = context?.videoUrl ?? manual.videoUrl;
 
   if (manual.status === "published") {
+    if (!context?.mp4Available && !resolvedVideoUrl) {
+      return { status: "ready-to-publish" };
+    }
     return {
       status: "published",
-      videoUrl: manual.videoUrl ?? getExpectedVideoPath(slug),
+      videoUrl: resolvedVideoUrl ?? getExpectedVideoPath(slug),
     };
   }
 
   if (manual.status === "ready-to-publish") {
     return {
       status: "ready-to-publish",
-      videoUrl: manual.videoUrl ?? getExpectedVideoPath(slug),
+      videoUrl: resolvedVideoUrl,
     };
   }
 
@@ -101,9 +108,9 @@ export function resolveVideoPublishStatus(
   if (required.length > 0 && presentSet) {
     const allPresent = required.every((s) => presentSet.has(s.file));
     if (allPresent) {
-      return { status: "screenshots-ready", videoUrl: manual.videoUrl };
+      return { status: "screenshots-ready", videoUrl: resolvedVideoUrl };
     }
-    return { status: "screenshots-missing", videoUrl: manual.videoUrl };
+    return { status: "screenshots-missing", videoUrl: resolvedVideoUrl };
   }
 
   if (manual.status === "recording-needed") {
@@ -129,11 +136,7 @@ export function enrichStoryboardWithPublishMeta(
   return {
     ...storyboard,
     status: meta.status,
-    videoUrl:
-      meta.videoUrl ??
-      (meta.status === "published" || meta.status === "ready-to-publish"
-        ? getExpectedVideoPath(storyboard.slug)
-        : undefined),
+    videoUrl: meta.videoUrl,
   };
 }
 

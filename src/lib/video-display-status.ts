@@ -1,7 +1,12 @@
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import { PILOT_VIDEO_SLUGS } from "@/src/lib/video-production";
 
-export type VideoDisplayBadgeId = "published" | "in-production" | "storyboard-ready" | "script-ready";
+export type VideoDisplayBadgeId =
+  | "published"
+  | "in-production"
+  | "media-required"
+  | "storyboard-ready"
+  | "script-ready";
 
 export type VideoDisplayBadge = {
   id: VideoDisplayBadgeId;
@@ -11,6 +16,7 @@ export type VideoDisplayBadge = {
 const BADGE_LABELS: Record<VideoDisplayBadgeId, string> = {
   published: "Publiée",
   "in-production": "En production",
+  "media-required": "Médias requis",
   "storyboard-ready": "Storyboard prêt",
   "script-ready": "Script prêt",
 };
@@ -31,17 +37,23 @@ export function hasScriptReady(storyboard?: VideoStoryboard, scriptText?: string
 export function getVideoDisplayBadges(options: {
   slug: string;
   hasMp4: boolean;
+  canPublish?: boolean;
+  mediaRequired?: boolean;
   storyboard?: VideoStoryboard;
   scriptText?: string;
 }): VideoDisplayBadge[] {
   const badges: VideoDisplayBadge[] = [];
 
-  if (options.hasMp4) {
+  if (options.hasMp4 && options.canPublish !== false) {
     badges.push({ id: "published", label: BADGE_LABELS.published });
     return badges;
   }
 
   badges.push({ id: "in-production", label: BADGE_LABELS["in-production"] });
+
+  if (options.mediaRequired || (options.hasMp4 && options.canPublish === false)) {
+    badges.push({ id: "media-required", label: BADGE_LABELS["media-required"] });
+  }
 
   if (hasStoryboardReady(options.storyboard)) {
     badges.push({ id: "storyboard-ready", label: BADGE_LABELS["storyboard-ready"] });

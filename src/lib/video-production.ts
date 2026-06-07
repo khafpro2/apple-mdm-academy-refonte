@@ -278,10 +278,14 @@ export function getProductionStatusLabel(status: VideoProductionStatus): string 
 export const OFFICIAL_MP4_FILENAMES: Record<string, string> = {
   "apple-business-manager": "apple-business-manager.mp4",
   "abm-intune": "abm-intune.mp4",
-  "ade-iphone": "automated-device-enrollment.mp4",
-  apns: "apns.mp4",
+  "ade-iphone": "automated-device-enrollment-iphone.mp4",
+  "ade-mac": "automated-device-enrollment-mac.mp4",
+  "enrollment-program-token": "enrollment-program-token.mp4",
+  apns: "apns-intune.mp4",
   "managed-apple-ids": "managed-apple-ids.mp4",
   "platform-sso": "platform-sso.mp4",
+  "defender-macos": "defender-macos-intune.mp4",
+  "conditional-access-apple": "conditional-access-apple.mp4",
   "jamf-pro-fundamentals": "jamf-pro-fundamentals.mp4",
   filevault: "filevault.mp4",
 };
@@ -440,7 +444,7 @@ export function getNextPipelineAction(
   }
   if (!record.score.narration) return "Enregistrer la narration HeyGen";
   if (!record.score.montage) return "Monter la vidéo (CapCut / Screen Studio)";
-  if (!record.score.mp4) return `Exporter MP4 → /public/videos/${record.mp4Alias}.mp4`;
+  if (!record.score.mp4) return `Exporter MP4 → /public${getOfficialMp4Path(record.slug)}`;
   return "Vidéo prête — publication LMS active";
 }
 
@@ -470,12 +474,14 @@ function resolveFlags(
 export function isReadyToPublishRecord(
   meta: OfficialVideoMeta,
   storyboard: VideoStoryboard | undefined,
-  mp4Available: boolean
+  mp4Available: boolean,
+  score?: VideoPipelineScore
 ): boolean {
   if (!mp4Available) return false;
   if (!hasValidTranscript(storyboard)) return false;
   if (!hasValidResource(meta)) return false;
   if (!meta.courseSlug || !meta.labSlug) return false;
+  if (score && (!score.script || !score.captures || !score.narration || !score.montage)) return false;
   return true;
 }
 
@@ -541,7 +547,7 @@ export function buildVideoProductionRecord(
     { slug: meta.slug, resourceSlug: meta.resourceSlug, hasStoryboard, hasTranscript, score },
     { mp4Available, videoUrl: options?.mp4Url }
   );
-  const readyToPublish = isReadyToPublishRecord(meta, storyboard, mp4Available);
+  const readyToPublish = isReadyToPublishRecord(meta, storyboard, mp4Available, score);
   const overrideStatus = VIDEO_PRODUCTION_OVERRIDES[meta.slug]?.status;
   let status = resolveStatus(flags, mp4Available, publish.ok, readyToPublish);
   if (overrideStatus === "published") {
