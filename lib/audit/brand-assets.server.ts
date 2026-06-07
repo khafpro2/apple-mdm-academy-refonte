@@ -8,10 +8,13 @@ export type BrandAssetAuditRow = {
   id: string;
   name: string;
   logoPresent: boolean;
+  svgValid: boolean;
+  externalReferenceFree: boolean;
   componentPresent: boolean;
   pages: string[];
   legalNoticePresent: boolean;
   isPlaceholder: boolean;
+  replacementTodo?: string;
   status: BrandAssetStatus;
 };
 
@@ -46,6 +49,32 @@ function fileExists(relativePublicPath: string): boolean {
   }
 }
 
+function readPublicFile(relativePublicPath: string): string | null {
+  try {
+    return fs.readFileSync(publicPath(relativePublicPath), "utf8");
+  } catch {
+    return null;
+  }
+}
+
+function validateLocalSvg(relativePublicPath: string): {
+  svgValid: boolean;
+  externalReferenceFree: boolean;
+} {
+  const source = readPublicFile(relativePublicPath);
+  if (!source) return { svgValid: false, externalReferenceFree: false };
+
+  const svgValid = /<svg[\s>]/.test(source) && /<\/svg>/.test(source);
+  const externalReferenceFree =
+    !/<image\b/i.test(source) &&
+    !/<script\b/i.test(source) &&
+    !/<foreignObject\b/i.test(source) &&
+    !/(?:xlink:)?href=["']https?:\/\//i.test(source) &&
+    !/url\(["']?https?:\/\//i.test(source);
+
+  return { svgValid, externalReferenceFree };
+}
+
 function componentExists(componentName: string): boolean {
   const rel = COMPONENT_FILES[componentName];
   if (!rel) return componentName.includes("LogoIcon");
@@ -55,20 +84,26 @@ function componentExists(componentName: string): boolean {
 export function runBrandAssetsAudit(): BrandAssetsAuditReport {
   const rows: BrandAssetAuditRow[] = BRAND_REGISTRY.map((brand) => {
     const logoPresent = fileExists(brand.logoPath);
+    const { svgValid, externalReferenceFree } = validateLocalSvg(brand.logoPath);
     const componentPresent = componentExists(brand.componentName);
     const legalNoticePresent = brand.legalNoticeKey === "jamf" || brand.legalNoticeKey === "microsoft";
 
     const status: BrandAssetStatus =
-      logoPresent && componentPresent && !brand.isPlaceholder ? "ok" : "review";
+      logoPresent && svgValid && externalReferenceFree && componentPresent && !brand.isPlaceholder
+        ? "ok"
+        : "review";
 
     return {
       id: brand.id,
       name: brand.name,
       logoPresent,
+      svgValid,
+      externalReferenceFree,
       componentPresent,
       pages: brand.pagePatterns,
       legalNoticePresent,
       isPlaceholder: brand.isPlaceholder,
+      replacementTodo: brand.replacementTodo,
       status,
     };
   });

@@ -15,6 +15,7 @@ export type BrandRegistryEntry = {
   legalNoticeKey: "jamf" | "microsoft" | null;
   pagePatterns: string[];
   isPlaceholder: boolean;
+  replacementTodo?: string;
 };
 
 export const BRAND_REGISTRY: BrandRegistryEntry[] = [
@@ -44,6 +45,7 @@ export const BRAND_REGISTRY: BrandRegistryEntry[] = [
     legalNoticeKey: "microsoft",
     pagePatterns: ["/cours/azure-for-apple-admins", "/parcours/azure-for-apple-admins"],
     isPlaceholder: true,
+    replacementTodo: "TODO: remplacer par un logo Microsoft officiel valide avant usage marketing.",
   },
   {
     id: "intune",
@@ -61,6 +63,7 @@ export const BRAND_REGISTRY: BrandRegistryEntry[] = [
       "/videos",
     ],
     isPlaceholder: true,
+    replacementTodo: "TODO: remplacer par le logo Microsoft Intune officiel valide avant production.",
   },
   {
     id: "entra",
@@ -74,6 +77,7 @@ export const BRAND_REGISTRY: BrandRegistryEntry[] = [
       "/parcours/azure-for-apple-admins",
     ],
     isPlaceholder: true,
+    replacementTodo: "TODO: remplacer par le logo Microsoft Entra ID officiel valide avant production.",
   },
   {
     id: "microsoft-learn",
@@ -89,5 +93,6 @@ export const BRAND_REGISTRY: BrandRegistryEntry[] = [
       "/cours/intune-mac",
     ],
     isPlaceholder: true,
+    replacementTodo: "TODO: remplacer par le logo Microsoft Learn officiel valide avant production.",
   },
 ];

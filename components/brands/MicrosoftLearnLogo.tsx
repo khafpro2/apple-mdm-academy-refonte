@@ -13,7 +13,7 @@ type MicrosoftLearnLogoProps = {
   alt?: string;
 };
 
-/** Logo Microsoft Learn */
+/** Placeholder local Microsoft Learn — TODO: remplacer par asset officiel valide */
 export function MicrosoftLearnLogo({
   size = 24,
   className = "",

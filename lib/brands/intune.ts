@@ -1,6 +1,6 @@
 import type { BrandAssetPaths } from "@/lib/brands/types";
 
-/** Assets Microsoft Intune (public/brands/intune/) */
+/** Placeholder Microsoft Intune (public/brands/intune/) — TODO: remplacer par logo officiel valide */
 export const INTUNE_BRAND: BrandAssetPaths = {
   logo: "/brands/intune/intune-logo.svg",
   logoLight: "/brands/intune/intune-logo-light.svg",

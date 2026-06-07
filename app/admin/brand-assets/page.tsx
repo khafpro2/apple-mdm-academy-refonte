@@ -93,6 +93,8 @@ export default function BrandAssetsAdminPage() {
                 <th className="px-5 py-3">Aperçu</th>
                 <th className="px-5 py-3">Marque</th>
                 <th className="px-5 py-3">Logo</th>
+                <th className="px-5 py-3">SVG</th>
+                <th className="px-5 py-3">CDN</th>
                 <th className="px-5 py-3">Composant</th>
                 <th className="px-5 py-3">Mention légale</th>
                 <th className="px-5 py-3">Statut</th>
@@ -109,8 +111,13 @@ export default function BrandAssetsAdminPage() {
                     {row.isPlaceholder && (
                       <p className="mt-1 text-xs text-amber-800">Placeholder — remplacer par logo officiel</p>
                     )}
+                    {row.replacementTodo && (
+                      <p className="mt-1 text-xs text-ink-tertiary">{row.replacementTodo}</p>
+                    )}
                   </td>
                   <td className="px-5 py-4">{row.logoPresent ? "Oui" : "Non"}</td>
+                  <td className="px-5 py-4">{row.svgValid ? "Valide" : "Cassé"}</td>
+                  <td className="px-5 py-4">{row.externalReferenceFree ? "Aucun" : "À vérifier"}</td>
                   <td className="px-5 py-4">{row.componentPresent ? "Oui" : "Non"}</td>
                   <td className="px-5 py-4">{row.legalNoticePresent ? "Oui" : "—"}</td>
                   <td className="px-5 py-4">

@@ -10,7 +10,7 @@ type MicrosoftLogoProps = {
   alt?: string;
 };
 
-/** Logo Microsoft — pictogramme 4 carrés officiels */
+/** Placeholder local Microsoft — TODO: remplacer par asset officiel valide */
 export function MicrosoftLogo({
   size = 24,
   className = "",

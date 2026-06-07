@@ -10,7 +10,7 @@ type IntuneLogoProps = {
   alt?: string;
 };
 
-/** Logo Microsoft Intune */
+/** Placeholder local Microsoft Intune — TODO: remplacer par asset officiel valide */
 export function IntuneLogo({
   size = 24,
   className = "",

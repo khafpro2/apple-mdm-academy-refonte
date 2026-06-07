@@ -10,7 +10,7 @@ type EntraLogoProps = {
   alt?: string;
 };
 
-/** Logo Microsoft Entra ID */
+/** Placeholder local Microsoft Entra ID — TODO: remplacer par asset officiel valide */
 export function EntraLogo({
   size = 24,
   className = "",
