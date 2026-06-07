@@ -11,8 +11,13 @@ export const metadata = buildPageMetadata({
   noIndex: true,
 });
 
+function formatDistribution(dist: Record<number, number>): string {
+  return ["A", "B", "C", "D"].map((label, i) => `${label}:${dist[i] ?? 0}`).join(" · ");
+}
+
 export default function ExamAuditPage() {
   const audit = runExamAudit();
+  const prioritySlugs = new Set(["jamf-100", "apple-security", "intune-apple-advanced"]);
 
   return (
     <PageShell>
@@ -36,7 +41,7 @@ export default function ExamAuditPage() {
           <p className="text-sm text-ink-tertiary">Examens routés</p>
           <p className="text-4xl font-bold text-accent">{audit.routesOk}/{audit.totalExams}</p>
           <p className="mt-2 text-sm text-ink-secondary">
-            Banques OK : {audit.poolsOk}/{audit.totalExams}
+            Banques complètes : {audit.poolsComplete}/{audit.totalExams} · Banques non vides : {audit.poolsOk}/{audit.totalExams}
           </p>
         </Card>
 
@@ -45,44 +50,56 @@ export default function ExamAuditPage() {
             <thead className="bg-surface text-xs uppercase text-ink-tertiary">
               <tr>
                 <th className="px-4 py-3">Route</th>
-                <th className="px-4 py-3">Questions</th>
-                <th className="px-4 py-3">Durée</th>
+                <th className="px-4 py-3">Uniques / Objectif</th>
+                <th className="px-4 py-3">Couverture</th>
                 <th className="px-4 py-3">Timer</th>
-                <th className="px-4 py-3">Route OK</th>
-                <th className="px-4 py-3">Banque</th>
+                <th className="px-4 py-3">Qualité</th>
+                <th className="px-4 py-3">Réponses A–D</th>
               </tr>
             </thead>
             <tbody>
-              {audit.rows.map((row) => (
-                <tr key={row.routeSlug} className="border-t border-border-light">
-                  <td className="px-4 py-3">
-                    <p className="font-semibold text-ink">{row.title}</p>
-                    <p className="text-xs text-ink-tertiary">/examens/{row.routeSlug}</p>
-                    {row.poolWarning && (
-                      <p className="mt-1 text-xs text-amber-700">{row.poolWarning}</p>
-                    )}
-                  </td>
-                  <td className="px-4 py-3">
-                    {row.baseQuestions} / {row.targetQuestions}
-                  </td>
-                  <td className="px-4 py-3">{row.durationMinutes} min</td>
-                  <td className="px-4 py-3">
-                    <Badge variant={row.timerEnabled ? "dark" : "default"}>
-                      {row.timerEnabled ? "Oui" : "Non"}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3">
-                    <Badge variant={row.routeOk ? "dark" : "accent"}>
-                      {row.routeOk ? "OK" : "KO"}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3">
-                    <Badge variant={row.poolOk ? "dark" : "accent"}>
-                      {row.poolOk ? "OK" : "Incomplète"}
-                    </Badge>
-                  </td>
-                </tr>
-              ))}
+              {audit.rows.map((row) => {
+                const isPriority = prioritySlugs.has(row.routeSlug);
+                const complete = row.baseQuestions >= row.targetQuestions;
+                return (
+                  <tr
+                    key={row.routeSlug}
+                    className={`border-t border-border-light ${isPriority ? "bg-accent/5" : ""}`}
+                  >
+                    <td className="px-4 py-3">
+                      <p className="font-semibold text-ink">{row.title}</p>
+                      <p className="text-xs text-ink-tertiary">/examens/{row.routeSlug}</p>
+                      {row.poolWarning && (
+                        <p className="mt-1 text-xs text-amber-700">{row.poolWarning}</p>
+                      )}
+                      {row.quality.weakDomains.length > 0 && (
+                        <p className="mt-1 text-xs text-amber-700">
+                          Domaines faibles : {row.quality.weakDomains.join(", ")}
+                        </p>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 tabular-nums">
+                      {row.baseQuestions} / {row.targetQuestions}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge variant={complete ? "dark" : "accent"}>{row.coveragePercent}%</Badge>
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge variant={row.timerEnabled ? "dark" : "default"}>
+                        {row.timerEnabled ? "Oui" : "Non"}
+                      </Badge>
+                      <p className="mt-1 text-xs text-ink-tertiary">{row.durationMinutes} min</p>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-ink-secondary">
+                      <p>Sans explication : {row.quality.missingExplanation}</p>
+                      <p className="mt-1">Route : {row.routeOk ? "OK" : "KO"}</p>
+                    </td>
+                    <td className="px-4 py-3 text-xs font-mono text-ink-secondary">
+                      {formatDistribution(row.quality.correctIndexDistribution)}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -105,6 +105,11 @@ export type Question = {
   /** Lien vers le module/leçon associé (correction examen) */
   moduleHref?: string;
   moduleLabel?: string;
+  /** Métadonnées banque examen (audit qualité) */
+  difficulty?: "easy" | "medium" | "hard";
+  domain?: string;
+  relatedModuleSlug?: string;
+  relatedLabSlug?: string;
 };
 
 export type Quiz = {
