@@ -1,3 +1,5 @@
+"use client";
+
 import { JamfLogo } from "@/components/brands/JamfLogo";
 import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { MicrosoftLogo } from "@/components/brands/MicrosoftLogo";
@@ -126,13 +128,25 @@ const icons: Record<LogoName, (size: number) => React.ReactNode> = {
 /** Affiche un logo SVG inline (visible dans la sidebar et la navigation) */
 export function LogoIcon({ name, size = 20, className = "", alt }: LogoIconProps) {
   const label = alt ?? DEFAULT_ALT[name];
+  const render = icons[name];
+  if (!render) {
+    return (
+      <span
+        role="img"
+        aria-label={label}
+        className={`inline-flex h-[1em] w-[1em] items-center justify-center rounded bg-surface text-[10px] font-bold text-ink-tertiary ${className}`}
+      >
+        ?
+      </span>
+    );
+  }
   return (
     <span
       role="img"
       aria-label={label}
       className={`inline-flex items-center justify-center text-ink-secondary ${className}`}
     >
-      {icons[name](size)}
+      {render(size)}
     </span>
   );
 }
