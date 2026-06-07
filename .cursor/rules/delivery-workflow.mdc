@@ -26,12 +26,17 @@ Corriger toutes les erreurs jusqu'à un build valide. Vérifier que la fonctionn
 
 ## Git (obligatoire — tâche non terminée sans cela)
 
+**Ne jamais committer ni pousser directement sur `main`.** Voir `.cursor/rules/cursor-codex-coordination.mdc`.
+
 ```bash
+git checkout -b cursor/<nom-tache>   # ou codex/<nom-tache>
 git status
 git add .
 git commit -m "<description précise>"
-git push origin main
+git push origin <branche>
 ```
+
+Le merge dans `main` est réservé à la validation humaine.
 
 ## Rapport final obligatoire
 

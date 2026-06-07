@@ -1,0 +1,117 @@
+---
+description: Coordination Cursor + Codex + validation humaine — branches, périmètres fichiers, merge
+alwaysApply: true
+---
+
+# Coordination Cursor + Codex + validation humaine
+
+## Règle générale
+
+**Aucun agent ne travaille directement sur `main`.**
+
+| Rôle | Branche |
+|------|---------|
+| Cursor | `cursor/<nom-tache>` |
+| Codex | `codex/<nom-tache>` |
+| Main | Uniquement version validée par l'humain |
+
+## Responsabilités
+
+### Cursor
+- UI, UX, composants React, pages, dashboard, admin, LMS
+- Contenu pédagogique, responsive, navigation
+
+### Codex
+- Scripts, tests, validation, TypeScript, lint, build
+- Refactoring ciblé, sécurité, performances, bugs techniques
+
+### Humain
+- Validation visuelle, captures réelles, vidéos MP4
+- Contenu sensible, décisions produit, **merge final**
+
+## Fichiers réservés Cursor
+
+**Peut modifier :**
+- `app/`, `components/`, `src/components/`
+- `src/lib/content/`, `src/lib/courses/`, `src/lib/resources/`
+- `src/lib/video-lessons.ts`, `src/lib/video-storyboards.ts`
+
+**Doit éviter :**
+- `scripts/`, `migrations/`, `supabase/`
+- `lib/env.ts`, `.env*`
+- `package.json` sauf nécessité absolue
+
+## Fichiers réservés Codex
+
+**Peut modifier :**
+- `scripts/`
+- `src/lib/video-display-status.ts`, `src/lib/video-publish-status.ts`, `src/lib/video-production.ts`
+- `src/lib/utils/`, `tests/`, `data/video-pilot-mp4.json`
+- `package.json` si nécessaire pour tests
+
+**Doit éviter :**
+- Contenu pédagogique, wording marketing
+- Gros changements UI, pages publiques sans demande explicite
+
+## Format de tâche obligatoire
+
+Chaque tâche commence par :
+
+```
+Agent : Cursor ou Codex
+Branche : cursor/... ou codex/...
+Objectif : ...
+Fichiers autorisés : ...
+Fichiers interdits : ...
+Commandes obligatoires : npm run lint && npm run build
+Commit : git commit -m "..."
+Push : git push origin <branche>
+```
+
+## Rapport de fin obligatoire
+
+- ✅ Objectif atteint
+- ✅ Fichiers modifiés
+- ✅ Lint OK
+- ✅ Build OK
+- ✅ Commit SHA
+- ✅ Branche pushée
+- ⚠️ Risques
+- ⚠️ Fichiers sensibles touchés
+- ❌ Bloquants
+
+## Merge checklist (humain uniquement)
+
+1. `git checkout main && git pull origin main`
+2. `git merge <branche>` — résoudre conflits si besoin
+3. `npm run lint && npm run build`
+4. Tester les pages concernées
+5. `git push origin main`
+
+**Ne pas merger si lint ou build échoue.**
+
+## Priorités actuelles
+
+Pas de nouvelles grandes fonctionnalités. Ordre :
+
+1. Stabiliser pipeline vidéo (Codex)
+2. Améliorer cours existants (Cursor)
+3. Produire 1 vidéo pilote ABM (humain)
+4. Valider publication MP4 (humain + Codex)
+5. Répéter sur les 7 vidéos restantes
+
+## Tâches recommandées
+
+### CODEX — Tâche 1
+- Branche : `codex/video-pipeline-hardening`
+- Objectif : sécuriser le pipeline vidéo
+- Fichiers autorisés : `scripts/check-video-mp4.mjs`, `scripts/check-video-screenshots.mjs`, `scripts/convert-screenshots-to-webp.mjs`, `src/lib/video-display-status.ts`, `src/lib/video-publish-status.ts`, `src/lib/video-production.ts`, `data/video-pilot-mp4.json`
+- Commandes : `npm run check:screenshots`, `npm run check:mp4`, `npm run lint`, `npm run build`
+- Commit : `Sécurisation technique du pipeline vidéo`
+
+### CURSOR — Tâche 1
+- Branche : `cursor/course-learning-experience`
+- Objectif : améliorer l'expérience de lecture des cours (sans scripts techniques)
+- Fichiers autorisés : `app/cours/`, `app/parcours/`, `components/courses/`, `components/layout/`, `components/dashboard/`, `src/lib/courses/`, `src/lib/resources/`
+- Commandes : `npm run lint`, `npm run build`
+- Commit : `Amélioration expérience de lecture des cours`
