@@ -12,6 +12,8 @@ import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-pane
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
 import { VideoProgressPanel } from "@/components/dashboard/video-progress-panel";
+import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
+import { PILOT_VIDEO_SLUGS } from "@/src/lib/video-production";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
@@ -61,6 +63,9 @@ export default async function DashboardPage() {
   const maxExamScores = new Map(Object.entries(dbData?.maxExamScores ?? {}));
   const trackCertifications = dbData?.trackCertifications ?? [];
   const pathCertifications = dbData?.pathCertifications ?? [];
+
+  const mp4Map = getMp4AvailabilityMap();
+  const publishedVideoCount = PILOT_VIDEO_SLUGS.filter((slug) => mp4Map[slug]).length;
 
   return (
     <PageShell>
@@ -122,7 +127,7 @@ export default async function DashboardPage() {
         </div>
 
         <div className="mb-8">
-          <VideoProgressPanel />
+          <VideoProgressPanel publishedVideoCount={publishedVideoCount} />
         </div>
 
         <div className="mb-8">

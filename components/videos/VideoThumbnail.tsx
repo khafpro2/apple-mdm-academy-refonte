@@ -14,6 +14,8 @@ type VideoThumbnailProps = {
   thumbnailPath?: string;
   className?: string;
   compact?: boolean;
+  /** Badge « En production » pour les vidéos pilotes sans MP4 */
+  showProductionBadge?: boolean;
 };
 
 const BG_CLASS: Record<VideoBackgroundId, string> = {
@@ -41,6 +43,7 @@ export function VideoThumbnail({
   thumbnailPath,
   className = "",
   compact = false,
+  showProductionBadge = false,
 }: VideoThumbnailProps) {
   const iconAsset = getVideoIcon(icon);
   const bgAsset = getVideoBackground(background);
@@ -55,6 +58,11 @@ export function VideoThumbnail({
         <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-ink">
           {level}
         </span>
+        {showProductionBadge && (
+          <span className="absolute right-3 top-3 rounded-full bg-amber-500/95 px-2.5 py-0.5 text-xs font-semibold text-white">
+            En production
+          </span>
+        )}
       </div>
     );
   }
@@ -72,6 +80,11 @@ export function VideoThumbnail({
         >
           {level}
         </span>
+        {showProductionBadge && (
+          <span className="rounded-full bg-amber-500/95 px-2.5 py-0.5 text-xs font-semibold text-white">
+            En production
+          </span>
+        )}
       </div>
       <div>
         <p className={`text-xs font-medium uppercase tracking-wide ${isDark ? "text-zinc-400" : "text-ink-tertiary"}`}>

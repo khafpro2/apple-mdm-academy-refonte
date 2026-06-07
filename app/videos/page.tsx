@@ -2,13 +2,17 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading, Badge } from "@/components/ui";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
+import { VideoStatusBadges } from "@/components/videos/VideoStatusBadges";
 import { getVideoAssets } from "@/src/lib/video-assets";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
+import { getVideoDisplayBadges } from "@/src/lib/video-display-status";
+import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
 import {
   getFundamentalVideoScripts,
   getJamfVideoScripts,
   getJamfVideoScriptsByTrack,
   getPopularVideoScripts,
+  getVideoScript,
   videoScripts,
 } from "@/src/lib/video-scripts";
 import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
@@ -19,6 +23,7 @@ export const metadata = {
 };
 
 export default function VideosPage() {
+  const mp4Map = getMp4AvailabilityMap();
   const popular = getPopularVideoScripts();
   const jamfVideos = getJamfVideoScripts();
   const jamf100 = getJamfVideoScriptsByTrack("jamf-100");
@@ -26,6 +31,8 @@ export default function VideosPage() {
   const jamf200 = getJamfVideoScriptsByTrack("jamf-200");
   const fundamentals = getFundamentalVideoScripts();
   const illustrated = getIllustratedVideoLessons();
+  const publishedCount = illustrated.filter((l) => mp4Map[l.slug]).length;
+  const inProductionCount = illustrated.length - publishedCount;
 
   return (
     <PageShell>
@@ -40,8 +47,11 @@ export default function VideosPage() {
           <span className="rounded-full border border-border-light bg-surface-elevated px-4 py-1.5">
             {videoScripts.length} vidéos
           </span>
-          <span className="rounded-full border border-border-light bg-surface-elevated px-4 py-1.5">
-            {jamfVideos.length} vidéos Jamf
+          <span className="rounded-full border border-green-200 bg-green-50 px-4 py-1.5 text-green-800">
+            {publishedCount} publiées
+          </span>
+          <span className="rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-amber-900">
+            {inProductionCount} en production
           </span>
           <span className="rounded-full border border-border-light bg-surface-elevated px-4 py-1.5">
             HeyGen · fr-FR · 16:9
@@ -53,7 +63,7 @@ export default function VideosPage() {
             <h2 className="text-lg font-bold text-ink">Populaires</h2>
             <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {popular.map((video) => (
-                <VideoCard key={video.slug} video={video} featured />
+                <VideoCard key={video.slug} video={video} featured hasMp4={Boolean(mp4Map[video.slug])} />
               ))}
             </div>
           </section>
@@ -71,7 +81,7 @@ export default function VideosPage() {
           </div>
           <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {illustrated.map((lesson) => (
-              <IllustratedVideoCard key={lesson.slug} lesson={lesson} />
+              <IllustratedVideoCard key={lesson.slug} lesson={lesson} hasMp4={Boolean(mp4Map[lesson.slug])} />
             ))}
           </div>
         </section>
@@ -92,7 +102,7 @@ export default function VideosPage() {
               <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-tertiary">Jamf 100</h3>
               <div className="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {jamf100.map((video) => (
-                  <VideoCard key={video.slug} video={video} jamf />
+                  <VideoCard key={video.slug} video={video} jamf hasMp4={Boolean(mp4Map[video.slug])} />
                 ))}
               </div>
             </div>
@@ -103,7 +113,7 @@ export default function VideosPage() {
               <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-tertiary">Jamf 170</h3>
               <div className="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {jamf170.map((video) => (
-                  <VideoCard key={video.slug} video={video} jamf />
+                  <VideoCard key={video.slug} video={video} jamf hasMp4={Boolean(mp4Map[video.slug])} />
                 ))}
               </div>
             </div>
@@ -114,7 +124,7 @@ export default function VideosPage() {
               <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-tertiary">Jamf 200</h3>
               <div className="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {jamf200.map((video) => (
-                  <VideoCard key={video.slug} video={video} jamf />
+                  <VideoCard key={video.slug} video={video} jamf hasMp4={Boolean(mp4Map[video.slug])} />
                 ))}
               </div>
             </div>
@@ -125,7 +135,7 @@ export default function VideosPage() {
           <h2 className="text-lg font-bold text-ink">Modules fondamentaux Apple MDM</h2>
           <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {fundamentals.map((video) => (
-              <VideoCard key={video.slug} video={video} />
+              <VideoCard key={video.slug} video={video} hasMp4={Boolean(mp4Map[video.slug])} />
             ))}
           </div>
         </section>
@@ -134,8 +144,16 @@ export default function VideosPage() {
   );
 }
 
-function IllustratedVideoCard({ lesson }: { lesson: VideoStoryboard }) {
+function IllustratedVideoCard({ lesson, hasMp4 }: { lesson: VideoStoryboard; hasMp4: boolean }) {
   const pack = getVideoAssets(lesson.slug);
+  const script = getVideoScript(lesson.slug);
+  const badges = getVideoDisplayBadges({
+    slug: lesson.slug,
+    hasMp4,
+    storyboard: lesson,
+    scriptText: script?.script ?? lesson.narration,
+  });
+
   return (
     <article className="group flex flex-col overflow-hidden rounded-3xl border border-accent/30 bg-surface-elevated shadow-sm transition hover:shadow-md">
       {pack ? (
@@ -146,6 +164,7 @@ function IllustratedVideoCard({ lesson }: { lesson: VideoStoryboard }) {
           background={pack.background}
           level={lesson.level}
           thumbnailPath={pack.thumbnailPath}
+          showProductionBadge={!hasMp4}
           className="rounded-none"
         />
       ) : (
@@ -156,15 +175,15 @@ function IllustratedVideoCard({ lesson }: { lesson: VideoStoryboard }) {
         </div>
       )}
       <div className="flex flex-1 flex-col p-5">
+        <VideoStatusBadges badges={badges} className="mb-3" />
         <Badge variant="default" className="mb-2 self-start">{lesson.module}</Badge>
-        <Badge variant="accent" className="mb-2 ml-2 self-start">{lesson.level}</Badge>
         <h3 className="font-bold text-ink group-hover:text-accent">{lesson.title}</h3>
         <p className="mt-2 flex-1 text-sm text-ink-secondary line-clamp-2">{lesson.objective}</p>
         <Link
           href={`/videos/${lesson.slug}`}
           className="mt-4 inline-flex rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
         >
-          Voir le storyboard
+          {hasMp4 ? "Regarder la vidéo" : "Découvrir le module"}
         </Link>
       </div>
     </article>
@@ -175,11 +194,19 @@ function VideoCard({
   video,
   featured,
   jamf,
+  hasMp4,
 }: {
   video: (typeof videoScripts)[0];
   featured?: boolean;
   jamf?: boolean;
+  hasMp4: boolean;
 }) {
+  const badges = getVideoDisplayBadges({
+    slug: video.slug,
+    hasMp4,
+    scriptText: video.script,
+  });
+
   return (
     <article
       className={`group flex flex-col overflow-hidden rounded-3xl border bg-surface-elevated shadow-sm transition hover:shadow-md ${
@@ -197,16 +224,14 @@ function VideoCard({
         <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white">
           {video.duration}
         </span>
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-ink">
-          {video.level}
-        </span>
-        {video.jamfTrack && (
-          <span className="absolute right-3 top-3 rounded-full bg-indigo-500/90 px-2 py-0.5 text-xs font-medium text-white">
-            {video.jamfTrack.toUpperCase()}
+        {!hasMp4 && (
+          <span className="absolute right-3 top-3 rounded-full bg-amber-500/95 px-2 py-0.5 text-xs font-semibold text-white">
+            En production
           </span>
         )}
       </div>
       <div className="flex flex-1 flex-col p-5">
+        <VideoStatusBadges badges={badges} className="mb-3" />
         <Badge variant="default" className="mb-2 self-start">{video.module}</Badge>
         <h3 className="font-bold text-ink group-hover:text-accent">{video.title}</h3>
         <p className="mt-2 flex-1 text-sm text-ink-secondary line-clamp-2">{video.description}</p>
@@ -214,7 +239,7 @@ function VideoCard({
           href={`/videos/${video.slug}`}
           className="mt-4 inline-flex rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
         >
-          Voir la vidéo
+          {hasMp4 ? "Regarder la vidéo" : "Découvrir le module"}
         </Link>
       </div>
     </article>

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
-import { getVideoPublishLabel } from "@/src/lib/video-publish-status";
-import { exportVideoProductionPack, getVideoAssets, getDiagramForVideo, resolveAssetPaths } from "@/src/lib/video-assets";
+import { cleanHeyGenScript } from "@/src/lib/video-production-pack";
+import { exportVideoProductionPack, getVideoAssets, getDiagramForVideo } from "@/src/lib/video-assets";
 import type { VideoScript } from "@/src/lib/video-scripts";
 import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
 import { VideoStoryboardPanel } from "@/components/videos/VideoStoryboard";
@@ -19,8 +19,9 @@ import type { VideoTranscript } from "@/src/lib/video-transcripts";
 import type { VideoCourseNotes } from "@/src/lib/video-production";
 import { getCertificationHref } from "@/src/lib/video-production";
 import { downloadVideoNotesPdf } from "@/lib/video/export-notes-pdf";
-import { VideoPreparationMode } from "@/components/videos/VideoPreparationMode";
-import { cleanHeyGenScript } from "@/src/lib/video-production-pack";
+import { VideoDemoPlayer } from "@/components/videos/VideoDemoPlayer";
+import { VideoStatusBadges } from "@/components/videos/VideoStatusBadges";
+import { getVideoDisplayBadges } from "@/src/lib/video-display-status";
 import {
   loadVideoProgress,
   saveLastContent,
@@ -55,7 +56,6 @@ type Props = {
   courseNotes?: VideoCourseNotes;
   certificationLabel?: string;
   certificationSlug?: string;
-  missingCaptureFiles?: string[];
 };
 
 export function AnimatedLesson({
@@ -66,7 +66,6 @@ export function AnimatedLesson({
   courseNotes,
   certificationLabel,
   certificationSlug,
-  missingCaptureFiles = [],
 }: Props) {
   const [playing, setPlaying] = useState(false);
   const [simTime, setSimTime] = useState(0);
@@ -162,48 +161,42 @@ export function AnimatedLesson({
 
   const assetPack = getVideoAssets(storyboard.slug);
   const diagram = getDiagramForVideo(storyboard.slug);
-  const assetPaths = assetPack ? resolveAssetPaths(assetPack) : [];
   const hasOfficialMp4 = Boolean(mp4Url);
+  const displayBadges = getVideoDisplayBadges({
+    slug: storyboard.slug,
+    hasMp4: hasOfficialMp4,
+    storyboard,
+    scriptText: heygenScript,
+  });
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
       <div className="space-y-6">
-        {assetPack && (
-          <VideoThumbnail
-            title={storyboard.title}
-            module={storyboard.module}
-            icon={assetPack.icon}
-            background={assetPack.background}
-            level={storyboard.level}
-            thumbnailPath={assetPack.thumbnailPath}
-          />
-        )}
-
         {hasOfficialMp4 && mp4Url ? (
-          <OfficialVideoPlayer
-            slug={storyboard.slug}
-            title={storyboard.title}
-            mp4Url={mp4Url}
-            poster={assetPack?.thumbnailPath}
-            durationSeconds={durationSeconds}
-            durationLabel={storyboard.duration}
-            courseSlug={storyboard.courseSlug}
-            transcript={transcript}
-          />
+          <>
+            {assetPack && (
+              <VideoThumbnail
+                title={storyboard.title}
+                module={storyboard.module}
+                icon={assetPack.icon}
+                background={assetPack.background}
+                level={storyboard.level}
+                thumbnailPath={assetPack.thumbnailPath}
+              />
+            )}
+            <OfficialVideoPlayer
+              slug={storyboard.slug}
+              title={storyboard.title}
+              mp4Url={mp4Url}
+              poster={assetPack?.thumbnailPath}
+              durationSeconds={durationSeconds}
+              durationLabel={storyboard.duration}
+              courseSlug={storyboard.courseSlug}
+              transcript={transcript}
+            />
+          </>
         ) : (
-          <VideoPreparationMode
-            storyboard={storyboard}
-            heygenScript={heygenScript}
-            missingCaptureFiles={missingCaptureFiles}
-            onExportProductionPack={exportProductionPack}
-            onExportStoryboard={exportMarkdown}
-          />
-        )}
-
-        {!hasOfficialMp4 && (
-          <div className="overflow-hidden rounded-2xl border border-dashed border-border-light bg-surface p-4 text-center text-sm text-ink-tertiary">
-            Aperçu storyboard animé — lecture simulée
-          </div>
+          <VideoDemoPlayer storyboard={storyboard} assetPack={assetPack} heygenScript={heygenScript} />
         )}
 
         {!hasOfficialMp4 && (
@@ -251,7 +244,7 @@ export function AnimatedLesson({
           <div className="flex flex-wrap gap-2">
             <Badge variant="default">{storyboard.module}</Badge>
             <Badge variant="accent">{storyboard.level}</Badge>
-            <Badge>{getVideoPublishLabel(storyboard.status)}</Badge>
+            <VideoStatusBadges badges={displayBadges} />
             <Badge>{storyboard.visualType}</Badge>
           </div>
           <h1 className="mt-3 text-2xl font-bold text-ink">{storyboard.title}</h1>
@@ -292,13 +285,15 @@ export function AnimatedLesson({
           />
         )}
 
-        <VideoStoryboardPanel
-          storyboard={storyboard}
-          activeSceneIndex={activeSceneIndex}
-          playing={playing}
-        />
+        <div id="video-storyboard">
+          <VideoStoryboardPanel
+            storyboard={storyboard}
+            activeSceneIndex={activeSceneIndex}
+            playing={playing}
+          />
+        </div>
 
-        <section className="rounded-2xl border border-border-light bg-surface-elevated p-6">
+        <section id="video-script" className="rounded-2xl border border-border-light bg-surface-elevated p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
@@ -348,15 +343,11 @@ export function AnimatedLesson({
           <h2 className="font-bold text-ink">Informations</h2>
           <dl className="mt-4 space-y-3 text-sm">
             <div>
-              <dt className="text-xs text-ink-tertiary">Statut montage</dt>
-              <dd className="font-medium text-ink">{getVideoPublishLabel(storyboard.status)}</dd>
+              <dt className="text-xs text-ink-tertiary">Statut</dt>
+              <dd className="mt-1">
+                <VideoStatusBadges badges={displayBadges} />
+              </dd>
             </div>
-            {storyboard.videoUrl && (
-              <div>
-                <dt className="text-xs text-ink-tertiary">Fichier vidéo</dt>
-                <dd className="font-mono text-xs text-accent">{storyboard.videoUrl}</dd>
-              </div>
-            )}
             <div>
               <dt className="text-xs text-ink-tertiary">Module</dt>
               <dd className="font-medium text-ink">{storyboard.module}</dd>
@@ -421,41 +412,35 @@ export function AnimatedLesson({
         </div>
 
         <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
-          <h2 className="font-bold text-ink">Assets utilisés</h2>
-          <p className="mt-1 text-xs text-ink-tertiary">{assetPaths.length} fichiers · HeyGen · Canva · CapCut</p>
-          <ul className="mt-3 max-h-40 space-y-1 overflow-y-auto text-xs text-ink-secondary">
-            {assetPaths.map((path) => (
-              <li key={path} className="truncate border-b border-border-light py-1 font-mono last:border-0">{path}</li>
-            ))}
+          <h2 className="font-bold text-ink">Ressources associées</h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            <li>
+              <Link href={`/cours/${storyboard.courseSlug}`} className="font-medium text-accent hover:underline">
+                Cours · {storyboard.courseSlug}
+              </Link>
+            </li>
+            <li>
+              <Link href={`/labs/${storyboard.labSlug}`} className="font-medium text-accent hover:underline">
+                Lab · {storyboard.labSlug}
+              </Link>
+            </li>
+            <li>
+              <Link href={`/quiz/${storyboard.quizSlug}`} className="font-medium text-accent hover:underline">
+                Quiz · {storyboard.quizSlug}
+              </Link>
+            </li>
+            {transcript && (
+              <li>
+                <Link href={`/transcripts#${storyboard.slug}`} className="font-medium text-accent hover:underline">
+                  Transcript · {transcript.wordCount} mots
+                </Link>
+              </li>
+            )}
           </ul>
-        </div>
-
-        <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
-          <h2 className="font-bold text-ink">Captures production</h2>
-          <p className="mt-1 text-xs text-ink-tertiary">{storyboard.allScreenshots.length} écrans à enregistrer</p>
-          <ul className="mt-3 max-h-48 space-y-1 overflow-y-auto text-xs text-ink-secondary">
-            {storyboard.allScreenshots.map((shot) => (
-              <li key={shot} className="border-b border-border-light py-1 last:border-0">{shot}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="rounded-2xl border border-dashed border-border-light bg-surface p-5 text-sm">
-          <p className="font-semibold text-ink">Prêt pour HeyGen</p>
-          <dl className="mt-3 space-y-2 text-ink-secondary">
-            <div><dt className="text-xs text-ink-tertiary">Avatar</dt><dd>{storyboard.heygen.avatar}</dd></div>
-            <div><dt className="text-xs text-ink-tertiary">Voix</dt><dd>{storyboard.heygen.voice}</dd></div>
-            <div><dt className="text-xs text-ink-tertiary">Langue</dt><dd>{storyboard.heygen.language}</dd></div>
-            <div><dt className="text-xs text-ink-tertiary">Format</dt><dd>{storyboard.heygen.format}</dd></div>
-            <div><dt className="text-xs text-ink-tertiary">Style</dt><dd>{storyboard.heygen.style}</dd></div>
-          </dl>
         </div>
 
         <Link href="/resources/guide-captures-video" className="block text-sm font-semibold text-accent hover:underline">
           Guide captures vidéo →
-        </Link>
-        <Link href="/resources/video-production-guide" className="block text-sm font-semibold text-accent hover:underline">
-          Guide production vidéo →
         </Link>
         <Link href="/videos" className="block text-sm font-semibold text-accent hover:underline">
           ← Toutes les vidéos

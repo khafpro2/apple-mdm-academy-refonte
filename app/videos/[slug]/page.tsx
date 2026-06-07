@@ -16,7 +16,6 @@ import {
   getVideoCourseNotes,
 } from "@/src/lib/video-production";
 import { getVideoTranscript } from "@/src/lib/video-transcripts";
-import { getScreenshotsForVideo } from "@/src/lib/video-screenshots";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,12 +34,6 @@ export async function generateMetadata({ params }: Props) {
   return { title, description };
 }
 
-function getMissingCaptureFiles(slug: string, validFiles: Set<string>): string[] {
-  return getScreenshotsForVideo(slug)
-    .filter((s) => !validFiles.has(s.file))
-    .map((s) => s.file);
-}
-
 export default async function VideoDetailPage({ params }: Props) {
   const { slug } = await params;
   const rawStoryboard = getVideoStoryboard(slug);
@@ -56,7 +49,6 @@ export default async function VideoDetailPage({ params }: Props) {
   const official = getOfficialVideo(slug);
   const transcript = getVideoTranscript(slug);
   const courseNotes = getVideoCourseNotes(slug);
-  const missingCaptureFiles = getMissingCaptureFiles(slug, validFiles);
 
   let storyboard = rawStoryboard;
   if (rawStoryboard) {
@@ -87,7 +79,6 @@ export default async function VideoDetailPage({ params }: Props) {
             courseNotes={courseNotes}
             certificationLabel={official?.certificationLabel}
             certificationSlug={official?.certificationSlug}
-            missingCaptureFiles={missingCaptureFiles}
           />
         ) : legacyVideo ? (
           <PremiumVideoPlayer key={legacyVideo.slug} video={legacyVideo} />

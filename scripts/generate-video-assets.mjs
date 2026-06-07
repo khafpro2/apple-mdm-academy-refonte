@@ -143,9 +143,25 @@ const THUMB_META = {
   "jamf-protect": { title: "Jamf Protect", icon: "security-shield", bg: "#D6E4F0", accent: "#34C759" },
 };
 
+const PILOT_THUMB_SLUGS = new Set([
+  "apple-business-manager",
+  "abm-intune",
+  "ade-iphone",
+  "apns",
+  "managed-apple-ids",
+  "platform-sso",
+  "jamf-pro-fundamentals",
+  "filevault",
+]);
+
 for (const [slug, meta] of Object.entries(THUMB_META)) {
   const textColor = meta.dark ? "#F5F5F7" : "#48484A";
   const subColor = meta.dark ? "#AEAEB2" : "#86868B";
+  const isPilot = PILOT_THUMB_SLUGS.has(slug);
+  const badgeLabel = isPilot ? "En production" : "Vidéo illustrée";
+  const badgeFill = isPilot ? "#FF9500" : meta.accent;
+  const badgeText = isPilot ? "#FFFFFF" : meta.accent;
+  const badgeWidth = isPilot ? 130 : 120;
   write(
     `thumbnails/${slug}.svg`,
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" aria-hidden="true">
@@ -154,8 +170,8 @@ for (const [slug, meta] of Object.entries(THUMB_META)) {
   <image href="/video-assets/icons/${meta.icon}.svg" x="40" y="40" width="64" height="64"/>
   <text x="40" y="150" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="${textColor}">${meta.title}</text>
   <text x="40" y="180" font-family="system-ui,sans-serif" font-size="14" fill="${subColor}">Apple MDM Academy</text>
-  <rect x="40" y="300" width="120" height="28" rx="14" fill="${meta.accent}" opacity="0.15"/>
-  <text x="100" y="319" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="${meta.accent}">Vidéo illustrée</text>
+  <rect x="40" y="300" width="${badgeWidth}" height="28" rx="14" fill="${badgeFill}" opacity="${isPilot ? "0.95" : "0.15"}"/>
+  <text x="${40 + badgeWidth / 2}" y="319" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="${badgeText}">${badgeLabel}</text>
 </svg>`
   );
 }
