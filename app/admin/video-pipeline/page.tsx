@@ -17,6 +17,7 @@ import { getMp4AvailabilityMap, getMp4UrlMap } from "@/src/lib/video-production.
 import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/video-screenshot-inventory.server";
 import { VideoPipelineExportButton } from "@/components/admin/video-pipeline-export-button";
 import { MediaRequiredBanner } from "@/components/admin/media-required-banner";
+import { VideoProductionStatusLegend } from "@/components/videos/video-production-ux";
 import { getMediaProductionStatus } from "@/src/lib/media-production-status.server";
 
 export const metadata = { title: "Pipeline vidéo", robots: { index: false, follow: false } };
@@ -90,6 +91,8 @@ export default async function VideoPipelineAdminPage() {
           capturesPresent={mediaStatus.capturesPresent}
           capturesTotal={mediaStatus.capturesTotal}
         />
+
+        <VideoProductionStatusLegend />
 
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Progression moyenne" value={`${avgPercent} %`} highlight />
@@ -194,6 +197,23 @@ export default async function VideoPipelineAdminPage() {
                   <span className="font-semibold text-ink">Prochaine action :</span>{" "}
                   {getNextPipelineAction(record, { presentScreenshotFiles: validFiles })}
                 </p>
+
+                <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                  <Link href={`/videos/${record.slug}`} className="font-semibold text-accent hover:underline">
+                    Prévisualiser page apprenant →
+                  </Link>
+                  <Link href={`/cours/${record.courseSlug}`} className="text-ink-secondary hover:text-accent">
+                    Cours
+                  </Link>
+                  <Link href={`/labs/${record.labSlug}`} className="text-ink-secondary hover:text-accent">
+                    Lab
+                  </Link>
+                  {record.resourceSlug && (
+                    <Link href={`/resources/${record.resourceSlug}`} className="text-ink-secondary hover:text-accent">
+                      Ressource
+                    </Link>
+                  )}
+                </div>
 
                 <div className="mt-4 flex flex-wrap gap-4 text-xs text-ink-secondary">
                   <span>Quiz : {record.quizSlug}</span>

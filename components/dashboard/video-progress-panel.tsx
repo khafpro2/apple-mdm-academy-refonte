@@ -102,11 +102,13 @@ export function VideoProgressPanel({ publishedVideoCount = 0 }: Props) {
           <h2 className="text-lg font-bold text-ink">Progression vidéos</h2>
           {videosComingSoon ? (
             <p className="mt-1 text-sm text-ink-secondary">
-              Vidéos disponibles bientôt · {PILOT_VIDEO_SLUGS.length} modules pilotes en production
+              Mode démo actif · {PILOT_VIDEO_SLUGS.length} modules pilotes — storyboard, script, cours, labs et ressources
+              déjà disponibles
             </p>
           ) : (
             <p className="mt-1 text-sm text-ink-secondary">
               {completedCount}/{allLessons.length} terminées · {startedCount} commencées ·{" "}
+              {publishedVideoCount}/{PILOT_VIDEO_SLUGS.length} MP4 publiés ·{" "}
               {formatWatchTime(totalWatchMinutes)} de formation
             </p>
           )}

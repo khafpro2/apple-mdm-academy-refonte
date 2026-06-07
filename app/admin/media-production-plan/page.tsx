@@ -7,6 +7,8 @@ import {
   getMediaProductionStatus,
   MEDIA_REQUIRED_MESSAGE,
 } from "@/src/lib/media-production-status.server";
+import { VideoProductionStatusLegend } from "@/components/videos/video-production-ux";
+import { DEMO_VIDEO_MESSAGE } from "@/src/lib/video-display-status";
 
 export const metadata = { title: "Plan production médias", robots: { index: false, follow: false } };
 
@@ -106,6 +108,8 @@ export default async function MediaProductionPlanPage() {
           </section>
         )}
 
+        <VideoProductionStatusLegend />
+
         <section className="mb-8 rounded-2xl border border-border-light bg-surface-elevated p-6">
           <h2 className="text-lg font-bold text-ink">Plan d&apos;action</h2>
           <ol className="mt-6 space-y-4">
@@ -191,17 +195,27 @@ export default async function MediaProductionPlanPage() {
         </section>
 
         <section className="rounded-2xl border border-dashed border-accent/40 bg-accent/5 p-6">
-          <h2 className="text-lg font-bold text-ink">Comment produire une vidéo</h2>
+          <h2 className="text-lg font-bold text-ink">Expérience apprenant pendant la production</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink-secondary">{DEMO_VIDEO_MESSAGE}</p>
+          <ul className="mt-4 space-y-2 text-sm text-ink-secondary">
+            <li>· Bandeau « Mode démo » + badges En production / Storyboard prêt / Script prêt</li>
+            <li>· Liens directs vers cours, lab, quiz et ressource PDF sur chaque fiche vidéo</li>
+            <li>· Storyboard animé et script HeyGen accessibles sans MP4</li>
+          </ul>
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-ink-secondary">
             {HOW_TO_STEPS.map((step) => (
               <li key={step}>{step}</li>
             ))}
           </ol>
+          <p className="mt-6 text-sm font-semibold text-ink">Comment produire une vidéo</p>
           <p className="mt-6 text-sm text-ink-secondary">
             Le site public reste accessible en mode préparation : storyboard, transcript, script HeyGen et ressources
             associées sont visibles même sans MP4.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
+            <Link href="/videos/abm-intune" className="text-sm font-semibold text-accent hover:underline">
+              Exemple mode démo →
+            </Link>
             <Link
               href="/resources/heygen-screen-studio-workflow"
               className="text-sm font-semibold text-accent hover:underline"

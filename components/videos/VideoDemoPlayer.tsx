@@ -5,7 +5,9 @@ import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import type { VideoAssetPack } from "@/src/lib/video-assets";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 import { VideoStatusBadges } from "@/components/videos/VideoStatusBadges";
+import { VideoAlternateLearningLinks } from "@/components/videos/video-production-ux";
 import { DEMO_VIDEO_MESSAGE, getVideoDisplayBadges } from "@/src/lib/video-display-status";
+import { getOfficialVideo } from "@/src/lib/video-production";
 
 type Props = {
   storyboard: VideoStoryboard;
@@ -21,6 +23,7 @@ function scrollTo(id: string) {
 }
 
 export function VideoDemoPlayer({ storyboard, assetPack, heygenScript }: Props) {
+  const official = getOfficialVideo(storyboard.slug);
   const badges = getVideoDisplayBadges({
     slug: storyboard.slug,
     hasMp4: false,
@@ -77,11 +80,19 @@ export function VideoDemoPlayer({ storyboard, assetPack, heygenScript }: Props) 
           </span>
         </div>
 
-        <p className="rounded-xl bg-amber-50 px-4 py-3 text-sm leading-relaxed text-ink-secondary">
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-ink-secondary">
           {DEMO_VIDEO_MESSAGE}
         </p>
 
-        <div className="flex flex-wrap gap-3">
+        <VideoAlternateLearningLinks
+          courseSlug={storyboard.courseSlug}
+          labSlug={storyboard.labSlug}
+          quizSlug={storyboard.quizSlug}
+          resourceSlug={official?.resourceSlug}
+          variant="cards"
+        />
+
+        <div className="flex flex-wrap gap-3 border-t border-border-light pt-4">
           <button
             type="button"
             onClick={() => scrollTo("video-script")}
@@ -103,11 +114,19 @@ export function VideoDemoPlayer({ storyboard, assetPack, heygenScript }: Props) 
             Faire le lab associé
           </Link>
           <Link
-            href={`/cours/${storyboard.courseSlug}`}
+            href={`/quiz/${storyboard.quizSlug}`}
             className="rounded-full border border-border-light px-4 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface"
           >
-            Lire le cours associé
+            Passer le quiz
           </Link>
+          {official?.resourceSlug && (
+            <Link
+              href={`/resources/${official.resourceSlug}`}
+              className="rounded-full border border-border-light px-4 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface"
+            >
+              Ressource PDF
+            </Link>
+          )}
         </div>
       </div>
     </div>

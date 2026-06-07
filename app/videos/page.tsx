@@ -16,6 +16,9 @@ import {
   videoScripts,
 } from "@/src/lib/video-scripts";
 import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
+import { VideoProductionLibraryBanner, VideoAlternateLearningLinks } from "@/components/videos/video-production-ux";
+import { getOfficialVideo } from "@/src/lib/video-production";
+import { PILOT_VIDEO_SLUGS } from "@/src/lib/video-production";
 
 export const metadata = {
   title: "Vidéos",
@@ -31,8 +34,9 @@ export default function VideosPage() {
   const jamf200 = getJamfVideoScriptsByTrack("jamf-200");
   const fundamentals = getFundamentalVideoScripts();
   const illustrated = getIllustratedVideoLessons();
-  const publishedCount = illustrated.filter((l) => mp4Map[l.slug]).length;
-  const inProductionCount = illustrated.length - publishedCount;
+  const pilotIllustrated = illustrated.filter((l) => PILOT_VIDEO_SLUGS.includes(l.slug));
+  const publishedCount = pilotIllustrated.filter((l) => mp4Map[l.slug]).length;
+  const inProductionCount = pilotIllustrated.length - publishedCount;
 
   return (
     <PageShell>
@@ -57,6 +61,12 @@ export default function VideosPage() {
             HeyGen · fr-FR · 16:9
           </span>
         </div>
+
+        <VideoProductionLibraryBanner
+          publishedCount={publishedCount}
+          inProductionCount={inProductionCount}
+          totalPilot={pilotIllustrated.length}
+        />
 
         {popular.length > 0 && (
           <section className="mt-10">
@@ -147,6 +157,7 @@ export default function VideosPage() {
 function IllustratedVideoCard({ lesson, hasMp4 }: { lesson: VideoStoryboard; hasMp4: boolean }) {
   const pack = getVideoAssets(lesson.slug);
   const script = getVideoScript(lesson.slug);
+  const official = getOfficialVideo(lesson.slug);
   const badges = getVideoDisplayBadges({
     slug: lesson.slug,
     hasMp4,
@@ -179,11 +190,24 @@ function IllustratedVideoCard({ lesson, hasMp4 }: { lesson: VideoStoryboard; has
         <Badge variant="default" className="mb-2 self-start">{lesson.module}</Badge>
         <h3 className="font-bold text-ink group-hover:text-accent">{lesson.title}</h3>
         <p className="mt-2 flex-1 text-sm text-ink-secondary line-clamp-2">{lesson.objective}</p>
+        {!hasMp4 && (
+          <div className="mt-3">
+            <VideoAlternateLearningLinks
+              courseSlug={lesson.courseSlug}
+              labSlug={lesson.labSlug}
+              quizSlug={lesson.quizSlug}
+              resourceSlug={official?.resourceSlug}
+              variant="compact"
+            />
+          </div>
+        )}
         <Link
           href={`/videos/${lesson.slug}`}
-          className="mt-4 inline-flex rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
+          className={`mt-4 inline-flex rounded-full px-4 py-2 text-center text-sm font-semibold ${
+            hasMp4 ? "bg-accent text-white hover:opacity-90" : "border border-amber-300 bg-amber-50 text-amber-950 hover:bg-amber-100"
+          }`}
         >
-          {hasMp4 ? "Regarder la vidéo" : "Découvrir le module"}
+          {hasMp4 ? "Regarder la vidéo" : "Mode démo — storyboard & script"}
         </Link>
       </div>
     </article>
@@ -201,6 +225,7 @@ function VideoCard({
   jamf?: boolean;
   hasMp4: boolean;
 }) {
+  const official = getOfficialVideo(video.slug);
   const badges = getVideoDisplayBadges({
     slug: video.slug,
     hasMp4,
@@ -225,8 +250,8 @@ function VideoCard({
           {video.duration}
         </span>
         {!hasMp4 && (
-          <span className="absolute right-3 top-3 rounded-full bg-amber-500/95 px-2 py-0.5 text-xs font-semibold text-white">
-            En production
+          <span className="absolute left-3 top-3 rounded-full bg-amber-500/95 px-2 py-0.5 text-xs font-semibold text-white">
+            Mode démo
           </span>
         )}
       </div>
@@ -235,11 +260,18 @@ function VideoCard({
         <Badge variant="default" className="mb-2 self-start">{video.module}</Badge>
         <h3 className="font-bold text-ink group-hover:text-accent">{video.title}</h3>
         <p className="mt-2 flex-1 text-sm text-ink-secondary line-clamp-2">{video.description}</p>
+        {!hasMp4 && official && (
+          <p className="mt-2 text-xs text-ink-tertiary">
+            Cours · lab · quiz disponibles pendant la production
+          </p>
+        )}
         <Link
           href={`/videos/${video.slug}`}
-          className="mt-4 inline-flex rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
+          className={`mt-4 inline-flex rounded-full px-4 py-2 text-center text-sm font-semibold ${
+            hasMp4 ? "bg-accent text-white hover:opacity-90" : "border border-amber-300 bg-amber-50 text-amber-950 hover:bg-amber-100"
+          }`}
         >
-          {hasMp4 ? "Regarder la vidéo" : "Découvrir le module"}
+          {hasMp4 ? "Regarder la vidéo" : "Mode démo — contenus disponibles"}
         </Link>
       </div>
     </article>

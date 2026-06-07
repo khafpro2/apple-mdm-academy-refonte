@@ -21,7 +21,9 @@ import { getCertificationHref } from "@/src/lib/video-production";
 import { downloadVideoNotesPdf } from "@/lib/video/export-notes-pdf";
 import { VideoDemoPlayer } from "@/components/videos/VideoDemoPlayer";
 import { VideoStatusBadges } from "@/components/videos/VideoStatusBadges";
+import { VideoDemoModeExplainer } from "@/components/videos/video-production-ux";
 import { getVideoDisplayBadges } from "@/src/lib/video-display-status";
+import { getOfficialVideo } from "@/src/lib/video-production";
 import {
   loadVideoProgress,
   saveLastContent,
@@ -162,6 +164,7 @@ export function AnimatedLesson({
   const assetPack = getVideoAssets(storyboard.slug);
   const diagram = getDiagramForVideo(storyboard.slug);
   const hasOfficialMp4 = Boolean(mp4Url);
+  const official = getOfficialVideo(storyboard.slug);
   const displayBadges = getVideoDisplayBadges({
     slug: storyboard.slug,
     hasMp4: hasOfficialMp4,
@@ -196,7 +199,16 @@ export function AnimatedLesson({
             />
           </>
         ) : (
-          <VideoDemoPlayer storyboard={storyboard} assetPack={assetPack} heygenScript={heygenScript} />
+          <>
+            <VideoDemoPlayer storyboard={storyboard} assetPack={assetPack} heygenScript={heygenScript} />
+            <VideoDemoModeExplainer
+              badges={displayBadges}
+              courseSlug={storyboard.courseSlug}
+              labSlug={storyboard.labSlug}
+              quizSlug={storyboard.quizSlug}
+              resourceSlug={official?.resourceSlug}
+            />
+          </>
         )}
 
         {!hasOfficialMp4 && (
@@ -221,6 +233,9 @@ export function AnimatedLesson({
                 </div>
               )}
               <div className="flex flex-wrap items-center gap-4 border-t border-border-light bg-surface-elevated px-5 py-4">
+                <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-900">
+                  Storyboard animé
+                </span>
                 <button
                   type="button"
                   onClick={handlePlay}
@@ -398,6 +413,16 @@ export function AnimatedLesson({
                 </dd>
               </div>
             )}
+            {official?.resourceSlug && (
+              <div>
+                <dt className="text-xs text-ink-tertiary">Ressource PDF</dt>
+                <dd>
+                  <Link href={`/resources/${official.resourceSlug}`} className="font-medium text-accent hover:underline">
+                    {official.resourceSlug}
+                  </Link>
+                </dd>
+              </div>
+            )}
             {transcript && (
               <div>
                 <dt className="text-xs text-ink-tertiary">Transcript</dt>
@@ -429,6 +454,13 @@ export function AnimatedLesson({
                 Quiz · {storyboard.quizSlug}
               </Link>
             </li>
+            {official?.resourceSlug && (
+              <li>
+                <Link href={`/resources/${official.resourceSlug}`} className="font-medium text-accent hover:underline">
+                  Ressource · {official.resourceSlug}
+                </Link>
+              </li>
+            )}
             {transcript && (
               <li>
                 <Link href={`/transcripts#${storyboard.slug}`} className="font-medium text-accent hover:underline">

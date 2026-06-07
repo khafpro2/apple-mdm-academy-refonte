@@ -12,6 +12,7 @@ import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-pane
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
 import { AppleTrainingProgressPanel } from "@/components/dashboard/apple-training-progress-panel";
+import { VideoProductionSummary } from "@/components/dashboard/video-production-summary";
 import { VideoProgressPanel } from "@/components/dashboard/video-progress-panel";
 import { ContinueWithoutVideoPanel } from "@/components/dashboard/ContinueWithoutVideoPanel";
 import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
@@ -132,6 +133,10 @@ export default async function DashboardPage() {
         <div className="mb-8 grid gap-8 lg:grid-cols-2">
           <ContinueLearningPanel />
           <ResourcesPanel trackProgress={trackProgress} />
+        </div>
+
+        <div className="mb-8">
+          <VideoProductionSummary />
         </div>
 
         <div className="mb-8">
