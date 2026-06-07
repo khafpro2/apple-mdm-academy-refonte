@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui";
 import type { VideoScript } from "@/src/lib/video-scripts";
 import { VideoStatusBadges } from "@/components/videos/VideoStatusBadges";
+import { VideoAlternateLearningLinks } from "@/components/videos/video-production-ux";
 import { getVideoDisplayBadges } from "@/src/lib/video-display-status";
 import { getVideoAssets } from "@/src/lib/video-assets";
+import { getOfficialVideo } from "@/src/lib/video-production";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 
 type LessonVideoCalloutProps = {
@@ -13,6 +15,7 @@ type LessonVideoCalloutProps = {
 
 export function LessonVideoCallout({ video, hasMp4 = false }: LessonVideoCalloutProps) {
   const assets = getVideoAssets(video.slug);
+  const official = getOfficialVideo(video.slug);
   const badges = getVideoDisplayBadges({ slug: video.slug, hasMp4 });
 
   return (
@@ -58,7 +61,7 @@ export function LessonVideoCallout({ video, hasMp4 = false }: LessonVideoCallout
               ? video.description
               : "Cette vidéo est en cours de production. Le cours, le script, le lab et les ressources sont déjà disponibles."}
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
+          <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
             <Link
               href={hasMp4 ? `/videos/${video.slug}` : `/videos/${video.slug}#video-script`}
               className="inline-flex rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
@@ -71,13 +74,18 @@ export function LessonVideoCallout({ video, hasMp4 = false }: LessonVideoCallout
             >
               Storyboard
             </Link>
-            <Link
-              href={`/labs/${video.relatedLabSlug}`}
-              className="inline-flex rounded-full border border-border-light bg-white px-4 py-2 text-sm font-semibold text-ink-secondary transition hover:text-ink"
-            >
-              Lab associé
-            </Link>
           </div>
+          {!hasMp4 && (
+            <div className="mt-4">
+              <VideoAlternateLearningLinks
+                courseSlug={video.relatedCourseSlug}
+                labSlug={video.relatedLabSlug}
+                quizSlug={official?.quizSlug ?? video.slug}
+                resourceSlug={official?.resourceSlug}
+                variant="compact"
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>

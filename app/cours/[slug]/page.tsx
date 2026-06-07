@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
-import { CourseMetaGrid, CourseProgressBar } from "@/components/course/course-ui";
+import { CourseMetaGrid } from "@/components/course/course-ui";
+import { CourseReadingProgressBar } from "@/components/course/CourseReadingProgressBar";
 import {
   getFlatLessons,
   getTotalPoints,
@@ -49,7 +50,6 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const flatLessons = getFlatLessons(course);
   const totalLessons = flatLessons.length;
   const totalPoints = getTotalPoints(course);
-  const progressPercent = 0;
   const trackQuizzes = getQuizzesByTrack(course.trackSlug);
   const trackLabs = getLabsByTrack(course.trackSlug);
   const pilotVideos = getPilotVideosForCourse(slug);
@@ -86,7 +86,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             </p>
 
             <div className="mt-8 max-w-xl">
-              <CourseProgressBar percent={progressPercent} />
+              <CourseReadingProgressBar courseSlug={slug} lessonSlugs={lessonSlugs} />
             </div>
 
             <div className="mt-8">

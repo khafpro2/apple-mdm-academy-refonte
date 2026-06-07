@@ -1,11 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import type { VideoAssetPack } from "@/src/lib/video-assets";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 import { VideoStatusBadges } from "@/components/videos/VideoStatusBadges";
+import { VideoAlternateLearningLinks } from "@/components/videos/video-production-ux";
 import { DEMO_VIDEO_MESSAGE, getVideoDisplayBadges } from "@/src/lib/video-display-status";
+import { getOfficialVideo } from "@/src/lib/video-production";
 
 type Props = {
   storyboard: VideoStoryboard;
@@ -21,6 +22,7 @@ function scrollTo(id: string) {
 }
 
 export function VideoDemoPlayer({ storyboard, assetPack, heygenScript }: Props) {
+  const official = getOfficialVideo(storyboard.slug);
   const badges = getVideoDisplayBadges({
     slug: storyboard.slug,
     hasMp4: false,
@@ -81,7 +83,7 @@ export function VideoDemoPlayer({ storyboard, assetPack, heygenScript }: Props) 
           {DEMO_VIDEO_MESSAGE}
         </p>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => scrollTo("video-script")}
@@ -94,21 +96,17 @@ export function VideoDemoPlayer({ storyboard, assetPack, heygenScript }: Props) 
             onClick={() => scrollTo("video-storyboard")}
             className="rounded-full border border-border-light px-4 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface"
           >
-            Voir le storyboard
+            Storyboard
           </button>
-          <Link
-            href={`/labs/${storyboard.labSlug}`}
-            className="rounded-full border border-border-light px-4 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface"
-          >
-            Faire le lab associé
-          </Link>
-          <Link
-            href={`/cours/${storyboard.courseSlug}`}
-            className="rounded-full border border-border-light px-4 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface"
-          >
-            Lire le cours associé
-          </Link>
         </div>
+
+        <VideoAlternateLearningLinks
+          courseSlug={storyboard.courseSlug}
+          labSlug={storyboard.labSlug}
+          quizSlug={storyboard.quizSlug}
+          resourceSlug={official?.resourceSlug}
+          variant="cards"
+        />
       </div>
     </div>
   );

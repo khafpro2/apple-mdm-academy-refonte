@@ -85,12 +85,12 @@ export function LessonTableOfContentsNav({
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-tertiary">
           Sections · {links.find((l) => l.id === activeId)?.label ?? "Navigation"}
         </p>
-        <div className="-mx-1 flex gap-2 overflow-x-auto pb-2">
+        <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 [mask-image:linear-gradient(to_right,transparent,black_12px,black_calc(100%-12px),transparent)]">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={linkClass(link.id === activeId, "pill")}
+              className={`snap-start ${linkClass(link.id === activeId, "pill")}`}
               aria-current={link.id === activeId ? "location" : undefined}
             >
               {link.label}

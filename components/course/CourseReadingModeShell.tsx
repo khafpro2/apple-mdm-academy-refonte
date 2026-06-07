@@ -83,23 +83,24 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
   const fontScale = FONT_SCALES[fontScaleIndex];
 
   return (
-    <div className={readingMode ? "reading-mode-active" : ""}>
+    <div className={readingMode ? "reading-mode-active rounded-2xl bg-[#f5f5f7]/80 p-2 sm:p-4" : ""}>
       <div
         id="lecture-toolbar"
-        className="sticky top-20 z-10 mb-6 flex flex-wrap items-center gap-3 rounded-2xl border border-border-light bg-surface-elevated/95 p-4 shadow-sm backdrop-blur"
+        className="sticky top-16 z-10 mb-6 flex flex-col gap-3 rounded-2xl border border-border-light bg-surface-elevated/95 p-3 shadow-sm backdrop-blur sm:top-20 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3 sm:p-4"
       >
-        <button
-          type="button"
-          onClick={toggleMode}
-          title="Raccourci clavier : R"
-          className={`rounded-full px-4 py-2 text-sm font-semibold ${
-            readingMode ? "bg-accent text-white" : "border border-border-light text-ink-secondary"
-          }`}
-        >
-          {readingMode ? "Mode lecture actif" : "Activer le mode lecture"}
-        </button>
-        {readingMode && (
-          <div className="flex items-center gap-1 rounded-full border border-border-light bg-surface px-2 py-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleMode}
+            title="Raccourci clavier : R"
+            className={`rounded-full px-3 py-2 text-xs font-semibold sm:px-4 sm:text-sm ${
+              readingMode ? "bg-accent text-white" : "border border-border-light text-ink-secondary"
+            }`}
+          >
+            {readingMode ? "Mode lecture actif" : "Activer le mode lecture"}
+          </button>
+          {readingMode && (
+            <div className="flex items-center gap-1 rounded-full border border-border-light bg-surface px-2 py-1">
             <button
               type="button"
               aria-label="Réduire la taille du texte"
@@ -119,9 +120,10 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
             >
               A+
             </button>
-          </div>
-        )}
-        <div className="min-w-[140px] flex-1">
+            </div>
+          )}
+        </div>
+        <div className="min-w-0 flex-1 sm:min-w-[140px]">
           <div className="flex justify-between text-xs text-ink-tertiary">
             <span>Progression de lecture</span>
             <span>{scrollPercent}%</span>
@@ -132,7 +134,7 @@ export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Pro
           type="button"
           onClick={handleMarkRead}
           disabled={isRead}
-          className="rounded-full border border-border-light px-4 py-2 text-sm font-semibold text-ink-secondary hover:bg-surface disabled:opacity-60"
+          className="w-full rounded-full border border-border-light px-4 py-2 text-xs font-semibold text-ink-secondary hover:bg-surface disabled:opacity-60 sm:w-auto sm:text-sm"
         >
           {isRead ? "✓ Marqué comme lu" : "Marquer comme lu"}
         </button>

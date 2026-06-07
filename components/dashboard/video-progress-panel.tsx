@@ -118,10 +118,12 @@ export function VideoProgressPanel({ publishedVideoCount = 0 }: Props) {
 
       {videosComingSoon && (
         <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5">
-          <p className="text-sm font-semibold text-ink">Vidéos disponibles bientôt</p>
+          <p className="text-sm font-semibold text-ink">
+            Mode préparation · {PILOT_VIDEO_SLUGS.length} modules pilotes
+          </p>
           <p className="mt-2 text-sm text-ink-secondary">
-            Les vidéos finales arrivent prochainement. En attendant, continuez avec les cours, labs, quiz et ressources
-            déjà disponibles.
+            Les vidéos finales arrivent prochainement. En attendant : storyboard animé, script HeyGen, cours, labs, quiz
+            et ressources PDF sur chaque module.
           </p>
           <div className="mt-4 grid gap-2 sm:grid-cols-2">
             <Link href="/cours" className="rounded-xl bg-white px-4 py-3 text-sm font-semibold text-ink hover:text-accent">

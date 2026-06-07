@@ -126,7 +126,7 @@ export default async function LessonPage({
                   </span>
                 </div>
 
-                <h1 className="mt-5 text-3xl font-bold tracking-tight text-ink md:text-4xl lg:text-5xl">
+                <h1 className="mt-5 text-2xl font-bold tracking-tight text-ink sm:text-3xl md:text-4xl lg:text-5xl">
                   {lesson.title}
                 </h1>
 
@@ -173,7 +173,7 @@ export default async function LessonPage({
 
             <CourseLessonQuickActions
               courseSlug={slug}
-              lessonSlug={lessonSlug}
+              lessonTitle={lesson.title}
               labSlug={labSlug}
               quizHref={quizHref}
               videoSlug={video?.slug}

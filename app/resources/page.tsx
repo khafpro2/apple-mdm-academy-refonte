@@ -18,6 +18,14 @@ export default function ResourcesPage() {
           description="Checklists, commandes Terminal et modèles de procédures — export PDF, copie rapide, liens cours et labs."
         />
 
+        <section className="mt-6 rounded-2xl border border-border-light bg-gradient-to-br from-surface-elevated to-blue-50/40 p-5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent">Apple Training Premium</p>
+          <p className="mt-2 text-sm text-ink-secondary">
+            Checklists et guides alignés sur les parcours Apple MDM, Jamf et Intune — export PDF, liens cours et labs
+            associés sur chaque fiche.
+          </p>
+        </section>
+
         <div className="mt-6 flex flex-wrap gap-3 text-sm text-ink-secondary">
           <span className="rounded-full border border-border-light bg-surface-elevated px-4 py-1.5">
             {academyResources.length} ressources

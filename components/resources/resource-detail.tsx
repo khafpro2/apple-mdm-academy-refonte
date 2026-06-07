@@ -62,30 +62,30 @@ export function ResourceDetail({ resource }: Props) {
           )}
           <p className="mt-2 text-sm text-ink-tertiary">Module : {resource.module}</p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
             <button
               type="button"
               onClick={handlePdf}
               disabled={exporting}
-              className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-60"
+              className="w-full rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-60 sm:w-auto"
             >
               {exporting ? "Export…" : "Télécharger PDF"}
             </button>
             <button
               type="button"
               onClick={handleCopy}
-              className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink hover:bg-surface"
+              className="w-full rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink hover:bg-surface sm:w-auto"
             >
               {copied ? "Copié ✓" : "Copier"}
             </button>
-            <ButtonLink href={`/cours/${resource.relatedCourseSlug}`} variant="secondary">
+            <ButtonLink href={`/cours/${resource.relatedCourseSlug}`} variant="secondary" className="w-full sm:w-auto">
               Voir le cours
             </ButtonLink>
-            <ButtonLink href={`/labs/${resource.relatedLabSlug}`} variant="secondary">
+            <ButtonLink href={`/labs/${resource.relatedLabSlug}`} variant="secondary" className="w-full sm:w-auto">
               Faire le lab
             </ButtonLink>
             {resource.relatedVideoSlug && (
-              <ButtonLink href={`/videos/${resource.relatedVideoSlug}`} variant="secondary">
+              <ButtonLink href={`/videos/${resource.relatedVideoSlug}`} variant="secondary" className="w-full sm:w-auto">
                 Voir la vidéo
               </ButtonLink>
             )}

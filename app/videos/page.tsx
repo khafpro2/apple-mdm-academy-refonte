@@ -15,7 +15,9 @@ import {
   getVideoScript,
   videoScripts,
 } from "@/src/lib/video-scripts";
+import { VideoProductionLibraryBanner, VideoAlternateLearningLinks } from "@/components/videos/video-production-ux";
 import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
+import { getOfficialVideo } from "@/src/lib/video-production";
 
 export const metadata = {
   title: "Vidéos",
@@ -57,6 +59,12 @@ export default function VideosPage() {
             HeyGen · fr-FR · 16:9
           </span>
         </div>
+
+        <VideoProductionLibraryBanner
+          publishedCount={publishedCount}
+          inProductionCount={inProductionCount}
+          totalPilot={illustrated.length}
+        />
 
         {popular.length > 0 && (
           <section className="mt-10">
@@ -147,6 +155,7 @@ export default function VideosPage() {
 function IllustratedVideoCard({ lesson, hasMp4 }: { lesson: VideoStoryboard; hasMp4: boolean }) {
   const pack = getVideoAssets(lesson.slug);
   const script = getVideoScript(lesson.slug);
+  const official = getOfficialVideo(lesson.slug);
   const badges = getVideoDisplayBadges({
     slug: lesson.slug,
     hasMp4,
@@ -183,8 +192,19 @@ function IllustratedVideoCard({ lesson, hasMp4 }: { lesson: VideoStoryboard; has
           href={`/videos/${lesson.slug}`}
           className="mt-4 inline-flex rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
         >
-          {hasMp4 ? "Regarder la vidéo" : "Découvrir le module"}
+          {hasMp4 ? "Regarder la vidéo" : "Mode démo"}
         </Link>
+        {!hasMp4 && (
+          <div className="mt-3">
+            <VideoAlternateLearningLinks
+              courseSlug={lesson.courseSlug}
+              labSlug={lesson.labSlug}
+              quizSlug={lesson.quizSlug}
+              resourceSlug={official?.resourceSlug}
+              variant="compact"
+            />
+          </div>
+        )}
       </div>
     </article>
   );
