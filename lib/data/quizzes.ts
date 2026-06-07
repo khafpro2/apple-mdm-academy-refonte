@@ -326,8 +326,8 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     type: "examen",
     description:
       "Simulation complète 200 questions : macOS, ABM, sécurité, déploiement, réseau, productivité et dépannage enterprise.",
-    duration: "150 min",
-    durationMinutes: 150,
+    duration: "120 min",
+    durationMinutes: 120,
     passingScore: 80,
     examMode: true,
     examQuestionCount: 200,
@@ -354,8 +354,8 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     type: "examen",
     description:
       "100 questions : FileVault, Gatekeeper, SIP, XProtect, Activation Lock, MDA, compliance Intune/Jamf et dépannage.",
-    duration: "90 min",
-    durationMinutes: 90,
+    duration: "120 min",
+    durationMinutes: 120,
     passingScore: 80,
     examMode: true,
     examQuestionCount: 100,

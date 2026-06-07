@@ -3,6 +3,7 @@ import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { QuizEngine } from "@/components/quiz/quiz-engine";
 import { ExamEngine } from "@/components/quiz/exam-engine";
+import { getExamRouteFromQuizSlug } from "@/lib/data/exams/exam-routes";
 import { getQuiz, getExamPool, quizzes } from "@/lib/data";
 import { getUser } from "@/lib/supabase/server";
 
@@ -38,6 +39,7 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ slu
             basePool={getExamPool(quiz.slug) ?? quiz.questions}
             questionCount={quiz.examQuestionCount}
             isAuthenticated={!!user}
+            routeSlug={getExamRouteFromQuizSlug(quiz.slug) ?? quiz.slug}
           />
         ) : (
           <QuizEngine quiz={quiz} isAuthenticated={!!user} />

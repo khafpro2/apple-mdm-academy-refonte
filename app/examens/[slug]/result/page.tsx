@@ -13,22 +13,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const quizSlug = getQuizSlugFromExamRoute(slug);
   const quiz = quizSlug ? getQuiz(quizSlug) : undefined;
-  if (!quiz) {
-    return buildPageMetadata({
-      title: "Examen blanc",
-      description: "Examen blanc Apple MDM Academy.",
-      path: `/examens/${slug}`,
-    });
-  }
   return buildPageMetadata({
-    title: quiz.title,
-    description: quiz.description,
-    path: `/examens/${slug}`,
+    title: quiz ? `${quiz.title} — Résultat` : "Résultat examen",
+    description: "Résultat et correction de l'examen blanc.",
+    path: `/examens/${slug}/result`,
+    noIndex: true,
   });
 }
 
-export default async function ExamIntroPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ExamResultPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const ctx = await requireExamPageContext(slug);
-  return <ExamPageShell ctx={ctx} viewMode="intro" />;
+  return <ExamPageShell ctx={ctx} viewMode="result" />;
 }

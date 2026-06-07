@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Quiz, Question } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
 import { saveQuizResult } from "@/app/actions/progress";
@@ -14,31 +15,41 @@ import { pickAppleDeploymentExamQuestions } from "@/lib/data/apple-training/exam
 import { pickAppleSecurityExamQuestions } from "@/lib/data/apple-training/exam-apple-security";
 import { ACITP_EXAM_REPORT_STORAGE_KEY } from "@/lib/data/acitp/exam-report-storage";
 import { getExamLoginRedirect } from "@/lib/data/exams/exam-routes";
+import { getExamDurationMinutes, getScoreTier } from "@/lib/exam/exam-config";
+import { saveExamResult } from "@/lib/exam/exam-result-storage";
+import { markExamInProgress, recordExamCompletion } from "@/lib/exam/exam-history-storage";
 import {
   loadExamSession,
   saveExamSession,
   clearExamSession,
   type ExamSession,
 } from "@/lib/exam/session-storage";
-
 import { isAnswerCorrect, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
+import { ExamResultView } from "@/components/exams/exam-result-view";
 
 type Answers = Record<string, UserAnswer>;
+type ViewMode = "intro" | "exam" | "result";
+
+const ALERT_10_MIN = 600;
+const ALERT_1_MIN = 60;
 
 export function ExamEngine({
   quiz,
   basePool,
   questionCount,
   isAuthenticated,
-  examRouteSlug,
+  routeSlug,
+  viewMode = "intro",
 }: {
   quiz: Quiz;
   basePool: Question[];
   questionCount: number;
   isAuthenticated: boolean;
-  examRouteSlug?: string;
+  routeSlug: string;
+  viewMode?: ViewMode;
 }) {
-  const [phase, setPhase] = useState<"intro" | "exam" | "finished">("intro");
+  const router = useRouter();
+  const [phase, setPhase] = useState<ViewMode>(viewMode);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -51,10 +62,13 @@ export function ExamEngine({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showNavigator, setShowNavigator] = useState(false);
   const [resultId, setResultId] = useState<string | null>(null);
+  const [timerAlert, setTimerAlert] = useState<string | null>(null);
+  const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
+  const [poolWarning, setPoolWarning] = useState<string | null>(null);
 
   const savedSession = useSyncExternalStore(
     () => () => {},
-    () => loadExamSession(quiz.slug),
+    () => loadExamSession(routeSlug, quiz.slug),
     () => null
   );
 
@@ -63,14 +77,19 @@ export function ExamEngine({
   const containerRef = useRef<HTMLDivElement>(null);
   const sessionSeedRef = useRef("");
   const answersRef = useRef<Answers>({});
+  const alert10Ref = useRef(false);
+  const alert1Ref = useRef(false);
+  const autoStartedRef = useRef(false);
 
   useEffect(() => {
     answersRef.current = answers;
   }, [answers]);
 
-  const durationMinutes = quiz.durationMinutes ?? 120;
+  const durationMinutes = getExamDurationMinutes(routeSlug, quiz.durationMinutes ?? 120);
   const totalSeconds = durationMinutes * 60;
   const loginRedirect = getExamLoginRedirect(quiz.slug);
+  const uniqueBaseCount = basePool.length;
+  const incompletePool = uniqueBaseCount === 0 || uniqueBaseCount < questionCount;
 
   const question = questions[currentIndex];
   const total = questions.length;
@@ -88,6 +107,7 @@ export function ExamEngine({
     (next: Partial<ExamSession>) => {
       if (phase !== "exam" || questions.length === 0) return;
       saveExamSession({
+        routeSlug,
         quizSlug: quiz.slug,
         questions,
         answers,
@@ -99,19 +119,21 @@ export function ExamEngine({
         ...next,
       });
     },
-    [phase, questions, answers, flagged, currentIndex, secondsLeft, quiz.slug]
+    [phase, questions, answers, flagged, currentIndex, secondsLeft, routeSlug, quiz.slug]
   );
 
   const finishExam = useCallback(
     async (finalAnswers: Answers) => {
-      setPhase("finished");
-      clearExamSession(quiz.slug);
+      setShowSubmitConfirm(false);
+      setPhase("result");
+      clearExamSession(routeSlug, quiz.slug);
       if (document.fullscreenElement) {
         void document.exitFullscreen();
       }
       const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
-      const { percent, passed } = calculateScore(finalAnswers);
+      const { correct, total: t, percent, passed } = calculateScore(finalAnswers);
       setElapsedSeconds(duration);
+      const tier = getScoreTier(percent);
 
       if (quiz.slug === "examen-apple-it-pro" && typeof sessionStorage !== "undefined") {
         try {
@@ -127,6 +149,24 @@ export function ExamEngine({
           /* quota */
         }
       }
+
+      saveExamResult(routeSlug, {
+        routeSlug,
+        quizSlug: quiz.slug,
+        quizTitle: quiz.title,
+        passingScore: quiz.passingScore,
+        questions,
+        answers: finalAnswers,
+        percent,
+        correct,
+        total: t,
+        passed,
+        elapsedSeconds: duration,
+        completedAt: new Date().toISOString(),
+        tierLabel: tier.label,
+      });
+
+      recordExamCompletion(routeSlug, quiz.slug, quiz.title, percent, passed, duration);
 
       if (isAuthenticated && !savedRef.current) {
         savedRef.current = true;
@@ -150,8 +190,10 @@ export function ExamEngine({
           if (passed) trackEvent("examen_reussi", { quiz: quiz.slug, score: percent });
         }
       }
+
+      router.replace(`/examens/${routeSlug}/result`);
     },
-    [calculateScore, isAuthenticated, quiz.slug, quiz.trackSlug, questions]
+    [calculateScore, isAuthenticated, quiz, questions, routeSlug, router]
   );
 
   useEffect(() => {
@@ -163,7 +205,15 @@ export function ExamEngine({
           void finishExam(answersRef.current);
           return 0;
         }
-        return s - 1;
+        const next = s - 1;
+        if (next <= ALERT_1_MIN && !alert1Ref.current) {
+          alert1Ref.current = true;
+          setTimerAlert("⚠️ 1 minute restante — soumission automatique imminente");
+        } else if (next <= ALERT_10_MIN && !alert10Ref.current) {
+          alert10Ref.current = true;
+          setTimerAlert("⏰ 10 minutes restantes");
+        }
+        return next;
       });
     }, 1000);
     return () => clearInterval(timer);
@@ -173,8 +223,39 @@ export function ExamEngine({
     if (phase === "exam") persistSession({});
   }, [phase, answers, flagged, currentIndex, secondsLeft, persistSession]);
 
+  function pickQuestions(seed: string): Question[] {
+    if (basePool.length === 0) {
+      setPoolWarning("Banque de questions incomplète — aucune question disponible.");
+      return [];
+    }
+    if (uniqueBaseCount < questionCount) {
+      setPoolWarning(
+        `Banque de questions incomplète (${uniqueBaseCount} uniques / ${questionCount} cibles) — test avec les questions disponibles.`
+      );
+    } else {
+      setPoolWarning(null);
+    }
+
+    const picked =
+      quiz.slug === "examen-apple-it-pro"
+        ? pickAcitpExamQuestions(seed)
+        : quiz.slug === "examen-apple-enterprise-architect"
+          ? pickAeaExamQuestions(seed)
+          : quiz.slug === "examen-apple-deployment"
+            ? pickAppleDeploymentExamQuestions(seed)
+            : quiz.slug === "examen-apple-security"
+              ? pickAppleSecurityExamQuestions(seed)
+              : pickExamQuestions(basePool, questionCount, seed);
+
+    return picked.length > 0 ? picked : pickExamQuestions(basePool, Math.min(questionCount, uniqueBaseCount), seed);
+  }
+
   function beginExam(picked: Question[], seed: string, resume?: ExamSession) {
+    if (picked.length === 0) return;
     sessionSeedRef.current = seed;
+    alert10Ref.current = false;
+    alert1Ref.current = false;
+    setTimerAlert(null);
     setQuestions(picked);
     if (resume) {
       setAnswers(resume.answers);
@@ -197,27 +278,35 @@ export function ExamEngine({
     setResultId(null);
     savedRef.current = false;
     setPhase("exam");
+    markExamInProgress(routeSlug, quiz.slug, quiz.title);
+    router.replace(`/examens/${routeSlug}/start`);
   }
 
   function startExam() {
     const seed = `${quiz.slug}-${Date.now()}-${Math.random()}`;
-    const picked =
-      quiz.slug === "examen-apple-it-pro"
-        ? pickAcitpExamQuestions(seed)
-        : quiz.slug === "examen-apple-enterprise-architect"
-          ? pickAeaExamQuestions(seed)
-          : quiz.slug === "examen-apple-deployment"
-            ? pickAppleDeploymentExamQuestions(seed)
-            : quiz.slug === "examen-apple-security"
-              ? pickAppleSecurityExamQuestions(seed)
-              : pickExamQuestions(basePool, questionCount, seed);
-    beginExam(picked, seed);
+    beginExam(pickQuestions(seed), seed);
   }
 
   function resumeExam() {
     if (!savedSession) return;
     beginExam(savedSession.questions, savedSession.sessionSeed, savedSession);
   }
+
+  function restartExam() {
+    clearExamSession(routeSlug, quiz.slug);
+    startExam();
+  }
+
+  useEffect(() => {
+    if (viewMode !== "exam" || autoStartedRef.current) return;
+    autoStartedRef.current = true;
+    const id = window.setTimeout(() => {
+      if (savedSession) resumeExam();
+      else startExam();
+    }, 0);
+    return () => window.clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- auto-start once on /start
+  }, [viewMode]);
 
   function goToQuestion(index: number) {
     if (index < 0 || index >= total) return;
@@ -260,6 +349,33 @@ export function ExamEngine({
     return () => document.removeEventListener("fullscreenchange", onFs);
   }, []);
 
+  if (phase === "result") {
+    const { correct, total: t, percent, passed } = calculateScore(answers);
+    const tier = getScoreTier(percent);
+    const certUrl = resultId
+      ? `/api/certificates/${quiz.slug}?resultId=${resultId}`
+      : `/api/certificates/${quiz.slug}`;
+
+    return (
+      <ExamResultView
+        quiz={quiz}
+        routeSlug={routeSlug}
+        questions={questions}
+        answers={answers}
+        percent={percent}
+        correct={correct}
+        total={t}
+        passed={passed}
+        elapsedSeconds={elapsedSeconds}
+        tier={tier}
+        saveStatus={saveStatus}
+        newBadgeIds={newBadgeIds}
+        certUrl={certUrl}
+        onRetake={restartExam}
+      />
+    );
+  }
+
   if (phase === "intro") {
     return (
       <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
@@ -280,27 +396,37 @@ export function ExamEngine({
             <span className="font-semibold text-ink">{quiz.passingScore}%</span>
           </div>
           <div className="rounded-2xl bg-surface px-4 py-3 text-sm">
-            <span className="text-ink-tertiary">Sauvegarde · </span>
-            <span className="font-semibold text-ink">Automatique</span>
+            <span className="text-ink-tertiary">Timer · </span>
+            <span className="font-semibold text-ink">Activé</span>
           </div>
         </div>
+        {incompletePool && (
+          <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            Banque de questions incomplète ({uniqueBaseCount} / {questionCount}) — l&apos;examen utilisera les questions disponibles.
+          </div>
+        )}
         <ul className="mt-6 space-y-2 text-sm text-ink-secondary">
           <li>⏱ Chronomètre {durationMinutes} minutes — soumission auto à expiration</li>
           <li>🧭 Navigation libre entre les questions</li>
           <li>🔖 Marquer pour révision</li>
           <li>💾 Reprise de session si vous quittez la page</li>
-          <li>📋 Correction détaillée avec liens vers les modules</li>
+          <li>📋 Correction détaillée avec modules recommandés</li>
         </ul>
         {savedSession && (
           <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/5 p-4">
-            <p className="text-sm font-semibold text-accent">Session en cours détectée</p>
+            <p className="text-sm font-semibold text-accent">Une tentative est en cours</p>
             <p className="mt-1 text-xs text-ink-secondary">
               Question {savedSession.currentIndex + 1}/{savedSession.questions.length} ·{" "}
               {formatDuration(savedSession.secondsLeft)} restantes
             </p>
-            <Button onClick={resumeExam} className="mt-3" size="sm">
-              Reprendre la session
-            </Button>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button onClick={resumeExam} size="sm">
+                Reprendre
+              </Button>
+              <Button onClick={restartExam} variant="secondary" size="sm">
+                Recommencer
+              </Button>
+            </div>
           </div>
         )}
         {!isAuthenticated && (
@@ -312,125 +438,33 @@ export function ExamEngine({
           </p>
         )}
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button onClick={startExam}>{savedSession ? "Nouvelle session" : "Démarrer l'examen"}</Button>
-          {examRouteSlug && (
-            <Link
-              href="/dashboard/transcript"
-              className="inline-flex items-center rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink-secondary hover:text-ink"
-            >
-              Voir mon transcript
-            </Link>
-          )}
+          <Button
+            onClick={() => {
+              clearExamSession(routeSlug, quiz.slug);
+              router.push(`/examens/${routeSlug}/start`);
+            }}
+          >
+            Commencer l&apos;examen
+          </Button>
+          <Link
+            href="/dashboard/transcript"
+            className="inline-flex items-center rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Voir mon transcript
+          </Link>
         </div>
       </div>
     );
   }
 
-  if (phase === "finished") {
-    const { correct, total: t, percent, passed } = calculateScore(answers);
-    const certUrl = resultId
-      ? `/api/certificates/${quiz.slug}?resultId=${resultId}`
-      : `/api/certificates/${quiz.slug}`;
-
+  if (questions.length === 0) {
     return (
-      <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
-        <div
-          className={`mx-auto flex h-28 w-28 flex-col items-center justify-center rounded-full ${passed ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
-        >
-          <span className="text-3xl font-bold">{percent}%</span>
-          <span className="text-xs">{formatDuration(elapsedSeconds)}</span>
-        </div>
-        <h2 className="mt-6 text-center text-2xl font-bold text-ink">
-          {passed ? "Examen réussi !" : "Examen non validé"}
-        </h2>
-        <p className="mt-2 text-center text-ink-secondary">
-          {correct} / {t} bonnes réponses · Seuil : {quiz.passingScore}%
-        </p>
-
-        {saveStatus === "saved" && (
-          <div className="mt-4 rounded-2xl bg-green-50 px-4 py-3 text-center text-sm text-green-800">
-            Résultat enregistré · Historique disponible dans votre transcript
-          </div>
-        )}
-        {newBadgeIds.length > 0 && (
-          <div className="mt-4 rounded-2xl bg-accent/5 p-4 text-center">
-            <p className="text-sm font-semibold text-accent">Badge débloqué !</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-2">
-              {newBadgeIds.map((id) => {
-                const badge = getBadgeById(id);
-                return badge ? (
-                  <span key={id} className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-sm">
-                    {badge.icon} {badge.name}
-                  </span>
-                ) : null;
-              })}
-            </div>
-          </div>
-        )}
-
-        <div className="mt-8 space-y-4">
-          <h3 className="font-bold text-ink">Correction détaillée</h3>
-          {questions.map((q, i) => {
-            const userAnswer = answers[q.id];
-            const correct = isAnswerCorrect(q, userAnswer);
-            const formatAnswer = (ans: UserAnswer) => {
-              if (ans === undefined) return "—";
-              if (Array.isArray(ans)) return ans.map((idx) => q.options[idx]).join(", ");
-              return q.options[ans] ?? "—";
-            };
-            const correctLabel = q.selectMultiple && q.correctIndices
-              ? q.correctIndices.map((idx) => q.options[idx]).join(", ")
-              : q.options[q.correctIndex];
-            return (
-              <div
-                key={q.id}
-                className={`rounded-2xl border p-4 ${correct ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}
-              >
-                <p className="text-sm font-semibold text-ink">
-                  {i + 1}. {q.text}
-                </p>
-                <p className="mt-2 text-sm text-ink-secondary">
-                  Votre réponse : {formatAnswer(userAnswer)}
-                </p>
-                {!correct && (
-                  <p className="mt-1 text-sm font-medium text-green-700">
-                    Bonne réponse : {correctLabel}
-                  </p>
-                )}
-                <p className="mt-2 text-xs text-ink-tertiary">{q.explanation}</p>
-                {q.moduleHref && (
-                  <Link href={q.moduleHref} className="mt-2 inline-block text-xs font-semibold text-accent hover:underline">
-                    → {q.moduleLabel ?? "Revoir le module"}
-                  </Link>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {passed && saveStatus === "saved" && (
-          <a
-            href={certUrl}
-            className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-accent bg-accent/5 px-6 py-3 text-sm font-semibold text-accent hover:bg-accent/10"
-          >
-            Télécharger le certificat PDF
-          </a>
-        )}
-
-        <div className="mt-8 flex flex-wrap gap-4">
-          <Button onClick={startExam}>Repasser l&apos;examen</Button>
-          {quiz.slug === "examen-apple-it-pro" && (
-            <Link href="/examens/preparation-report" className="inline-flex items-center rounded-full border border-accent px-6 py-3 text-sm font-semibold text-accent hover:bg-accent/5">
-              Rapport de préparation
-            </Link>
-          )}
-          <Link href="/dashboard/transcript" className="inline-flex items-center rounded-full border border-border-light px-6 py-3 text-sm font-semibold text-ink-secondary hover:text-ink">
-            Transcript
-          </Link>
-          <Link href="/dashboard" className="inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white">
-            Dashboard
-          </Link>
-        </div>
+      <div className="rounded-3xl border border-red-200 bg-red-50 p-8 text-center">
+        <p className="font-semibold text-red-800">Banque de questions incomplète</p>
+        <p className="mt-2 text-sm text-red-700">{poolWarning ?? "Aucune question disponible pour cet examen."}</p>
+        <Link href={`/examens/${routeSlug}`} className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
+          ← Retour aux instructions
+        </Link>
       </div>
     );
   }
@@ -438,19 +472,41 @@ export function ExamEngine({
   if (!question) return null;
 
   const answeredCount = Object.keys(answers).length;
+  const unansweredCount = total - answeredCount;
+  const timerPercent = totalSeconds > 0 ? (secondsLeft / totalSeconds) * 100 : 0;
 
   return (
     <div
       ref={containerRef}
       className={`rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm md:p-8 ${isFullscreen ? "min-h-screen rounded-none" : ""}`}
     >
+      {timerAlert && (
+        <div
+          className={`mb-4 rounded-2xl px-4 py-3 text-sm font-semibold ${secondsLeft <= ALERT_1_MIN ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-900"}`}
+          role="alert"
+        >
+          {timerAlert}
+        </div>
+      )}
+
+      <div className="mb-4">
+        <div className="mb-2 flex items-center justify-between text-xs text-ink-tertiary">
+          <span>Temps restant</span>
+          <span>{Math.round(timerPercent)}%</span>
+        </div>
+        <ProgressBar
+          value={timerPercent}
+          className={`h-2 ${secondsLeft <= ALERT_1_MIN ? "[&>div]:bg-red-500" : secondsLeft <= ALERT_10_MIN ? "[&>div]:bg-amber-500" : ""}`}
+        />
+      </div>
+
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <span className="text-sm font-medium text-ink-tertiary">
-          Question {currentIndex + 1} / {total} · {answeredCount} répondues
+          Question {currentIndex + 1} / {total} · {answeredCount} répondues · {unansweredCount} non répondues
         </span>
         <div className="flex flex-wrap items-center gap-2">
           <div
-            className={`rounded-full px-4 py-1.5 text-sm font-bold tabular-nums ${secondsLeft < 300 ? "bg-red-100 text-red-700" : "bg-surface text-ink"}`}
+            className={`rounded-full px-4 py-1.5 text-sm font-bold tabular-nums ${secondsLeft <= ALERT_1_MIN ? "bg-red-100 text-red-700 animate-pulse" : secondsLeft <= ALERT_10_MIN ? "bg-amber-100 text-amber-800" : "bg-surface text-ink"}`}
           >
             ⏱ {formatDuration(secondsLeft)}
           </div>
@@ -535,10 +591,30 @@ export function ExamEngine({
           {currentIndex < total - 1 ? (
             <Button onClick={() => goToQuestion(currentIndex + 1)}>Suivant →</Button>
           ) : (
-            <Button onClick={() => void finishExam(answers)}>Terminer l&apos;examen</Button>
+            <Button onClick={() => setShowSubmitConfirm(true)}>Terminer l&apos;examen</Button>
           )}
+          <Button variant="secondary" onClick={() => setShowSubmitConfirm(true)}>
+            Soumettre
+          </Button>
         </div>
       </div>
+
+      {showSubmitConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-xl">
+            <h3 className="text-lg font-bold text-ink">Terminer l&apos;examen ?</h3>
+            <p className="mt-2 text-sm text-ink-secondary">
+              {answeredCount} / {total} questions répondues · {unansweredCount} non répondues restantes.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button onClick={() => void finishExam(answers)}>Confirmer la soumission</Button>
+              <Button variant="secondary" onClick={() => setShowSubmitConfirm(false)}>
+                Continuer l&apos;examen
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

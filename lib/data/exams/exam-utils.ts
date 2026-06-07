@@ -5,6 +5,7 @@ import { variantQuestion } from "@/lib/quiz/normalize-questions";
 
 /** Étend un pool de base jusqu'à targetCount via variantes */
 export function expandQuestionPool(base: Question[], targetCount: number): Question[] {
+  if (base.length === 0) return [];
   const pool: Question[] = [...base];
   let variant = 0;
   while (pool.length < targetCount) {
@@ -23,9 +24,11 @@ export function pickExamQuestions(
   count: number,
   sessionSeed: string
 ): Question[] {
+  if (base.length === 0) return [];
   const expanded = expandQuestionPool(base, Math.max(count, base.length * 3));
+  const actualCount = Math.min(count, expanded.length);
   const shuffled = shuffleArray(expanded, sessionSeed);
-  return shuffled.slice(0, count).map((q, i) =>
+  return shuffled.slice(0, actualCount).map((q, i) =>
     enrichQuestionWithModule({
       ...q,
       id: `exam-${sessionSeed.slice(0, 8)}-${i}-${q.id}`,

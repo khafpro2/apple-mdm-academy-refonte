@@ -68,6 +68,12 @@ export default async function AdminPage() {
             Bibliothèque vidéo
           </Link>
           <Link
+            href="/admin/runtime-env-check"
+            className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2 text-sm font-semibold text-blue-900 hover:bg-blue-100"
+          >
+            Runtime env check
+          </Link>
+          <Link
             href="/admin/supabase-diagnostics"
             className="rounded-full border border-red-200 bg-red-50 px-5 py-2 text-sm font-semibold text-red-900 hover:bg-red-100"
           >
@@ -90,6 +96,12 @@ export default async function AdminPage() {
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >
             Audit QCM
+          </Link>
+          <Link
+            href="/admin/exam-audit"
+            className="rounded-full border border-purple-200 bg-purple-50 px-5 py-2 text-sm font-semibold text-purple-900 hover:bg-purple-100"
+          >
+            Audit examens
           </Link>
           <Link
             href="/admin/certification-audit"
