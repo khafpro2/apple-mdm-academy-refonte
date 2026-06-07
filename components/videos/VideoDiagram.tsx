@@ -1,5 +1,6 @@
 "use client";
 
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import type { ArchitectureConnection, ArchitectureNode } from "@/src/lib/video-lessons";
 import type { IllustrationName } from "@/src/lib/video-lessons";
 
@@ -16,6 +17,13 @@ type VideoDiagramProps = {
 
 function NodeIcon({ name }: { name?: IllustrationName | string }) {
   if (!name) return null;
+  if (name === "jamf") {
+    return (
+      <div className="mx-auto mb-2 flex justify-center">
+        <JamfLogo variant="mark" size={32} alt="Jamf" />
+      </div>
+    );
+  }
   const legacy = `/illustrations/${name}.svg`;
   const asset = `/video-assets/icons/${name}.svg`;
   return (

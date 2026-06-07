@@ -5,6 +5,7 @@ import { SupabaseStatusBanner } from "@/components/layout/supabase-status-banner
 import { FreePlatformBanner } from "@/components/layout/free-platform-banner";
 import { AuthButtons } from "@/components/auth/auth-buttons";
 import { ButtonLink } from "@/components/ui";
+import { JamfLegalNotice } from "@/components/brands/JamfLegalNotice";
 import { LogoIcon } from "@/components/ui/logo-icon";
 
 function AuthButtonsFallback() {
@@ -64,7 +65,8 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-border-light pt-4 text-xs text-ink-tertiary md:flex-row">
+        <JamfLegalNotice className="mt-6 border-t border-border-light pt-4 text-center md:text-left" />
+        <div className="mt-4 flex flex-col items-center justify-between gap-2 text-xs text-ink-tertiary md:flex-row">
           <p>© 2026 Apple MDM Academy. Tous droits réservés.</p>
           <nav aria-label="Liens légaux" className="flex flex-wrap justify-center gap-x-4 gap-y-1">
             <Link href="/privacy" className="hover:text-ink">Confidentialité</Link>

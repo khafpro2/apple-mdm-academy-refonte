@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import {
   getJamfVideoScripts,
   getLatestVideoScripts,
@@ -95,7 +96,10 @@ export function ContinueLearningPanel() {
       )}
 
       <section className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
-        <h2 className="text-lg font-bold text-ink">Dernières vidéos Jamf</h2>
+        <div className="flex flex-wrap items-center gap-3">
+          <JamfLogo variant="full" size={24} alt="Jamf" />
+          <h2 className="text-lg font-bold text-ink">Dernières vidéos Jamf</h2>
+        </div>
         <ul className="mt-4 space-y-3">
           {jamfLatest.map((v) => (
             <li key={v.slug}>

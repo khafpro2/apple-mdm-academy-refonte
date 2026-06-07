@@ -1,3 +1,4 @@
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import { LogoIcon } from "@/components/ui/logo-icon";
 import type { LogoName } from "@/lib/navigation/logo-names";
 
@@ -10,11 +11,16 @@ type TrackLogoProps = {
 
 /** Logo de parcours avec fond discret — remplace les emojis dans les cartes formation */
 export function TrackLogo({ logo, size = 28, alt, className = "" }: TrackLogoProps) {
+  const label = alt ?? "Jamf";
   return (
     <span
       className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/8 ${className}`}
     >
-      <LogoIcon name={logo} size={size} alt={alt} className="text-ink" />
+      {logo === "jamf" ? (
+        <JamfLogo variant="mark" size={size} alt={label} />
+      ) : (
+        <LogoIcon name={logo} size={size} alt={alt} className="text-ink" />
+      )}
     </span>
   );
 }

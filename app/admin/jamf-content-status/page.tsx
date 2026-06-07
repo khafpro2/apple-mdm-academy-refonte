@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, Badge, Card } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -40,7 +41,8 @@ export default function JamfContentStatusPage() {
           description={`Parcours 15 modules · Généré le ${new Date(report.generatedAt).toLocaleString("fr-FR")}`}
         />
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <JamfLogo variant="full" size={28} alt="Jamf" />
           <Link href="/admin/content-gap-analysis" className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink">
             Analyse écarts Jamf Training
           </Link>

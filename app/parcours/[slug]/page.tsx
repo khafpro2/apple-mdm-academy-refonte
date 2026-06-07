@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
@@ -30,7 +31,11 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
 
         <header className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <TrackLogo logo={track.logo} size={32} alt={track.title} className="h-14 w-14" />
+            {track.logo === "jamf" ? (
+              <JamfLogo variant="full" size={28} alt={track.title} />
+            ) : (
+              <TrackLogo logo={track.logo} size={32} alt={track.title} className="h-14 w-14" />
+            )}
             <Badge>{track.level}</Badge>
             <span className="text-sm text-ink-tertiary">{track.lessons} leçons · {track.duration}</span>
           </div>

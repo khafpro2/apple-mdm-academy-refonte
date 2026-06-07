@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import { Badge, ButtonLink, ProgressBar } from "@/components/ui";
 import type { ExamCatalogItem } from "@/lib/exam/exam-catalog";
 import { loadExamSession } from "@/lib/exam/session-storage";
@@ -33,6 +34,10 @@ function getSnapshot() {
   return catalogRevision;
 }
 
+function isJamfExam(routeSlug: string): boolean {
+  return routeSlug.startsWith("jamf");
+}
+
 function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
   const session = loadExamSession(item.routeSlug, item.quizSlug);
   const stats = getExamAttemptStats(item.routeSlug);
@@ -47,6 +52,7 @@ function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
         aria-label={`${item.title} — ${item.durationLabel}, ${item.questionCount} questions, niveau ${item.level}`}
       >
         <div className="flex flex-wrap items-center gap-2">
+          {isJamfExam(item.routeSlug) && <JamfLogo variant="mark" size={22} alt="Jamf" />}
           <Badge variant="accent">Examen blanc</Badge>
           {!item.bankComplete && (
             <Badge variant="default" className="border-amber-200 bg-amber-50 text-amber-900">

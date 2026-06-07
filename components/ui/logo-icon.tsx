@@ -1,3 +1,4 @@
+import { JamfLogo } from "@/components/brands/JamfLogo";
 import type { LogoName } from "@/lib/navigation/logo-names";
 
 const DEFAULT_ALT: Record<LogoName, string> = {
@@ -59,11 +60,7 @@ const icons: Record<LogoName, (size: number) => React.ReactNode> = {
       <circle cx="17" cy="7" r="2" fill="currentColor" />
     </Svg>
   ),
-  jamf: (size) => (
-    <Svg size={size}>
-      <path fill="currentColor" d="M4 4h16v4H4V4zm0 6h10v4H4v-4zm0 6h16v4H4v-4zm12-6h4v4h-4v-4z" />
-    </Svg>
-  ),
+  jamf: (size) => <JamfLogo variant="mark" size={size} alt="Jamf" />,
   supabase: (size) => (
     <Svg size={size}>
       <path
