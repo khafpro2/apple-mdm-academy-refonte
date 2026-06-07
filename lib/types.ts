@@ -68,6 +68,8 @@ export type LessonContent = {
   screenshots: LessonScreenshot[];
   bestPractices: string[];
   troubleshooting: LessonTroubleshooting[];
+  /** Paragraphes de synthèse en fin de leçon */
+  summary?: string[];
   finalQuizSlug?: string;
   /** Tableau comparatif MDM (parcours comparatif) */
   comparisonTable?: import("@/lib/data/alternative-mdm-tracks/comparison-table").MdmComparisonRow[];

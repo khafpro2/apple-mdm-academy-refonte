@@ -17,6 +17,8 @@ import {
 } from "@/lib/course/helpers";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { LessonVideoCallout } from "@/components/video/lesson-video-callout";
+import { CourseReadingModeShell } from "@/components/course/CourseReadingModeShell";
+import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
@@ -77,6 +79,7 @@ export default async function LessonPage({
   const meta = custom?.meta;
   const labSlug = getLabSlugForLesson(lessonSlug);
   const video = getVideoScriptForLesson(lessonSlug);
+  const videoMp4 = video ? resolveMp4Url(video.slug) : undefined;
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -154,19 +157,21 @@ export default async function LessonPage({
               </div>
             </header>
 
-            {video && <LessonVideoCallout video={video} />}
+            {video && <LessonVideoCallout video={video} hasMp4={Boolean(videoMp4)} />}
 
-            <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
-              {CustomLesson ? (
-                <CustomLesson />
-              ) : (
-                <LessonContentView
-                  content={content}
-                  lessonTitle={lesson.title}
-                  quizHref={quizHref}
-                />
-              )}
-            </article>
+            <CourseReadingModeShell courseSlug={slug} lessonSlug={lessonSlug}>
+              <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
+                {CustomLesson ? (
+                  <CustomLesson />
+                ) : (
+                  <LessonContentView
+                    content={content}
+                    lessonTitle={lesson.title}
+                    quizHref={quizHref}
+                  />
+                )}
+              </article>
+            </CourseReadingModeShell>
 
             {labSlug && (
               <div className="mt-6">

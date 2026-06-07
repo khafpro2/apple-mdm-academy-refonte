@@ -131,6 +131,18 @@ export function LessonContentView({ content, lessonTitle, quizHref }: LessonCont
         </div>
       </ContentSection>
 
+      {content.summary && content.summary.length > 0 && (
+        <ContentSection id="resume" title="Résumé final">
+          <div className="space-y-4 rounded-3xl border border-border-light bg-surface p-6 md:p-8">
+            {content.summary.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className="text-sm leading-7 text-ink-secondary md:text-base">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </ContentSection>
+      )}
+
       <ContentSection id="quiz-final" title="Quiz final">
         <div className="rounded-3xl border border-accent/20 bg-gradient-to-br from-accent/5 to-blue-50 p-8 shadow-sm">
           <p className="text-sm leading-relaxed text-ink-secondary">
@@ -162,6 +174,7 @@ export function LessonTableOfContents({ mobile = false, showComparison = false }
     { href: "#captures", label: "Captures" },
     { href: "#bonnes-pratiques", label: "Bonnes pratiques" },
     { href: "#depannage", label: "Dépannage" },
+    { href: "#resume", label: "Résumé" },
     { href: "#quiz-final", label: "Quiz" },
   ];
 

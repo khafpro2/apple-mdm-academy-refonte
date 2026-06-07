@@ -12,6 +12,7 @@ import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-pane
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
 import { VideoProgressPanel } from "@/components/dashboard/video-progress-panel";
+import { ContinueWithoutVideoPanel } from "@/components/dashboard/ContinueWithoutVideoPanel";
 import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
 import { PILOT_VIDEO_SLUGS } from "@/src/lib/video-production";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
@@ -128,6 +129,10 @@ export default async function DashboardPage() {
 
         <div className="mb-8">
           <VideoProgressPanel publishedVideoCount={publishedVideoCount} />
+        </div>
+
+        <div className="mb-8">
+          <ContinueWithoutVideoPanel />
         </div>
 
         <div className="mb-8">

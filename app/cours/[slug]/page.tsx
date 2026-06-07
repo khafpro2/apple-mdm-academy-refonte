@@ -19,6 +19,12 @@ import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
+import { getPilotVideosForCourse } from "@/src/lib/course-pilot-videos";
+import { getCourseEnrichedContent } from "@/src/lib/course-enriched-content";
+import { resolveMp4Url } from "@/src/lib/video-production.server";
+import { CourseVideoInProductionBlock } from "@/components/course/CourseVideoInProductionBlock";
+import { CourseEnrichedSections } from "@/components/course/CourseEnrichedSections";
+import { CourseLearningPath } from "@/components/course/CourseLearningPath";
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -51,6 +57,9 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const progressPercent = 0;
   const trackQuizzes = getQuizzesByTrack(course.trackSlug);
   const trackLabs = getLabsByTrack(course.trackSlug);
+  const pilotVideos = getPilotVideosForCourse(slug);
+  const enriched = getCourseEnrichedContent(slug);
+
   return (
     <PageShell>
       <script
@@ -112,6 +121,27 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             </ul>
           </div>
         </header>
+
+        {enriched && <CourseEnrichedSections content={enriched} />}
+
+        {pilotVideos.length > 0 && (
+          <section className="mt-10 space-y-6">
+            <div>
+              <h2 className="text-lg font-bold text-ink">Vidéos du parcours</h2>
+              <p className="mt-1 text-sm text-ink-secondary">
+                Les vidéos illustrées arrivent bientôt. Continuez avec le contenu textuel, les labs et les quiz.
+              </p>
+            </div>
+            <div className="grid gap-6 xl:grid-cols-2">
+              {pilotVideos.map((video) => (
+                <div key={video.slug} className="space-y-4">
+                  <CourseVideoInProductionBlock video={video} hasMp4={Boolean(resolveMp4Url(video.slug))} />
+                  <CourseLearningPath video={video} hasMp4={Boolean(resolveMp4Url(video.slug))} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="mt-12 space-y-8">
           {course.modules.map((mod, moduleIndex) => (
