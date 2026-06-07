@@ -3,6 +3,10 @@ import { badgeCatalog, premiumBadgeIds } from "@/lib/badges-config";
 import { trackCertificates, evaluateCertification, evaluateAllCertificationPaths } from "@/lib/certifications";
 import { labs } from "@/lib/labs";
 
+const DEMO_GLOBAL_PERCENT = 68;
+const DEMO_MODULES_COMPLETED = 12;
+const DEMO_LABS_COMPLETED = 8;
+const DEMO_AVERAGE_SCORE = 82;
 const DEMO_EARNED_BADGES = ["first-quiz", "first-lab", "badge-abm"] as const;
 
 const DEMO_COMPLETED_LABS = [
@@ -21,12 +25,14 @@ const DEMO_COMPLETED_LESSONS = [
   "dep-enrollment",
   "apps-books",
   "abm-intune",
-  "ade-iphone",
-  "apns-certificats",
-  "architecture-jamf",
-  "smart-groups",
   "filevault-chiffrement",
   "profils-configuration",
+  "apns-certificats",
+  "icloud-comptes",
+  "managed-apple-ids",
+  "macos-ios-ipados",
+  "commandes-mdm",
+  "services-entreprise",
 ] as const;
 
 const DEMO_PASSED_QUIZZES: { slug: string; score: number }[] = [
@@ -50,11 +56,13 @@ export function getDemoDashboardData(userId = "demo-user"): DashboardData {
 
   const examScores = new Map<string, number>([
     ["quiz-abm-certification", 88],
+    ["examen-apple-it-pro", 58],
     ["examen-jamf-100-blanc", 62],
   ]);
 
   const maxExamScores: Record<string, number> = {
     "quiz-abm-certification": 88,
+    "examen-apple-it-pro": 58,
     "examen-jamf-100-blanc": 62,
   };
 
@@ -76,15 +84,13 @@ export function getDemoDashboardData(userId = "demo-user"): DashboardData {
 
   const tracks = [
     { slug: "apple-it-professional", title: "Apple Business Manager", percent: 75 },
-    { slug: "intune-mac", title: "Intune Apple", percent: 60 },
-    { slug: "jamf-100", title: "Jamf 100", percent: 40 },
-    { slug: "apple-enterprise-expert", title: "Apple Security", percent: 25 },
+    { slug: "intune-mac", title: "Intune Apple", percent: 70 },
+    { slug: "jamf-100", title: "Jamf 100", percent: 65 },
+    { slug: "apple-enterprise-expert", title: "Apple Security", percent: 62 },
   ];
 
-  const globalPercent = Math.round(tracks.reduce((s, t) => s + t.percent, 0) / tracks.length);
-
   const recentActivity = [
-    { label: "Examen blanc Jamf 100 — 62% (en cours)", date: "6 juin 2026", type: "examen" },
+    { label: "Certification Apple IT Professional — 58% (en cours)", date: "7 juin 2026", type: "certification" },
     { label: "Quiz Apple Business Manager — 88%", date: "5 juin 2026", type: "quiz" },
     { label: "Lab : Connecter ABM à Intune", date: "4 juin 2026", type: "lab" },
     { label: "Leçon : Device Enrollment Program", date: "3 juin 2026", type: "cours" },
@@ -94,44 +100,53 @@ export function getDemoDashboardData(userId = "demo-user"): DashboardData {
 
   const certificates = [
     {
+      quizSlug: "examen-apple-it-pro",
+      name: "Apple IT Professional — Certification",
+      score: "58%",
+      date: "7 juin 2026",
+      status: "locked" as const,
+    },
+    {
       quizSlug: "quiz-abm-certification",
-      name: "Apple Business Manager — Certification",
+      name: "Apple Business Manager — Quiz",
       score: "88%",
       date: "5 juin 2026",
       status: "available" as const,
     },
-    {
-      quizSlug: "examen-jamf-100-blanc",
-      name: "Jamf 100 — Examen blanc",
-      score: "62%",
-      date: "6 juin 2026",
-      status: "locked" as const,
-    },
   ];
 
   const stats = {
-    globalPercent,
+    globalPercent: DEMO_GLOBAL_PERCENT,
     timeSpentMinutes: 1240,
-    modulesCompleted: completedLessonSlugs.size,
-    averageScore: 82,
+    modulesCompleted: DEMO_MODULES_COMPLETED,
+    averageScore: DEMO_AVERAGE_SCORE,
     lastActivity: { label: recentActivity[0].label, date: recentActivity[0].date },
-    certificatesCount: 1 + trackCertifications.filter((c) => c.eligible).length,
-    labsCompleted: completedLabSlugs.length,
+    certificatesCount: 1,
+    labsCompleted: DEMO_LABS_COMPLETED,
     labsInProgress: Math.max(0, labs.length - completedLabSlugs.length),
-    practicePercent: Math.round((completedLabSlugs.length / Math.max(labs.length, 1)) * 100),
+    practicePercent: Math.round((DEMO_LABS_COMPLETED / Math.max(labs.length, 1)) * 100),
   };
 
   const leaderboard = [
     { rank: 1, userId: "u1", name: "Marie L.", bestScore: 2840, avgScore: 91, modulesCompleted: 42, fastestMinutes: 38, highlight: false },
     { rank: 2, userId: "u2", name: "Thomas K.", bestScore: 2650, avgScore: 88, modulesCompleted: 38, fastestMinutes: 42, highlight: false },
-    { rank: 3, userId, name: "Apprenant Démo", bestScore: 1920, avgScore: 82, modulesCompleted: stats.modulesCompleted, fastestMinutes: 55, highlight: true },
+    {
+      rank: 3,
+      userId,
+      name: "Apprenant Démo",
+      bestScore: 1920,
+      avgScore: DEMO_AVERAGE_SCORE,
+      modulesCompleted: DEMO_MODULES_COMPLETED,
+      fastestMinutes: 55,
+      highlight: true,
+    },
     { rank: 4, userId: "u4", name: "Sophie R.", bestScore: 1780, avgScore: 79, modulesCompleted: 30, fastestMinutes: null, highlight: false },
   ];
 
   return {
     fromDatabase: true,
     isDemo: true,
-    globalPercent,
+    globalPercent: DEMO_GLOBAL_PERCENT,
     tracks,
     recentActivity,
     badges: badges.filter((b) => premiumBadgeIds.includes(b.id) || b.earned),

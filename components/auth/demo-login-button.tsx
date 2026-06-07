@@ -8,20 +8,32 @@ import { sanitizeRedirectPath } from "@/lib/auth/url";
 import { Button } from "@/components/ui";
 import { trackEvent } from "@/lib/analytics/events";
 
+async function startLocalDemoSession(redirect: string, router: ReturnType<typeof useRouter>) {
+  const res = await fetch("/api/auth/demo/session", { method: "POST" });
+  if (!res.ok) throw new Error("Impossible d'activer le mode démo local.");
+  trackEvent("connexion_demo");
+  router.push(redirect);
+  router.refresh();
+}
+
 export function DemoLoginButton() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = sanitizeRedirectPath(searchParams.get("redirect"));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  if (!isSupabaseConfigured()) return null;
+  const supabaseConfigured = isSupabaseConfigured();
 
   async function handleDemoLogin() {
     setLoading(true);
     setError(null);
 
     try {
+      if (!supabaseConfigured) {
+        await startLocalDemoSession(redirect, router);
+        return;
+      }
+
       const supabase = createClient();
       let signIn = await supabase.auth.signInWithPassword({
         email: DEMO_USER_EMAIL,
@@ -31,12 +43,15 @@ export function DemoLoginButton() {
       if (signIn.error) {
         const provision = await fetch("/api/auth/demo/provision", { method: "POST" });
         const body = (await provision.json()) as { ok?: boolean; error?: string; hint?: string };
+
         if (!provision.ok || !body.ok) {
-          throw new Error(
-            body.hint ??
-              "Compte démo indisponible. Configurez Supabase et exécutez npm run seed:demo."
-          );
+          if (body.error === "service_role_missing" || body.error === "supabase_not_configured") {
+            await startLocalDemoSession(redirect, router);
+            return;
+          }
+          throw new Error(body.hint ?? "Compte démo indisponible.");
         }
+
         signIn = await supabase.auth.signInWithPassword({
           email: DEMO_USER_EMAIL,
           password: DEMO_USER_PASSWORD,
@@ -57,7 +72,8 @@ export function DemoLoginButton() {
   return (
     <div className="space-y-3 border-t border-border-light pt-5">
       <p className="text-center text-xs text-ink-tertiary">
-        Explorer le dashboard sans créer de compte — données de démonstration en lecture seule.
+        Explorer le dashboard sans créer de compte — données fictives en lecture seule
+        {!supabaseConfigured ? " (mode local, Supabase non configuré)" : ""}.
       </p>
       <Button
         type="button"

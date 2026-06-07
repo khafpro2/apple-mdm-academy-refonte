@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
-import { DEMO_USER_EMAIL } from "@/lib/demo/constants";
+import { DEMO_USER_EMAIL, DEMO_SESSION_COOKIE } from "@/lib/demo/constants";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
 const AUTH_PAGES = ["/auth/login", "/auth/signup"];
@@ -11,6 +11,17 @@ export async function updateSession(request: NextRequest) {
   const { url, anonKey, configured } = getSupabaseEnv();
 
   if (!configured) {
+    const pathname = request.nextUrl.pathname;
+    const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
+    const demoSession = request.cookies.get(DEMO_SESSION_COOKIE)?.value === "1";
+
+    if (isProtected && !demoSession) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/auth/login";
+      redirectUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(redirectUrl);
+    }
+
     return NextResponse.next({ request });
   }
 

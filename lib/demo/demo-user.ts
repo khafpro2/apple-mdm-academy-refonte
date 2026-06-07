@@ -7,3 +7,10 @@ export function isDemoUserEmail(email?: string | null): boolean {
 export function isDemoUser(user?: { email?: string | null } | null): boolean {
   return isDemoUserEmail(user?.email);
 }
+
+export function isInDemoMode(
+  user?: { email?: string | null } | null,
+  demoSession = false
+): boolean {
+  return isDemoUser(user) || demoSession;
+}
