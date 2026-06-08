@@ -1,6 +1,11 @@
 "use client";
 
-import { getExamHistory, getBestScoreForRoute, getRecommendedExams } from "@/lib/exam/exam-history-storage";
+import {
+  getExamHistory,
+  getBestScoreForRoute,
+  getRecommendedExams,
+  subscribeToExamHistory,
+} from "@/lib/exam/exam-history-storage";
 import { examRouteToQuizSlug } from "@/lib/data/exams/pools";
 import { getQuiz } from "@/lib/data/quizzes";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
@@ -8,16 +13,12 @@ import Link from "next/link";
 import { ExamFeatureCard } from "@/components/exams/exam-feature-card";
 import { useSyncExternalStore } from "react";
 
-function subscribe() {
-  return () => {};
-}
-
 function getSnapshot() {
   return getExamHistory();
 }
 
 export function ExamProgressPanel() {
-  const history = useSyncExternalStore(subscribe, getSnapshot, () => []);
+  const history = useSyncExternalStore(subscribeToExamHistory, getSnapshot, getSnapshot);
 
   const inProgress = history.filter((e) => e.status === "in_progress");
   const completed = history.filter((e) => e.status === "completed");

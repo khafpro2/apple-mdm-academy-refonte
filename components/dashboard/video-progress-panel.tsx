@@ -44,7 +44,7 @@ export function VideoProgressPanel({ publishedVideoCount = 0 }: Props) {
   const progressList = useSyncExternalStore(
     subscribeVideoProgress,
     () => loadAllVideoProgress(),
-    () => []
+    () => loadAllVideoProgress()
   );
   const lastContent = useSyncExternalStore(
     subscribeVideoProgress,

@@ -10,18 +10,25 @@ import {
   videoScripts,
 } from "@/src/lib/video-scripts";
 import { tracks } from "@/lib/data/tracks";
-import { loadAllVideoProgress, loadLastContent, type LastContent, type VideoProgress } from "@/lib/video/progress-storage";
+import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
+import {
+  loadAllVideoProgress,
+  loadLastContent,
+  subscribeVideoProgress,
+  type LastContent,
+  type VideoProgress,
+} from "@/lib/video/progress-storage";
 
 export function ContinueLearningPanel() {
   const lastContent = useSyncExternalStore<LastContent | null>(
-    () => () => {},
+    subscribeVideoProgress,
     () => loadLastContent(),
     () => null
   );
   const videoProgress = useSyncExternalStore<VideoProgress[]>(
-    () => () => {},
+    subscribeVideoProgress,
     () => loadAllVideoProgress(),
-    () => []
+    () => loadAllVideoProgress()
   );
 
   const inProgressVideos = videoProgress
@@ -169,7 +176,11 @@ export function ContinueLearningPanel() {
         <h2 className="text-lg font-bold">Continuer le parcours</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {tracks.slice(0, 3).map((track) => (
-            <Link key={track.slug} href={`/parcours/${track.slug}`} className="rounded-2xl bg-white/10 p-4 backdrop-blur transition hover:bg-white/20">
+            <Link
+              key={track.slug}
+              href={resolveTrackCourseHref(track.slug)}
+              className="rounded-2xl bg-white/10 p-4 backdrop-blur transition hover:bg-white/20"
+            >
               <p className="font-semibold">{track.title}</p>
               <p className="mt-1 text-sm text-zinc-400">{track.lessons} leçons</p>
             </Link>

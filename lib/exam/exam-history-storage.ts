@@ -13,25 +13,54 @@ export type ExamHistoryEntry = {
 };
 
 const STORAGE_KEY = "apple-mdm-exam-history";
+const HISTORY_UPDATED_EVENT = "exam-history-updated";
+const EMPTY_HISTORY: ExamHistoryEntry[] = [];
+
+let cachedRaw: string | null = null;
+let cachedHistory: ExamHistoryEntry[] = EMPTY_HISTORY;
 
 function readAll(): ExamHistoryEntry[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY_HISTORY;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw) as ExamHistoryEntry[];
+    if (raw === cachedRaw) return cachedHistory;
+
+    cachedRaw = raw;
+    cachedHistory = raw ? (JSON.parse(raw) as ExamHistoryEntry[]) : EMPTY_HISTORY;
+    return cachedHistory;
   } catch {
-    return [];
+    cachedRaw = null;
+    cachedHistory = EMPTY_HISTORY;
+    return EMPTY_HISTORY;
   }
 }
 
 function writeAll(entries: ExamHistoryEntry[]): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(0, 100)));
+    const nextEntries = entries.slice(0, 100);
+    const raw = JSON.stringify(nextEntries);
+    cachedRaw = raw;
+    cachedHistory = nextEntries;
+    localStorage.setItem(STORAGE_KEY, raw);
+    window.dispatchEvent(new CustomEvent(HISTORY_UPDATED_EVENT));
   } catch {
     /* quota */
   }
+}
+
+export function subscribeToExamHistory(callback: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === STORAGE_KEY) callback();
+  };
+  const onCustom = () => callback();
+  window.addEventListener("storage", onStorage);
+  window.addEventListener(HISTORY_UPDATED_EVENT, onCustom);
+  return () => {
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener(HISTORY_UPDATED_EVENT, onCustom);
+  };
 }
 
 export function upsertExamHistory(entry: ExamHistoryEntry): void {

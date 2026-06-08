@@ -11,6 +11,12 @@ import { LogoIcon } from "@/components/ui/logo-icon";
 function AuthButtonsFallback() {
   return (
     <div className="flex items-center gap-2">
+      <Link
+        href="/auth/login"
+        className="inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-medium text-ink-secondary hover:text-ink"
+      >
+        Connexion
+      </Link>
       <ButtonLink href="/auth/signup" size="sm">
         S&apos;inscrire
       </ButtonLink>

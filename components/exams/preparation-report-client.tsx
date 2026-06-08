@@ -17,18 +17,31 @@ type StoredReport = {
   completedAt: string;
 };
 
+const EMPTY_STORED_REPORT = { report: null, completedAt: null };
+let cachedRaw: string | null = null;
+let cachedStoredReport: { report: PreparationReport | null; completedAt: string | null } = EMPTY_STORED_REPORT;
+
 function loadStoredReport(): { report: PreparationReport | null; completedAt: string | null } {
-  if (typeof sessionStorage === "undefined") return { report: null, completedAt: null };
+  if (typeof sessionStorage === "undefined") return EMPTY_STORED_REPORT;
   try {
     const raw = sessionStorage.getItem(ACITP_EXAM_REPORT_STORAGE_KEY);
-    if (!raw) return { report: null, completedAt: null };
+    if (raw === cachedRaw) return cachedStoredReport;
+
+    cachedRaw = raw;
+    if (!raw) {
+      cachedStoredReport = EMPTY_STORED_REPORT;
+      return cachedStoredReport;
+    }
     const data = JSON.parse(raw) as StoredReport;
-    return {
+    cachedStoredReport = {
       report: buildPreparationReport(data.questions, data.answers),
       completedAt: data.completedAt,
     };
+    return cachedStoredReport;
   } catch {
-    return { report: null, completedAt: null };
+    cachedRaw = null;
+    cachedStoredReport = EMPTY_STORED_REPORT;
+    return EMPTY_STORED_REPORT;
   }
 }
 
@@ -36,7 +49,7 @@ export function PreparationReportClient() {
   const stored = useSyncExternalStore(
     () => () => {},
     loadStoredReport,
-    () => ({ report: null, completedAt: null })
+    loadStoredReport
   );
   const { report, completedAt } = stored;
 

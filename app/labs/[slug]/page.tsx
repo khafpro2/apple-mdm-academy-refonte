@@ -4,6 +4,7 @@ import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
 import { LabWorkspace } from "@/components/labs/lab-workspace";
 import { getLab, labs } from "@/lib/labs";
+import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
 import { getUser } from "@/lib/supabase/server";
 import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
 
@@ -37,7 +38,7 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
             <Badge>{lab.level}</Badge>
             <span className="text-sm text-ink-tertiary">{lab.duration}</span>
             <Link
-              href={`/parcours/${lab.trackSlug}`}
+              href={resolveTrackCourseHref(lab.trackSlug)}
               className="text-sm font-medium text-accent hover:underline"
             >
               Parcours associé →

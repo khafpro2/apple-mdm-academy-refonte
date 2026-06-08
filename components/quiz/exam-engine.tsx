@@ -26,6 +26,7 @@ import {
 } from "@/lib/exam/session-storage";
 import { isAnswerCorrect, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
 import { ExamResultView } from "@/components/exams/exam-result-view";
+import { ExamHistoryPanel } from "@/components/quiz/exam-history-panel";
 
 type Answers = Record<string, UserAnswer>;
 type ViewMode = "intro" | "exam" | "result";
@@ -433,6 +434,7 @@ export function ExamEngine({
             </div>
           </div>
         )}
+        <ExamHistoryPanel routeSlug={routeSlug} isAuthenticated={isAuthenticated} />
         {!isAuthenticated && (
           <p className="mt-4 text-sm text-ink-secondary">
             <Link href={`/auth/login?redirect=${loginRedirect}`} className="font-semibold text-accent hover:underline">
@@ -447,14 +449,15 @@ export function ExamEngine({
               clearExamSession(routeSlug, quiz.slug);
               router.push(`/examens/${routeSlug}/start`);
             }}
+            aria-label={`Commencer l'examen ${quiz.title}`}
           >
             Commencer l&apos;examen
           </Button>
           <Link
-            href="/dashboard/transcript"
-            className="inline-flex items-center rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink-secondary hover:text-ink"
+            href={isAuthenticated ? "/dashboard/transcript" : `/auth/login?redirect=${loginRedirect}`}
+            className="inline-flex min-h-11 items-center rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink-secondary hover:text-ink"
           >
-            Voir mon transcript
+            {isAuthenticated ? "Voir mon transcript" : "Connexion pour le transcript"}
           </Link>
         </div>
       </div>

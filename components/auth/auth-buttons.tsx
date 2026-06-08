@@ -42,7 +42,7 @@ export async function AuthButtons() {
     <div className="flex items-center gap-2">
       <Link
         href="/auth/login"
-        className="hidden rounded-full px-4 py-2 text-sm font-medium text-ink-secondary hover:text-ink sm:block"
+        className="inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-medium text-ink-secondary hover:text-ink"
       >
         Connexion
       </Link>
