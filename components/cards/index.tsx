@@ -2,8 +2,12 @@ import Link from "next/link";
 import type { Track } from "@/lib/types";
 import { Card, Badge, ButtonLink } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
+import { resolveTrackCourseHref, trackHasCourse } from "@/lib/navigation/track-links";
 
 export function TrackCard({ track }: { track: Track }) {
+  const courseHref = resolveTrackCourseHref(track.slug);
+  const hasCourse = trackHasCourse(track.slug);
+
   return (
     <Card hover className="flex flex-col">
       <div className="mb-4 flex items-start justify-between">
@@ -21,9 +25,15 @@ export function TrackCard({ track }: { track: Track }) {
         <p className="mt-2 text-xs font-medium text-accent">{track.certification}</p>
       )}
       <div className="mt-6 flex flex-wrap gap-2">
-        <ButtonLink href={`/cours/${track.slug}`} size="sm" className="flex-1 text-center">
-          Voir le cours
-        </ButtonLink>
+        {hasCourse ? (
+          <ButtonLink href={courseHref} size="sm" className="flex-1 text-center">
+            Voir le cours
+          </ButtonLink>
+        ) : (
+          <ButtonLink href={`/parcours/${track.slug}`} size="sm" className="flex-1 text-center">
+            Voir le parcours
+          </ButtonLink>
+        )}
         <ButtonLink href={`/parcours/${track.slug}`} variant="secondary" size="sm">
           Détails
         </ButtonLink>
@@ -68,21 +78,29 @@ export function LabCard({
   );
 }
 
+import { getExamRouteFromQuizSlug } from "@/lib/data/exams/exam-routes";
+
 export function QuizCard({
   slug,
   title,
   type,
   questions,
   duration,
+  examQuestionCount,
 }: {
   slug: string;
   title: string;
   type: "quiz" | "examen";
   questions: number;
   duration: string;
+  examQuestionCount?: number;
 }) {
+  const examRoute = type === "examen" ? getExamRouteFromQuizSlug(slug) : undefined;
+  const href = examRoute ? `/examens/${examRoute}` : `/quiz/${slug}`;
+  const questionTotal = type === "examen" && examQuestionCount ? examQuestionCount : questions;
+
   return (
-    <Link href={`/quiz/${slug}`} className="group block">
+    <Link href={href} className="group block">
       <Card hover className={type === "examen" ? "border-ink bg-ink text-white" : ""}>
         <Badge variant={type === "examen" ? "dark" : "accent"}>
           {type === "examen" ? "Examen blanc" : "Quiz"}
@@ -91,7 +109,7 @@ export function QuizCard({
           {title}
         </h3>
         <p className={`mt-2 text-sm ${type === "examen" ? "text-zinc-300" : "text-ink-secondary"}`}>
-          {questions} questions · {duration}
+          {questionTotal} questions · {duration}
         </p>
       </Card>
     </Link>

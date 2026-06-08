@@ -14,6 +14,7 @@ export type SidebarNavItem = {
 
 export const sidebarMainNav: SidebarNavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: "dashboard" },
+  { label: "Cours", href: "/cours", icon: "resource" },
   {
     label: "Parcours",
     href: "/parcours",
@@ -48,5 +49,4 @@ export const sidebarMainNav: SidebarNavItem[] = [
   { label: "Examens", href: "/examens", icon: "shield" },
   { label: "Vidéos", href: "/videos", icon: "video" },
   { label: "Ressources", href: "/resources", icon: "resource" },
-  { label: "Admin", href: "/admin", icon: "shield" },
 ];

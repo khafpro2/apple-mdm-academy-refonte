@@ -8,19 +8,31 @@ const DEFAULT_STATE: SubscriptionState = {
   planSlug: "free",
 };
 
+let cachedRaw: string | null = null;
+let cachedState: SubscriptionState = DEFAULT_STATE;
+
 export function loadSubscriptionState(): SubscriptionState {
   if (typeof window === "undefined") return DEFAULT_STATE;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SubscriptionState) : DEFAULT_STATE;
+    if (raw === cachedRaw) return cachedState;
+
+    cachedRaw = raw;
+    cachedState = raw ? (JSON.parse(raw) as SubscriptionState) : DEFAULT_STATE;
+    return cachedState;
   } catch {
+    cachedRaw = null;
+    cachedState = DEFAULT_STATE;
     return DEFAULT_STATE;
   }
 }
 
 export function saveSubscriptionState(state: SubscriptionState): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  const raw = JSON.stringify(state);
+  cachedRaw = raw;
+  cachedState = state;
+  localStorage.setItem(STORAGE_KEY, raw);
 }
 
 export function setSubscriptionTier(tier: SubscriptionTier): SubscriptionState {

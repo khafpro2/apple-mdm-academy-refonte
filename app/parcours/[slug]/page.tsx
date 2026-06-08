@@ -7,6 +7,7 @@ import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
 import { getTrack, tracks, getQuizzesByTrack, getLabsByTrack } from "@/lib/data";
+import { resolveTrackCourseHref, trackHasCourse } from "@/lib/navigation/track-links";
 
 export function generateStaticParams() {
   return tracks.map((t) => ({ slug: t.slug }));
@@ -25,6 +26,8 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
 
   const trackQuizzes = getQuizzesByTrack(slug);
   const trackLabs = getLabsByTrack(slug);
+  const courseHref = resolveTrackCourseHref(slug);
+  const hasCourse = trackHasCourse(slug);
 
   return (
     <PageShell>
@@ -51,7 +54,13 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
             <p className="mt-3 text-sm font-semibold text-accent">Certification : {track.certification}</p>
           )}
           <div className="mt-6 flex flex-wrap gap-3">
-            <ButtonLink href={`/cours/${track.slug}`}>Commencer le cours</ButtonLink>
+            {hasCourse ? (
+              <ButtonLink href={courseHref}>Commencer le cours</ButtonLink>
+            ) : (
+              <ButtonLink href="/parcours" variant="secondary">
+                Retour au catalogue
+              </ButtonLink>
+            )}
             {trackQuizzes[0] && (
               <ButtonLink href={`/quiz/${trackQuizzes[0].slug}`} variant="secondary">
                 Passer le quiz

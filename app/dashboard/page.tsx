@@ -18,6 +18,7 @@ import { ContinueWithoutVideoPanel } from "@/components/dashboard/ContinueWithou
 import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
 import { PILOT_VIDEO_SLUGS } from "@/src/lib/video-production";
 import { userProgress as mockProgress, badges as mockBadges, certificates as mockCertificates, leaderboard, tracks } from "@/lib/data";
+import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
 import { premiumBadgeIds, badgeCatalog } from "@/lib/badges-config";
 import { getUser } from "@/lib/supabase/server";
 import { fetchDashboardData } from "@/lib/supabase/queries";
@@ -295,7 +296,7 @@ export default async function DashboardPage() {
           <h2 className="text-lg font-bold">Continuer à apprendre</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {tracks.slice(0, 3).map((track) => (
-              <Link key={track.slug} href={`/cours/${track.slug}`} className="rounded-2xl bg-white/10 p-4 backdrop-blur transition hover:bg-white/20">
+              <Link key={track.slug} href={resolveTrackCourseHref(track.slug)} className="rounded-2xl bg-white/10 p-4 backdrop-blur transition hover:bg-white/20">
                 <p className="font-semibold">{track.title}</p>
                 <p className="mt-1 text-sm text-zinc-400">{track.lessons} leçons · {track.level}</p>
               </Link>

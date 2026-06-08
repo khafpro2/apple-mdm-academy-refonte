@@ -165,6 +165,7 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     examsCount: 1,
     certificateName: "Certificat Apple Security Expert",
     trackSlug: "apple-it-professional",
+    examRouteSlug: "apple-security",
     certificationPathSlug: "parcours-apple-enterprise",
     color: "from-rose-600/10 to-orange-600/10",
   },
