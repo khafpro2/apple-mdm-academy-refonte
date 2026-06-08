@@ -15,6 +15,7 @@ import {
   togglePrerequisiteChecked,
   setLastOpenedLab,
 } from "@/lib/labs/progress";
+import { saveLastContent } from "@/lib/video/progress-storage";
 import { useLabProgressRecord } from "@/lib/labs/use-lab-progress";
 import { LabSimulatorPanel } from "@/components/labs/lab-simulator-panel";
 import { isExpertLabWithSimulator } from "@/lib/labs/simulator";
@@ -96,7 +97,14 @@ export function LabWorkspace({ lab, isAuthenticated }: LabWorkspaceProps) {
 
   useEffect(() => {
     setLastOpenedLab(lab.slug);
-  }, [lab.slug]);
+    saveLastContent({
+      type: "lab",
+      slug: lab.slug,
+      title: lab.title,
+      href: `/labs/${lab.slug}`,
+      updatedAt: Date.now(),
+    });
+  }, [lab.slug, lab.title]);
 
   function notifyCatalog() {
     window.dispatchEvent(new Event("lab-progress-updated"));
@@ -355,9 +363,15 @@ export function LabWorkspace({ lab, isAuthenticated }: LabWorkspaceProps) {
       <div className="flex flex-wrap gap-3">
         <Link
           href="/labs"
-          className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-ink hover:bg-surface"
+          className="inline-flex min-h-11 items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-ink hover:bg-surface"
         >
           ← Retour aux labs
+        </Link>
+        <Link
+          href="/dashboard"
+          className="inline-flex min-h-11 items-center rounded-full border border-border px-6 py-3 text-sm font-semibold text-ink-secondary hover:bg-surface hover:text-ink"
+        >
+          Dashboard →
         </Link>
         {!allDone && (
           <Button type="button" variant="secondary" onClick={handleFinishLab} disabled={!allDone}>

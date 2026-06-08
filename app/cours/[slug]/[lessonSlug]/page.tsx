@@ -24,6 +24,7 @@ import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
+import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
 
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
@@ -178,6 +179,13 @@ export default async function LessonPage({
                 <LabLessonLink labSlug={labSlug} />
               </div>
             )}
+
+            <LessonProgressTracker
+              courseSlug={course.slug}
+              lessonSlug={lessonSlug}
+              lessonTitle={lesson.title}
+              showMarkComplete={!CustomLesson}
+            />
 
             <LessonNavigation
               courseSlug={course.slug}

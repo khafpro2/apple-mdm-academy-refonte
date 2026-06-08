@@ -17,10 +17,10 @@ export function AppShell({ children, footer, banners, authSlot }: AppShellProps)
       <div className="flex min-h-screen bg-surface">
         <Sidebar />
         <SidebarSpacer />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
           {banners}
           <Header authSlot={authSlot} />
-          <main id="main-content" className="flex-1" tabIndex={-1}>
+          <main id="main-content" className="flex-1 overflow-x-hidden" tabIndex={-1}>
             {children}
           </main>
           {footer}

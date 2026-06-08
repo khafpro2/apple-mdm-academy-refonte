@@ -8,7 +8,7 @@ import {
   getPopularResources,
   getResourcesByCourse,
 } from "@/src/lib/resources";
-import { loadResourceViews } from "@/lib/resources/progress-storage";
+import { loadResourceViews, subscribeToResourceViews } from "@/lib/resources/progress-storage";
 import { tracks } from "@/lib/data/tracks";
 
 type TrackProgress = { slug: string; title: string; percent: number };
@@ -19,9 +19,9 @@ type Props = {
 
 export function ResourcesPanel({ trackProgress = [] }: Props) {
   const recentViews = useSyncExternalStore(
-    () => () => {},
+    subscribeToResourceViews,
     () => loadResourceViews(),
-    () => []
+    () => loadResourceViews()
   );
 
   const popular = getPopularResources().slice(0, 4);

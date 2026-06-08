@@ -19,6 +19,8 @@ const PROGRESS_PREFIX = "apple-mdm-video-progress-";
 const NOTES_PREFIX = "apple-mdm-video-notes-";
 const LAST_CONTENT_KEY = "apple-mdm-last-content";
 export const VIDEO_PROGRESS_EVENT = "apple-mdm-video-progress-updated";
+const EMPTY_VIDEO_PROGRESS: VideoProgress[] = [];
+const EMPTY_VIDEO_NOTES: VideoNote[] = [];
 
 export type LastContent = {
   type: "video" | "lesson" | "lab";
@@ -27,6 +29,13 @@ export type LastContent = {
   href: string;
   updatedAt: number;
 };
+
+const progressCache = new Map<string, { raw: string | null; value: VideoProgress | null }>();
+const notesCache = new Map<string, { raw: string | null; value: VideoNote[] }>();
+let allProgressCacheKey: string | null = null;
+let allProgressCacheValue: VideoProgress[] = EMPTY_VIDEO_PROGRESS;
+let lastContentRaw: string | null = null;
+let lastContentValue: LastContent | null = null;
 
 export function subscribeVideoProgress(onStoreChange: () => void): () => void {
   if (typeof window === "undefined") return () => {};
@@ -43,15 +52,24 @@ export function loadVideoProgress(videoSlug: string): VideoProgress | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(`${PROGRESS_PREFIX}${videoSlug}`);
-    return raw ? (JSON.parse(raw) as VideoProgress) : null;
+    const cached = progressCache.get(videoSlug);
+    if (cached?.raw === raw) return cached.value;
+
+    const value = raw ? (JSON.parse(raw) as VideoProgress) : null;
+    progressCache.set(videoSlug, { raw, value });
+    return value;
   } catch {
+    progressCache.set(videoSlug, { raw: null, value: null });
     return null;
   }
 }
 
 export function saveVideoProgress(progress: VideoProgress): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(`${PROGRESS_PREFIX}${progress.videoSlug}`, JSON.stringify(progress));
+  const raw = JSON.stringify(progress);
+  progressCache.set(progress.videoSlug, { raw, value: progress });
+  allProgressCacheKey = null;
+  localStorage.setItem(`${PROGRESS_PREFIX}${progress.videoSlug}`, raw);
   window.dispatchEvent(new CustomEvent(VIDEO_PROGRESS_EVENT));
 }
 
@@ -65,23 +83,34 @@ export function markVideoComplete(videoSlug: string, durationSeconds: number): v
 }
 
 export function loadVideoNotes(videoSlug: string): VideoNote[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY_VIDEO_NOTES;
   try {
     const raw = localStorage.getItem(`${NOTES_PREFIX}${videoSlug}`);
-    return raw ? (JSON.parse(raw) as VideoNote[]) : [];
+    const cached = notesCache.get(videoSlug);
+    if (cached?.raw === raw) return cached.value;
+
+    const value = raw ? (JSON.parse(raw) as VideoNote[]) : EMPTY_VIDEO_NOTES;
+    notesCache.set(videoSlug, { raw, value });
+    return value;
   } catch {
-    return [];
+    notesCache.set(videoSlug, { raw: null, value: EMPTY_VIDEO_NOTES });
+    return EMPTY_VIDEO_NOTES;
   }
 }
 
 export function saveVideoNotes(videoSlug: string, notes: VideoNote[]): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(`${NOTES_PREFIX}${videoSlug}`, JSON.stringify(notes));
+  const raw = JSON.stringify(notes);
+  notesCache.set(videoSlug, { raw, value: notes });
+  localStorage.setItem(`${NOTES_PREFIX}${videoSlug}`, raw);
 }
 
 export function saveLastContent(content: LastContent): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(LAST_CONTENT_KEY, JSON.stringify(content));
+  const raw = JSON.stringify(content);
+  lastContentRaw = raw;
+  lastContentValue = content;
+  localStorage.setItem(LAST_CONTENT_KEY, raw);
   window.dispatchEvent(new CustomEvent(VIDEO_PROGRESS_EVENT));
 }
 
@@ -89,26 +118,55 @@ export function loadLastContent(): LastContent | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(LAST_CONTENT_KEY);
-    return raw ? (JSON.parse(raw) as LastContent) : null;
+    if (raw === lastContentRaw) return lastContentValue;
+
+    lastContentRaw = raw;
+    lastContentValue = raw ? (JSON.parse(raw) as LastContent) : null;
+    return lastContentValue;
   } catch {
+    lastContentRaw = null;
+    lastContentValue = null;
     return null;
   }
 }
 
 export function loadAllVideoProgress(): VideoProgress[] {
-  if (typeof window === "undefined") return [];
-  const results: VideoProgress[] = [];
+  if (typeof window === "undefined") return EMPTY_VIDEO_PROGRESS;
+  const entries: string[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (!key?.startsWith(PROGRESS_PREFIX)) continue;
+    entries.push(`${key}:${localStorage.getItem(key) ?? ""}`);
+  }
+
+  entries.sort();
+  const cacheKey = entries.join("\n");
+  if (cacheKey === allProgressCacheKey) return allProgressCacheValue;
+
+  const results: VideoProgress[] = [];
+  for (const entry of entries) {
+    const separator = entry.indexOf(":");
+    const key = entry.slice(0, separator);
+    const raw = entry.slice(separator + 1);
     try {
-      const raw = localStorage.getItem(key);
-      if (raw) results.push(JSON.parse(raw) as VideoProgress);
+      if (raw) {
+        const slug = key.slice(PROGRESS_PREFIX.length);
+        const cached = progressCache.get(slug);
+        if (cached?.raw === raw && cached.value) {
+          results.push(cached.value);
+        } else {
+          const value = JSON.parse(raw) as VideoProgress;
+          progressCache.set(slug, { raw, value });
+          results.push(value);
+        }
+      }
     } catch {
       /* skip */
     }
   }
-  return results.sort((a, b) => b.updatedAt - a.updatedAt);
+  allProgressCacheKey = cacheKey;
+  allProgressCacheValue = results.sort((a, b) => b.updatedAt - a.updatedAt);
+  return allProgressCacheValue;
 }
 
 export function getTotalWatchMinutes(durationBySlug: Record<string, number>): number {

@@ -2,6 +2,8 @@
 
 import { useState, useSyncExternalStore } from "react";
 import { saveLessonProgress } from "@/app/actions/progress";
+import { saveLessonProgressLocal } from "@/lib/lesson/progress-storage";
+import { saveLastContent } from "@/lib/video/progress-storage";
 import { trackEvent } from "@/lib/analytics/events";
 import type { Question } from "@/lib/types";
 import { Button } from "@/components/ui";
@@ -276,7 +278,12 @@ export function LessonActions({
   );
 }
 
-export function useLessonCompletion(storageKey: string, lessonSlug?: string) {
+export function useLessonCompletion(
+  storageKey: string,
+  lessonSlug?: string,
+  courseSlug?: string,
+  lessonTitle?: string
+) {
   const resolvedSlug =
     lessonSlug ?? storageKey.match(/^lesson-(.+)-complete$/)?.[1];
 
@@ -310,8 +317,7 @@ export function useLessonCompletion(storageKey: string, lessonSlug?: string) {
     }
   }
 
-  function markComplete(quizScore: number, passingScore = 80) {
-    if (quizScore < passingScore) return;
+  function persistCompletion(quizScore: number) {
     try {
       localStorage.setItem(storageKey, "true");
     } catch {
@@ -319,10 +325,31 @@ export function useLessonCompletion(storageKey: string, lessonSlug?: string) {
     }
     notifyCompletionChange();
     if (resolvedSlug) {
-      void saveLessonProgress({ lessonSlug: resolvedSlug, score: quizScore });
+      if (courseSlug) {
+        saveLessonProgressLocal(resolvedSlug, courseSlug, quizScore);
+      }
+      if (courseSlug && lessonTitle) {
+        saveLastContent({
+          type: "lesson",
+          slug: resolvedSlug,
+          title: lessonTitle,
+          href: `/cours/${courseSlug}/${resolvedSlug}`,
+          updatedAt: Date.now(),
+        });
+      }
+      void saveLessonProgress({ lessonSlug: resolvedSlug, courseSlug, score: quizScore });
       trackEvent("module_termine", { lesson: resolvedSlug });
     }
   }
 
-  return { markedComplete, markComplete };
+  function markComplete(quizScore: number, passingScore = 80) {
+    if (quizScore < passingScore) return;
+    persistCompletion(quizScore);
+  }
+
+  function markCompleteManual() {
+    persistCompletion(100);
+  }
+
+  return { markedComplete, markComplete, markCompleteManual };
 }

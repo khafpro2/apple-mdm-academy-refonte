@@ -25,7 +25,7 @@ export function Header({ authSlot }: HeaderProps) {
       <button
         type="button"
         onClick={toggleMobile}
-        className="rounded-lg border border-border-light p-2 text-ink-secondary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-border-light p-2 text-ink-secondary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
         aria-label="Ouvrir le menu de navigation"
         aria-expanded={mobileOpen}
         aria-controls="sidebar-nav"
