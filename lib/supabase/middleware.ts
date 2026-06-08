@@ -8,8 +8,17 @@ const AUTH_PAGES = ["/auth/login", "/auth/signup"];
 
 export async function updateSession(request: NextRequest) {
   const { url, anonKey, configured } = getSupabaseEnv();
+  const pathname = request.nextUrl.pathname;
+  const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
 
   if (!configured) {
+    if (pathname.startsWith("/admin")) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/auth/login";
+      redirectUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(redirectUrl);
+    }
+
     return NextResponse.next({ request });
   }
 
@@ -31,10 +40,6 @@ export async function updateSession(request: NextRequest) {
   });
 
   const { data: { user } } = await supabase.auth.getUser();
-  const pathname = request.nextUrl.pathname;
-
-  const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
-
   if (!user && isProtected) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/auth/login";
