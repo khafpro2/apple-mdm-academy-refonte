@@ -32,7 +32,7 @@ export function ExamHistoryPanel({ routeSlug, isAuthenticated }: Props) {
   const history = useSyncExternalStore<ExamHistoryEntry[]>(
     subscribeToExamHistory,
     () => getExamHistoryForRoute(routeSlug),
-    () => []
+    () => getExamHistoryForRoute(routeSlug)
   );
 
   const completed = history.filter((e) => e.status === "completed");

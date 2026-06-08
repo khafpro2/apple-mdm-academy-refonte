@@ -18,6 +18,7 @@ const EMPTY_HISTORY: ExamHistoryEntry[] = [];
 
 let cachedRaw: string | null = null;
 let cachedHistory: ExamHistoryEntry[] = EMPTY_HISTORY;
+const routeHistoryCache = new Map<string, { source: ExamHistoryEntry[]; value: ExamHistoryEntry[] }>();
 
 function readAll(): ExamHistoryEntry[] {
   if (typeof window === "undefined") return EMPTY_HISTORY;
@@ -125,7 +126,13 @@ export function getExamHistory(): ExamHistoryEntry[] {
 }
 
 export function getExamHistoryForRoute(routeSlug: string): ExamHistoryEntry[] {
-  return readAll().filter((e) => e.routeSlug === routeSlug);
+  const history = readAll();
+  const cached = routeHistoryCache.get(routeSlug);
+  if (cached?.source === history) return cached.value;
+
+  const value = history.filter((e) => e.routeSlug === routeSlug);
+  routeHistoryCache.set(routeSlug, { source: history, value });
+  return value;
 }
 
 export function getBestScoreForRoute(routeSlug: string): number | null {

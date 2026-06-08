@@ -22,6 +22,7 @@ import {
   loadExamSession,
   saveExamSession,
   clearExamSession,
+  subscribeToExamSession,
   type ExamSession,
 } from "@/lib/exam/session-storage";
 import { isAnswerCorrect, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
@@ -68,7 +69,7 @@ export function ExamEngine({
   const [poolWarning, setPoolWarning] = useState<string | null>(null);
 
   const savedSession = useSyncExternalStore(
-    () => () => {},
+    subscribeToExamSession,
     () => loadExamSession(routeSlug, quiz.slug),
     () => null
   );
