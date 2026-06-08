@@ -45,6 +45,7 @@ export default function QuizPage() {
                 type={q.type}
                 questions={q.questions.length}
                 duration={q.duration}
+                examQuestionCount={q.examQuestionCount}
               />
             ))}
           </div>

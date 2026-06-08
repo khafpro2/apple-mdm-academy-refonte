@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/page-shell";
+import { ContentPreparationFallback } from "@/components/ui/empty-state";
 import { AnimatedLesson } from "@/components/videos/AnimatedLesson";
 import { PremiumVideoPlayer } from "@/components/video/premium-video-player";
 import { getVideoStoryboard, getAllIllustratedVideoSlugs } from "@/src/lib/video-storyboards";
@@ -40,7 +41,7 @@ export default async function VideoDetailPage({ params }: Props) {
   const script = getVideoScript(slug);
   const legacyVideo = getVideo(slug);
 
-  if (!rawStoryboard && !legacyVideo) notFound();
+  if (!rawStoryboard && !legacyVideo && !script) notFound();
 
   const inventory = await getScreenshotInventoryAsync();
   const validFiles = getValidScreenshotFiles(inventory);
@@ -82,7 +83,18 @@ export default async function VideoDetailPage({ params }: Props) {
           />
         ) : legacyVideo ? (
           <PremiumVideoPlayer key={legacyVideo.slug} video={legacyVideo} />
-        ) : null}
+        ) : script ? (
+          <div className="mx-auto max-w-2xl">
+            <p className="text-sm font-semibold text-accent">{script.module}</p>
+            <h1 className="mt-2 text-3xl font-bold text-ink">{script.title}</h1>
+            <p className="mt-3 text-ink-secondary">{script.description}</p>
+            <div className="mt-10">
+              <ContentPreparationFallback backHref="/videos" backLabel="Retour aux vidéos" />
+            </div>
+          </div>
+        ) : (
+          <ContentPreparationFallback backHref="/videos" backLabel="Retour aux vidéos" />
+        )}
       </div>
     </PageShell>
   );

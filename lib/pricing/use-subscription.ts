@@ -31,9 +31,15 @@ const PREVIEW_PLAN: CommercialPlan = {
   ctaHref: "/parcours",
 };
 
+const FREE_PLATFORM_SUBSCRIPTION: SubscriptionState = {
+  tier: "enterprise",
+  status: "active",
+  planSlug: "enterprise",
+};
+
 function getSnapshot(): SubscriptionState {
   if (isFreePlatformMode()) {
-    return { tier: "enterprise", status: "active", planSlug: "enterprise" };
+    return FREE_PLATFORM_SUBSCRIPTION;
   }
   return loadSubscriptionState();
 }
