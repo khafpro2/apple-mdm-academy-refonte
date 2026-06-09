@@ -14,16 +14,12 @@ export function ExamResultPageClient({
   routeSlug: string;
   quiz: Quiz;
 }) {
-  const [result, setResult] = useState(() => {
-    // Lecture initiale côté client uniquement
-    if (typeof window === "undefined") return null;
-    return loadExamResult(routeSlug);
-  });
+  // Rendu initial null (identique côté serveur) pour éviter le mismatch d'hydratation.
+  // Le résultat est chargé depuis sessionStorage uniquement après le montage côté client.
+  const [result, setResult] = useState<ReturnType<typeof loadExamResult>>(null);
 
   useEffect(() => {
-    // Re-lecture après hydratation (cas où le résultat arrive juste après la navigation)
-    const loaded = loadExamResult(routeSlug);
-    setResult(loaded);
+    setResult(loadExamResult(routeSlug));
   }, [routeSlug]);
 
   if (!result) {
