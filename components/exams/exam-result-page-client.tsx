@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
+import { useState, useEffect } from "react";
 import type { Quiz } from "@/lib/types";
 import { loadExamResult } from "@/lib/exam/exam-result-storage";
 import { getScoreTier } from "@/lib/exam/exam-config";
@@ -14,11 +14,17 @@ export function ExamResultPageClient({
   routeSlug: string;
   quiz: Quiz;
 }) {
-  const result = useSyncExternalStore(
-    () => () => {},
-    () => loadExamResult(routeSlug),
-    () => null
-  );
+  const [result, setResult] = useState(() => {
+    // Lecture initiale côté client uniquement
+    if (typeof window === "undefined") return null;
+    return loadExamResult(routeSlug);
+  });
+
+  useEffect(() => {
+    // Re-lecture après hydratation (cas où le résultat arrive juste après la navigation)
+    const loaded = loadExamResult(routeSlug);
+    setResult(loaded);
+  }, [routeSlug]);
 
   if (!result) {
     return (
