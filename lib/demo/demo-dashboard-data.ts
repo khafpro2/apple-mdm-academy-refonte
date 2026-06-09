@@ -145,7 +145,6 @@ export function getDemoDashboardData(userId = "demo-user"): DashboardData {
 
   return {
     fromDatabase: true,
-    isDemo: true,
     globalPercent: DEMO_GLOBAL_PERCENT,
     tracks,
     recentActivity,
