@@ -3,7 +3,12 @@ import { SectionHeading } from "@/components/ui";
 import { QuizCard } from "@/components/cards";
 import { quizzes, getExams, getQuizList } from "@/lib/data";
 
-export const metadata = { title: "Quiz & Examens" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = buildPageMetadata({
+  title: "Quiz & Examens",
+  description: "Quiz Apple MDM, Jamf Pro et Intune — testez vos connaissances avant les examens officiels.",
+  path: "/quiz",
+});
 
 export default function QuizPage() {
   const quizList = getQuizList();
