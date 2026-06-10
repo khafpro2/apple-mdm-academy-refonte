@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { stripeConfig } from "@/lib/pricing/stripe-config";
 import { isFreePlatformMode } from "@/lib/pricing/platform-access";
+import { getUser } from "@/lib/supabase/server";
 
 export async function POST() {
+  const user = await getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Authentification requise" }, { status: 401 });
+  }
+
   if (isFreePlatformMode()) {
     return NextResponse.json(
       { error: "Facturation désactivée — accès gratuit", url: "/dashboard" },
