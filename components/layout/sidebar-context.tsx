@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState, useSyncExternalStore } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { SIDEBAR_STORAGE_KEY } from "@/lib/navigation/sidebar-config";
 
 const COLLAPSE_EVENT = "apple-mdm-sidebar-change";
@@ -37,7 +37,18 @@ type SidebarContextValue = {
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const collapsed = useSyncExternalStore(subscribeCollapsed, getCollapsedSnapshot, () => false);
+  // useState+useEffect évite le hydration mismatch (SSR=false vs client=localStorage)
+  const [collapsed, setCollapsedState] = useState(false);
+  useEffect(() => {
+    setCollapsedState(getCollapsedSnapshot());
+    const handler = () => setCollapsedState(getCollapsedSnapshot());
+    window.addEventListener(COLLAPSE_EVENT, handler);
+    window.addEventListener("storage", handler);
+    return () => {
+      window.removeEventListener(COLLAPSE_EVENT, handler);
+      window.removeEventListener("storage", handler);
+    };
+  }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const setCollapsed = useCallback((value: boolean) => {
