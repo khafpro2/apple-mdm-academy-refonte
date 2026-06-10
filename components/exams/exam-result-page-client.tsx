@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { Quiz } from "@/lib/types";
 import { loadExamResult } from "@/lib/exam/exam-result-storage";
 import { getScoreTier } from "@/lib/exam/exam-config";
@@ -14,27 +14,35 @@ export function ExamResultPageClient({
   routeSlug: string;
   quiz: Quiz;
 }) {
-  // Rendu initial null (identique côté serveur) pour éviter le mismatch d'hydratation.
-  // Le résultat est chargé depuis sessionStorage uniquement après le montage côté client.
-  const [result, setResult] = useState<ReturnType<typeof loadExamResult>>(null);
+  // Null initial = identique au rendu SSR (pas d'accès à sessionStorage côté serveur)
+  // On utilise une ref pour savoir si le composant est monté, et un flag pour
+  // forcer un re-render propre après hydratation.
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setResult(loadExamResult(routeSlug));
-  }, [routeSlug]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- needed for hydration-safe client-only read
+  useEffect(() => { setMounted(true); }, []);
+
+  const result = mounted ? loadExamResult(routeSlug) : null;
 
   if (!result) {
     return (
       <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 text-center shadow-sm">
-        <p className="font-semibold text-ink">Aucun résultat récent</p>
-        <p className="mt-2 text-sm text-ink-secondary">
-          Terminez un examen pour afficher vos résultats ici.
+        <p className="font-semibold text-ink">
+          {mounted ? "Aucun résultat récent" : "Chargement…"}
         </p>
-        <Link
-          href={`/examens/${routeSlug}`}
-          className="mt-6 inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white"
-        >
-          Commencer l&apos;examen
-        </Link>
+        {mounted && (
+          <p className="mt-2 text-sm text-ink-secondary">
+            Terminez un examen pour afficher vos résultats ici.
+          </p>
+        )}
+        {mounted && (
+          <Link
+            href={`/examens/${routeSlug}`}
+            className="mt-6 inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white"
+          >
+            Commencer l&apos;examen
+          </Link>
+        )}
       </div>
     );
   }
