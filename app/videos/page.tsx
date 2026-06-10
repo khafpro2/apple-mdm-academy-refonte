@@ -28,7 +28,6 @@ export const metadata = buildPageMetadata({
 export default function VideosPage() {
   const mp4Map = getMp4AvailabilityMap();
   const popular = getPopularVideoScripts();
-  const jamfVideos = getJamfVideoScripts();
   const jamf100 = getJamfVideoScriptsByTrack("jamf-100");
   const jamf170 = getJamfVideoScriptsByTrack("jamf-170");
   const jamf200 = getJamfVideoScriptsByTrack("jamf-200");
