@@ -16,7 +16,16 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const track = getTrack(slug);
-  return { title: track?.title ?? "Parcours" };
+  if (!track) return { title: "Parcours" };
+  return {
+    title: `${track.title} — Parcours de formation`,
+    description: `${track.description} ${track.certification ? `Prépare la certification ${track.certification}.` : ""} ${track.lessons} leçons · ${track.duration}.`,
+    openGraph: {
+      title: `${track.title} | Apple MDM Academy`,
+      description: track.description,
+      type: "website" as const,
+    },
+  };
 }
 
 export default async function TrackDetailPage({ params }: { params: Promise<{ slug: string }> }) {
