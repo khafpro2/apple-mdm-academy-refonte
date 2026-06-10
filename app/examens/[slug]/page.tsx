@@ -1,4 +1,5 @@
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { examPageJsonLd, breadcrumbJsonLd } from "@/lib/seo/course-schema";
 import { EXAM_ROUTE_SLUGS } from "@/lib/exam/exam-config";
 import { requireExamPageContext } from "@/lib/exam/exam-page-data";
 import { ExamPageShell } from "@/components/exams/exam-page-shell";
@@ -30,5 +31,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ExamIntroPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const ctx = await requireExamPageContext(slug);
-  return <ExamPageShell ctx={ctx} viewMode="intro" />;
+  const quiz = ctx.quiz;
+  const ldExam = examPageJsonLd({
+    name: quiz.title,
+    description: quiz.description,
+    slug,
+    questionCount: quiz.examQuestionCount,
+  });
+  const ldBreadcrumb = breadcrumbJsonLd([
+    { name: "Examens", path: "/examens" },
+    { name: quiz.title, path: `/examens/${slug}` },
+  ]);
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldExam) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldBreadcrumb) }} />
+      <ExamPageShell ctx={ctx} viewMode="intro" />
+    </>
+  );
 }
