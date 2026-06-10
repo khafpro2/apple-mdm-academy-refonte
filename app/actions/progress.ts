@@ -32,6 +32,7 @@ export type SaveVideoProgressPayload = {
 export async function saveVideoProgressAction(
   payload: SaveVideoProgressPayload
 ): Promise<{ ok: boolean }> {
+  try {
   const user = await getUser();
   if (!user) return { ok: false };
 
@@ -59,6 +60,9 @@ export async function saveVideoProgressAction(
 
   revalidatePath("/dashboard");
   return { ok: true };
+  } catch {
+    return { ok: false };
+  }
 }
 
 export type SaveLabProgressPayload = {
@@ -70,6 +74,7 @@ export type SaveLabProgressPayload = {
 };
 
 export async function saveLabProgress(payload: SaveLabProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {
+  try {
   const user = await getUser();
   if (!user) return { ok: false, newBadges: [] };
 
@@ -105,6 +110,9 @@ export async function saveLabProgress(payload: SaveLabProgressPayload): Promise<
   revalidatePath("/dashboard");
   revalidatePath("/labs");
   return { ok: true, newBadges };
+  } catch {
+    return { ok: false, newBadges: [] };
+  }
 }
 
 export type SaveLessonProgressPayload = {
