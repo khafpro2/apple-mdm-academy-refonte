@@ -17,10 +17,13 @@ import {
 } from "@/src/lib/video-scripts";
 import { getIllustratedVideoLessons } from "@/src/lib/video-storyboards";
 
-export const metadata = {
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = buildPageMetadata({
   title: "Vidéos",
-  description: "Bibliothèque vidéo Apple MDM et parcours Jamf 100 / 200 — scripts HeyGen prêts.",
-};
+  description: "Bibliothèque vidéo Apple MDM — Jamf Pro, ADE, FileVault, Intune et sécurité enterprise. Scripts et transcripts inclus.",
+  path: "/videos",
+});
 
 export default function VideosPage() {
   const mp4Map = getMp4AvailabilityMap();
