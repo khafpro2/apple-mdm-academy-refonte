@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
-  // Optimisation des images
+  // ── Images ─────────────────────────────────────────────────────────────────
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
@@ -12,26 +12,41 @@ const config: NextConfig = {
       { protocol: "https", hostname: "storage.googleapis.com" },
     ],
   },
-  // Compression
+
+  // ── Performance ────────────────────────────────────────────────────────────
   compress: true,
-  // Headers de performance et sécurité
+
+  // ── Logging (production) ───────────────────────────────────────────────────
+  logging: {
+    fetches: { fullUrl: false },
+  },
+
+  // ── Redirects SEO ─────────────────────────────────────────────────────────
+  async redirects() {
+    return [
+      { source: "/pricing", destination: "/tarifs", permanent: false },
+      { source: "/home",    destination: "/",       permanent: true  },
+      { source: "/blog",    destination: "/resources", permanent: true },
+    ];
+  },
+
+  // ── Security & Performance headers ────────────────────────────────────────
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
+          { key: "X-Content-Type-Options",    value: "nosniff" },
+          { key: "X-Frame-Options",            value: "SAMEORIGIN" },
+          { key: "X-XSS-Protection",           value: "1; mode=block" },
+          { key: "Referrer-Policy",            value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy",          value: "camera=(), microphone=(), geolocation=()" },
+          // Strict-Transport-Security (HSTS) — uniquement si domaine personnalisé configuré
+          // { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],
       },
       {
-        // Cache pour les images publiques
+        // Cache long pour les images publiques
         source: "/images/(.*)",
         headers: [
           {
@@ -40,18 +55,15 @@ const config: NextConfig = {
           },
         ],
       },
+      {
+        // Pas de cache sur les routes API
+        source: "/api/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "no-store, max-age=0" },
+        ],
+      },
     ];
   },
-  // Redirects SEO
-  async redirects() {
-    return [
-      { source: "/pricing", destination: "/tarifs", permanent: false },
-      { source: "/home", destination: "/", permanent: true },
-      { source: "/blog", destination: "/resources", permanent: true },
-    ];
-  },
-  // Note: optimizePackageImports retiré car cause un warning Turbopack
-  // (trace unintentionnelle de fichiers serveur via import chain)
 };
 
 export default config;
