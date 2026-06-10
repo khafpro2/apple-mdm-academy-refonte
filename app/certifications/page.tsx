@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
+import { siteConfig } from "@/lib/seo/site-config";
 import { SectionHeading, Card, ButtonLink } from "@/components/ui";
 import { ExamFeatureCard } from "@/components/exams/exam-feature-card";
 import { TrackLogo } from "@/components/ui/track-logo";
@@ -20,8 +21,25 @@ export const metadata = buildPageMetadata({
 });
 
 export default function CertificationsPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Certifications Apple MDM",
+    description: "Certifications disponibles sur Apple MDM Academy : Apple, Jamf, Microsoft Intune.",
+    url: `${siteConfig.url}/certifications`,
+    numberOfItems: 4,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Apple Certified IT Professional" },
+      { "@type": "ListItem", position: 2, name: "Jamf Certified Associate (100)" },
+      { "@type": "ListItem", position: 3, name: "Jamf Certified Admin (200)" },
+      { "@type": "ListItem", position: 4, name: "Microsoft Intune Apple Specialist" },
+    ],
+  };
+
   return (
-    <PageShell>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
         <SectionHeading
           label="Certifications"
@@ -241,5 +259,6 @@ export default function CertificationsPage() {
         </section>
       </div>
     </PageShell>
+    </>
   );
 }
