@@ -1,7 +1,7 @@
 import { PageShell } from "@/components/layout";
 import { SectionHeading } from "@/components/ui";
 import { QuizCard } from "@/components/cards";
-import { quizzes, getExams, getQuizList } from "@/lib/data";
+import { getExams, getQuizList } from "@/lib/data";
 
 import { buildPageMetadata } from "@/lib/seo/metadata";
 export const metadata = buildPageMetadata({
