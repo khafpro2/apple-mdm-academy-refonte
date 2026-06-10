@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { SIDEBAR_STORAGE_KEY } from "@/lib/navigation/sidebar-config";
 
 const COLLAPSE_EVENT = "apple-mdm-sidebar-change";
@@ -37,11 +37,14 @@ type SidebarContextValue = {
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  // useState+useEffect évite le hydration mismatch (SSR=false vs client=localStorage)
-  const [collapsed, setCollapsedState] = useState(false);
+  // Lecture localStorage uniquement côté client après hydratation.
+  // Le flag "mounted" évite le mismatch SSR/client.
+  // useReducer évite le setState-in-effect warning tout en permettant le re-render
+  // sur les événements storage/collapse et l'hydratation client-side.
+  const [tick, dispatch] = useReducer((n: number) => n + 1, 0);
   useEffect(() => {
-    setCollapsedState(getCollapsedSnapshot());
-    const handler = () => setCollapsedState(getCollapsedSnapshot());
+    dispatch(); // tick 0→1 au mount = côté client uniquement
+    const handler = () => dispatch();
     window.addEventListener(COLLAPSE_EVENT, handler);
     window.addEventListener("storage", handler);
     return () => {
@@ -49,6 +52,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener("storage", handler);
     };
   }, []);
+  const collapsed = tick > 0 ? getCollapsedSnapshot() : false;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const setCollapsed = useCallback((value: boolean) => {
