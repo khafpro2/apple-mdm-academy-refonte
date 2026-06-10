@@ -10,11 +10,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "Les examens blancs ressemblent-ils aux vraies certifications ?",
-    a: "Nos examens sont calibrés sur les domaines officiels Apple, Jamf et Microsoft. Ils ne remplacent pas Pearson VUE ou Jamf Training, mais préparent efficacement.",
+    a: "Nos examens sont calibrés sur les domaines officiels Apple, Jamf et Microsoft. Ils ne remplacent pas Pearson VUE ou Jamf Training, mais préparent efficacement avec 100 à 200 questions aléatoires, chronomètre et correction détaillée.",
   },
   {
     q: "Proposez-vous des licences entreprise ?",
-    a: "Oui. Le plan Enterprise inclut dashboard admin, reporting équipes, export CSV/PDF et support prioritaire. Contactez-nous pour un devis personnalisé.",
+    a: "Oui. Le plan Enterprise inclut dashboard admin, reporting équipes, export CSV/PDF et support prioritaire. Contactez-nous via /contact-sales pour un devis personnalisé.",
   },
   {
     q: "Les centres de formation peuvent-ils utiliser la plateforme ?",
@@ -36,21 +36,37 @@ export function FaqSection() {
   return (
     <section className="mx-auto max-w-3xl px-6 py-20 lg:px-8 lg:py-28">
       <SectionHeading label="FAQ" title="Questions fréquentes" align="center" />
-      <div className="mt-10 divide-y divide-border-light rounded-2xl border border-border-light bg-surface-elevated">
+      <div className="mt-10 divide-y divide-border-light rounded-2xl border border-border-light bg-surface-elevated shadow-sm">
         {FAQ_ITEMS.map((item, i) => (
           <div key={item.q}>
             <button
               type="button"
-              className="flex w-full items-center justify-between px-6 py-5 text-left"
+              className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors hover:text-accent focus-visible:text-accent"
               onClick={() => setOpen(open === i ? null : i)}
               aria-expanded={open === i}
+              aria-controls={`faq-${i}`}
             >
               <span className="font-semibold text-ink">{item.q}</span>
-              <span className="ml-4 shrink-0 text-xl text-ink-tertiary">{open === i ? "−" : "+"}</span>
+              <span
+                className="ml-4 shrink-0 text-xl text-ink-tertiary transition-transform duration-200"
+                style={{ transform: open === i ? "rotate(45deg)" : "rotate(0deg)" }}
+                aria-hidden="true"
+              >
+                +
+              </span>
             </button>
-            {open === i && (
-              <p className="px-6 pb-5 text-sm leading-relaxed text-ink-secondary">{item.a}</p>
-            )}
+            <div
+              id={`faq-${i}`}
+              role="region"
+              hidden={open !== i}
+              className="overflow-hidden transition-all duration-200"
+            >
+              {open === i && (
+                <p className="px-6 pb-5 text-sm leading-relaxed text-ink-secondary">
+                  {item.a}
+                </p>
+              )}
+            </div>
           </div>
         ))}
       </div>
