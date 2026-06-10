@@ -1,5 +1,7 @@
 "use client";
+import Link from "next/link";
 import { useEffect } from "react";
+
 
 export default function VideoSlugErrorError({
   error, reset,
@@ -18,10 +20,10 @@ export default function VideoSlugErrorError({
           className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white hover:opacity-90">
           Réessayer
         </button>
-        <a href="/videos"
+        <Link href="/videos"
           className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink">
           Vidéos
-        </a>
+        </Link>
       </div>
     </div>
   );
