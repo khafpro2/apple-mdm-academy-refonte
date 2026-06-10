@@ -2,8 +2,16 @@ import { NextResponse } from "next/server";
 import { stripeConfig } from "@/lib/pricing/stripe-config";
 import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
-/** Placeholder — connecter Stripe Checkout Session côté serveur */
+import { getUser } from "@/lib/supabase/server";
+
+/** Crée une session Stripe Checkout pour un plan donné */
 export async function POST(request: Request) {
+  // Auth required — only authenticated users can initiate checkout
+  const user = await getUser();
+  if (!user) {
+    return NextResponse.json({ error: "Authentification requise" }, { status: 401 });
+  }
+
   if (isFreePlatformMode()) {
     return NextResponse.json(
       { error: "Paiements désactivés — plateforme en accès gratuit", url: "/pricing" },
