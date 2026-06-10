@@ -31,16 +31,6 @@ const config: NextConfig = {
         ],
       },
       {
-        // Cache long pour les assets statiques Next.js
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
         // Cache pour les images publiques
         source: "/images/(.*)",
         headers: [
@@ -60,14 +50,8 @@ const config: NextConfig = {
       { source: "/blog", destination: "/resources", permanent: true },
     ];
   },
-  // Expérimental
-  experimental: {
-    optimizePackageImports: [
-      "@/components/ui",
-      "@/components/cards",
-      "@/components/layout",
-    ],
-  },
+  // Note: optimizePackageImports retiré car cause un warning Turbopack
+  // (trace unintentionnelle de fichiers serveur via import chain)
 };
 
 export default config;
