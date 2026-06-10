@@ -2,8 +2,13 @@ import { PageShell } from "@/components/layout";
 import { SectionHeading } from "@/components/ui";
 import { LabCatalogGrid } from "@/components/labs/lab-catalog-grid";
 import { labs } from "@/lib/labs";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = { title: "Labs pratiques" };
+export const metadata = buildPageMetadata({
+  title: "Labs pratiques",
+  description: `${labs.length} labs guidés — Jamf Pro, Apple MDM, Microsoft Intune. Validez chaque étape, suivez votre progression et obtenez des badges.`,
+  path: "/labs",
+});
 
 export default function LabsPage() {
   return (
