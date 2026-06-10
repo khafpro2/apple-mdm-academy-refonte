@@ -2,7 +2,13 @@ import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading } from "@/components/ui";
 import { ContactForm } from "@/components/contact/contact-form";
 
-export const metadata = { title: "Contact" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = buildPageMetadata({
+  title: "Contact",
+  description: "Contactez Apple MDM Academy — questions, support, plan Entreprise. Réponse sous 24 h.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
