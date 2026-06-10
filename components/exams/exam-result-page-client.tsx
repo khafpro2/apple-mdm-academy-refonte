@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import type { Quiz } from "@/lib/types";
 import { loadExamResult } from "@/lib/exam/exam-result-storage";
 import { getScoreTier } from "@/lib/exam/exam-config";
