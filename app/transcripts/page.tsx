@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading } from "@/components/ui";
 import { getAllVideoTranscripts } from "@/src/lib/video-transcripts";
