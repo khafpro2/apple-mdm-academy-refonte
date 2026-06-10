@@ -25,21 +25,21 @@
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.107.0",
     "@tailwindcss/postcss": "^4.3.0",
-    "@types/node": "latest",
+    "@types/node": "^22.15.18",
     "@types/qrcode": "^1.5.6",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "autoprefixer": "latest",
-    "next": "latest",
+    "autoprefixer": "^10.4.21",
+    "next": "^16.2.7",
     "pdf-lib": "^1.17.1",
-    "postcss": "latest",
+    "postcss": "^8.4.47",
     "qrcode": "^1.5.4",
-    "react": "latest",
-    "react-dom": "latest",
-    "tailwindcss": "latest",
-    "typescript": "latest"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
@@ -47,5 +47,8 @@
     "eslint-config-next": "^16.2.7",
     "playwright": "^1.52.0",
     "sharp": "^0.34.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
