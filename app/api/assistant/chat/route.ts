@@ -1,5 +1,20 @@
 import { NextRequest } from "next/server";
 
+// Rate limiting simple basé sur IP — 20 req/min par IP
+const rateLimitMap = new Map<string, { count: number; reset: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.reset) {
+    rateLimitMap.set(ip, { count: 1, reset: now + 60_000 });
+    return true;
+  }
+  if (entry.count >= 20) return false;
+  entry.count++;
+  return true;
+}
+
 const SYSTEM_PROMPT = `Tu es Apple MDM Assistant, l'assistant pédagogique d'Apple MDM Academy.
 Tu aides les administrateurs IT à apprendre et comprendre :
 - Apple MDM (configuration profiles, ADE, ABM, APNs, Managed Apple IDs)
@@ -15,6 +30,12 @@ Si la question ne concerne pas Apple MDM/IT, indique poliment que tu es spécial
 Longueur cible : 2-5 paragraphes ou une liste courte. Sois précis et utile.`;
 
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit(ip)) {
+    return Response.json({ reply: "Trop de requêtes. Attendez une minute avant de réessayer." }, { status: 429 });
+  }
+
   const body = await req.json() as {
     messages: { role: "user" | "assistant"; content: string }[];
   };
