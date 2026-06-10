@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, Button, SectionHeading, Badge } from "@/components/ui";
-import { assistantCapabilities, assistantArchitecture, demoResponses } from "@/lib/ai/assistant-config";
+import { assistantCapabilities, assistantArchitecture } from "@/lib/ai/assistant-config";
 
 export function AssistantContent() {
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([
@@ -10,18 +10,44 @@ export function AssistantContent() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  function send() {
-    if (!input.trim()) return;
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  async function send() {
+    if (!input.trim() || loading) return;
     const question = input.trim();
     setInput("");
-    setMessages((m) => [...m, { role: "user", text: question }]);
+    const newMessages = [...messages, { role: "user" as const, text: question }];
+    setMessages(newMessages);
     setLoading(true);
-    setTimeout(() => {
-      const reply = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+
+    try {
+      const res = await fetch("/api/assistant/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: newMessages.map((m) => ({
+            role: m.role,
+            content: m.text,
+          })),
+        }),
+      });
+
+      const data = await res.json() as { reply?: string; error?: string };
+      const reply = data.reply ?? data.error ?? "Erreur inattendue.";
       setMessages((m) => [...m, { role: "assistant", text: reply }]);
+    } catch {
+      setMessages((m) => [
+        ...m,
+        { role: "assistant", text: "Erreur réseau. Vérifiez votre connexion et réessayez." },
+      ]);
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   }
 
   return (
@@ -47,7 +73,14 @@ export function AssistantContent() {
                   {msg.text}
                 </div>
               ))}
-              {loading && <p className="text-sm text-ink-tertiary">Réflexion…</p>}
+              {loading && (
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-ink-tertiary [animation-delay:0ms]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-ink-tertiary [animation-delay:150ms]" />
+                  <div className="h-2 w-2 animate-bounce rounded-full bg-ink-tertiary [animation-delay:300ms]" />
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
             <div className="flex gap-2 border-t border-border-light p-4">
               <input
