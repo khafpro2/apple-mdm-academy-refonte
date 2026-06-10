@@ -15,7 +15,16 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const lab = getLab(slug);
-  return { title: lab?.title ?? "Lab" };
+  if (!lab) return { title: "Lab" };
+  return {
+    title: `${lab.title} — Lab pratique`,
+    description: `Lab pratique ${lab.technology} : ${lab.description} — niveau ${lab.level}, durée ${lab.duration}.`,
+    openGraph: {
+      title: `${lab.title} | Apple MDM Academy`,
+      description: lab.description,
+      type: "website" as const,
+    },
+  };
 }
 
 export default async function LabDetailPage({ params }: { params: Promise<{ slug: string }> }) {
