@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { SectionHeading, ButtonLink } from "@/components/ui";
+import { ButtonLink } from "@/components/ui";
 import { commercialPlans, getPlanBySlug } from "@/lib/pricing/plans";
 import { useSubscription } from "@/lib/pricing/use-subscription";
 import { stripeConfig, stripeApiRoutes } from "@/lib/pricing/stripe-config";
