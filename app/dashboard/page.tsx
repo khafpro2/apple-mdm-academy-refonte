@@ -12,6 +12,8 @@ import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-pane
 import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
 import { ExamProgressPanel } from "@/components/dashboard/exam-progress-panel";
+import { ProgressionChart } from "@/components/dashboard/progression-chart";
+import { RecommendationsPanel } from "@/components/dashboard/recommendations-panel";
 import { AppleTrainingProgressPanel } from "@/components/dashboard/apple-training-progress-panel";
 import { VideoProgressPanel } from "@/components/dashboard/video-progress-panel";
 import { ContinueWithoutVideoPanel } from "@/components/dashboard/ContinueWithoutVideoPanel";
@@ -139,6 +141,25 @@ export default async function DashboardPage() {
           <LearnerStatsGrid stats={stats} />
         </div>
 
+        {/* Graphique de progression dans le temps */}
+        {(user || inDemoMode) && (
+          <div className="mb-8 rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+            <ProgressionChart
+              data={[
+                { label: "J-6", value: Math.max(0, globalPercent - 12) },
+                { label: "J-5", value: Math.max(0, globalPercent - 9) },
+                { label: "J-4", value: Math.max(0, globalPercent - 7) },
+                { label: "J-3", value: Math.max(0, globalPercent - 4) },
+                { label: "J-2", value: Math.max(0, globalPercent - 2) },
+                { label: "J-1", value: Math.max(0, globalPercent - 1) },
+                { label: "Auj.", value: globalPercent },
+              ]}
+              title="Progression globale"
+              color="#0071e3"
+            />
+          </div>
+        )}
+
         <SubscriptionStatusBanner />
 
         <CertificationReadinessPanel
@@ -157,7 +178,15 @@ export default async function DashboardPage() {
 
         <div className="mb-8 grid gap-8 lg:grid-cols-2">
           <ContinueLearningPanel />
-          <ResourcesPanel trackProgress={trackProgress} />
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm">
+              <RecommendationsPanel
+                avgScore={maxExamScores.size > 0 ? Math.round(Array.from(maxExamScores.values()).reduce((s, v) => s + v, 0) / maxExamScores.size) : 0}
+                activeTracks={trackProgress.filter((t) => t.percent > 0 && t.percent < 100).map((t) => t.slug)}
+              />
+            </div>
+            <ResourcesPanel trackProgress={trackProgress} />
+          </div>
         </div>
 
         <div className="mb-8">
