@@ -4,6 +4,7 @@ import { shuffleArray } from "@/lib/quiz/seeded-random";
 import { variantQuestion } from "@/lib/quiz/normalize-questions";
 import { enrichQuestionWithModule } from "@/lib/data/exams/question-modules";
 import type { AcitpExamDomain } from "@/lib/data/acitp/domains";
+import { acitpExtensionPool } from "@/lib/data/acitp/exam-pool-extension";
 import { ACITP_DOMAIN_COUNTS } from "@/lib/data/acitp/domains";
 
 type QInput = {
@@ -124,10 +125,21 @@ function expandDomainPool(questions: Question[], target: number): Question[] {
 function buildDomainPools(): Record<AcitpExamDomain, Question[]> {
   resetQuestionPositionCounter();
   const byDomain = {} as Record<AcitpExamDomain, Question[]>;
+  // Base inputs
   for (const input of ACITP_BASE_INPUTS) {
     const question = q(input);
     if (!byDomain[input.domain]) byDomain[input.domain] = [];
     byDomain[input.domain]!.push(question);
+  }
+  // Extension questions pool
+  for (const extQ of acitpExtensionPool) {
+    const id = extQ.id;
+    const dom: AcitpExamDomain = id.includes("-m") ? "macos" : id.includes("-a") ? "abm" :
+      id.includes("-s") ? "security" : id.includes("-d") ? "deployment" :
+      id.includes("-n") ? "network" : id.includes("-prod") ? "productivity" :
+      "troubleshooting";
+    if (!byDomain[dom]) byDomain[dom] = [];
+    byDomain[dom].push(extQ);
   }
   const result = {} as Record<AcitpExamDomain, Question[]>;
   for (const [domain, count] of Object.entries(ACITP_DOMAIN_COUNTS) as [AcitpExamDomain, number][]) {
