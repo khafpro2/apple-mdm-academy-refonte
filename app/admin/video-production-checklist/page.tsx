@@ -9,6 +9,8 @@ import {
   PRODUCTION_CHECKLIST_LABELS,
 } from "@/src/lib/video-production-checklist.server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Checklist production média vidéos pilotes",
   robots: { index: false, follow: false },
