@@ -2,7 +2,11 @@ import { Suspense } from "react";
 import { PageShell } from "@/components/layout";
 import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 
-export const metadata = { title: "Mot de passe oublié" };
+export const metadata = {
+  title: "Mot de passe oublié",
+  description: "Réinitialisez votre mot de passe Apple MDM Academy.",
+  robots: { index: false, follow: false },
+};
 
 export default function ForgotPasswordPage() {
   return (
