@@ -9,6 +9,8 @@ import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { EntraLogo } from "@/components/brands/EntraLogo";
 import { MicrosoftLearnLogo } from "@/components/brands/MicrosoftLearnLogo";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit marques & logos",
   description: "Inventaire des logos Apple, Jamf, Microsoft, Intune, Entra ID et Microsoft Learn.",
