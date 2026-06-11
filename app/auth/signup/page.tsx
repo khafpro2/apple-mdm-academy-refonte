@@ -2,7 +2,15 @@ import { Suspense } from "react";
 import { PageShell } from "@/components/layout";
 import { AuthForm } from "@/components/auth/auth-form";
 
-export const metadata = { title: "Inscription" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = {
+  ...buildPageMetadata({
+    title: "Inscription",
+    description: "Créez votre compte Apple MDM Academy — accès gratuit immédiat à Jamf 100, Apple IT Pro et Intune.",
+    path: "/auth/signup",
+  }),
+  robots: { index: true, follow: true },
+};
 
 export default function SignupPage() {
   return (
