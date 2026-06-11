@@ -30,7 +30,7 @@ export function RevisionSession({ questions, quizSlug, onComplete }: Props) {
 
   // Load or create cards from localStorage
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     let mounted = true;
     const load = () => {
       try {
