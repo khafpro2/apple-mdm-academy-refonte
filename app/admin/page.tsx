@@ -8,6 +8,8 @@ import { AdvancedAdminPanel } from "@/components/admin/advanced-admin-panel";
 import { AltMdmAdminPanel } from "@/components/admin/alt-mdm-admin-panel";
 import { runCertificationAudit } from "@/lib/audit/certification-audit";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Administration" };
 
 function getQuizTitle(slug: string) {
