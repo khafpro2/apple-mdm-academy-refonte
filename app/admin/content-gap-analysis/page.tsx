@@ -5,6 +5,8 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runJamfContentGapAnalysis } from "@/lib/audit/jamf-content-gap-analysis";
 import { JAMF_TRAINING_PRIORITY_LABELS } from "@/lib/data/jamf/jamf-training-registry";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Analyse écarts contenu Jamf Training",
   description: "Couverture pédagogique vs chaîne Jamf Training & Support — sans intégration YouTube.",
