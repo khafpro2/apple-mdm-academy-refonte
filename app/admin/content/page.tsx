@@ -2,6 +2,8 @@ import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading } from "@/components/ui";
 import { AdminContentManagement } from "@/components/admin/content-management";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Admin — Contenu" };
 
 export default function AdminContentPage() {
