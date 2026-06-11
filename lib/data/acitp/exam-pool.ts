@@ -110,16 +110,20 @@ const ACITP_BASE_INPUTS: QInput[] = [
 ];
 
 function expandDomainPool(questions: Question[], target: number): Question[] {
+  if (questions.length === 0) return [];
   const pool = [...questions];
   let v = 0;
   while (pool.length < target) {
     for (const base of questions) {
       if (pool.length >= target) break;
-      pool.push(variantQuestion(base, v));
+      const variant = variantQuestion(base, v);
+      if (variant) pool.push(variant);
     }
     v++;
+    // Safety: avoid infinite loop if variantQuestion always returns undefined
+    if (v > 100) break;
   }
-  return pool.slice(0, target);
+  return pool.filter(Boolean).slice(0, target);
 }
 
 function buildDomainPools(): Record<AcitpExamDomain, Question[]> {
