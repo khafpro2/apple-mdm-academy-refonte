@@ -9,6 +9,8 @@ import {
   type MediaReadinessRow,
 } from "@/lib/audit/media-readiness.server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Préparation médias LMS",
   description: "Tableau de readiness média — storyboards, transcripts, scripts HeyGen, captures, MP4 et publication (Jamf, Intune, Apple).",
