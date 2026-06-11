@@ -28,7 +28,12 @@ import { getDemoDashboardData } from "@/lib/demo/demo-dashboard-data";
 import { isDemoSession } from "@/lib/demo/demo-session.server";
 import type { LearnerStats, LeaderboardEntry } from "@/lib/types";
 
-export const metadata = { title: "Dashboard" };
+// dashboard personnel — ne pas indexer
+export const metadata = {
+  title: "Dashboard",
+  description: "Tableau de bord Apple MDM Academy — progression, certifications et activité récente.",
+  robots: { index: false, follow: false },
+};
 
 const defaultStats: LearnerStats = {
   globalPercent: 0,
