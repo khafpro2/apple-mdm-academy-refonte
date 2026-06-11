@@ -2,7 +2,15 @@ import { Suspense } from "react";
 import { PageShell } from "@/components/layout";
 import { AuthForm } from "@/components/auth/auth-form";
 
-export const metadata = { title: "Connexion" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = {
+  ...buildPageMetadata({
+    title: "Connexion",
+    description: "Connectez-vous à Apple MDM Academy — accédez à vos cours, examens et progression.",
+    path: "/auth/login",
+  }),
+  robots: { index: false, follow: false },
+};
 
 export default function LoginPage() {
   return (
