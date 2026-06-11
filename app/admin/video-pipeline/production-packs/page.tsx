@@ -9,6 +9,8 @@ import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/
 import { ProductionPackPanel } from "@/components/admin/production-pack-panel";
 import { OFFICIAL_LMS_VIDEOS } from "@/src/lib/video-production";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Production packs HeyGen + Screen Studio",
   robots: { index: false, follow: false },
