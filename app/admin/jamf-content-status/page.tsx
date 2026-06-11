@@ -6,6 +6,8 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runJamfContentStatusAudit } from "@/lib/audit/jamf-content-status";
 import type { JamfContentStatus } from "@/lib/data/jamf/jamf-fundamentals-premium";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Statut contenu Jamf Premium",
   description: "Suivi parcours Jamf Fundamentals Premium — cours, quiz, labs, scripts, storyboards, captures, vidéos.",
