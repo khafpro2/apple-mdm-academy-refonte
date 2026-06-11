@@ -6,7 +6,12 @@ import { TrackLogo } from "@/components/ui/track-logo";
 import { tracks } from "@/lib/data";
 import { certificationPaths } from "@/lib/data/pro-modules/paths";
 
-export const metadata = { title: "Parcours" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = buildPageMetadata({
+  title: "Parcours de formation",
+  description: "19 parcours certifiants Apple MDM — Jamf 100/200/300, Apple Certified IT Pro, Intune, Kandji, Mosyle et plus.",
+  path: "/parcours",
+});
 
 export default function ParcoursPage() {
   return (
