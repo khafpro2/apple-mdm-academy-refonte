@@ -4,6 +4,8 @@ import { SectionHeading, Card, ProgressBar, Badge } from "@/components/ui";
 import { getFinalAuditItems, getFinalAuditScore, getProjectScores } from "@/lib/audit/final-audit";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit final",
   description: "Audit de lancement commercial — vérification Auth, Supabase, contenu, SEO et enterprise.",
