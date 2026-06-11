@@ -4,6 +4,8 @@ import { SectionHeading, Card, ProgressBar, Badge } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runQuizQualityAudit } from "@/lib/quiz/run-audit";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit qualité QCM",
   description: "Analyse anti-patterns des QCM : position, longueur, distracteurs et score qualité.",
