@@ -24,11 +24,18 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export function Button({ variant = "primary", size = "md", className = "", children, ...props }: ButtonProps) {
+  const isLoading = props["aria-busy"] === true || props["aria-busy"] === "true";
   return (
     <button
-      className={`inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200
+        disabled:cursor-not-allowed disabled:opacity-50
+        focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent
+        ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
+      {isLoading && (
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />
+      )}
       {children}
     </button>
   );
@@ -61,13 +68,16 @@ export function Badge({
   className = "",
 }: {
   children: ReactNode;
-  variant?: "default" | "accent" | "dark";
+  variant?: "default" | "accent" | "dark" | "success" | "warning" | "error";
   className?: string;
 }) {
-  const styles = {
+  const styles: Record<string, string> = {
     default: "bg-surface text-ink-secondary border border-border-light",
     accent: "bg-accent/10 text-accent",
     dark: "bg-ink text-white",
+    success: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    warning: "bg-amber-50 text-amber-700 border border-amber-200",
+    error: "bg-red-50 text-red-700 border border-red-200",
   };
   return (
     <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${styles[variant]} ${className}`}>
@@ -86,12 +96,36 @@ export function Card({ children, className = "", hover = false }: { children: Re
   );
 }
 
-export function ProgressBar({ value, className = "" }: { value: number; className?: string }) {
+export function ProgressBar({
+  value,
+  className = "",
+  color = "default",
+  label,
+}: {
+  value: number;
+  className?: string;
+  color?: "default" | "accent" | "success" | "warning";
+  label?: string;
+}) {
+  const safe = Math.min(100, Math.max(0, value));
+  const barColors: Record<string, string> = {
+    default: "bg-ink",
+    accent: "bg-accent",
+    success: "bg-emerald-500",
+    warning: "bg-amber-500",
+  };
   return (
-    <div className={`h-2 overflow-hidden rounded-full bg-border-light ${className}`}>
+    <div
+      role="progressbar"
+      aria-valuenow={safe}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={label ?? `${safe}%`}
+      className={`h-2 overflow-hidden rounded-full bg-border-light ${className}`}
+    >
       <div
-        className="h-full rounded-full bg-ink transition-all duration-500"
-        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+        className={`h-full rounded-full transition-all duration-500 ${barColors[color]}`}
+        style={{ width: `${safe}%` }}
       />
     </div>
   );
