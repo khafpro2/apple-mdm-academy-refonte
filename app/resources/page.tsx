@@ -3,10 +3,12 @@ import { SectionHeading } from "@/components/ui";
 import { ResourcesCatalog } from "@/components/resources/resources-catalog";
 import { academyResources } from "@/src/lib/resources";
 
-export const metadata = {
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = buildPageMetadata({
   title: "Ressources",
-  description: "Checklists, commandes Terminal et modèles pratiques pour Apple MDM, Intune et Jamf Pro.",
-};
+  description: "Checklists, commandes Terminal et modèles pratiques pour Apple MDM, Intune et Jamf Pro — export PDF, copie rapide, liens labs.",
+  path: "/resources",
+});
 
 export default function ResourcesPage() {
   return (
