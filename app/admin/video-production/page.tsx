@@ -13,6 +13,8 @@ import { SCREENSHOT_CATALOG } from "@/src/lib/video-screenshots";
 import { POST_SCREENSHOTS_WORKFLOW } from "@/src/lib/video-publish-status";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Production vidéo", robots: { index: false, follow: false } };
 
 export default async function VideoProductionAdminPage() {
