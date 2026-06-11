@@ -4,7 +4,11 @@ import { PageShell } from "@/components/layout/page-shell";
 import { ButtonLink } from "@/components/ui";
 import { isFreePlatformMode } from "@/lib/pricing/platform-access";
 
-export const metadata = { title: "Abonnement confirmé" };
+export const metadata = {
+  title: "Paiement confirmé",
+  description: "Bienvenue dans Apple MDM Academy Pro.",
+  robots: { index: false, follow: false },
+};
 
 export default function CheckoutSuccessPage() {
   if (isFreePlatformMode()) {
