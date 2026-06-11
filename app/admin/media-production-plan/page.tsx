@@ -8,6 +8,8 @@ import {
   MEDIA_REQUIRED_MESSAGE,
 } from "@/src/lib/media-production-status.server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Plan production médias", robots: { index: false, follow: false } };
 
 const PRODUCTION_STEPS = [
