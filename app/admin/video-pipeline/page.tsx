@@ -19,6 +19,8 @@ import { VideoPipelineExportButton } from "@/components/admin/video-pipeline-exp
 import { MediaRequiredBanner } from "@/components/admin/media-required-banner";
 import { getMediaProductionStatus } from "@/src/lib/media-production-status.server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Pipeline vidéo", robots: { index: false, follow: false } };
 
 function CriterionCell({ ok, label, weight }: { ok: boolean; label: string; weight: number }) {
