@@ -6,7 +6,12 @@ import { getUser } from "@/lib/supabase/server";
 import { fetchTranscriptData } from "@/lib/supabase/queries";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
 
-export const metadata = { title: "Transcript" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = buildPageMetadata({
+  title: "Transcript",
+  description: "Historique complet de vos examens, scores et certifications Apple MDM Academy.",
+  path: "/dashboard/transcript",
+});
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString("fr-FR", {
