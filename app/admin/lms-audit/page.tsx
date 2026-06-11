@@ -4,6 +4,8 @@ import { SectionHeading, Card, ProgressBar, Badge } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runLmsAudit, type LmsModuleStatus } from "@/lib/audit/lms-audit";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit LMS Apple Platform Deployment",
   description: "Score LMS global, modules terminés, quiz, examens, labs et ressources.",
