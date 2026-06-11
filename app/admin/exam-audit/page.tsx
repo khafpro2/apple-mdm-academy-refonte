@@ -4,6 +4,8 @@ import { SectionHeading, Badge, Card } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runExamAudit } from "@/lib/exam/exam-audit";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit examens",
   description: "État des routes, timers et banques de questions des examens blancs.",
