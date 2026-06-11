@@ -5,6 +5,8 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runPedagogicalAudit } from "@/lib/audit/pedagogical-audit";
 import type { ContentCompleteness } from "@/lib/audit/content-status";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit contenu pédagogique",
   description: "Tableau de bord qualité — cours, labs, examens, vidéos, ressources et captures.",
