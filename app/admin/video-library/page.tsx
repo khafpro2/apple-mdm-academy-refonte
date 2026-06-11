@@ -10,6 +10,8 @@ import { getValidScreenshotFiles, getScreenshotInventoryAsync } from "@/src/lib/
 import { MediaRequiredBanner } from "@/components/admin/media-required-banner";
 import { getMediaProductionStatus } from "@/src/lib/media-production-status.server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Bibliothèque vidéo", robots: { index: false, follow: false } };
 
 export default async function VideoLibraryAdminPage() {
