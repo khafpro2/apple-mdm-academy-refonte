@@ -4,6 +4,8 @@ import { SectionHeading, Card, ProgressBar, Badge } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runCertificationAudit } from "@/lib/audit/certification-audit";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Audit certification",
   description: "Couverture programmes Apple, Jamf et Intune.",
