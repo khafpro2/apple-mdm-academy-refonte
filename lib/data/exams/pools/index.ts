@@ -102,3 +102,13 @@ export function getQuizSlugFromExamRoute(routeSlug: string): string | undefined 
 export function getExamRouteSlugs(): string[] {
   return Object.keys(examRouteToQuizSlug);
 }
+
+/** Retourne le pool de questions pour un slug d'examen ou de route */
+export function getExamPool(slugOrRoute: string): Question[] | undefined {
+  // Chercher d'abord dans les quiz slugs directs
+  if (examPools[slugOrRoute]) return examPools[slugOrRoute];
+  // Essayer via la route slug
+  const quizSlug = getQuizSlugFromExamRoute(slugOrRoute);
+  if (quizSlug && examPools[quizSlug]) return examPools[quizSlug];
+  return undefined;
+}
