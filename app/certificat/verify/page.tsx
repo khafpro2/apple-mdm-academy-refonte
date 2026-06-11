@@ -3,7 +3,12 @@ import { Breadcrumb, Badge } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { getQuiz } from "@/lib/data";
 
-export const metadata = { title: "Vérification certificat" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = buildPageMetadata({
+  title: "Vérification de certificat",
+  description: "Vérifiez l'authenticité d'un certificat Apple MDM Academy — score, date d'obtention et titulaire.",
+  path: "/certificat/verify",
+});
 
 export default async function VerifyCertificatePage({
   searchParams,
