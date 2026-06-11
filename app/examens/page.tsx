@@ -4,7 +4,12 @@ import { ExamCatalogGrid } from "@/components/exams/exam-catalog-grid";
 import { buildExamCatalog } from "@/lib/exam/exam-catalog";
 import { appleTrainingResources } from "@/lib/data/official-cert-links";
 
-export const metadata = { title: "Examens blancs" };
+import { buildPageMetadata } from "@/lib/seo/metadata";
+export const metadata = buildPageMetadata({
+  title: "Examens blancs",
+  description: "Examens blancs Apple MDM Academy — Jamf 100/200, Apple Certified IT Pro, Intune. Mode chronomètre, correction détaillée, historique des tentatives.",
+  path: "/examens",
+});
 
 export default function ExamensPage() {
   const catalog = buildExamCatalog();
