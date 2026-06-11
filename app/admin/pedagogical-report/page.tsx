@@ -5,6 +5,8 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { runPedagogicalAudit } from "@/lib/audit/pedagogical-audit";
 import { buildPedagogicalReport } from "@/lib/audit/pedagogical-report";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildPageMetadata({
   title: "Rapport pédagogique",
   description: "Forces, faiblesses, modules incomplets et recommandations avant nouvelles fonctionnalités.",
