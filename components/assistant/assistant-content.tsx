@@ -10,6 +10,15 @@ export function AssistantContent() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const SUGGESTIONS = [
+    "Comment fonctionne ADE (Automated Device Enrollment) ?",
+    "Quelle est la différence entre Jamf 100 et Jamf 200 ?",
+    "Comment configurer FileVault via MDM ?",
+    "Qu'est-ce que le Bootstrap Token ?",
+    "Comment déployer un VPN per-app sur iOS ?",
+    "Expliquer Platform SSO sur macOS 14+",
+  ];
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages change
