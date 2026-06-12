@@ -112,3 +112,9 @@ export function getExamPool(slugOrRoute: string): Question[] | undefined {
   if (quizSlug && examPools[quizSlug]) return examPools[quizSlug];
   return undefined;
 }
+
+/** Retourne la route /examens/[route] correspondant à un quiz slug interne */
+export function getExamRouteFromQuizSlug(quizSlug: string): string | undefined {
+  const entry = Object.entries(examRouteToQuizSlug).find(([, qs]) => qs === quizSlug);
+  return entry?.[0];
+}
