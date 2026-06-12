@@ -3,7 +3,8 @@ import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getQuiz } from "@/lib/data/quizzes";
-import { getExamPool } from "@/lib/data/exams/pools";
+import { getExamPool, getExamRouteFromQuizSlug } from "@/lib/data/exams/pools";
+import { ReadinessWidget } from "@/components/revision/readiness-widget";
 import { RevisionSessionWrapper } from "@/components/revision/revision-session-wrapper";
 
 export async function generateMetadata({
@@ -30,6 +31,7 @@ export default async function RevisionSlugPage({
   const { slug } = await params;
   const quiz = getQuiz(slug);
   const pool = getExamPool(slug);
+  const examRoute = getExamRouteFromQuizSlug(slug);
 
   if (!quiz || !pool || pool.length === 0) notFound();
 
@@ -55,6 +57,14 @@ export default async function RevisionSlugPage({
         <p className="mt-2 text-sm text-ink-secondary">
           {questions.length} cartes · répétition espacée SM-2
         </p>
+
+        <div className="mt-6">
+          <ReadinessWidget
+            quizSlug={slug}
+            examHref={examRoute ? `/examens/${examRoute}` : "/examens"}
+          />
+        </div>
+
         <div className="mt-8">
           <RevisionSessionWrapper questions={questions} quizSlug={slug} />
         </div>
