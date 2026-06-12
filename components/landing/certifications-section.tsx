@@ -35,12 +35,22 @@ export function CertificationsSection() {
               <span>{path.duration}</span>
             </div>
             <ProgressBar value={0} className="mt-4" />
-            <Link
-              href={`/parcours/${path.trackSlug}`}
-              className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
-            >
-              Voir le parcours →
-            </Link>
+            {(() => {
+              // Les parcours sans piste de cours dédiée (réutilisant apple-it-professional)
+              // pointent vers leur examen spécifique plutôt qu'un parcours générique dupliqué.
+              const isExamFocused =
+                path.trackSlug === "apple-it-professional" &&
+                path.slug !== "apple-certified-it-professional" &&
+                Boolean(path.examRouteSlug);
+              const href = isExamFocused
+                ? `/examens/${path.examRouteSlug}`
+                : `/parcours/${path.trackSlug}`;
+              return (
+                <Link href={href} className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
+                  {isExamFocused ? "Voir l'examen →" : "Voir le parcours →"}
+                </Link>
+              );
+            })()}
           </Card>
         ))}
       </div>
