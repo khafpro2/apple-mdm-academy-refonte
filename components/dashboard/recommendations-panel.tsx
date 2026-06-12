@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui";
 
 type Recommendation = {
-  type: "course" | "exam" | "lab" | "resource";
+  type: "course" | "exam" | "lab" | "resource" | "revision";
   title: string;
   reason: string;
   href: string;
@@ -14,6 +14,7 @@ const ICONS: Record<Recommendation["type"], string> = {
   exam: "📝",
   lab: "🔧",
   resource: "📄",
+  revision: "🧠",
 };
 
 const URGENCY_BADGE: Record<Recommendation["urgency"], "error" | "warning" | "default"> = {
@@ -41,13 +42,13 @@ function buildRecommendations(props: RecommendationsPanelProps): Recommendation[
   const { avgScore = 0, activeTracks = [], lastActivity } = props;
   const recs: Recommendation[] = [];
 
-  // Score faible → exam blanc recommandé
+  // Score faible → mode révision SM-2 recommandé
   if (avgScore > 0 && avgScore < 60) {
     recs.push({
-      type: "exam",
-      title: "Examen blanc Jamf 100",
-      reason: `Votre score moyen de ${avgScore}% suggère de revoir les fondamentaux Jamf avant l'examen officiel.`,
-      href: "/examens/jamf-100",
+      type: "revision",
+      title: "Mode révision — répétition espacée",
+      reason: `Votre score moyen de ${avgScore}% suggère de réviser vos points faibles avec la répétition espacée SM-2.`,
+      href: "/revision",
       urgency: "high",
     });
   }
