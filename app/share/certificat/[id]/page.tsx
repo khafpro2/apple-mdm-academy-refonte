@@ -33,6 +33,11 @@ export async function generateMetadata({
       title: `J'ai obtenu la certification ${title} !`,
       description: `Score : ${data.score}% — Certification Apple MDM Academy vérifiable en ligne.`,
       type: "website" as const,
+      images: [`${siteConfig.url}/api/og/certificat/${id}`],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: `Certification ${title} obtenue !`,
     },
   };
 }
