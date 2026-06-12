@@ -174,6 +174,14 @@ export function ExamResultView({
             Repasser l&apos;examen
           </Link>
         )}
+        {!passed && (
+          <Link
+            href={`/revision/${quiz.slug}`}
+            className="inline-flex items-center gap-2 rounded-full border border-accent px-6 py-3 text-sm font-semibold text-accent hover:bg-accent/5"
+          >
+            🧠 Réviser avec SM-2
+          </Link>
+        )}
         {quiz.slug === "examen-apple-it-pro" && (
           <Link href="/examens/preparation-report" className="inline-flex items-center rounded-full border border-accent px-6 py-3 text-sm font-semibold text-accent hover:bg-accent/5">
             Rapport de préparation
