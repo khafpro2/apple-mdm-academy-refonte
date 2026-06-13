@@ -67,7 +67,7 @@ const sections = [
     id: "contact",
     title: "Contact",
     content: [
-      "Pour toute question relative aux CGU : contact@apple-mdm-academy.fr ou /support.",
+      "Pour toute question relative aux CGU : kthiam@harmytech.com ou /support.",
     ],
   },
 ];
