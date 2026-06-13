@@ -19,17 +19,31 @@ type Props = {
 };
 
 export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Props) {
+  // ─── Fix React #185 ─────────────────────────────────────────────────────────
+  // useSyncExternalStore compare les snapshots par référence stricte (===).
+  // loadReadingProgress() retourne JSON.parse() → nouvel objet à chaque appel
+  // → React détecte un "changement" à chaque render → boucle infinie (#185).
+  //
+  // Solution : sérialiser le snapshot en string JSON pour une comparaison stable.
+  // Les valeurs primitives (string) passent le test de référence.
+  // ─────────────────────────────────────────────────────────────────────────────
+
   const readingMode = useSyncExternalStore(
     subscribeReadingProgress,
     () => loadReadingModeEnabled(courseSlug),
     () => false
   );
 
-  const progress = useSyncExternalStore(
+  // getSnapshot retourne une string stable au lieu d'un objet instable
+  const progressJson = useSyncExternalStore(
     subscribeReadingProgress,
-    () => loadReadingProgress(courseSlug, lessonSlug),
+    () => {
+      const p = loadReadingProgress(courseSlug, lessonSlug);
+      return p ? JSON.stringify(p) : null;
+    },
     () => null
   );
+  const progress = progressJson ? (JSON.parse(progressJson) as ReturnType<typeof loadReadingProgress>) : null;
 
   const scrollPercent = progress?.scrollPercent ?? 0;
   const isRead = progress?.read ?? false;
