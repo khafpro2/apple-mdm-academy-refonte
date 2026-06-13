@@ -14,7 +14,7 @@ type AppShellProps = {
 export function AppShell({ children, footer, banners, authSlot }: AppShellProps) {
   return (
     <>
-      <a href="#main-content" className="skip-nav">
+      <a href="#main-content" className="skip-link">
         Aller au contenu principal
       </a>
       <SidebarProvider>
