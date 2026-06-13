@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
@@ -15,16 +16,19 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const lab = getLab(slug);
-  if (!lab) return { title: "Lab" };
-  return {
+  if (!lab) {
+    return buildPageMetadata({
+      title: "Lab introuvable",
+      description: "Ce lab pratique n'existe pas ou a été déplacé.",
+      path: `/labs/${slug}`,
+      noIndex: true,
+    });
+  }
+  return buildPageMetadata({
     title: `${lab.title} — Lab pratique`,
     description: `Lab pratique ${lab.technology} : ${lab.description} — niveau ${lab.level}, durée ${lab.duration}.`,
-    openGraph: {
-      title: `${lab.title} | Apple MDM Academy`,
-      description: lab.description,
-      type: "website" as const,
-    },
-  };
+    path: `/labs/${slug}`,
+  });
 }
 
 export default async function LabDetailPage({ params }: { params: Promise<{ slug: string }> }) {
