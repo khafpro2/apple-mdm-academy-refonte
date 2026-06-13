@@ -35,9 +35,7 @@ export default function PricingPage() {
           />
 
           <div className="mt-10 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-surface-elevated p-8 shadow-sm">
-            <p className="text-center text-lg font-semibold text-ink">
-              {PLATFORM_ACCESS.freeMessage}
-            </p>
+            
             <ul className="mx-auto mt-8 max-w-md space-y-3">
               {FREE_INCLUDES.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-sm text-ink-secondary">
