@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
@@ -18,7 +19,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const path = getCertificationPath(slug);
-  return { title: path?.title ?? "Certification" };
+  return buildPageMetadata({
+    title: path?.title ?? "Certification introuvable",
+    description: path?.description ?? "Cette certification n'existe pas ou a été déplacée.",
+    path: `/certification/${slug}`,
+    noIndex: !path,
+  });
 }
 
 export default async function CertificationPathPage({
