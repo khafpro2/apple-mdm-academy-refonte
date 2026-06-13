@@ -1,7 +1,7 @@
 import { isFreePlatformMode, PLATFORM_ACCESS } from "@/lib/pricing/platform-access";
 
 export function FreePlatformBanner() {
-  if (!isFreePlatformMode()) return null;
+  if (!isFreePlatformMode() || !PLATFORM_ACCESS.freeMessage) return null;
 
   return (
     <div
