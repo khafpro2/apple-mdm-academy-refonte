@@ -47,7 +47,7 @@ export default function ApiDocsPage() {
                   <span className="text-xs text-ink-tertiary">{get.tags?.[0]}</span>
                 </div>
                 <p className="mt-2 text-sm text-ink-secondary">{get.summary}</p>
-                <Link href={`/api/v1${path.replace(/^\//, "")}`} className="mt-3 inline-block text-sm text-accent hover:underline">
+                <Link href={`/api/v1/${path.replace(/^\//, "")}`} className="mt-3 inline-block text-sm text-accent hover:underline">
                   Essayer →
                 </Link>
               </Card>

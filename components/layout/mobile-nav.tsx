@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/parcours", label: "Parcours" },
@@ -19,6 +20,7 @@ const navLinks = [
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="lg:hidden">
@@ -51,7 +53,13 @@ export function MobileNav() {
                 <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-ink-secondary hover:bg-surface hover:text-ink"
+                  aria-current={pathname === link.href || pathname.startsWith(`${link.href}/`) ? "page" : undefined}
+                  className={[
+                    "block rounded-lg px-3 py-2.5 text-sm font-medium",
+                    pathname === link.href || pathname.startsWith(`${link.href}/`)
+                      ? "bg-accent/10 text-accent"
+                      : "text-ink-secondary hover:bg-surface hover:text-ink",
+                  ].join(" ")}
                 >
                   {link.label}
                 </Link>

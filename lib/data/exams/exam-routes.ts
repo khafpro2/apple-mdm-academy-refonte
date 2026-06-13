@@ -8,6 +8,11 @@ export function getExamRouteFromQuizSlug(quizSlug: string): string | undefined {
 }
 
 export function getExamLoginRedirect(quizSlug: string): string {
+  return resolveQuizHref(quizSlug);
+}
+
+/** Lien public vers un quiz ou un examen blanc (/examens si mappé). */
+export function resolveQuizHref(quizSlug: string): string {
   const route = getExamRouteFromQuizSlug(quizSlug);
   return route ? `/examens/${route}` : `/quiz/${quizSlug}`;
 }

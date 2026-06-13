@@ -1,10 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 import { saveLessonProgress } from "@/app/actions/progress";
 import {
-  loadReadingModeEnabled,
+  loadReadingModeSnapshot,
   loadReadingProgress,
+  loadReadingProgressSnapshot,
+  type ReadingProgress,
   markLessonRead,
   saveReadingModeEnabled,
   saveReadingProgress,
@@ -19,16 +21,28 @@ type Props = {
 };
 
 export function CourseReadingModeShell({ courseSlug, lessonSlug, children }: Props) {
-  const readingMode = useSyncExternalStore(
+  const readingModeSnapshot = useSyncExternalStore(
     subscribeReadingProgress,
-    () => loadReadingModeEnabled(courseSlug),
-    () => false
+    () => loadReadingModeSnapshot(courseSlug),
+    () => "false"
   );
+  const readingMode = readingModeSnapshot === "true";
 
-  const progress = useSyncExternalStore(
+  const progressSnapshot = useSyncExternalStore(
     subscribeReadingProgress,
-    () => loadReadingProgress(courseSlug, lessonSlug),
-    () => null
+    () => loadReadingProgressSnapshot(courseSlug, lessonSlug),
+    () => ""
+  );
+  const progress = useMemo(
+    () => {
+      if (!progressSnapshot) return null;
+      try {
+        return JSON.parse(progressSnapshot) as ReadingProgress;
+      } catch {
+        return null;
+      }
+    },
+    [progressSnapshot]
   );
 
   const scrollPercent = progress?.scrollPercent ?? 0;

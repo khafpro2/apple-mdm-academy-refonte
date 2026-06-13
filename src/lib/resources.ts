@@ -1239,7 +1239,6 @@ export const academyResources: AcademyResource[] = [
     module: "Defender",
     relatedCourseSlug: "intune-mac",
     relatedLabSlug: "defender-macos-intune",
-    relatedVideoSlug: "defender-macos",
     sections: [
       {
         title: "Licences",
@@ -1275,7 +1274,6 @@ export const academyResources: AcademyResource[] = [
     module: "Conditional Access",
     relatedCourseSlug: "intune-mac",
     relatedLabSlug: "intune-conditional-access-mac",
-    relatedVideoSlug: "conditional-access-apple",
     relatedResourceSlugs: ["intune-compliance-guide"],
     sections: [
       {

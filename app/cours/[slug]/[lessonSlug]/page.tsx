@@ -23,8 +23,19 @@ import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack } from "@/lib/data";
+import { resolveQuizHref } from "@/lib/data/exams/exam-routes";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
+
+const LESSON_ROUTE_ALIASES: Record<string, Record<string, string>> = {
+  "intune-mac": {
+    "apns-certificats": "apns-certificates",
+  },
+};
+
+function resolveLessonSlug(courseSlug: string, lessonSlug: string): string {
+  return LESSON_ROUTE_ALIASES[courseSlug]?.[lessonSlug] ?? lessonSlug;
+}
 
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
@@ -44,7 +55,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; lessonSlug: string }>;
 }) {
   const { slug, lessonSlug } = await params;
-  const data = getLesson(slug, lessonSlug);
+  const data = getLesson(slug, resolveLessonSlug(slug, lessonSlug));
   return { title: data?.lesson.title ?? "Leçon" };
 }
 
@@ -54,22 +65,23 @@ export default async function LessonPage({
   params: Promise<{ slug: string; lessonSlug: string }>;
 }) {
   const { slug, lessonSlug } = await params;
-  const data = getLesson(slug, lessonSlug);
+  const resolvedLessonSlug = resolveLessonSlug(slug, lessonSlug);
+  const data = getLesson(slug, resolvedLessonSlug);
   if (!data) notFound();
 
   const { course, module, lesson } = data;
-  const custom = getCustomLesson(slug, lessonSlug);
+  const custom = getCustomLesson(slug, resolvedLessonSlug);
   const track = getTrack(course.trackSlug);
   const flatLessons = getFlatLessons(course);
   const totalLessons = flatLessons.length;
-  const currentFlat = flatLessons.find((f) => f.lesson.slug === lessonSlug);
+  const currentFlat = flatLessons.find((f) => f.lesson.slug === resolvedLessonSlug);
   const globalIndex = currentFlat?.globalIndex ?? 0;
   const progressPercent = getCourseProgressPercent(globalIndex, totalLessons);
   const status = getLessonStatus(globalIndex, globalIndex);
   const points = getLessonPoints(lesson, globalIndex);
 
   const content = getLessonContent(course, module, lesson, globalIndex, totalLessons);
-  const quizHref = content.finalQuizSlug ? `/quiz/${content.finalQuizSlug}` : undefined;
+  const quizHref = content.finalQuizSlug ? resolveQuizHref(content.finalQuizSlug) : undefined;
 
   const prev = flatLessons[globalIndex - 1]?.lesson;
   const next = flatLessons[globalIndex + 1]?.lesson;
@@ -78,8 +90,8 @@ export default async function LessonPage({
   const CustomLesson = custom?.Lesson;
   const CustomToc = custom?.TableOfContents;
   const meta = custom?.meta;
-  const labSlug = getLabSlugForLesson(lessonSlug);
-  const video = getVideoScriptForLesson(lessonSlug);
+  const labSlug = getLabSlugForLesson(resolvedLessonSlug);
+  const video = getVideoScriptForLesson(resolvedLessonSlug);
   const videoMp4 = video ? resolveMp4Url(video.slug) : undefined;
   return (
     <PageShell>
@@ -160,7 +172,7 @@ export default async function LessonPage({
 
             {video && <LessonVideoCallout video={video} hasMp4={Boolean(videoMp4)} />}
 
-            <CourseReadingModeShell courseSlug={slug} lessonSlug={lessonSlug}>
+            <CourseReadingModeShell courseSlug={slug} lessonSlug={resolvedLessonSlug}>
               <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
                 {CustomLesson ? (
                   <CustomLesson />
@@ -182,7 +194,7 @@ export default async function LessonPage({
 
             <LessonProgressTracker
               courseSlug={course.slug}
-              lessonSlug={lessonSlug}
+              lessonSlug={resolvedLessonSlug}
               lessonTitle={lesson.title}
               showMarkComplete={!CustomLesson}
             />

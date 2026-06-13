@@ -9,7 +9,7 @@ import {
 } from "@/lib/data/pro-modules/paths";
 import { getProModulesForPath } from "@/lib/data/pro-modules/index";
 import { getQuiz } from "@/lib/data";
-import { getExamRouteFromQuizSlug } from "@/lib/data/exams/exam-routes";
+import { resolveQuizHref } from "@/lib/data/exams/exam-routes";
 
 export function generateStaticParams() {
   return certificationPaths.map((p) => ({ slug: p.slug }));
@@ -32,7 +32,7 @@ export default async function CertificationPathPage({
 
   const modules = getProModulesForPath(path.moduleNumbers.filter((n) => n >= 11));
   const exam = getQuiz(path.examQuizSlug);
-  const examRoute = exam ? getExamRouteFromQuizSlug(exam.slug) : undefined;
+  const examHref = exam ? resolveQuizHref(exam.slug) : undefined;
 
   return (
     <PageShell>
@@ -59,8 +59,8 @@ export default async function CertificationPathPage({
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <ButtonLink href="/cours/parcours-professionnel">Commencer le parcours</ButtonLink>
-            {examRoute && (
-              <ButtonLink href={`/examens/${examRoute}`} variant="secondary">
+            {examHref && (
+              <ButtonLink href={examHref} variant="secondary">
                 Passer l&apos;examen
               </ButtonLink>
             )}
@@ -94,7 +94,7 @@ export default async function CertificationPathPage({
                     Commencer →
                   </Link>
                   <Link
-                    href={`/quiz/${mod.quizSlug}`}
+                    href={resolveQuizHref(mod.quizSlug)}
                     className="text-xs font-semibold text-ink-secondary hover:underline"
                   >
                     Quiz

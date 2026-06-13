@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AcademyLogo } from "@/components/layout/academy-logo";
 import { LogoIcon } from "@/components/ui/logo-icon";
 import { useSidebar } from "@/components/layout/sidebar-context";
 import {
@@ -13,8 +14,10 @@ import {
 } from "@/lib/navigation/sidebar-config";
 
 function isActive(pathname: string, href: string): boolean {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
+  const current = pathname === "/" ? "/" : pathname.replace(/\/$/, "");
+  const target = href === "/" ? "/" : href.replace(/\/$/, "");
+  if (target === "/") return current === "/";
+  return current === target || current.startsWith(`${target}/`);
 }
 
 function NavLink({
@@ -100,6 +103,8 @@ function NavLink({
 export function Sidebar() {
   const pathname = usePathname();
   const { collapsed, toggleCollapsed, mobileOpen, closeMobile } = useSidebar();
+  const navRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const onNavigate = useCallback(() => {
     closeMobile();
@@ -112,10 +117,32 @@ export function Sidebar() {
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMobile();
+      if (e.key === "Escape") {
+        closeMobile();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const nav = navRef.current;
+      if (!nav) return;
+      const focusable = Array.from(
+        nav.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute("disabled") && el.getAttribute("aria-hidden") !== "true");
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    window.setTimeout(() => closeButtonRef.current?.focus(), 0);
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
@@ -123,29 +150,22 @@ export function Sidebar() {
   }, [mobileOpen, closeMobile]);
 
   const width = collapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH_OPEN;
+  const navCollapsed = collapsed && !mobileOpen;
 
   const aside = (
     <aside
+      ref={navRef}
       className={[
-        "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border-light bg-surface-elevated shadow-sm transition-[width,transform] duration-200 ease-out",
+        "fixed inset-y-0 left-0 z-50 flex max-w-[calc(100vw-1rem)] flex-col border-r border-border-light bg-surface-elevated shadow-sm transition-[width,transform] duration-200 ease-out",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       ].join(" ")}
       style={{ width: mobileOpen ? SIDEBAR_WIDTH_OPEN : width }}
       id="sidebar-nav"
       aria-label="Navigation principale"
+      aria-hidden={!mobileOpen ? undefined : false}
     >
       <div className="flex h-14 shrink-0 items-center gap-3 border-b border-border-light px-4">
-        <Link
-          href="/"
-          onClick={onNavigate}
-          className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-          aria-label="Apple MDM Academy — Accueil"
-        >
-          <LogoIcon name="apple" size={24} alt="Apple MDM Academy" />
-          {!collapsed && (
-            <span className="truncate text-sm font-semibold text-ink">Apple MDM Academy</span>
-          )}
-        </Link>
+        <AcademyLogo collapsed={navCollapsed} onClick={onNavigate} className="flex-1" />
         <button
           type="button"
           onClick={toggleCollapsed}
@@ -162,9 +182,10 @@ export function Sidebar() {
           </svg>
         </button>
         <button
+          ref={closeButtonRef}
           type="button"
           onClick={closeMobile}
-          className="rounded-lg p-1.5 text-ink-secondary hover:bg-surface lg:hidden"
+          className="rounded-lg p-1.5 text-ink-secondary hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent lg:hidden"
           aria-label="Fermer le menu"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -176,12 +197,12 @@ export function Sidebar() {
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <ul className="space-y-1" role="list">
           {sidebarMainNav.map((item) => (
-            <NavLink key={item.href + item.label} item={item} collapsed={collapsed && !mobileOpen} onNavigate={onNavigate} />
+            <NavLink key={item.href + item.label} item={item} collapsed={navCollapsed} onNavigate={onNavigate} />
           ))}
         </ul>
       </nav>
 
-      {!collapsed && (
+      {!navCollapsed && (
         <div className="border-t border-border-light px-4 py-3 text-xs text-ink-tertiary">
           Formation Apple · Jamf · Intune
         </div>
@@ -192,10 +213,9 @@ export function Sidebar() {
   return (
     <>
       {mobileOpen && (
-        <button
-          type="button"
+        <div
           className="fixed inset-0 z-40 bg-ink/40 lg:hidden"
-          aria-label="Fermer le menu"
+          role="presentation"
           onClick={closeMobile}
         />
       )}

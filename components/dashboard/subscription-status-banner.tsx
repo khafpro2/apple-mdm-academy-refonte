@@ -14,13 +14,13 @@ export function SubscriptionStatusBanner() {
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-sm text-ink-secondary">Plan actuel :</span>
           <span className="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-emerald-800">
-            Preview
+            Actif
           </span>
           <span className="text-sm font-medium text-ink">{PLATFORM_ACCESS.planName}</span>
           <span className="text-sm text-ink-tertiary">· Statut : {PLATFORM_ACCESS.statusLabel}</span>
         </div>
         <Link href="/pricing" className="text-sm font-semibold text-accent hover:underline">
-          Accès gratuit →
+          Voir les offres →
         </Link>
       </div>
     );

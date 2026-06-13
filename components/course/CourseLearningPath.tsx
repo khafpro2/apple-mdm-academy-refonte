@@ -4,10 +4,13 @@ import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import type { CoursePilotVideo } from "@/src/lib/course-pilot-videos";
 import { loadVideoProgress, subscribeVideoProgress } from "@/lib/video/progress-storage";
-import { getLabProgress } from "@/lib/labs/progress";
+import { getLabProgress, subscribeLabProgressStore } from "@/lib/labs/progress";
+import { resolveQuizHref } from "@/lib/data/exams/exam-routes";
 import {
   isCoursePathStepDone,
   isLessonRead,
+  loadCoursePathSnapshot,
+  loadReadingProgressSnapshot,
   subscribeReadingProgress,
 } from "@/lib/course/reading-progress-storage";
 
@@ -28,7 +31,11 @@ const STEPS = [
         : `/cours/${video.courseSlug}`,
   },
   { id: "lab", label: "Faire le lab", href: (video: CoursePilotVideo) => `/labs/${video.labSlug}` },
-  { id: "quiz", label: "Répondre au quiz", href: (video: CoursePilotVideo) => `/quiz/${video.quizSlug}` },
+  {
+    id: "quiz",
+    label: "Répondre au quiz",
+    href: (video: CoursePilotVideo) => resolveQuizHref(video.quizSlug),
+  },
   { id: "video", label: "Voir la vidéo", href: (video: CoursePilotVideo) => `/videos/${video.slug}` },
 ] as const;
 
@@ -59,26 +66,44 @@ function statusClass(status: PathStepStatus): string {
 }
 
 export function CourseLearningPath({ video, hasMp4 }: Props) {
-  const revision = useSyncExternalStore(
+  useSyncExternalStore(
     (cb) => {
       const u1 = subscribeReadingProgress(cb);
       const u2 = subscribeVideoProgress(cb);
+      const u3 = subscribeLabProgressStore(cb);
       return () => {
         u1();
         u2();
+        u3();
       };
     },
-    () => Date.now(),
-    () => 0
+    () =>
+      [
+        loadReadingProgressSnapshot(
+          video.relatedLessonCourseSlug ?? video.courseSlug,
+          video.relatedLessonSlug ?? video.slug
+        ),
+        loadCoursePathSnapshot(video.slug),
+        loadVideoProgress(video.slug)?.updatedAt ?? 0,
+        getLabProgress(video.labSlug)?.percent ?? 0,
+      ].join("|"),
+    () => ""
   );
 
-  void revision;
+  const labProgress = useSyncExternalStore(
+    subscribeLabProgressStore,
+    () => getLabProgress(video.labSlug),
+    () => null
+  );
+  const videoProgress = useSyncExternalStore(
+    subscribeVideoProgress,
+    () => loadVideoProgress(video.slug),
+    () => null
+  );
 
   const lessonCourse = video.relatedLessonCourseSlug ?? video.courseSlug;
   const lessonSlug = video.relatedLessonSlug ?? video.slug;
   const courseRead = isLessonRead(lessonCourse, lessonSlug) || isCoursePathStepDone(video.slug, "course");
-  const labProgress = typeof window !== "undefined" ? getLabProgress(video.labSlug) : null;
-  const videoProgress = typeof window !== "undefined" ? loadVideoProgress(video.slug) : null;
 
   const statuses: PathStepStatus[] = [
     courseRead ? "completed" : "not-started",

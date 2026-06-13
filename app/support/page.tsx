@@ -14,7 +14,7 @@ export const metadata = buildPageMetadata({
 const helpTopics = isFreePlatformMode()
   ? [
       { icon: "🔐", title: "Connexion & Auth", desc: "Supabase Auth, email de confirmation, mot de passe oublié", href: "#faq" },
-      { icon: "🎓", title: "Accès gratuit", desc: "Accès complet à tous les contenus pendant la phase développement", href: "/pricing" },
+      { icon: "🎓", title: "Accès aux contenus", desc: "Accès complet aux cours, labs et ressources", href: "/pricing" },
       { icon: "📜", title: "Certificats PDF", desc: "Téléchargement, vérification, examens blancs", href: "/certificat/verify" },
       { icon: "🧪", title: "Labs & Cours", desc: "Progression, validation d'étapes, parcours", href: "/labs" },
       { icon: "📊", title: "Statut des services", desc: "Disponibilité application et auth", href: "/status" },

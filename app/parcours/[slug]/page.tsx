@@ -8,6 +8,7 @@ import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
 import { getTrack, tracks, getQuizzesByTrack, getLabsByTrack } from "@/lib/data";
 import { resolveTrackCourseHref, trackHasCourse } from "@/lib/navigation/track-links";
+import { resolveQuizHref } from "@/lib/data/exams/exam-routes";
 
 export function generateStaticParams() {
   return tracks.map((t) => ({ slug: t.slug }));
@@ -62,8 +63,8 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
               </ButtonLink>
             )}
             {trackQuizzes[0] && (
-              <ButtonLink href={`/quiz/${trackQuizzes[0].slug}`} variant="secondary">
-                Passer le quiz
+              <ButtonLink href={resolveQuizHref(trackQuizzes[0].slug)} variant="secondary">
+                {trackQuizzes[0].type === "examen" ? "Passer l'examen blanc" : "Passer le quiz"}
               </ButtonLink>
             )}
           </div>

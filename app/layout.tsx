@@ -50,6 +50,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const orgLd = organizationJsonLd();
+  const enableVercelInsights = process.env.VERCEL === "1";
+
   return (
     <html lang="fr">
       <head>
@@ -64,8 +66,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {children}
         <CookieNotice />
-        <Analytics />
-        <SpeedInsights />
+        {enableVercelInsights && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );

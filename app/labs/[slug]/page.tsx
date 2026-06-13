@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
@@ -7,6 +7,12 @@ import { getLab, labs } from "@/lib/labs";
 import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
 import { getUser } from "@/lib/supabase/server";
 import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
+
+const LAB_SLUG_ALIASES: Record<string, string> = {
+  "ade-mac": "ade-macos",
+  "ios-profiles": "ios-configuration-profile",
+  "macos-profiles": "macos-configuration-profile",
+};
 
 export function generateStaticParams() {
   return labs.map((l) => ({ slug: l.slug }));
@@ -20,6 +26,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function LabDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const alias = LAB_SLUG_ALIASES[slug];
+  if (alias) permanentRedirect(`/labs/${alias}`);
+
   const lab = getLab(slug);
   if (!lab) notFound();
 

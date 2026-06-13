@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AppShell } from "@/components/layout/app-shell";
-import { SupabaseStatusBanner } from "@/components/layout/supabase-status-banner";
-import { FreePlatformBanner } from "@/components/layout/free-platform-banner";
 import { AuthButtons } from "@/components/auth/auth-buttons";
 import { ButtonLink } from "@/components/ui";
+import { AcademyLogo } from "@/components/layout/academy-logo";
 import { BrandLegalNotices } from "@/components/brands/BrandLegalNotices";
-import { LogoIcon } from "@/components/ui/logo-icon";
 
 function AuthButtonsFallback() {
   return (
@@ -26,9 +24,11 @@ function AuthButtonsFallback() {
 
 const footerLinks = [
   { href: "/parcours", label: "Parcours" },
+  { href: "/cours", label: "Cours" },
   { href: "/videos", label: "Vidéos" },
   { href: "/resources", label: "Ressources" },
   { href: "/labs", label: "Labs pratiques" },
+  { href: "/examens", label: "Examens" },
 ];
 
 export function Footer() {
@@ -37,14 +37,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-8">
         <div className="grid gap-6 md:grid-cols-4 md:gap-8">
           <div className="md:col-span-2">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-base font-semibold text-ink"
-              aria-label="Apple MDM Academy — Accueil"
-            >
-              <LogoIcon name="apple" size={20} alt="Apple MDM Academy" />
-              Apple MDM Academy
-            </Link>
+            <AcademyLogo />
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-secondary">
               Formation professionnelle Apple, Jamf Pro et Microsoft Intune en français.
             </p>
@@ -65,9 +58,12 @@ export function Footer() {
             <p className="text-sm font-semibold text-ink">Plateforme</p>
             <ul className="mt-3 space-y-2">
               <li><Link href="/pricing" className="text-sm text-ink-secondary hover:text-ink">Tarifs</Link></li>
+              <li><Link href="/enterprise" className="text-sm text-ink-secondary hover:text-ink">Entreprise</Link></li>
+              <li><Link href="/training-center" className="text-sm text-ink-secondary hover:text-ink">Centre de formation</Link></li>
               <li><Link href="/support" className="text-sm text-ink-secondary hover:text-ink">Centre d&apos;aide</Link></li>
               <li><Link href="/status" className="text-sm text-ink-secondary hover:text-ink">Statut</Link></li>
               <li><Link href="/auth/login" className="text-sm text-ink-secondary hover:text-ink">Connexion</Link></li>
+              <li><Link href="/api-docs" className="text-sm text-ink-secondary hover:text-ink">API</Link></li>
             </ul>
           </div>
         </div>
@@ -97,12 +93,6 @@ export function PageShell({ children }: { children: React.ReactNode }) {
         <Suspense fallback={<AuthButtonsFallback />}>
           <AuthButtons />
         </Suspense>
-      }
-      banners={
-        <>
-          <SupabaseStatusBanner />
-          <FreePlatformBanner />
-        </>
       }
       footer={<Footer />}
     >

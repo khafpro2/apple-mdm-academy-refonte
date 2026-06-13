@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui";
 
 const FAQ_ITEMS = [
   {
-    q: "Puis-je commencer gratuitement ?",
+    q: "Puis-je commencer avec un premier parcours ?",
     a: "Oui. Le plan Free donne accès aux fondamentaux Apple MDM, aux premiers modules et à un aperçu des labs. Passez au plan Pro pour débloquer examens, labs avancés et certificats.",
   },
   {

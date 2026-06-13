@@ -17,7 +17,7 @@ export default function ContactPage() {
             />
             <div className="mt-8 space-y-6">
               {[
-                { icon: "✉️", label: "Email", value: "contact@apple-mdm-academy.fr" },
+                { icon: "✉️", label: "Email", value: "kthiam@harmytech.com" },
                 { icon: "💬", label: "Support", value: "Réponse sous 24 h ouvrées" },
                 { icon: "🏢", label: "Entreprise", value: "Plans équipe et formation sur site" },
               ].map((item) => (

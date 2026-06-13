@@ -16,8 +16,8 @@ const PREVIEW_PLAN: CommercialPlan = {
   slug: "pro",
   name: PLATFORM_ACCESS.planName,
   price: 0,
-  priceLabel: "Gratuit",
-  period: "Phase développement",
+  priceLabel: "Inclus",
+  period: "",
   description: PLATFORM_ACCESS.freeMessage,
   tier: "enterprise",
   features: [
@@ -27,7 +27,7 @@ const PREVIEW_PLAN: CommercialPlan = {
     "Certificats PDF",
     "Ressources et vidéos",
   ],
-  cta: "Accès gratuit",
+  cta: "Explorer",
   ctaHref: "/parcours",
 };
 

@@ -1,14 +1,10 @@
-/**
- * Mode accès gratuit intégral — phase de développement.
- * Passer à `false` pour réactiver Stripe, checkout et restrictions par tier.
- */
+/** Mode accès complet temporaire. */
 export const FREE_PLATFORM_MODE = true;
 
 export const PLATFORM_ACCESS = {
-  planName: "Développeur Preview",
+  planName: "Accès complet",
   statusLabel: "Accès complet",
-  freeMessage:
-    "Apple MDM Academy est actuellement accessible gratuitement pendant sa phase de développement.",
+  freeMessage: "Tous les parcours, labs, examens blancs et certificats sont inclus.",
 } as const;
 
 export function isFreePlatformMode(): boolean {

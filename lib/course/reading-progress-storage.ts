@@ -16,6 +16,11 @@ function key(courseSlug: string, lessonSlug: string): string {
   return `${PREFIX}${courseSlug}-${lessonSlug}`;
 }
 
+export function loadReadingProgressSnapshot(courseSlug: string, lessonSlug: string): string {
+  if (typeof window === "undefined") return "";
+  return localStorage.getItem(key(courseSlug, lessonSlug)) ?? "";
+}
+
 export function subscribeReadingProgress(onStoreChange: () => void): () => void {
   if (typeof window === "undefined") return () => {};
   const handler = () => onStoreChange();
@@ -62,6 +67,11 @@ export function loadReadingModeEnabled(courseSlug: string): boolean {
   return localStorage.getItem(`${MODE_PREFIX}${courseSlug}`) === "true";
 }
 
+export function loadReadingModeSnapshot(courseSlug: string): string {
+  if (typeof window === "undefined") return "false";
+  return localStorage.getItem(`${MODE_PREFIX}${courseSlug}`) ?? "false";
+}
+
 export function saveReadingModeEnabled(courseSlug: string, enabled: boolean): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(`${MODE_PREFIX}${courseSlug}`, enabled ? "true" : "false");
@@ -71,6 +81,15 @@ export function saveReadingModeEnabled(courseSlug: string, enabled: boolean): vo
 export function isCoursePathStepDone(videoSlug: string, step: "course" | "lab" | "quiz"): boolean {
   if (typeof window === "undefined") return false;
   return localStorage.getItem(`apple-mdm-path-${step}-${videoSlug}`) === "true";
+}
+
+export function loadCoursePathSnapshot(videoSlug: string): string {
+  if (typeof window === "undefined") return "false:false:false";
+  return [
+    localStorage.getItem(`apple-mdm-path-course-${videoSlug}`) === "true",
+    localStorage.getItem(`apple-mdm-path-lab-${videoSlug}`) === "true",
+    localStorage.getItem(`apple-mdm-path-quiz-${videoSlug}`) === "true",
+  ].join(":");
 }
 
 export function markCoursePathStep(videoSlug: string, step: "course" | "lab" | "quiz"): void {

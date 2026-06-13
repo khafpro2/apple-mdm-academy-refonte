@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { PageShell } from "@/components/layout/page-shell";
 import { ContentPreparationFallback } from "@/components/ui/empty-state";
 import { AnimatedLesson } from "@/components/videos/AnimatedLesson";
@@ -20,6 +20,12 @@ import { getVideoTranscript } from "@/src/lib/video-transcripts";
 
 type Props = { params: Promise<{ slug: string }> };
 
+const VIDEO_SLUG_ALIASES: Record<string, string> = {
+  "enrollment-program-token": "abm-intune",
+  "defender-macos": "platform-sso",
+  "conditional-access-apple": "platform-sso",
+};
+
 export async function generateStaticParams() {
   const slugs = new Set([...getVideoScriptSlugs(), ...getAllIllustratedVideoSlugs()]);
   return [...slugs].map((slug) => ({ slug }));
@@ -37,6 +43,9 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function VideoDetailPage({ params }: Props) {
   const { slug } = await params;
+  const alias = VIDEO_SLUG_ALIASES[slug];
+  if (alias) permanentRedirect(`/videos/${alias}`);
+
   const rawStoryboard = getVideoStoryboard(slug);
   const script = getVideoScript(slug);
   const legacyVideo = getVideo(slug);

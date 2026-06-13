@@ -13,7 +13,7 @@ export const pricingPlans: PricingPlan[] = [
       "1 quiz d'évaluation",
       "Dashboard basique",
     ],
-    cta: "Commencer gratuitement",
+    cta: "Commencer",
   },
   {
     slug: "pro",

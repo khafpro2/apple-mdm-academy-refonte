@@ -11,7 +11,7 @@ export function CtaSection({ dict }: Props) {
           Prêt à lancer votre carrière Apple MDM ?
         </h2>
         <p className="mt-6 text-lg text-zinc-300">
-          Rejoignez des milliers d&apos;IT pros. Commencez gratuitement ou choisissez le plan adapté à votre équipe.
+          Rejoignez des milliers d&apos;IT pros et choisissez le plan adapté à votre équipe.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <ButtonLink href="/auth/signup" size="lg" className="bg-white text-ink hover:bg-zinc-100">

@@ -16,7 +16,7 @@ export const commercialPlans: CommercialPlan[] = [
       "Dashboard apprenant basique",
       "Pas de certificats PDF",
     ],
-    cta: "Commencer gratuitement",
+    cta: "Commencer",
     ctaHref: "/parcours",
   },
   {

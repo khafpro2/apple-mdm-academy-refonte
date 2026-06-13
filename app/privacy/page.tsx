@@ -63,7 +63,7 @@ const sections = [
       "Droit d'accès, de rectification, de suppression et de portabilité de vos données.",
       "Droit d'opposition au traitement à des fins d'analytics.",
       "Droit de déposer une réclamation auprès de la CNIL (www.cnil.fr).",
-      "Pour exercer vos droits : contact@apple-mdm-academy.fr ou via /support.",
+      "Pour exercer vos droits : kthiam@harmytech.com ou via /support.",
     ],
   },
   {

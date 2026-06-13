@@ -15,7 +15,7 @@ const sections = [
     content: [
       "Apple MDM Academy",
       "Formation professionnelle Apple MDM, Jamf Pro et Microsoft Intune",
-      "Email : contact@apple-mdm-academy.fr",
+      "Email : kthiam@harmytech.com",
       "Directeur de la publication : Apple MDM Academy",
     ],
   },

@@ -9,17 +9,16 @@ import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
 import {
   CourseMetaGrid,
   CourseProgressBar,
-  LessonStatusBadge,
-  LessonStatusIcon,
 } from "@/components/course/course-ui";
+import { CourseUnitsPanel } from "@/components/course/course-units-panel";
 import {
   getFlatLessons,
   getTotalPoints,
   getLessonStatus,
   getLessonPoints,
 } from "@/lib/course/helpers";
-import { LabLessonLink } from "@/components/labs/lab-lesson-link";
 import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
+import { resolveQuizHref } from "@/lib/data/exams/exam-routes";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
@@ -64,6 +63,24 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const pilotVideos = getPilotVideosForCourse(slug);
   const enriched = getCourseEnrichedContent(slug);
   const learnRef = getMicrosoftLearnLink(slug);
+  const courseUnits = course.modules.map((mod, moduleIndex) => ({
+    title: mod.title,
+    lessons: mod.lessons.map((lesson, lessonIndex) => {
+      const flat = flatLessons.find(
+        (f) => f.moduleIndex === moduleIndex && f.lessonIndex === lessonIndex
+      );
+      const globalIndex = flat?.globalIndex ?? 0;
+      const status = globalIndex === 0 ? getLessonStatus(globalIndex, 0) : "en-cours";
+      return {
+        slug: lesson.slug,
+        title: lesson.title,
+        duration: lesson.duration,
+        status,
+        points: getLessonPoints(lesson, globalIndex),
+        labSlug: getLabSlugForLesson(lesson.slug),
+      };
+    }),
+  }));
 
   return (
     <PageShell>
@@ -154,61 +171,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </section>
         )}
 
-        <div className="mt-12 space-y-8">
-          {course.modules.map((mod, moduleIndex) => (
-            <section
-              key={mod.title}
-              className="rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-8"
-            >
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-tertiary">
-                    Module {moduleIndex + 1}
-                  </p>
-                  <h2 className="mt-1 text-xl font-bold text-ink md:text-2xl">{mod.title}</h2>
-                </div>
-              </div>
-
-              <ul className="mt-6 space-y-3">
-                {mod.lessons.map((lesson, lessonIndex) => {
-                  const flat = flatLessons.find(
-                    (f) => f.moduleIndex === moduleIndex && f.lessonIndex === lessonIndex
-                  );
-                  const globalIndex = flat?.globalIndex ?? 0;
-                  const status = globalIndex === 0 ? getLessonStatus(globalIndex, 0) : "en-cours";
-                  const points = getLessonPoints(lesson, globalIndex);
-                  const href = `/cours/${course.slug}/${lesson.slug}`;
-                  const labSlug = getLabSlugForLesson(lesson.slug);
-
-                  return (
-                    <li key={lesson.slug}>
-                      <div className="rounded-2xl border border-border-light bg-surface px-4 py-4 transition hover:border-accent/30 hover:shadow-md">
-                        <Link href={href} className="group flex items-center gap-4">
-                          <LessonStatusIcon status={status} />
-                          <div className="min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="font-semibold text-ink group-hover:text-accent">
-                                {lesson.title}
-                              </span>
-                              <LessonStatusBadge status={status} />
-                            </div>
-                            <p className="mt-1 text-xs text-ink-tertiary">
-                              {lesson.duration} · {points} points
-                            </p>
-                          </div>
-                          <span className="hidden text-accent sm:inline" aria-hidden="true">
-                            →
-                          </span>
-                        </Link>
-                        {labSlug && <LabLessonLink labSlug={labSlug} compact />}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
-        </div>
+        <CourseUnitsPanel courseSlug={course.slug} modules={courseUnits} />
 
         <div className="mt-10 flex flex-wrap gap-3">
           {flatLessons[0] && (
@@ -217,8 +180,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             </ButtonLink>
           )}
           {trackQuizzes[0] && (
-            <ButtonLink href={`/quiz/${trackQuizzes[0].slug}`} variant="secondary">
-              Quiz du parcours
+            <ButtonLink href={resolveQuizHref(trackQuizzes[0].slug)} variant="secondary">
+              {trackQuizzes[0].type === "examen" ? "Examen blanc du parcours" : "Quiz du parcours"}
             </ButtonLink>
           )}
           {trackLabs[0] && (

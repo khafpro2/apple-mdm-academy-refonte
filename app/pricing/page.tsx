@@ -9,7 +9,7 @@ import { stripeConfig } from "@/lib/pricing/stripe-config";
 
 export const metadata = buildPageMetadata({
   title: "Tarifs",
-  description: "Apple MDM Academy — accès gratuit complet pendant la phase de développement.",
+  description: "Apple MDM Academy — offres de formation Apple MDM, Jamf et Intune.",
   path: "/pricing",
 });
 
@@ -29,8 +29,8 @@ export default function PricingPage() {
         <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
           <SectionHeading
             label="Accès"
-            title="Plateforme en accès gratuit"
-            description="Plateforme actuellement gratuite durant la phase de développement."
+            title="Accès complet inclus"
+            description="Tous les parcours, labs, examens blancs et certificats sont disponibles."
             align="center"
           />
 
@@ -69,7 +69,7 @@ export default function PricingPage() {
         <SectionHeading
           label="Abonnements"
           title="Formez vos équipes Apple MDM"
-          description="Commencez gratuitement ou débloquez l'accès complet aux cours, labs, examens blancs et certificats PDF."
+          description="Choisissez l'offre adaptée à vos cours, labs, examens blancs et certificats PDF."
           align="center"
         />
 
