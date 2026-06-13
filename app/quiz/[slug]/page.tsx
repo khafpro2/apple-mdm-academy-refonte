@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { QuizEngine } from "@/components/quiz/quiz-engine";
@@ -14,7 +15,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const quiz = getQuiz(slug);
-  return { title: quiz?.title ?? "Quiz" };
+  return buildPageMetadata({
+    title: quiz?.title ?? "Quiz introuvable",
+    description: quiz?.description ?? "Ce quiz n'existe pas ou a été déplacé.",
+    path: `/quiz/${slug}`,
+    noIndex: !quiz,
+  });
 }
 
 export default async function QuizDetailPage({ params }: { params: Promise<{ slug: string }> }) {
