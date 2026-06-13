@@ -23,6 +23,7 @@ import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getPilotVideosForCourse } from "@/src/lib/course-pilot-videos";
 import { getCourseEnrichedContent } from "@/src/lib/course-enriched-content";
 import { resolveMp4Url } from "@/src/lib/video-production.server";
@@ -37,16 +38,19 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const course = getCourse(slug);
-  if (!course) return { title: "Cours" };
-  return {
+  if (!course) {
+    return buildPageMetadata({
+      title: "Cours introuvable",
+      description: "Ce cours n'existe pas ou a été déplacé.",
+      path: `/cours/${slug}`,
+      noIndex: true,
+    });
+  }
+  return buildPageMetadata({
     title: course.title,
     description: course.description,
-    openGraph: {
-      title: course.title,
-      description: course.description,
-      type: "website",
-    },
-  };
+    path: `/cours/${slug}`,
+  });
 }
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
