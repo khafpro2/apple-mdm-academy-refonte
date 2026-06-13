@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import Link from "next/link";
 import { EntraLogo } from "@/components/brands/EntraLogo";
 import { IntuneLogo } from "@/components/brands/IntuneLogo";
@@ -16,16 +17,19 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const track = getTrack(slug);
-  if (!track) return { title: "Parcours" };
-  return {
+  if (!track) {
+    return buildPageMetadata({
+      title: "Parcours introuvable",
+      description: "Ce parcours n'existe pas ou a été déplacé.",
+      path: `/parcours/${slug}`,
+      noIndex: true,
+    });
+  }
+  return buildPageMetadata({
     title: `${track.title} — Parcours de formation`,
-    description: `${track.description} ${track.certification ? `Prépare la certification ${track.certification}.` : ""} ${track.lessons} leçons · ${track.duration}.`,
-    openGraph: {
-      title: `${track.title} | Apple MDM Academy`,
-      description: track.description,
-      type: "website" as const,
-    },
-  };
+    description: `${track.description} ${track.certification ? `Prépare la certification ${track.certification}.` : ""} ${track.lessons} leçons · ${track.duration}.`.trim(),
+    path: `/parcours/${slug}`,
+  });
 }
 
 export default async function TrackDetailPage({ params }: { params: Promise<{ slug: string }> }) {
