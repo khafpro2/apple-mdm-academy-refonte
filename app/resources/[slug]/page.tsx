@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { PageShell } from "@/components/layout/page-shell";
 import { ResourceDetail } from "@/components/resources/resource-detail";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
@@ -14,11 +15,19 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const resource = getResource(slug);
-  if (!resource) return { title: "Ressource introuvable" };
-  return {
+  if (!resource) {
+    return buildPageMetadata({
+      title: "Ressource introuvable",
+      description: "Cette ressource n'existe pas ou a été déplacée.",
+      path: `/resources/${slug}`,
+      noIndex: true,
+    });
+  }
+  return buildPageMetadata({
     title: resource.title,
     description: resource.description,
-  };
+    path: `/resources/${slug}`,
+  });
 }
 
 export default async function ResourcePage({ params }: Props) {
