@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { PageShell } from "@/components/layout/page-shell";
 import { ContentPreparationFallback } from "@/components/ui/empty-state";
 import { AnimatedLesson } from "@/components/videos/AnimatedLesson";
@@ -30,9 +31,17 @@ export async function generateMetadata({ params }: Props) {
   const storyboard = getVideoStoryboard(slug);
   const script = getVideoScript(slug);
   const video = getVideo(slug);
+  const found = Boolean(storyboard || script || video);
   const title = storyboard?.title ?? script?.title ?? video?.title ?? "Vidéo introuvable";
-  const description = storyboard?.objective ?? script?.description ?? video?.description ?? "";
-  return { title, description };
+  const description =
+    storyboard?.objective ?? script?.description ?? video?.description ??
+    "Cette vidéo n'existe pas ou a été déplacée.";
+  return buildPageMetadata({
+    title,
+    description,
+    path: `/videos/${slug}`,
+    noIndex: !found,
+  });
 }
 
 export default async function VideoDetailPage({ params }: Props) {
