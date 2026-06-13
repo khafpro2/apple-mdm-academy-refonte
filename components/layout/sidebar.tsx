@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LogoIcon } from "@/components/ui/logo-icon";
+import { SiteWordmark } from "@/components/ui/site-wordmark";
 import { useSidebar } from "@/components/layout/sidebar-context";
 import {
+  SIDEBAR_STORAGE_KEY,
   SIDEBAR_WIDTH_COLLAPSED,
   SIDEBAR_WIDTH_OPEN,
   sidebarMainNav,
@@ -64,7 +66,7 @@ function NavLink({
         {hasChildren && !collapsed && (
           <button
             type="button"
-            onClick={() => setUserOpen(!(open))}
+            onClick={() => setUserOpen(!open)}
             className="mr-1 rounded p-1 text-ink-tertiary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
             aria-expanded={open}
             aria-label={open ? `Replier ${item.label}` : `Déplier ${item.label}`}
@@ -101,12 +103,22 @@ export function Sidebar() {
   const pathname = usePathname();
   const { mobileOpen, closeMobile } = useSidebar();
 
-  // ── Desktop hover state ─────────────────────────────────────────────────
-  // Sur desktop (≥1024px) la sidebar est toujours en état collapsed (icônes).
-  // Elle s'étend au survol et se rétracte à la sortie du curseur.
-  // Un délai de fermeture de 120 ms évite le clignotement sur les mouvements rapides.
+  // ── Desktop hover ──────────────────────────────────────────────────────
+  // Sur desktop (≥1024px) : la sidebar est TOUJOURS collapsed (76px).
+  // Elle s'étend au hover (280px) et se referme à la sortie du curseur.
+  // Le localStorage sidebar est réinitialisé au montage pour éviter
+  // qu'un état "collapsed=false" persisté ne force la sidebar expanded.
   const [hovered, setHovered] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Réinitialiser le localStorage au montage pour forcer le mode hover
+  useEffect(() => {
+    try {
+      localStorage.setItem(SIDEBAR_STORAGE_KEY, "true"); // collapsed=true = état par défaut
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const handleMouseEnter = useCallback(() => {
     if (closeTimer.current) {
@@ -117,12 +129,9 @@ export function Sidebar() {
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    closeTimer.current = setTimeout(() => {
-      setHovered(false);
-    }, 120);
+    closeTimer.current = setTimeout(() => setHovered(false), 120);
   }, []);
 
-  // Nettoyer le timer au démontage
   useEffect(() => {
     return () => {
       if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -151,105 +160,15 @@ export function Sidebar() {
     };
   }, [mobileOpen, closeMobile]);
 
-  // Sur mobile : expanded si mobileOpen
-  // Sur desktop : collapsed sauf si hovered
+  // Mobile : expanded si mobileOpen
+  // Desktop : expanded seulement si hovered
   const isExpanded = mobileOpen || hovered;
   const collapsed = !isExpanded;
-
-  // Largeur réelle : ouverte si expanded, sinon collapsed
   const desktopWidth = hovered ? SIDEBAR_WIDTH_OPEN : SIDEBAR_WIDTH_COLLAPSED;
-
-  const aside = (
-    <aside
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={[
-        "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border-light bg-surface-elevated shadow-sm",
-        // Transition sur width ET transform
-        "transition-[width,transform] ease-out",
-        // Duration 250 ms — fluide sans être lent
-        "duration-250",
-        // Mobile : caché par défaut, visible quand mobileOpen
-        mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-        // Desktop : overflow hidden pour que les labels n'apparaissent pas pendant la transition
-        "overflow-hidden",
-      ].join(" ")}
-      style={{
-        width: mobileOpen ? SIDEBAR_WIDTH_OPEN : desktopWidth,
-        // On overrides la durée ici pour précision (250 ms correspond à Tailwind duration-250 custom)
-        transitionDuration: "250ms",
-      }}
-      id="sidebar-nav"
-      aria-label="Navigation principale"
-    >
-      {/* ── Logo ──────────────────────────────────────────────────────────── */}
-      {/* Le bouton flèche (toggle collapse) a été supprimé.
-          Le logo est toujours visible : icône en collapsed, icône + texte en expanded.
-          Aucun élément ne le chevauche. */}
-      <div className="flex h-14 shrink-0 items-center gap-3 border-b border-border-light px-4">
-        <Link
-          href="/"
-          onClick={onNavigate}
-          className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-          aria-label="Apple MDM Academy — Accueil"
-        >
-          {/* Icône Apple : toujours visible, jamais chevauché */}
-          <LogoIcon name="apple" size={24} alt="Apple MDM Academy" className="shrink-0" />
-          {/* Texte : visible quand expanded (desktop hover OU mobile ouvert) */}
-          <span
-            className={[
-              "truncate text-sm font-semibold text-ink transition-opacity duration-250 ease-out",
-              isExpanded ? "opacity-100" : "opacity-0 pointer-events-none select-none",
-            ].join(" ")}
-            aria-hidden={!isExpanded}
-          >
-            Apple MDM Academy
-          </span>
-        </Link>
-
-        {/* Bouton fermeture mobile uniquement — pas de bouton flèche sur desktop */}
-        <button
-          type="button"
-          onClick={closeMobile}
-          className="rounded-lg p-1.5 text-ink-secondary hover:bg-surface lg:hidden shrink-0"
-          aria-label="Fermer le menu"
-        >
-          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <path strokeWidth="2" strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      {/* ── Navigation ────────────────────────────────────────────────────── */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Menu principal">
-        <ul className="space-y-1" role="list">
-          {sidebarMainNav.map((item) => (
-            <NavLink
-              key={item.href + item.label}
-              item={item}
-              collapsed={collapsed}
-              onNavigate={onNavigate}
-            />
-          ))}
-        </ul>
-      </nav>
-
-      {/* ── Footer mention — visible seulement quand expanded ─────────────── */}
-      <div
-        className={[
-          "border-t border-border-light px-4 py-3 text-xs text-ink-tertiary transition-opacity duration-250 ease-out",
-          isExpanded ? "opacity-100" : "opacity-0",
-        ].join(" ")}
-        aria-hidden={!isExpanded}
-      >
-        Formation Apple · Jamf · Intune
-      </div>
-    </aside>
-  );
 
   return (
     <>
-      {/* Overlay mobile uniquement */}
+      {/* Overlay tactile mobile */}
       {mobileOpen && (
         <button
           type="button"
@@ -258,15 +177,99 @@ export function Sidebar() {
           onClick={closeMobile}
         />
       )}
-      {aside}
+
+      <aside
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          width: mobileOpen ? SIDEBAR_WIDTH_OPEN : desktopWidth,
+          transitionDuration: "250ms",
+        }}
+        className={[
+          "fixed inset-y-0 left-0 z-50 flex flex-col",
+          "border-r border-border-light bg-surface-elevated shadow-sm",
+          "overflow-hidden",
+          "transition-[width,transform] ease-out",
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+        ].join(" ")}
+        id="sidebar-nav"
+        aria-label="Navigation principale"
+      >
+        {/* ── Logo ──────────────────────────────────────────────────────── */}
+        {/* Bouton flèche SUPPRIMÉ — le logo n'est jamais recouvert.
+            État collapsed : icône Apple seule (toujours visible).
+            État expanded  : icône Apple + wordmark MDM ACADEMY.            */}
+        <div className="flex h-14 shrink-0 items-center gap-3 border-b border-border-light px-4">
+          <Link
+            href="/"
+            onClick={onNavigate}
+            className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+            aria-label="Apple MDM Academy — Accueil"
+          >
+            {/* Icône Apple : TOUJOURS visible, jamais chevauché */}
+            <LogoIcon name="apple" size={24} alt="" className="shrink-0" aria-hidden="true" />
+
+            {/* Wordmark MDM ACADEMY : visible seulement quand expanded */}
+            <span
+              className={[
+                "transition-opacity duration-250 ease-out",
+                isExpanded ? "opacity-100" : "opacity-0 pointer-events-none select-none w-0 overflow-hidden",
+              ].join(" ")}
+              aria-hidden={!isExpanded}
+            >
+              <SiteWordmark />
+            </span>
+          </Link>
+
+          {/* ❌ Pas de bouton flèche collapse/expand sur desktop */}
+          {/* Bouton fermeture mobile uniquement */}
+          {mobileOpen && (
+            <button
+              type="button"
+              onClick={closeMobile}
+              className="rounded-lg p-1.5 text-ink-secondary hover:bg-surface shrink-0 lg:hidden"
+              aria-label="Fermer le menu"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path strokeWidth="2" strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* ── Navigation ────────────────────────────────────────────────── */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Menu principal">
+          <ul className="space-y-1" role="list">
+            {sidebarMainNav.map((item) => (
+              <NavLink
+                key={item.href + item.label}
+                item={item}
+                collapsed={collapsed}
+                onNavigate={onNavigate}
+              />
+            ))}
+          </ul>
+        </nav>
+
+        {/* ── Mention footer — visible seulement quand expanded ─────────── */}
+        <div
+          className={[
+            "border-t border-border-light px-4 py-3 text-xs text-ink-tertiary",
+            "transition-opacity duration-250 ease-out",
+            isExpanded ? "opacity-100" : "opacity-0",
+          ].join(" ")}
+          aria-hidden={!isExpanded}
+        >
+          Formation Apple · Jamf · Intune
+        </div>
+      </aside>
     </>
   );
 }
 
 export function SidebarSpacer() {
-  // Sur desktop : le spacer est toujours à la largeur collapsed (76px).
-  // La sidebar expanded s'affiche par-dessus le contenu (overlay), comme un flyout.
-  // Ainsi le contenu ne se décale pas quand la sidebar s'ouvre au hover.
+  // Sur desktop : spacer fixe à la largeur collapsed.
+  // La sidebar expanded est un flyout overlay — le contenu ne se décale pas.
   return (
     <div
       className="hidden shrink-0 lg:block"
