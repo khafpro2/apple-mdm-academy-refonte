@@ -5,10 +5,9 @@
 export const FREE_PLATFORM_MODE = true;
 
 export const PLATFORM_ACCESS = {
-  planName: "Développeur Preview",
+  planName: "Accès Pro",
   statusLabel: "Accès complet",
-  freeMessage:
-    "Apple MDM Academy est actuellement accessible gratuitement pendant sa phase de développement.",
+  freeMessage: "",
 } as const;
 
 export function isFreePlatformMode(): boolean {
