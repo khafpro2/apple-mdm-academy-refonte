@@ -53,7 +53,7 @@ async function sendWithResend(payload: ContactPayload): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) throw new Error("RESEND_API_KEY non configuré");
 
-  const to = process.env.CONTACT_EMAIL ?? "contact@apple-mdm-academy.fr";
+  const to = process.env.CONTACT_EMAIL ?? "kthiam@harmytech.com";
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
