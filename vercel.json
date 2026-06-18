@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "app/admin/brand-assets/page.tsx": {
+      "maxDuration": 30
+    }
+  },
+  "outputFileTracingExcludes": {
+    "app/admin/**": [
+      "public/**",
+      "publique/**"
+    ]
+  }
+}
