@@ -16,6 +16,19 @@ const config: NextConfig = {
   // ── Performance ────────────────────────────────────────────────────────────
   compress: true,
 
+  // ── Fix bundle size — exclure public/ du tracing des routes admin ──────────
+  // La route admin/brand-assets utilise fs.existsSync sur public/ ce qui
+  // fait gonfler le bundle à >300MB. On exclut les assets publics du tracing.
+  outputFileTracingExcludes: {
+    "/admin/brand-assets": ["./public/**/*", "./publique/**/*"],
+    "/admin/analytics": ["./public/**/*", "./publique/**/*"],
+    "/admin/content-audit": ["./public/**/*", "./publique/**/*"],
+    "/admin/certification-audit": ["./public/**/*", "./publique/**/*"],
+    "/admin/media-readiness": ["./public/**/*", "./publique/**/*"],
+    "/admin/jamf-content-status": ["./public/**/*", "./publique/**/*"],
+    "/admin": ["./public/**/*", "./publique/**/*"],
+  },
+
   // ── Logging (production) ───────────────────────────────────────────────────
   logging: {
     fetches: { fullUrl: false },
@@ -25,8 +38,8 @@ const config: NextConfig = {
   async redirects() {
     return [
       { source: "/pricing", destination: "/tarifs", permanent: false },
-      { source: "/home",    destination: "/",       permanent: true  },
-      { source: "/blog",    destination: "/resources", permanent: true },
+      { source: "/home", destination: "/", permanent: true },
+      { source: "/blog", destination: "/resources", permanent: true },
     ];
   },
 
@@ -36,17 +49,14 @@ const config: NextConfig = {
       {
         source: "/(.*)",
         headers: [
-          { key: "X-Content-Type-Options",    value: "nosniff" },
-          { key: "X-Frame-Options",            value: "SAMEORIGIN" },
-          { key: "X-XSS-Protection",           value: "1; mode=block" },
-          { key: "Referrer-Policy",            value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy",          value: "camera=(), microphone=(), geolocation=()" },
-          // Strict-Transport-Security (HSTS) — uniquement si domaine personnalisé configuré
-          // { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
       {
-        // Cache long pour les images publiques
         source: "/images/(.*)",
         headers: [
           {
@@ -56,7 +66,6 @@ const config: NextConfig = {
         ],
       },
       {
-        // Pas de cache sur les routes API
         source: "/api/(.*)",
         headers: [
           { key: "Cache-Control", value: "no-store, max-age=0" },
