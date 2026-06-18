@@ -1,13 +1,10 @@
 {
-  "functions": {
-    "app/admin/brand-assets/page.tsx": {
-      "maxDuration": 30
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "index, follow" }
+      ]
     }
-  },
-  "outputFileTracingExcludes": {
-    "app/admin/**": [
-      "public/**",
-      "publique/**"
-    ]
-  }
+  ]
 }
