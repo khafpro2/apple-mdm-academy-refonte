@@ -5,7 +5,6 @@ import { fetchAdminStats } from "@/lib/supabase/admin";
 import { quizzes } from "@/lib/data/quizzes";
 import { tracks } from "@/lib/data/tracks";
 import { AdvancedAdminPanel } from "@/components/admin/advanced-admin-panel";
-import { AltMdmAdminPanel } from "@/components/admin/alt-mdm-admin-panel";
 import { runCertificationAudit } from "@/lib/audit/certification-audit";
 
 export const dynamic = "force-dynamic";
@@ -326,11 +325,6 @@ export default async function AdminPage() {
 
         <AdvancedAdminPanel
           stats={stats?.advancedTrackStats}
-          fromDatabase={Boolean(stats)}
-        />
-
-        <AltMdmAdminPanel
-          stats={stats?.altMdmTrackStats}
           fromDatabase={Boolean(stats)}
         />
 

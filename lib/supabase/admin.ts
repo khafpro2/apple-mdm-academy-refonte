@@ -89,12 +89,10 @@ export type AdminStats = {
   examStats: AdminExamStat[];
   subscriptionStats: AdminSubscriptionStats;
   advancedTrackStats: import("@/lib/data/advanced-tracks/admin-stats").AdvancedTrackAdminStat[];
-  altMdmTrackStats: import("@/lib/data/alternative-mdm-tracks/admin-stats").AltMdmTrackAdminStat[];
 };
 
 import { estimateMrr } from "@/lib/pricing/stripe-config";
 import { buildAdvancedTrackStats } from "@/lib/data/advanced-tracks/admin-stats";
-import { buildAltMdmTrackStats } from "@/lib/data/alternative-mdm-tracks/admin-stats";
 
 export async function fetchAdminStats(): Promise<AdminStats | null> {
   if (!getSupabaseEnv().configured) return null;
@@ -229,7 +227,6 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
   };
 
   const advancedTrackStats = buildAdvancedTrackStats(trackStats, examStats, labCounts);
-  const altMdmTrackStats = buildAltMdmTrackStats(trackStats, examStats, labCounts);
 
   return {
     totalUsers,
@@ -246,7 +243,6 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
     examStats,
     subscriptionStats,
     advancedTrackStats,
-    altMdmTrackStats,
   };
 }
 

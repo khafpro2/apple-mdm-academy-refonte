@@ -20,11 +20,6 @@ function resolveTrackKey(courseSlug: string): string | undefined {
   if (courseSlug.startsWith("jamf")) return "jamf-100";
   if (courseSlug === "apple-enterprise-expert") return "apple-enterprise-expert";
   if (courseSlug === "intune-apple-advanced") return "intune-apple-advanced";
-  if (courseSlug.startsWith("kandji")) return "kandji-fundamentals";
-  if (courseSlug.startsWith("mosyle")) return "mosyle-fundamentals";
-  if (courseSlug.startsWith("addigy")) return "addigy-fundamentals";
-  if (courseSlug.startsWith("workspace-one")) return "workspace-one-apple";
-  if (courseSlug.startsWith("mdm-comparatif")) return "mdm-comparatif-apple";
   if (courseSlug === "parcours-professionnel") return "parcours-professionnel";
   return undefined;
 }

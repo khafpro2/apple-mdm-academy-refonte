@@ -38,8 +38,8 @@ export function buildPedagogicalReport(audit: PedagogicalAuditReport): Pedagogic
   }
 
   if (audit.labStatusCounts.placeholder > 5) {
-    weaknesses.push(`${audit.labStatusCounts.placeholder} labs auto-générés (alt MDM) — enrichir scénarios entreprise`);
-    recommendations.push("Enrichir les labs Kandji/Mosyle/Addigy nommés et remplacer les labs factory par scénarios entreprise");
+    weaknesses.push(`${audit.labStatusCounts.placeholder} labs incomplets — enrichir scénarios entreprise`);
+    recommendations.push("Enrichir les labs Apple/Jamf/Intune avec scénarios entreprise et résultats attendus");
   }
 
   if (audit.videos.filter((v) => v.issues.some((i) => i.includes("template"))).length > 10) {
@@ -48,7 +48,7 @@ export function buildPedagogicalReport(audit: PedagogicalAuditReport): Pedagogic
   }
 
   if (audit.scores.global < 95) {
-    recommendations.push("Enrichir MODULE_THEORY advanced/alt pour chaque module expert (actuellement ~10 % hand-crafted)");
+    recommendations.push("Enrichir MODULE_THEORY advanced pour chaque module expert (actuellement partiellement hand-crafted)");
     recommendations.push("Étendre LESSON_TOPICS foundation avec cas Jamf/Intune/Apple Enterprise concrets");
     recommendations.push("Mapper LESSON_SCREENSHOT_IDS pour toutes les leçons sans capture dédiée");
   }

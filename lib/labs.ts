@@ -1,6 +1,5 @@
 import type { Lab, LabLevel, LabTechnology } from "@/lib/types";
 import { expertLabs } from "@/lib/data/advanced-tracks/expert-labs";
-import { altMdmLabs } from "@/lib/data/alternative-mdm-tracks/labs";
 import { applePlatformDeploymentLabs } from "@/lib/data/apple-platform-deployment/labs";
 import { acitpCertificationLabs } from "@/lib/data/acitp/labs";
 import { appleTrainingLabs } from "@/lib/data/apple-training/labs";
@@ -1427,7 +1426,6 @@ export const labs: Lab[] = [
   ...acitpCertificationLabs,
   ...appleTrainingLabs,
   ...expertLabs,
-  ...altMdmLabs,
 ];
 
 export function getLab(slug: string): Lab | undefined {

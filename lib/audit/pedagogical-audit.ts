@@ -3,7 +3,6 @@ import { getFlatLessons } from "@/lib/course/helpers";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getProModuleLessonContent } from "@/lib/data/pro-modules/lesson-content";
 import { getAdvancedLessonContent } from "@/lib/data/advanced-tracks/lesson-content";
-import { getAltMdmLessonContent } from "@/lib/data/alternative-mdm-tracks/lesson-content";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { labs } from "@/lib/labs";
 import { academyVideos } from "@/lib/data/videos";
@@ -13,8 +12,6 @@ import { runQuizQualityAudit } from "@/lib/quiz/run-audit";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
 import { trackCertificates } from "@/lib/certifications";
 import { getLabsByTrack } from "@/lib/labs";
-import { isGeneratedLabSlug } from "@/lib/data/alternative-mdm-tracks/lab-factory";
-import { allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 import {
   type ContentAuditItem,
   type ContentCompleteness,
@@ -46,16 +43,11 @@ function detectLessonSource(slug: string, courseSlug: string): string {
   if (getCustomLesson(courseSlug, slug)) return "premium-custom";
   if (getProModuleLessonContent(slug)) return "pro-module";
   if (getAdvancedLessonContent(slug)) return isAdvancedCustomTheory(slug) ? "expert-handcrafted" : "expert-template";
-  if (getAltMdmLessonContent(slug)) return isAltCustomTheory(slug) ? "alt-handcrafted" : "alt-template";
   return "topic-generated";
 }
 
 function isAdvancedCustomTheory(_slug: string): boolean {
   return true;
-}
-
-function isAltCustomTheory(slug: string): boolean {
-  return allAltMdmModules.some((m) => m.slug === slug);
 }
 
 function scoreLessonContent(content: LessonContent, source: string): { score: number; issues: string[] } {
@@ -109,7 +101,7 @@ function scoreLessonContent(content: LessonContent, source: string): { score: nu
 
 function lessonStatus(score: number, source: string, issues: string[]): ContentCompleteness {
   if (issues.some((i) => i.includes("placeholder"))) return "placeholder";
-  if (score >= 85 && (source === "premium-custom" || source === "expert-handcrafted" || source === "alt-handcrafted"))
+  if (score >= 85 && (source === "premium-custom" || source === "expert-handcrafted"))
     return "complet";
   if (score >= 75) return "partiellement complet";
   if (score >= 50) return "à améliorer";
@@ -172,16 +164,10 @@ function scoreLab(lab: Lab): { score: number; issues: string[]; status: ContentC
   }
 
   const text = [lab.description, lab.objective, ...lab.steps.map((s) => s.instruction)].join(" ");
-  const enrichedFactory =
-    isGeneratedLabSlug(lab.slug) &&
-    (text.toLowerCase().includes("scénario entreprise") || text.toLowerCase().includes("runbook"));
 
   if (hasGenericMarker(text)) {
     issues.push("Lab générique — ajouter contexte entreprise");
     score -= 25;
-  } else if (isGeneratedLabSlug(lab.slug) && !enrichedFactory) {
-    issues.push("Lab factory — enrichir scénario entreprise");
-    score -= 15;
   }
   if (!text.toLowerCase().includes("pilote") && !text.toLowerCase().includes("entreprise")) {
     issues.push("Contexte entreprise faible");
@@ -190,8 +176,7 @@ function scoreLab(lab: Lab): { score: number; issues: string[]; status: ContentC
 
   score = Math.max(0, score);
   let status: ContentCompleteness = "complet";
-  if (isGeneratedLabSlug(lab.slug) && !enrichedFactory) status = "placeholder";
-  else if (score >= 80) status = "complet";
+  if (score >= 80) status = "complet";
   else if (score >= 65) status = "partiellement complet";
   else if (score >= 45) status = "à améliorer";
   else status = "placeholder";

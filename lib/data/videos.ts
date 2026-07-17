@@ -40,7 +40,6 @@ const TRACK_BY_COURSE: Record<string, string> = {
   "apple-enterprise-expert": "apple-enterprise-expert",
   "apple-enterprise-architect": "apple-enterprise-architect",
   "intune-apple-advanced": "intune-apple-advanced",
-  "mdm-comparatif-apple": "mdm-comparatif-apple",
   "parcours-professionnel": "parcours-professionnel",
 };
 

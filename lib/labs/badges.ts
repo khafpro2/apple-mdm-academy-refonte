@@ -16,10 +16,6 @@ export const TECHNOLOGY_STYLES: Record<LabTechnology, string> = {
   "Microsoft Entra ID": "bg-blue-800 text-white",
   "Microsoft Defender": "bg-red-700 text-white",
   "Managed Apple ID + Federation": "bg-slate-900 text-white",
-  Kandji: "bg-blue-700 text-white",
-  Mosyle: "bg-green-700 text-white",
-  Addigy: "bg-orange-700 text-white",
-  "Workspace ONE": "bg-sky-800 text-white",
 };
 
 export const STATUS_LABELS = {

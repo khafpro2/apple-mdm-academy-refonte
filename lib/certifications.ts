@@ -100,7 +100,6 @@ export const trackCertificates: TrackCertificateDef[] = [
     examQuizSlug: "examen-intune-apple-advanced",
     passingScore: 80,
   },
-  // mdm-comparatif-path retiré de la V1 (parcours masqué) — données course conservées hors catalogue.
 ];
 
 export function getTrackCertificate(id: string) {

@@ -7,6 +7,7 @@ export const V1_REMOVED_TRACK_SLUGS = [
   "mosyle-fundamentals",
   "addigy-fundamentals",
   "workspace-one-apple",
+  "mdm-comparatif-apple",
 ] as const;
 
 export type V1RemovedTrackSlug = (typeof V1_REMOVED_TRACK_SLUGS)[number];

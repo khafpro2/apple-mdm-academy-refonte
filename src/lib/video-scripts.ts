@@ -1,5 +1,4 @@
 import { advancedVideoScripts, advancedLessonVideoMap } from "@/lib/data/advanced-tracks/heygen-videos";
-import { altMdmVideoScripts, altMdmLessonVideoMap } from "@/lib/data/alternative-mdm-tracks/heygen-videos";
 import { buildFoundationVideoScript } from "@/lib/data/shared/module-video-script";
 
 export type VideoLevel = "Débutant" | "Intermédiaire" | "Fondamental" | "Avancé" | "Pro" | "Expert";
@@ -571,7 +570,6 @@ Smart Groups circulaires → perf serveur. Escalade L2 : serial + policy ID + lo
 Lab jamf-troubleshooting. Quiz quiz-jamf-troubleshooting. Runbook L1 documenté.`,
   }),
   ...advancedVideoScripts,
-  ...altMdmVideoScripts,
 ];
 
 export function getVideoScript(slug: string): VideoScript | undefined {
@@ -698,7 +696,6 @@ const LESSON_VIDEO_SLUGS: Record<string, string> = {
   "jf-reporting": "jamf-reporting",
   "jf-troubleshooting": "jamf-troubleshooting",
   ...advancedLessonVideoMap,
-  ...altMdmLessonVideoMap,
 };
 
 export function getVideoScriptForLesson(lessonSlug: string): VideoScript | undefined {

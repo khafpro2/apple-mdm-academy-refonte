@@ -3,7 +3,6 @@ export type ResourceBadge = "Apple" | "Intune" | "Jamf" | "Sécurité";
 import { advancedResources } from "@/lib/data/advanced-tracks/resources-data";
 import { jamfTrainingResources } from "@/lib/data/jamf/jamf-training-resources";
 import { JAMF_FUNDAMENTALS_PREMIUM_RESOURCES } from "@/lib/data/jamf/jamf-fundamentals-premium-resources";
-import { altMdmResources } from "@/lib/data/alternative-mdm-tracks/resources-data";
 import { platformDeploymentGuides } from "@/lib/data/apple-platform-deployment/resources-guides";
 import { videoLinkedResources } from "@/src/lib/video-linked-resources";
 import { isTrackVisible } from "@/lib/data/tracks";
@@ -1348,7 +1347,6 @@ export const academyResources: AcademyResource[] = [
   ...jamfTrainingResources,
   ...JAMF_FUNDAMENTALS_PREMIUM_RESOURCES,
   ...advancedResources,
-  ...altMdmResources,
 ];
 
 export const RESOURCE_CATEGORIES: ResourceCategory[] = ["checklist", "terminal", "template", "procedure"];

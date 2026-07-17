@@ -141,7 +141,7 @@ for (const raw of courses) {
 /** Détection grossière de versions en dur hors source de vérité */
 function walkTsFiles(dir: string, acc: string[] = []): string[] {
   for (const name of readdirSync(dir)) {
-    if (name === "node_modules" || name === ".next" || name === "alternative-mdm-tracks") continue;
+    if (name === "node_modules" || name === ".next") continue;
     const full = join(dir, name);
     const st = statSync(full);
     if (st.isDirectory()) walkTsFiles(full, acc);

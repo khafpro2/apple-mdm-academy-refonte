@@ -1,11 +1,8 @@
 import type { Badge } from "@/lib/types";
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
-import { allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 
 const advancedLessonBadges = Object.fromEntries(allAdvancedModules.map((m) => [m.slug, m.badgeId]));
 const advancedQuizBadges = Object.fromEntries(allAdvancedModules.map((m) => [m.quizSlug, m.badgeId]));
-const altMdmLessonBadges = Object.fromEntries(allAltMdmModules.map((m) => [m.slug, m.badgeId]));
-const altMdmQuizBadges = Object.fromEntries(allAltMdmModules.map((m) => [m.quizSlug, m.badgeId]));
 
 /** 12 badges premium Phase 2 + badges généraux */
 export const badgeCatalog: Badge[] = [
@@ -80,7 +77,6 @@ export const quizBadgeMap: Record<string, string> = {
   "examen-apple-security": "exam-apple-security",
   "examen-intune-apple-advanced": "exam-intune-advanced",
   ...advancedQuizBadges,
-  ...altMdmQuizBadges,
 };
 
 /** Badge débloqué à la complétion d'un module premium (score ≥ 80 %) */
@@ -101,7 +97,6 @@ export const lessonBadgeMap: Record<string, string> = {
   "patch-management": "badge-jamf-protect",
   "architecture-jamf": "badge-jamf-fundamentals",
   ...advancedLessonBadges,
-  ...altMdmLessonBadges,
 };
 
 export function getBadgeById(id: string) {

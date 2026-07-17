@@ -4,7 +4,6 @@ import { getTrack } from "@/lib/data/tracks";
 import { getScreenshotsForLesson } from "@/lib/data/lesson-screenshots";
 import { getProModuleLessonContent } from "@/lib/data/pro-modules/lesson-content";
 import { getAdvancedLessonContent } from "@/lib/data/advanced-tracks/lesson-content";
-import { getAltMdmLessonContent } from "@/lib/data/alternative-mdm-tracks/lesson-content";
 import { APPLE_PLATFORM_DEPLOYMENT_TOPICS } from "@/lib/data/apple-platform-deployment/topic-overrides";
 import {
   abmIntuneBestPractices,
@@ -959,9 +958,6 @@ export function getLessonContent(
 
   const advancedContent = getAdvancedLessonContent(lesson.slug);
   if (advancedContent) return advancedContent;
-
-  const altMdmContent = getAltMdmLessonContent(lesson.slug);
-  if (altMdmContent) return altMdmContent;
 
   if (course.slug === "intune-mac" && lesson.slug === "abm-intune") {
     return getAbmIntuneFallbackContent();

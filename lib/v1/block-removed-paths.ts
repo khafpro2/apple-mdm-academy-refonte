@@ -2,10 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { V1_REMOVED_TRACK_SLUGS } from "@/lib/data/v1-scope";
 
 /** Segments d'URL liés aux parcours retirés / masqués hors V1. */
-const BLOCKED_SEGMENTS = new Set<string>([
-  ...V1_REMOVED_TRACK_SLUGS,
-  "mdm-comparatif-apple",
-]);
+const BLOCKED_SEGMENTS = new Set<string>([...V1_REMOVED_TRACK_SLUGS]);
 
 const BLOCKED_PREFIXES = [
   "/parcours/",

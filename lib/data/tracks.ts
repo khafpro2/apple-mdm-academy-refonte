@@ -181,19 +181,6 @@ export const tracks: Track[] = [
     logo: "intune",
     certification: "Intune Apple Advanced",
   },
-  // Comparatif multi-MDM hors périmètre V1 — données conservées, non exposées.
-  {
-    slug: "mdm-comparatif-apple",
-    title: "Comparatif MDM Apple Enterprise",
-    category: "apple",
-    hidden: true,
-    level: "Pro",
-    lessons: 8,
-    description: "Jamf, Intune, Kandji, Mosyle, Addigy et Workspace ONE — forces, limites et cas d'usage.",
-    duration: "12 h",
-    logo: "dashboard",
-    certification: "MDM Comparison Expert",
-  },
 ];
 
 export function getTrack(slug: string) {

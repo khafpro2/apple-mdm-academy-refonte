@@ -29,7 +29,6 @@ const jamfTrainingQuizzes = jamfTrainingStandaloneQuizzes.map((quiz) => {
   return { ...quiz, questions: [...quiz.questions, ...extras] };
 });
 import { advancedModuleQuizzes } from "@/lib/data/advanced-tracks/quizzes";
-import { altMdmModuleQuizzes } from "@/lib/data/alternative-mdm-tracks/quizzes";
 import { azureForAppleAdminsQuiz } from "@/lib/data/azure-for-apple-admins/quizzes";
 import { prepareExamPool, prepareQuiz } from "@/lib/quiz/prepare-quiz";
 import { quizAbmCertification } from "@/lib/data/apple-platform-deployment/quiz-abm-certification";
@@ -497,7 +496,6 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
   ...jamfTrainingQuizzes,
   ...jamfFundamentalsPremiumQuizzes,
   ...advancedModuleQuizzes,
-  ...altMdmModuleQuizzes,
 ];
 
 export const quizzes: Quiz[] = rawQuizzesBeforePrepare.map(prepareQuiz);

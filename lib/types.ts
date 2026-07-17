@@ -107,10 +107,6 @@ export type LessonContent = {
   /** Paragraphes de synthèse en fin de leçon */
   summary?: string[];
   finalQuizSlug?: string;
-  /** Tableau comparatif MDM (parcours comparatif) */
-  comparisonTable?: import("@/lib/data/alternative-mdm-tracks/comparison-table").MdmComparisonRow[];
-  /** Surligner une ligne du tableau (module vendor-specific) */
-  comparisonHighlight?: string;
 };
 
 export type Module = {
@@ -220,11 +216,7 @@ export type LabTechnology =
   | "Intune Compliance"
   | "Microsoft Entra ID"
   | "Microsoft Defender"
-  | "Managed Apple ID + Federation"
-  | "Kandji"
-  | "Mosyle"
-  | "Addigy"
-  | "Workspace ONE";
+  | "Managed Apple ID + Federation";
 
 export type LabProgressSummary = {
   completedCount: number;
