@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" role="img" aria-labelledby="title">
+  <title id="title">Séquence Automated Device Enrollment</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <style>
+  .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5;rx:10}
+  .boxAccent{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5;rx:10}
+  .title{font:600 13px system-ui,sans-serif;fill:#0f172a}
+  .sub{font:500 11px system-ui,sans-serif;fill:#64748b}
+  .arrow{stroke:#64748b;stroke-width:1.75;fill:none;marker-end:url(#arrow)}
+  .label{font:500 10px system-ui,sans-serif;fill:#475569}
+</style>
+  <rect width="760" height="200" fill="#ffffff"/>
+  
+    <g>
+    <rect class="boxAccent" x="20" y="60" width="130" height="70"/>
+    <text class="title" x="85" y="91" text-anchor="middle">1. ABM</text>
+    <text class="sub" x="85" y="107" text-anchor="middle">Assignation</text>
+  </g>
+    <path class="arrow" d="M160 95 H210"/>
+    <g>
+    <rect class="box" x="220" y="60" width="130" height="70"/>
+    <text class="title" x="285" y="91" text-anchor="middle">2. Activation</text>
+    <text class="sub" x="285" y="107" text-anchor="middle">Setup Assistant</text>
+  </g>
+    <path class="arrow" d="M360 95 H410"/>
+    <g>
+    <rect class="box" x="420" y="60" width="130" height="70"/>
+    <text class="title" x="485" y="91" text-anchor="middle">3. MDM</text>
+    <text class="sub" x="485" y="107" text-anchor="middle">Profil + check-in</text>
+  </g>
+    <path class="arrow" d="M560 95 H610"/>
+    <g>
+    <rect class="boxAccent" x="620" y="60" width="120" height="70"/>
+    <text class="title" x="680" y="91" text-anchor="middle">4. Supervisé</text>
+    <text class="sub" x="680" y="107" text-anchor="middle">État géré</text>
+  </g>
+    <text class="label" x="380" y="30" text-anchor="middle">Automated Device Enrollment</text>
+  
+</svg>

@@ -6,7 +6,7 @@ import {
   RESOURCE_BADGES,
   RESOURCE_CATEGORIES,
   RESOURCE_LEVELS,
-  academyResources,
+  getVisibleResources,
   getCategoryLabel,
   type AcademyResource,
   type ResourceBadge,
@@ -28,10 +28,11 @@ export function ResourcesCatalog() {
   const [category, setCategory] = useState<ResourceCategory | "all">("all");
   const [level, setLevel] = useState<ResourceLevel | "all">("all");
   const [badge, setBadge] = useState<ResourceBadge | "all">("all");
+  const catalog = useMemo(() => getVisibleResources(), []);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return academyResources.filter((r) => {
+    return catalog.filter((r) => {
       if (category !== "all" && r.category !== category) return false;
       if (level !== "all" && r.level !== level) return false;
       if (badge !== "all" && r.badge !== badge) return false;
@@ -42,7 +43,7 @@ export function ResourcesCatalog() {
         r.module.toLowerCase().includes(q)
       );
     });
-  }, [search, category, level, badge]);
+  }, [catalog, search, category, level, badge]);
 
   return (
     <div>

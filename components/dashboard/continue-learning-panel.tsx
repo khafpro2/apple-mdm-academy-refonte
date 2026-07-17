@@ -9,7 +9,7 @@ import {
   getPopularVideoScripts,
   videoScripts,
 } from "@/src/lib/video-scripts";
-import { tracks } from "@/lib/data/tracks";
+import { getVisibleTracks } from "@/lib/data/tracks";
 import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
 import {
   loadAllVideoProgress,
@@ -175,7 +175,7 @@ export function ContinueLearningPanel() {
       <section className="rounded-3xl bg-ink p-6 text-white">
         <h2 className="text-lg font-bold">Continuer le parcours</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          {tracks.slice(0, 3).map((track) => (
+          {getVisibleTracks().slice(0, 3).map((track) => (
             <Link
               key={track.slug}
               href={resolveTrackCourseHref(track.slug)}

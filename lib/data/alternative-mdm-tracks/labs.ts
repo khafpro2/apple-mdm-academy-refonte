@@ -1,5 +1,6 @@
 import type { Lab, LabLevel, LabTechnology } from "@/lib/types";
 import { generateModuleLabs } from "@/lib/data/alternative-mdm-tracks/lab-factory";
+import { isV1RemovedTrack } from "@/lib/data/v1-scope";
 
 function altLab(
   slug: string,
@@ -214,5 +215,7 @@ const handCraftedAltMdmLabs: Lab[] = [
   ),
 ];
 
-/** 40 labs — 9 nommés + 31 auto-générés par module */
-export const altMdmLabs: Lab[] = [...handCraftedAltMdmLabs, ...generateModuleLabs()];
+/** Labs publics V1 : filtre les parcours retirés (Kandji/Mosyle/Addigy/WS1). */
+export const altMdmLabs: Lab[] = [...handCraftedAltMdmLabs, ...generateModuleLabs()].filter(
+  (lab) => !isV1RemovedTrack(lab.trackSlug),
+);

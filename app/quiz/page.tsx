@@ -1,7 +1,7 @@
 import { PageShell } from "@/components/layout";
 import { SectionHeading } from "@/components/ui";
 import { QuizCard } from "@/components/cards";
-import { getExams, getQuizList } from "@/lib/data";
+import { getExams, getQuizList, isTrackVisible } from "@/lib/data";
 
 import { buildPageMetadata } from "@/lib/seo/metadata";
 export const metadata = buildPageMetadata({
@@ -11,8 +11,8 @@ export const metadata = buildPageMetadata({
 });
 
 export default function QuizPage() {
-  const quizList = getQuizList();
-  const exams = getExams();
+  const quizList = getQuizList().filter((quiz) => isTrackVisible(quiz.trackSlug));
+  const exams = getExams().filter((quiz) => isTrackVisible(quiz.trackSlug));
 
   return (
     <PageShell>

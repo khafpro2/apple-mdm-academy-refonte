@@ -5,8 +5,11 @@ import { ResourceDetail } from "@/components/resources/resource-detail";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { getRequiredTierForResource } from "@/lib/pricing/access-control";
 import { getResource, getResourceSlugs } from "@/src/lib/resources";
+import { isTrackVisible } from "@/lib/data/tracks";
 
 type Props = { params: Promise<{ slug: string }> };
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return getResourceSlugs().map((slug) => ({ slug }));
@@ -34,6 +37,7 @@ export default async function ResourcePage({ params }: Props) {
   const { slug } = await params;
   const resource = getResource(slug);
   if (!resource) notFound();
+  if (resource.relatedCourseSlug && !isTrackVisible(resource.relatedCourseSlug)) notFound();
 
   const requiredTier = getRequiredTierForResource(slug);
 

@@ -5,18 +5,21 @@ import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
 import { LabWorkspace } from "@/components/labs/lab-workspace";
 import { getLab, labs } from "@/lib/labs";
+import { isTrackVisible } from "@/lib/data/tracks";
 import { resolveTrackCourseHref } from "@/lib/navigation/track-links";
 import { getUser } from "@/lib/supabase/server";
 import { TECHNOLOGY_STYLES } from "@/lib/labs/badges";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return labs.map((l) => ({ slug: l.slug }));
+  return labs.filter((l) => isTrackVisible(l.trackSlug)).map((l) => ({ slug: l.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const lab = getLab(slug);
-  if (!lab) {
+  if (!lab || !isTrackVisible(lab.trackSlug)) {
     return buildPageMetadata({
       title: "Lab introuvable",
       description: "Ce lab pratique n'existe pas ou a été déplacé.",
@@ -34,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function LabDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const lab = getLab(slug);
-  if (!lab) notFound();
+  if (!lab || !isTrackVisible(lab.trackSlug)) notFound();
 
   const user = await getUser();
 

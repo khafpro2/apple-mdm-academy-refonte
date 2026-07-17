@@ -22,19 +22,23 @@ import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
-import { getLesson, courses, getTrack } from "@/lib/data";
+import { getLesson, courses, getTrack, isTrackVisible } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
-  courses.forEach((course) => {
-    course.modules.forEach((mod) => {
-      mod.lessons.forEach((lesson) => {
-        params.push({ slug: course.slug, lessonSlug: lesson.slug });
+  courses
+    .filter((course) => isTrackVisible(course.trackSlug))
+    .forEach((course) => {
+      course.modules.forEach((mod) => {
+        mod.lessons.forEach((lesson) => {
+          params.push({ slug: course.slug, lessonSlug: lesson.slug });
+        });
       });
     });
-  });
   return params;
 }
 
@@ -55,7 +59,7 @@ export default async function LessonPage({
 }) {
   const { slug, lessonSlug } = await params;
   const data = getLesson(slug, lessonSlug);
-  if (!data) notFound();
+  if (!data || !isTrackVisible(data.course.trackSlug)) notFound();
 
   const { course, module, lesson } = data;
   const custom = getCustomLesson(slug, lessonSlug);

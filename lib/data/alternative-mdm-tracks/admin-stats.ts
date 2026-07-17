@@ -11,12 +11,7 @@ export type AltMdmTrackAdminStat = {
   labsCompleted: number;
 };
 
-const TRACK_EXAM_SLUG: Record<string, string> = {
-  "kandji-fundamentals": "examen-kandji-fundamentals",
-  "mosyle-fundamentals": "examen-mosyle-fundamentals",
-  "addigy-fundamentals": "examen-addigy-fundamentals",
-  "workspace-one-apple": "examen-workspace-one-apple",
-};
+const TRACK_EXAM_SLUG: Record<string, string> = {};
 
 export const altMdmLabSlugs = allAltMdmModules.map((m) => m.labSlug).filter(Boolean) as string[];
 
@@ -43,13 +38,8 @@ export function buildAltMdmTrackStats(
   });
 }
 
-export const demoAltMdmTrackAdminStats: AltMdmTrackAdminStat[] = [
-  { trackSlug: "kandji-fundamentals", title: "Kandji Fundamentals", enrolled: 18, avgProgress: 35, examPassRate: 62, labsCompleted: 42 },
-  { trackSlug: "mosyle-fundamentals", title: "Mosyle Fundamentals", enrolled: 22, avgProgress: 41, examPassRate: 68, labsCompleted: 55 },
-  { trackSlug: "addigy-fundamentals", title: "Addigy Fundamentals", enrolled: 14, avgProgress: 29, examPassRate: 58, labsCompleted: 28 },
-  { trackSlug: "workspace-one-apple", title: "Workspace ONE Apple", enrolled: 16, avgProgress: 33, examPassRate: 61, labsCompleted: 31 },
-  { trackSlug: "mdm-comparatif-apple", title: "Comparatif MDM Apple", enrolled: 45, avgProgress: 58, examPassRate: 0, labsCompleted: 38 },
-];
+/** Stats démo — V1 : comparatif masqué, pas de faux chiffres Kandji/Mosyle/etc. */
+export const demoAltMdmTrackAdminStats: AltMdmTrackAdminStat[] = [];
 
 export function altMdmStatsToCsv(stats: AltMdmTrackAdminStat[]): string {
   const header = "track,enrolled,avgProgress,examPassRate,labsCompleted";

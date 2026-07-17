@@ -4,36 +4,50 @@ export const tracks: Track[] = [
   {
     slug: "apple-fundamentals",
     title: "Apple Fundamentals",
+    category: "apple",
+    hidden: false,
     level: "Débutant",
-    lessons: 18,
-    description: "Maîtrise les bases de l'écosystème Apple : macOS, iOS, iPadOS, sécurité et services entreprise.",
+    lessons: 15,
+    description:
+      "Niveau 1 — écosystème Apple : macOS, iOS, iPadOS, Apple Silicon, Managed Apple Account et introduction au MDM.",
     duration: "12 h",
     logo: "apple",
     certification: "Apple Fundamentals",
+    applePedagogyLevel: 1,
   },
   {
     slug: "apple-device-support",
     title: "Apple Device Support",
+    category: "apple",
+    hidden: false,
     level: "Intermédiaire",
-    lessons: 32,
-    description: "Prépare la certification Apple Device Support : dépannage macOS, réseau, comptes et support utilisateur.",
+    lessons: 19,
+    description:
+      "Niveau 2 — support macOS, iOS et iPadOS : diagnostics, RecoveryOS, FileVault, restauration et incidents MDM.",
     duration: "24 h",
     logo: "apple",
     certification: "Apple Device Support",
+    applePedagogyLevel: 2,
   },
   {
     slug: "apple-it-professional",
     title: "Apple IT Professional",
+    category: "apple",
+    hidden: false,
     level: "Avancé",
-    lessons: 40,
-    description: "MDM Apple, Automated Device Enrollment, Apps & Books, APNs et architecture de sécurité entreprise.",
+    lessons: 18,
+    description:
+      "Niveau 3 — déploiement : Apple Business Manager, ADE, Device/User Enrollment, Configurator, profils et DDM.",
     duration: "30 h",
     logo: "shield",
     certification: "Apple IT Professional",
+    applePedagogyLevel: 3,
   },
   {
     slug: "jamf-100",
     title: "Jamf 100",
+    category: "jamf",
+    hidden: false,
     level: "Pro",
     lessons: 20,
     description: "Fondamentaux Jamf Pro : inventaire, smart groups, configuration profiles et policies de base.",
@@ -44,6 +58,8 @@ export const tracks: Track[] = [
   {
     slug: "jamf-170",
     title: "Jamf 170",
+    category: "jamf",
+    hidden: false,
     level: "Pro",
     lessons: 24,
     description: "Administration avancée Jamf Pro : extension attributes, scripts, Self Service et workflows.",
@@ -54,6 +70,8 @@ export const tracks: Track[] = [
   {
     slug: "jamf-200",
     title: "Jamf 200",
+    category: "jamf",
+    hidden: false,
     level: "Expert",
     lessons: 28,
     description: "Expertise Jamf : API, patch management, integrations tierces et architecture à grande échelle.",
@@ -64,6 +82,8 @@ export const tracks: Track[] = [
   {
     slug: "intune-mac",
     title: "Microsoft Intune pour Mac",
+    category: "intune",
+    hidden: false,
     level: "Pro",
     lessons: 26,
     description: "Gestion Apple avec Intune : enrollment ABM, conformité, Conditional Access et déploiement macOS/iOS.",
@@ -74,6 +94,8 @@ export const tracks: Track[] = [
   {
     slug: "azure-for-apple-admins",
     title: "Azure essentiel pour Apple Administrators",
+    category: "intune",
+    hidden: false,
     level: "Intermédiaire",
     lessons: 8,
     description:
@@ -85,6 +107,8 @@ export const tracks: Track[] = [
   {
     slug: "parcours-professionnel",
     title: "Parcours Jamf Professionnel",
+    category: "jamf",
+    hidden: false,
     level: "Expert",
     lessons: 40,
     description:
@@ -96,6 +120,8 @@ export const tracks: Track[] = [
   {
     slug: "jamf-300",
     title: "Jamf 300 Prep",
+    category: "jamf",
+    hidden: false,
     level: "Expert",
     lessons: 10,
     description: "Architecture avancée, API, webhooks, patch management et dépannage Jamf Pro niveau entreprise.",
@@ -106,6 +132,8 @@ export const tracks: Track[] = [
   {
     slug: "jamf-400",
     title: "Jamf 400 Prep",
+    category: "jamf",
+    hidden: false,
     level: "Expert",
     lessons: 10,
     description: "Automatisation, CI/CD, migration, reporting et projet final architecte Jamf.",
@@ -116,27 +144,36 @@ export const tracks: Track[] = [
   {
     slug: "apple-enterprise-expert",
     title: "Apple Enterprise Expert",
+    category: "apple",
+    hidden: false,
     level: "Expert",
     lessons: 10,
-    description: "Platform Deployment, DDM, MDA, Platform SSO, compliance et déploiement international Apple.",
+    description:
+      "Niveau 4 — sécurité Apple : Secure Enclave, FileVault, Gatekeeper, SIP, TCC, Activation Lock, conformité et correctifs.",
     duration: "30 h",
     logo: "apple",
     certification: "Apple Enterprise Expert",
+    applePedagogyLevel: 4,
   },
   {
     slug: "apple-enterprise-architect",
     title: "Apple Enterprise Architect",
+    category: "apple",
+    hidden: false,
     level: "Expert",
     lessons: 8,
     description:
-      "Parcours architecte : stack Apple Enterprise, identité Entra, Jamf/Intune à l'échelle, sécurité, automatisation, dépannage et projets capstone.",
+      "Niveau 5 — administration enterprise : architecture, choix MDM, identité, Shared iPad, BYOD, audit et reprise d’activité.",
     duration: "40 h",
     logo: "apple",
     certification: "Apple Enterprise Architect",
+    applePedagogyLevel: 5,
   },
   {
     slug: "intune-apple-advanced",
     title: "Microsoft Intune Apple Advanced",
+    category: "intune",
+    hidden: false,
     level: "Expert",
     lessons: 10,
     description: "Intune macOS avancé, Conditional Access, Defender, SCEP, VPN et troubleshooting Apple.",
@@ -144,49 +181,12 @@ export const tracks: Track[] = [
     logo: "intune",
     certification: "Intune Apple Advanced",
   },
-  {
-    slug: "kandji-fundamentals",
-    title: "Kandji Fundamentals",
-    level: "Pro",
-    lessons: 8,
-    description: "Blueprints, Library Items, Auto Apps, Passport, Liftoff, EDR et compliance Kandji.",
-    duration: "16 h",
-    logo: "lab",
-    certification: "Kandji Fundamentals",
-  },
-  {
-    slug: "mosyle-fundamentals",
-    title: "Mosyle Fundamentals",
-    level: "Pro",
-    lessons: 8,
-    description: "Enrollment, profils, Apps & Books, Mosyle Auth, Fuse, sécurité et reporting.",
-    duration: "16 h",
-    logo: "lab",
-    certification: "Mosyle Fundamentals",
-  },
-  {
-    slug: "addigy-fundamentals",
-    title: "Addigy Fundamentals",
-    level: "Pro",
-    lessons: 8,
-    description: "GoLive, policies, Smart Software, compliance, remote management et dépannage.",
-    duration: "16 h",
-    logo: "lab",
-    certification: "Addigy Fundamentals",
-  },
-  {
-    slug: "workspace-one-apple",
-    title: "Workspace ONE Apple Management",
-    level: "Pro",
-    lessons: 8,
-    description: "Enrollment Apple, profils macOS/iOS, apps, compliance, Conditional Access et reporting.",
-    duration: "18 h",
-    logo: "microsoft",
-    certification: "Workspace ONE Apple Specialist",
-  },
+  // Comparatif multi-MDM hors périmètre V1 — données conservées, non exposées.
   {
     slug: "mdm-comparatif-apple",
     title: "Comparatif MDM Apple Enterprise",
+    category: "apple",
+    hidden: true,
     level: "Pro",
     lessons: 8,
     description: "Jamf, Intune, Kandji, Mosyle, Addigy et Workspace ONE — forces, limites et cas d'usage.",
@@ -202,4 +202,12 @@ export function getTrack(slug: string) {
 
 export function getTrackBySlug(slug: string) {
   return getTrack(slug);
+}
+
+export function isTrackVisible(slug: string): boolean {
+  return getTrack(slug)?.hidden === false;
+}
+
+export function getVisibleTracks(): Track[] {
+  return tracks.filter((track) => !track.hidden);
 }

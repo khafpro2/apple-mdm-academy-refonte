@@ -7,7 +7,7 @@ import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { FaqSection } from "@/components/landing/faq-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { SectionHeading, ButtonLink } from "@/components/ui";
-import { tracks } from "@/lib/data";
+import { getVisibleTracks } from "@/lib/data";
 import { TrackCard } from "@/components/cards";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/i18n";
@@ -16,6 +16,7 @@ type Props = { locale?: Locale };
 
 export function LandingPage({ locale = "fr" }: Props) {
   const dict = getDictionary(locale);
+  const visibleTracks = getVisibleTracks();
 
   return (
     <PageShell>
@@ -26,14 +27,14 @@ export function LandingPage({ locale = "fr" }: Props) {
           <SectionHeading
             label="Parcours"
             title="Tous les parcours disponibles"
-            description="7 parcours professionnels — cours, quiz, labs et examens blancs."
+            description={`${visibleTracks.length} parcours professionnels — Apple, Jamf et Intune pour les environnements Apple.`}
           />
           <Link href="/parcours" className="shrink-0 text-sm font-semibold text-accent hover:underline">
             Catalogue complet →
           </Link>
         </div>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {tracks.map((track) => (
+          {visibleTracks.map((track) => (
             <TrackCard key={track.slug} track={track} />
           ))}
         </div>

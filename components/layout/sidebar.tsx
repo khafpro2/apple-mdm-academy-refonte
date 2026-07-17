@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LogoIcon } from "@/components/ui/logo-icon";
-import { SiteWordmark } from "@/components/ui/site-wordmark";
+import { AcademyLogo } from "@/components/layout/academy-logo";
 import { useSidebar } from "@/components/layout/sidebar-context";
 import {
   SIDEBAR_STORAGE_KEY,
@@ -197,23 +197,12 @@ export function Sidebar() {
       >
         {/* ── Logo ──────────────────────────────────────────────────────── */}
         <div className="flex h-14 shrink-0 items-center gap-3 border-b border-border-light px-4">
-          <Link
-            href="/"
+          <AcademyLogo
+            variant={isExpanded ? "full" : "mark"}
+            size="sm"
             onClick={onNavigate}
-            className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-            aria-label="Apple MDM Academy — Accueil"
-          >
-            <LogoIcon name="apple" size={24} alt="" className="shrink-0" aria-hidden="true" />
-            <span
-              className={[
-                "transition-opacity duration-250 ease-out",
-                isExpanded ? "opacity-100" : "opacity-0 pointer-events-none select-none w-0 overflow-hidden",
-              ].join(" ")}
-              aria-hidden={!isExpanded}
-            >
-              <SiteWordmark />
-            </span>
-          </Link>
+            className="flex-1"
+          />
 
           {mobileOpen && (
             <button

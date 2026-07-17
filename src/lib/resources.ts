@@ -6,6 +6,7 @@ import { JAMF_FUNDAMENTALS_PREMIUM_RESOURCES } from "@/lib/data/jamf/jamf-fundam
 import { altMdmResources } from "@/lib/data/alternative-mdm-tracks/resources-data";
 import { platformDeploymentGuides } from "@/lib/data/apple-platform-deployment/resources-guides";
 import { videoLinkedResources } from "@/src/lib/video-linked-resources";
+import { isTrackVisible } from "@/lib/data/tracks";
 
 export type ResourceCategory = "checklist" | "terminal" | "template" | "procedure";
 
@@ -1360,12 +1361,20 @@ export function getResource(slug: string): AcademyResource | undefined {
   return academyResources.find((r) => r.slug === slug);
 }
 
+/** Ressources liées à un parcours public V1 (ou sans lien parcours). */
+export function getVisibleResources(): AcademyResource[] {
+  return academyResources.filter((r) => {
+    if (!r.relatedCourseSlug) return true;
+    return isTrackVisible(r.relatedCourseSlug);
+  });
+}
+
 export function getResourceSlugs(): string[] {
-  return academyResources.map((r) => r.slug);
+  return getVisibleResources().map((r) => r.slug);
 }
 
 export function getPopularResources(): AcademyResource[] {
-  return academyResources.filter((r) => r.popular);
+  return getVisibleResources().filter((r) => r.popular);
 }
 
 export function getResourcesByBadge(badge: ResourceBadge): AcademyResource[] {

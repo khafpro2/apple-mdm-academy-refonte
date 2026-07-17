@@ -26,7 +26,6 @@ export const appleEnterpriseExpertPool: Question[] = [
   q("aee-13", "Supervision enables :", ["Jailbreak", "Silent app install, restrictions avancées", "Root access", "Disable encryption"], 1, "Supervision = capacités MDM étendues."),
   q("aee-14", "APNs certificate renewal :", ["Never", "Annual renewal before expiry", "Automatic always", "User action"], 1, "Renouveler cert push avant expiration."),
   q("aee-15", "Device Enrollment Program token expiry alert :", ["365 days — monitor in MDM", "Never expires", "1 day", "Ignored"], 0, "Token DEP expire — alertes MDM."),
-,
   // ── Architecture enterprise (aee-16 à aee-40) ────────────────────────────
   q("aee-16", "Apple MDM multi-vendor strategy — best practice :", ["Single MDM vendor", "Primary MDM + conditional fallback + unified inventory via API", "No MDM", "ABM only"], 1, "Large enterprises often use multiple MDMs for different device types with unified visibility."),
   q("aee-17", "macOS Security Compliance Project (mSCP) purpose :", ["Marketing tool", "NIST/CIS automated compliance baselines for macOS via scripts/profiles", "Apple internal only", "Replaces MDM"], 1, "mSCP generates compliance scripts and MDM profiles aligned with NIST 800-53, CIS, DISA STIG."),

@@ -1,9 +1,12 @@
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading } from "@/components/ui";
 import { ResourcesCatalog } from "@/components/resources/resources-catalog";
-import { academyResources } from "@/src/lib/resources";
+import { getVisibleResources } from "@/src/lib/resources";
 
 import { buildPageMetadata } from "@/lib/seo/metadata";
+
+const visibleResources = getVisibleResources();
+
 export const metadata = buildPageMetadata({
   title: "Ressources",
   description: "Checklists, commandes Terminal et modèles pratiques pour Apple MDM, Intune et Jamf Pro — export PDF, copie rapide, liens labs.",
@@ -22,7 +25,7 @@ export default function ResourcesPage() {
 
         <div className="mt-6 flex flex-wrap gap-3 text-sm text-ink-secondary">
           <span className="rounded-full border border-border-light bg-surface-elevated px-4 py-1.5">
-            {academyResources.length} ressources
+            {visibleResources.length} ressources
           </span>
           <span className="rounded-full border border-border-light bg-surface-elevated px-4 py-1.5">
             Export PDF disponible

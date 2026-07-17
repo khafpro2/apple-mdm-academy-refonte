@@ -85,25 +85,26 @@ const LESSON_TOPICS: Record<string, LessonTopic> = {
       "Vous distinguez les services Apple grand public des services administrés pour l'entreprise.",
     ],
     risks: [
-      "Confondre compte Apple personnel et Managed Apple ID.",
+      "Confondre compte Apple personnel et Managed Apple Account.",
       "Sous-estimer l'importance d'ABM dans les achats, l'enrôlement et les licences d'apps.",
     ],
     tools: ["Apple Business Manager", "MDM", "Apple Platform Deployment"],
   },
   "macos-ios-ipados": {
-    focus: "les différences d'administration entre macOS, iOS et iPadOS",
+    focus: "les différences d'administration entre macOS, iOS, iPadOS et tvOS",
     outcomes: [
       "Comparer les capacités MDM disponibles selon la plateforme.",
       "Choisir les bons profils et restrictions selon le type d'appareil.",
-      "Anticiper les écarts d'expérience utilisateur entre Mac, iPhone et iPad.",
+      "Anticiper les écarts d'expérience utilisateur entre Mac, iPhone, iPad et Apple TV.",
     ],
     concepts: [
       "macOS accepte des scénarios plus proches du poste de travail : scripts, packages, FileVault, comptes locaux et extensions système.",
       "iOS et iPadOS reposent davantage sur la supervision, les restrictions, les apps gérées et les commandes MDM.",
+      "tvOS se pilote surtout par supervision, restrictions, apps et configuration réseau, avec beaucoup moins de surface poste de travail.",
       "La même intention de sécurité peut nécessiter des payloads différents selon l'OS.",
     ],
     actions: [
-      "Créer une matrice Mac/iPhone/iPad avec enrollment, sécurité, apps, réseau et support.",
+      "Créer une matrice Mac/iPhone/iPad/Apple TV avec enrollment, sécurité, apps, réseau et support.",
       "Définir les payloads communs puis les variantes spécifiques à chaque OS.",
       "Préparer un groupe pilote par plateforme pour éviter les surprises de comportement.",
     ],

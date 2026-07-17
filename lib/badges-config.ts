@@ -53,16 +53,6 @@ export const badgeCatalog: Badge[] = [
   { id: "exam-apple-deployment", name: "Apple Deployment Ready", icon: "📦", description: "Examen Apple Deployment & Management réussi (100 Q)", earned: false },
   { id: "exam-apple-security", name: "Apple Security Ready", icon: "🛡️", description: "Examen Apple Security Enterprise réussi (100 Q)", earned: false },
   { id: "exam-intune-advanced", name: "Intune Advanced Exam Ready", icon: "☁️", description: "Examen Intune Apple Advanced réussi", earned: false },
-  { id: "badge-kandji-fundamentals", name: "Kandji Fundamentals", icon: "🔷", description: "Parcours Kandji Fundamentals complété", earned: false },
-  { id: "badge-kandji-blueprint-specialist", name: "Kandji Blueprint Specialist", icon: "📐", description: "Module Blueprints Kandji maîtrisé", earned: false },
-  { id: "badge-mosyle-fundamentals", name: "Mosyle Fundamentals", icon: "🟢", description: "Parcours Mosyle Fundamentals complété", earned: false },
-  { id: "badge-addigy-fundamentals", name: "Addigy Fundamentals", icon: "🟠", description: "Parcours Addigy Fundamentals complété", earned: false },
-  { id: "badge-workspace-one-apple-specialist", name: "Workspace ONE Apple Specialist", icon: "🔵", description: "Parcours Workspace ONE Apple complété", earned: false },
-  { id: "badge-mdm-comparison-expert", name: "MDM Comparison Expert", icon: "📊", description: "Parcours comparatif MDM Apple Enterprise validé", earned: false },
-  { id: "exam-kandji-fundamentals", name: "Kandji Fundamentals Exam Ready", icon: "🔷", description: "Examen Kandji Fundamentals réussi", earned: false },
-  { id: "exam-mosyle-fundamentals", name: "Mosyle Fundamentals Exam Ready", icon: "🟢", description: "Examen Mosyle Fundamentals réussi", earned: false },
-  { id: "exam-addigy-fundamentals", name: "Addigy Fundamentals Exam Ready", icon: "🟠", description: "Examen Addigy Fundamentals réussi", earned: false },
-  { id: "exam-workspace-one-apple", name: "Workspace ONE Apple Exam Ready", icon: "🔵", description: "Examen Workspace ONE Apple réussi", earned: false },
 ];
 
 /** Badge débloqué à la réussite d'un quiz / examen */
@@ -89,10 +79,6 @@ export const quizBadgeMap: Record<string, string> = {
   "examen-apple-deployment": "exam-apple-deployment",
   "examen-apple-security": "exam-apple-security",
   "examen-intune-apple-advanced": "exam-intune-advanced",
-  "examen-kandji-fundamentals": "exam-kandji-fundamentals",
-  "examen-mosyle-fundamentals": "exam-mosyle-fundamentals",
-  "examen-addigy-fundamentals": "exam-addigy-fundamentals",
-  "examen-workspace-one-apple": "exam-workspace-one-apple",
   ...advancedQuizBadges,
   ...altMdmQuizBadges,
 };
@@ -157,10 +143,4 @@ export const premiumBadgeIds = [
   "badge-platform-sso-expert",
   "badge-ddm-specialist",
   "badge-mda-specialist",
-  "badge-kandji-fundamentals",
-  "badge-kandji-blueprint-specialist",
-  "badge-mosyle-fundamentals",
-  "badge-addigy-fundamentals",
-  "badge-workspace-one-apple-specialist",
-  "badge-mdm-comparison-expert",
 ];

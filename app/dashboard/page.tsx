@@ -9,7 +9,6 @@ import { SubscriptionStatusBanner } from "@/components/dashboard/subscription-st
 import { ResourcesPanel } from "@/components/dashboard/resources-panel";
 import { LabsProgressPanel } from "@/components/dashboard/labs-progress-panel";
 import { AdvancedTracksPanel } from "@/components/dashboard/advanced-tracks-panel";
-import { AltMdmTracksPanel } from "@/components/dashboard/alt-mdm-tracks-panel";
 import { CertificationReadinessPanel } from "@/components/dashboard/certification-readiness-panel";
 import { ExamProgressPanel } from "@/components/dashboard/exam-progress-panel";
 import { ProgressionChart } from "@/components/dashboard/progression-chart";
@@ -203,7 +202,6 @@ export default async function DashboardPage() {
 
         <div className="mb-8">
           <AdvancedTracksPanel />
-          <AltMdmTracksPanel />
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">

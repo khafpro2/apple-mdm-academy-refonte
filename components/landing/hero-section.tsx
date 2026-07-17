@@ -25,6 +25,26 @@ export function HeroSection({ dict }: Props) {
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-secondary md:text-xl">
               {dict.hero.subtitle}
             </p>
+            <form action="/parcours" method="get" role="search" className="mt-8 max-w-xl">
+              <label htmlFor="hero-search" className="sr-only">
+                Rechercher un parcours Apple, Jamf ou Intune
+              </label>
+              <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-2 shadow-sm focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 sm:flex-row">
+                <input
+                  id="hero-search"
+                  name="q"
+                  type="search"
+                  placeholder="Rechercher Apple Business Manager, Jamf, Intune..."
+                  className="min-h-12 flex-1 rounded-xl border-0 bg-transparent px-4 text-base text-ink outline-none placeholder:text-ink-tertiary"
+                />
+                <button
+                  type="submit"
+                  className="min-h-12 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  Rechercher
+                </button>
+              </div>
+            </form>
             <div className="mt-10 flex flex-wrap gap-4">
               <ButtonLink href="/auth/signup" size="lg">
                 {dict.hero.ctaPrimary}

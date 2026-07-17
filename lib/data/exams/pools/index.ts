@@ -6,13 +6,6 @@ export { jamf300Pool } from "./jamf-300";
 export { jamf400Pool } from "./jamf-400";
 export { appleEnterpriseExpertPool } from "./apple-enterprise-expert";
 export { intuneAppleAdvancedPool } from "./intune-apple-advanced";
-export {
-  kandjiFundamentalsPool,
-  mosyleFundamentalsPool,
-  addigyFundamentalsPool,
-  workspaceOneApplePool,
-} from "@/lib/data/alternative-mdm-tracks/exam-pools";
-
 export { aeaExamPool200 } from "@/lib/data/apple-enterprise-architect/exam-pool";
 export { appleDeploymentExamPool100 } from "@/lib/data/apple-training/exam-apple-deployment";
 export { appleSecurityExamPool100 } from "@/lib/data/apple-training/exam-apple-security";
@@ -28,12 +21,6 @@ import { jamf400Pool } from "./jamf-400";
 import { appleEnterpriseExpertPool } from "./apple-enterprise-expert";
 import { intuneApplePool } from "./intune-apple";
 import { intuneAppleAdvancedPool } from "./intune-apple-advanced";
-import {
-  kandjiFundamentalsPool,
-  mosyleFundamentalsPool,
-  addigyFundamentalsPool,
-  workspaceOneApplePool,
-} from "@/lib/data/alternative-mdm-tracks/exam-pools";
 import { aeaExamPool200 } from "@/lib/data/apple-enterprise-architect/exam-pool";
 import { appleDeploymentExamPool100 } from "@/lib/data/apple-training/exam-apple-deployment";
 import { appleSecurityExamPool100 } from "@/lib/data/apple-training/exam-apple-security";
@@ -51,10 +38,6 @@ export const examPools: Record<string, Question[]> = {
   "examen-apple-deployment": appleDeploymentExamPool100,
   "examen-apple-security": appleSecurityExamPool100,
   "examen-intune-apple-advanced": intuneAppleAdvancedPool,
-  "examen-kandji-fundamentals": kandjiFundamentalsPool,
-  "examen-mosyle-fundamentals": mosyleFundamentalsPool,
-  "examen-addigy-fundamentals": addigyFundamentalsPool,
-  "examen-workspace-one-apple": workspaceOneApplePool,
 };
 
 export const examQuestionCounts: Record<string, number> = {
@@ -70,10 +53,6 @@ export const examQuestionCounts: Record<string, number> = {
   "examen-apple-deployment": 100,
   "examen-apple-security": 100,
   "examen-intune-apple-advanced": 100,
-  "examen-kandji-fundamentals": 75,
-  "examen-mosyle-fundamentals": 75,
-  "examen-addigy-fundamentals": 75,
-  "examen-workspace-one-apple": 75,
 };
 
 /** Slug URL /examens/[slug] → quiz slug interne */
@@ -89,10 +68,6 @@ export const examRouteToQuizSlug: Record<string, string> = {
   "apple-deployment": "examen-apple-deployment",
   "apple-security": "examen-apple-security",
   "intune-apple-advanced": "examen-intune-apple-advanced",
-  "kandji-fundamentals": "examen-kandji-fundamentals",
-  "mosyle-fundamentals": "examen-mosyle-fundamentals",
-  "addigy-fundamentals": "examen-addigy-fundamentals",
-  "workspace-one-apple": "examen-workspace-one-apple",
 };
 
 export function getQuizSlugFromExamRoute(routeSlug: string): string | undefined {

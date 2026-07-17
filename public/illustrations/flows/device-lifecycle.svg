@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 160" role="img" aria-labelledby="title">
+  <title id="title">Cycle de vie appareil Apple</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <style>
+  .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5;rx:10}
+  .boxAccent{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5;rx:10}
+  .title{font:600 13px system-ui,sans-serif;fill:#0f172a}
+  .sub{font:500 11px system-ui,sans-serif;fill:#64748b}
+  .arrow{stroke:#64748b;stroke-width:1.75;fill:none;marker-end:url(#arrow)}
+  .label{font:500 10px system-ui,sans-serif;fill:#475569}
+</style>
+  <rect width="780" height="160" fill="#ffffff"/>
+  
+    <g>
+    <rect class="box" x="20" y="45" width="110" height="70"/>
+    <text class="title" x="75" y="76" text-anchor="middle">Achat</text>
+    <text class="sub" x="75" y="92" text-anchor="middle">ABM</text>
+  </g>
+    <path class="arrow" d="M140 80 H175"/>
+    <g>
+    <rect class="box" x="185" y="45" width="110" height="70"/>
+    <text class="title" x="240" y="76" text-anchor="middle">Enrôlement</text>
+    <text class="sub" x="240" y="92" text-anchor="middle">ADE</text>
+  </g>
+    <path class="arrow" d="M305 80 H340"/>
+    <g>
+    <rect class="box" x="350" y="45" width="110" height="70"/>
+    <text class="title" x="405" y="76" text-anchor="middle">Exploitation</text>
+    <text class="sub" x="405" y="92" text-anchor="middle">MDM</text>
+  </g>
+    <path class="arrow" d="M470 80 H505"/>
+    <g>
+    <rect class="box" x="515" y="45" width="110" height="70"/>
+    <text class="title" x="570" y="76" text-anchor="middle">Support</text>
+    <text class="sub" x="570" y="92" text-anchor="middle">Incidents</text>
+  </g>
+    <path class="arrow" d="M635 80 H670"/>
+    <g>
+    <rect class="boxAccent" x="680" y="45" width="80" height="70"/>
+    <text class="title" x="720" y="76" text-anchor="middle">Retrait</text>
+    <text class="sub" x="720" y="92" text-anchor="middle">Wipe</text>
+  </g>
+  
+</svg>

@@ -93,13 +93,12 @@ export const mdmComparatifModules: AltMdmModuleDef[] = [
   mod("mdm-comparatif-apple", "mdm", 8, "Matrice de décision & cas d'usage", "mdm-comparison", "badge-mdm-comparison-expert"),
 ];
 
-export const allAltMdmModules = [
-  ...kandjiModules,
-  ...mosyleModules,
-  ...addigyModules,
-  ...workspaceOneModules,
-  ...mdmComparatifModules,
-];
+/**
+ * V1 : Kandji / Mosyle / Addigy / Workspace ONE retirés du catalogue.
+ * Seul le comparatif est conservé en données (parcours masqué via tracks.hidden).
+ * Les tableaux de modules ci-dessus restent pour archivage / reprise future.
+ */
+export const allAltMdmModules = [...mdmComparatifModules];
 
 export const altMdmTrackMeta: {
   slug: string;
@@ -112,50 +111,6 @@ export const altMdmTrackMeta: {
   certification: string;
   modules: AltMdmModuleDef[];
 }[] = [
-  {
-    slug: "kandji-fundamentals",
-    title: "Kandji Fundamentals",
-    level: "Pro" as const,
-    lessons: 8,
-    description: "Blueprints, Library Items, Auto Apps, Passport, Liftoff, EDR et compliance Kandji pour macOS/iOS.",
-    duration: "16 h",
-    logo: "lab",
-    certification: "Kandji Fundamentals",
-    modules: kandjiModules,
-  },
-  {
-    slug: "mosyle-fundamentals",
-    title: "Mosyle Fundamentals",
-    level: "Pro" as const,
-    lessons: 8,
-    description: "Enrollment, profils, Apps & Books, Mosyle Auth, Fuse, sécurité et reporting pour flottes Apple.",
-    duration: "16 h",
-    logo: "lab",
-    certification: "Mosyle Fundamentals",
-    modules: mosyleModules,
-  },
-  {
-    slug: "addigy-fundamentals",
-    title: "Addigy Fundamentals",
-    level: "Pro" as const,
-    lessons: 8,
-    description: "GoLive, policies, Smart Software, compliance, remote management et dépannage Addigy.",
-    duration: "16 h",
-    logo: "lab",
-    certification: "Addigy Fundamentals",
-    modules: addigyModules,
-  },
-  {
-    slug: "workspace-one-apple",
-    title: "Workspace ONE Apple Management",
-    level: "Pro" as const,
-    lessons: 8,
-    description: "Enrollment Apple, profils macOS/iOS, apps, compliance, Conditional Access et reporting VMware.",
-    duration: "18 h",
-    logo: "microsoft",
-    certification: "Workspace ONE Apple Specialist",
-    modules: workspaceOneModules,
-  },
   {
     slug: "mdm-comparatif-apple",
     title: "Comparatif MDM Apple Enterprise",

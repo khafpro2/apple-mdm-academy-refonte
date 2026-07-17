@@ -1,6 +1,7 @@
 import { getQuiz } from "@/lib/data/quizzes";
 import { examRouteToQuizSlug, examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { getExamDurationMinutes } from "@/lib/exam/exam-config";
+import { isTrackVisible } from "@/lib/data/tracks";
 
 export const PRIORITY_EXAM_ROUTES = [
   "apple-it-professional",
@@ -38,6 +39,7 @@ export function buildExamCatalogItem(routeSlug: string): ExamCatalogItem | null 
   if (!quizSlug) return null;
   const quiz = getQuiz(quizSlug);
   if (!quiz?.examMode) return null;
+  if (!isTrackVisible(quiz.trackSlug)) return null;
 
   const baseQuestions = examPools[quizSlug]?.length ?? 0;
   const questionCount = quiz.examQuestionCount ?? examQuestionCounts[quizSlug] ?? 0;

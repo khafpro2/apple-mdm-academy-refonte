@@ -2,42 +2,55 @@ import type { Course } from "@/lib/types";
 import { proModules } from "@/lib/data/pro-modules/index";
 import { advancedCourses } from "@/lib/data/advanced-tracks/courses";
 import { altMdmCourses } from "@/lib/data/alternative-mdm-tracks/courses";
+import { withCourseCompatibility } from "@/lib/data/course-compatibility";
 
 export const courses: Course[] = [
   {
     slug: "apple-fundamentals",
     trackSlug: "apple-fundamentals",
     title: "Apple Fundamentals",
-    description: "Parcours complet pour comprendre l'écosystème Apple en contexte entreprise.",
+    description:
+      "Niveau 1 — comprendre l’écosystème Apple en entreprise : macOS, iOS, iPadOS, Apple Silicon, comptes et introduction au MDM.",
     duration: "12 h",
     objectives: [
-      "Comprendre l'architecture macOS, iOS et iPadOS",
-      "Maîtriser les bases de la sécurité Apple",
-      "Connaître les services Apple pour l'entreprise",
+      "Différencier macOS, iOS et iPadOS en contexte professionnel",
+      "Expliquer Apple Silicon, Apple Account et Managed Apple Account",
+      "Situer le rôle du MDM dans le cycle de vie des appareils",
     ],
     modules: [
       {
         title: "Écosystème Apple",
         lessons: [
           { slug: "historique-ecosysteme", title: "Historique et positionnement Apple", duration: "25 min" },
-          { slug: "macos-ios-ipados", title: "macOS vs iOS vs iPadOS", duration: "30 min" },
+          { slug: "macos-ios-ipados", title: "macOS, iOS et iPadOS — différences réelles", duration: "35 min" },
           { slug: "apple-silicon", title: "Apple Silicon et performances", duration: "20 min" },
+          { slug: "materiel-entreprise", title: "Matériel Apple en entreprise", duration: "25 min" },
         ],
       },
       {
-        title: "Sécurité de base",
+        title: "Architecture des plateformes",
         lessons: [
+          { slug: "architecture-macos", title: "Architecture générale de macOS", duration: "30 min" },
+          { slug: "architecture-ios", title: "Architecture générale d’iOS", duration: "30 min" },
+          { slug: "architecture-ipados", title: "Architecture générale d’iPadOS", duration: "30 min" },
+        ],
+      },
+      {
+        title: "Identité et sécurité de base",
+        lessons: [
+          { slug: "apple-account-managed", title: "Apple Account et Managed Apple Account", duration: "30 min" },
           { slug: "filevault-chiffrement", title: "FileVault et chiffrement", duration: "35 min" },
           { slug: "touch-id-face-id", title: "Touch ID, Face ID et Secure Enclave", duration: "25 min" },
           { slug: "gatekeeper-notarisation", title: "Gatekeeper et notarisation", duration: "30 min" },
+          { slug: "perso-vs-entreprise", title: "Appareil personnel et appareil d’entreprise", duration: "25 min" },
         ],
       },
       {
-        title: "Réseau & services",
+        title: "Services et introduction MDM",
         lessons: [
           { slug: "wifi-ethernet", title: "Wi‑Fi et Ethernet sur Apple", duration: "25 min" },
-          { slug: "icloud-comptes", title: "iCloud et comptes Apple", duration: "30 min" },
           { slug: "services-entreprise", title: "Services Apple en entreprise", duration: "35 min" },
+          { slug: "intro-mdm", title: "Introduction au MDM Apple", duration: "30 min" },
         ],
       },
     ],
@@ -46,28 +59,52 @@ export const courses: Course[] = [
     slug: "apple-device-support",
     trackSlug: "apple-device-support",
     title: "Apple Device Support",
-    description: "Formation complète pour la certification Apple Device Support.",
+    description:
+      "Niveau 2 — support et dépannage macOS, iOS et iPadOS : comptes, stockage, RecoveryOS, diagnostics et incidents MDM.",
     duration: "24 h",
     objectives: [
-      "Diagnostiquer et résoudre les problèmes macOS",
-      "Gérer les comptes et l'identité utilisateur",
-      "Dépanner les problèmes réseau avancés",
+      "Diagnostiquer et résoudre les problèmes macOS, iOS et iPadOS",
+      "Gérer utilisateurs, permissions, sauvegardes et restaurations",
+      "Traiter les incidents MDM courants en production",
     ],
     modules: [
       {
         title: "Support macOS",
         lessons: [
+          { slug: "install-config-macos", title: "Installation et configuration de macOS", duration: "40 min" },
+          { slug: "utilisateurs-groupes", title: "Utilisateurs, groupes et permissions", duration: "35 min" },
+          { slug: "stockage-apps-processus", title: "Stockage, applications et processus", duration: "35 min" },
           { slug: "diagnostic-systeme", title: "Outils de diagnostic système", duration: "40 min" },
-          { slug: "console-logs", title: "Console et analyse des logs", duration: "35 min" },
-          { slug: "mode-recovery", title: "Mode Recovery et réinstallation", duration: "45 min" },
+          { slug: "console-logs", title: "Console, journaux et Terminal", duration: "40 min" },
+          { slug: "mode-recovery", title: "RecoveryOS, démarrage sécurisé et réinstallation", duration: "45 min" },
+          { slug: "filevault-support", title: "FileVault en support", duration: "30 min" },
         ],
       },
       {
-        title: "Comptes & identité",
+        title: "Support iOS",
         lessons: [
-          { slug: "comptes-locaux-managed", title: "Comptes locaux vs Managed Apple ID", duration: "30 min" },
+          { slug: "ios-activation-setup", title: "Activation et configuration initiale iOS", duration: "30 min" },
+          { slug: "ios-securite-confidentialite", title: "Sécurité et confidentialité iOS", duration: "35 min" },
+          { slug: "ios-connectivite-esim", title: "Connectivité, eSIM, VPN et certificats", duration: "35 min" },
+          { slug: "ios-depannage-restore", title: "Dépannage, sauvegarde et restauration iOS", duration: "40 min" },
+          { slug: "ios-managed-lost-mode", title: "Managed Lost Mode et appareils d’entreprise", duration: "30 min" },
+        ],
+      },
+      {
+        title: "Support iPadOS",
+        lessons: [
+          { slug: "ipados-vs-ios", title: "Différences iOS / iPadOS pour le support", duration: "30 min" },
+          { slug: "ipados-multitache-accessoires", title: "Multitâche, clavier, Apple Pencil", duration: "35 min" },
+          { slug: "ipados-depannage", title: "Dépannage et restauration iPadOS", duration: "35 min" },
+        ],
+      },
+      {
+        title: "Comptes, identité et MDM",
+        lessons: [
+          { slug: "comptes-locaux-managed", title: "Comptes locaux vs Managed Apple Account", duration: "30 min" },
           { slug: "sso-kerberos", title: "SSO et Kerberos", duration: "40 min" },
           { slug: "profils-utilisateur", title: "Profils utilisateur et données", duration: "25 min" },
+          { slug: "incidents-mdm-courants", title: "Incidents MDM courants", duration: "40 min" },
         ],
       },
     ],
@@ -76,28 +113,51 @@ export const courses: Course[] = [
     slug: "apple-it-professional",
     trackSlug: "apple-it-professional",
     title: "Apple IT Professional",
-    description: "Maîtrise le MDM natif Apple et l'architecture de déploiement entreprise.",
+    description:
+      "Niveau 3 — déploiement Apple : Apple Business Manager, enrôlements, Configurator, profils, DDM et cycle de vie.",
     duration: "30 h",
     objectives: [
-      "Configurer Apple Business Manager et DEP",
-      "Déployer des profils MDM et commandes push",
-      "Architecturer la sécurité Apple en entreprise",
+      "Configurer Apple Business Manager et Managed Apple Accounts",
+      "Choisir et déployer ADE, Device Enrollment ou User Enrollment",
+      "Administrer profils, certificats, mises à jour et Declarative Device Management",
     ],
     modules: [
       {
         title: "Apple Business Manager",
         lessons: [
-          { slug: "abm-creation-roles", title: "Création ABM et gestion des rôles", duration: "35 min" },
-          { slug: "dep-enrollment", title: "Device Enrollment Program", duration: "45 min" },
-          { slug: "apps-books", title: "Apps & Books et VPP", duration: "40 min" },
+          { slug: "abm-creation-roles", title: "Apple Business Manager — rôles et permissions", duration: "35 min" },
+          { slug: "managed-apple-accounts", title: "Managed Apple Accounts", duration: "35 min" },
+          { slug: "apps-books", title: "Apps et livres", duration: "40 min" },
         ],
       },
       {
-        title: "MDM natif Apple",
+        title: "Enrôlement et supervision",
         lessons: [
-          { slug: "profils-configuration", title: "Profils de configuration", duration: "50 min" },
-          { slug: "commandes-mdm", title: "Commandes MDM et payloads", duration: "45 min" },
+          { slug: "ade-enrollment", title: "Automated Device Enrollment", duration: "45 min" },
+          { slug: "dep-enrollment", title: "Automated Device Enrollment — historique DEP", duration: "20 min" },
+          { slug: "device-enrollment", title: "Device Enrollment", duration: "35 min" },
+          { slug: "user-enrollment", title: "User Enrollment", duration: "35 min" },
+          { slug: "supervision-configurator", title: "Supervision et Apple Configurator", duration: "40 min" },
+        ],
+      },
+      {
+        title: "MDM, profils et identité",
+        lessons: [
+          { slug: "serveurs-mdm", title: "Serveurs MDM et APNs", duration: "40 min" },
           { slug: "apns-certificats", title: "APNs et certificats push", duration: "40 min" },
+          { slug: "profils-configuration", title: "Profils de configuration et restrictions", duration: "50 min" },
+          { slug: "commandes-mdm", title: "Commandes MDM et payloads", duration: "45 min" },
+          { slug: "wifi-vpn-certs", title: "Wi‑Fi, VPN et certificats", duration: "40 min" },
+          { slug: "sso-platform-sso", title: "SSO et Platform SSO", duration: "40 min" },
+          { slug: "declarative-device-management", title: "Declarative Device Management", duration: "45 min" },
+        ],
+      },
+      {
+        title: "Mises à jour et cycle de vie",
+        lessons: [
+          { slug: "os-updates-mdm", title: "Mises à jour macOS, iOS et iPadOS", duration: "40 min" },
+          { slug: "wipe-reassign", title: "Effacement et réaffectation", duration: "30 min" },
+          { slug: "shared-ipad-deploy", title: "Shared iPad et scénarios iPadOS", duration: "40 min" },
         ],
       },
     ],
@@ -106,7 +166,7 @@ export const courses: Course[] = [
     slug: "jamf-100",
     trackSlug: "jamf-100",
     title: "Jamf 100 — Fondamentaux",
-    description: "Première certification Jamf : inventaire, groups et policies essentielles.",
+    description: "Préparation indépendante aux fondamentaux Jamf : inventaire, groups et policies essentielles. Ne remplace pas les formations officielles Jamf.",
     duration: "16 h",
     objectives: [
       "Naviguer et administrer Jamf Pro",
@@ -407,11 +467,12 @@ export const courses: Course[] = [
 ];
 
 export function getCourse(slug: string) {
-  return courses.find((c) => c.slug === slug);
+  const course = courses.find((c) => c.slug === slug);
+  return course ? withCourseCompatibility(course) : undefined;
 }
 
 export function getCoursesByTrack(trackSlug: string) {
-  return courses.filter((c) => c.trackSlug === trackSlug);
+  return courses.filter((c) => c.trackSlug === trackSlug).map(withCourseCompatibility);
 }
 
 export function getLesson(courseSlug: string, lessonSlug: string) {

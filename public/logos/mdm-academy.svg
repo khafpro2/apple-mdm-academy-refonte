@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Apple MDM Academy</title>
+  <desc id="desc">Original device-management academy logo with devices and a security shield.</desc>
+  <rect width="512" height="512" rx="104" fill="#101827"/>
+  <rect x="86" y="126" width="202" height="270" rx="34" fill="#f8fafc"/>
+  <rect x="220" y="78" width="206" height="304" rx="42" fill="#dbeafe"/>
+  <rect x="250" y="120" width="146" height="206" rx="18" fill="#0f172a" opacity=".14"/>
+  <path d="M248 236l88-32 88 32v66c0 56-37 99-88 112-51-13-88-56-88-112v-66z" fill="#22c55e"/>
+  <path d="M298 302l27 27 53-58" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

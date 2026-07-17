@@ -43,13 +43,8 @@ export const ADVANCED_TRACK_SLUGS = new Set([
   "intune-apple-advanced",
 ]);
 
-export const ALT_MDM_TRACK_SLUGS = new Set([
-  "kandji-fundamentals",
-  "mosyle-fundamentals",
-  "addigy-fundamentals",
-  "workspace-one-apple",
-  "mdm-comparatif-apple",
-]);
+/** Hors périmètre V1 — conservé pour masquage / reprise future (comparatif uniquement). */
+export const ALT_MDM_TRACK_SLUGS = new Set(["mdm-comparatif-apple"]);
 
 export const ENTERPRISE_TRACK_SLUGS = new Set(["jamf-400", "apple-enterprise-expert", "apple-enterprise-architect"]);
 

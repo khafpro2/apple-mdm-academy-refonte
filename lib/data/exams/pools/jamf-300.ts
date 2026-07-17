@@ -28,7 +28,6 @@ export const jamf300Pool: Question[] = [
   q("j300-13", "Policy execution frequency Once per computer :", ["Runs every minute", "Runs once ever per computer", "Never runs", "Runs on server only"], 1, "Once per computer = idempotence one-shot."),
   q("j300-14", "Extension Attribute regex validation :", ["Not available", "Can validate inventory values", "Only dates", "Only numbers 1-5"], 1, "Regex EA pour qualité inventaire."),
   q("j300-15", "Patch Management third-party titles :", ["Not supported", "Supported via Jamf patch catalog", "Mac App Store only", "Manual email"], 1, "Catalogue inclut apps tierces courantes."),
-,
   // ── Architecture avancée ─────────────────────────────────────────────────
   q("j300-16", "Jamf Pro Cloud Distribution Point (CDP) permet :", ["Stockage on-premise uniquement", "Distribution packages cloud sans serveur local", "Sauvegarde profils MDM", "Proxy APNs"], 1, "CDP héberge les packages dans le cloud Jamf — zéro infrastructure locale."),
   q("j300-17", "High Availability (HA) dans Jamf Pro nécessite :", ["Un seul serveur", "Cluster actif/passif avec base de données répliquée", "LDAP uniquement", "VPN entre sites"], 1, "HA Jamf Pro utilise un cluster avec réplication DB pour le failover automatique."),

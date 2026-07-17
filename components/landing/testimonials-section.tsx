@@ -30,9 +30,9 @@ export function TestimonialsSection() {
     <section className="bg-surface-elevated py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
-          label="Témoignages"
-          title="Ils nous font confiance"
-          description="Apprenants, administrateurs Apple, consultants Jamf et responsables IT."
+          label="Retours"
+          title="Retours illustratifs"
+          description="Exemples de profils et de retours pédagogiques, non présentés comme des avis clients vérifiés."
           align="center"
         />
         <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -54,6 +54,9 @@ export function TestimonialsSection() {
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((t) => (
             <Card key={t.id}>
+              <span className="mb-4 inline-flex rounded-full bg-surface px-3 py-1 text-xs font-semibold text-ink-tertiary">
+                Profil illustratif
+              </span>
               <Stars rating={t.rating} />
               <p className="mt-4 text-sm leading-relaxed text-ink-secondary">&ldquo;{t.comment}&rdquo;</p>
               <div className="mt-6 border-t border-border-light pt-4">

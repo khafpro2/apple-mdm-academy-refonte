@@ -6,6 +6,8 @@ import { ExamPageShell } from "@/components/exams/exam-page-shell";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { getQuiz } from "@/lib/data/quizzes";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return EXAM_ROUTE_SLUGS.map((slug) => ({ slug }));
 }

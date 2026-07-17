@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/seo/site-config";
 import { courses } from "@/lib/data/courses";
-import { quizzes } from "@/lib/data/quizzes";
-import { tracks } from "@/lib/data/tracks";
+import { getQuiz, quizzes } from "@/lib/data/quizzes";
+import { getVisibleTracks, isTrackVisible } from "@/lib/data/tracks";
 import { labs } from "@/lib/labs";
-import { getExamRouteSlugs } from "@/lib/data/exams/pools";
+import { getExamRouteSlugs, getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { certificationPaths } from "@/lib/data/pro-modules/paths";
 import { getVideoSlugs } from "@/lib/data/videos";
 import { getResourceSlugs } from "@/src/lib/resources";
@@ -51,44 +51,56 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 
-  const trackRoutes = tracks.map((t) => ({
+  const trackRoutes = getVisibleTracks().map((t) => ({
     url: `${base}/parcours/${t.slug}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
 
-  const courseRoutes = courses.flatMap((c) =>
-    c.modules.flatMap((m) =>
-      m.lessons.map((l) => ({
-        url: `${base}/cours/${c.slug}/${l.slug}`,
-        lastModified: now,
-        changeFrequency: "weekly" as const,
-        priority: 0.75,
-      }))
-    )
-  );
+  const courseRoutes = courses
+    .filter((c) => isTrackVisible(c.trackSlug))
+    .flatMap((c) =>
+      c.modules.flatMap((m) =>
+        m.lessons.map((l) => ({
+          url: `${base}/cours/${c.slug}/${l.slug}`,
+          lastModified: now,
+          changeFrequency: "weekly" as const,
+          priority: 0.75,
+        }))
+      )
+    );
 
-  const quizRoutes = quizzes.map((q) => ({
-    url: `${base}/quiz/${q.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  const quizRoutes = quizzes
+    .filter((q) => isTrackVisible(q.trackSlug))
+    .map((q) => ({
+      url: `${base}/quiz/${q.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
 
-  const labRoutes = labs.map((l) => ({
-    url: `${base}/labs/${l.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.65,
-  }));
+  const labRoutes = labs
+    .filter((l) => isTrackVisible(l.trackSlug))
+    .map((l) => ({
+      url: `${base}/labs/${l.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.65,
+    }));
 
-  const examRoutes = getExamRouteSlugs().map((slug) => ({
-    url: `${base}/examens/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-  }));
+  const examRoutes = getExamRouteSlugs()
+    .filter((slug) => {
+      const quizSlug = getQuizSlugFromExamRoute(slug);
+      const quiz = quizSlug ? getQuiz(quizSlug) : undefined;
+      return quiz ? isTrackVisible(quiz.trackSlug) : false;
+    })
+    .map((slug) => ({
+      url: `${base}/examens/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }));
 
   const certPathRoutes = certificationPaths.map((p) => ({
     url: `${base}/certification/${p.slug}`,

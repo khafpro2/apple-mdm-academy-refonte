@@ -23,7 +23,6 @@ export const jamf400Pool: Question[] = [
   q("j400-08", "Enterprise troubleshooting first step :", ["Mass wipe", "Verify check-in, scope, logs, network", "Delete ABM", "Disable APNs"], 1, "Méthode ITIL : scope, logs, réseau, certificats."),
   q("j400-09", "Final project Jamf 400 validates :", ["Single checkbox", "End-to-end architecture design + runbook", "Email summary", "Wallpaper change"], 1, "Projet = design + doc + preuves de tests."),
   q("j400-10", "Security advanced macOS with Jamf :", ["Disable SIP", "FileVault + PPPC + Protect + compliance", "Open all ports", "Remove Gatekeeper"], 1, "Defense in depth macOS enterprise."),
-,
   // ── Architecture enterprise (j400-11 à j400-40) ─────────────────────────
   q("j400-11", "Jamf Pro multi-tenant architecture :", ["Non supporté", "Plusieurs instances Jamf Pro indépendantes + ABM multi-org", "Un seul tenant pour toutes les orgs", "ABM uniquement"], 1, "Jamf Pro n'est pas multi-tenant natif — chaque organisation a sa propre instance."),
   q("j400-12", "CI/CD pipeline pour profils MDM — best practice :", ["Manuel uniquement", "Git + scripts API Jamf Pro pour versionner et déployer les changements", "FTP upload", "ABM direct"], 1, "GitOps pour MDM : profils versionnés en Git, déployés via API Jamf Pro dans un pipeline CI/CD."),

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, Badge, Card } from "@/components/ui";
 import { courses } from "@/lib/data/courses";
+import { isTrackVisible } from "@/lib/data/tracks";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -11,6 +12,8 @@ export const metadata = buildPageMetadata({
 });
 
 export default function CoursIndexPage() {
+  const visibleCourses = courses.filter((course) => isTrackVisible(course.trackSlug));
+
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
@@ -21,7 +24,7 @@ export default function CoursIndexPage() {
         />
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {courses.map((course) => {
+          {visibleCourses.map((course) => {
             const lessonCount = course.modules.reduce((n, m) => n + m.lessons.length, 0);
             return (
               <Link key={course.slug} href={`/cours/${course.slug}`} className="group block">
