@@ -1,131 +1,115 @@
 # Apple MDM Academy — Refonte
 
-<!-- Supabase env vars configured -->
-Plateforme professionnelle de formation **Apple MDM, Jamf Pro et Microsoft Intune** en français.
+Plateforme de formation **indépendante** en français sur Apple MDM, Jamf Pro et Microsoft Intune.
+
+> Cette plateforme n’est **pas** officielle et n’est **pas** affiliée à Apple, Jamf ou Microsoft.
 
 ## Stack
 
-- **Next.js** (App Router)
-- **Tailwind CSS v4**
-- **TypeScript**
-- **Supabase Auth** (sessions, profils, progression)
-- **Vercel** (déploiement)
+- Next.js (App Router)
+- Tailwind CSS v4
+- TypeScript
+- Supabase Auth (sessions, profils, progression)
+- Vercel (déploiement)
+
+## Périmètre V1
+
+### Contenus couverts
+
+- Apple MDM / Apple Business Manager / ADE / APNs
+- Jamf Pro (parcours 100 / 200 et modules associés)
+- Microsoft Intune pour Apple (macOS / iOS)
+- Labs pratiques, quiz, examens blancs, dashboard apprenant
+
+### Hors périmètre (masqués ou secondaires)
+
+- Certaines routes admin / pipeline vidéo / outils internes
+- Contenus encore en préparation (fallback « Contenu en préparation »)
+- Sync progression serveur si schéma Supabase incomplet (fallback localStorage)
+
+Les contenus hors scope sont **conservés** dans le dépôt ; ils ne sont simplement pas mis en avant dans la navigation principale.
+
+## Structure des parcours
+
+| Zone | Route |
+|------|--------|
+| Accueil | `/` |
+| Catalogue parcours | `/parcours` |
+| Cours / leçons | `/cours`, `/cours/[slug]`, `/cours/[slug]/[lessonSlug]` |
+| Examens blancs | `/examens`, `/examens/[slug]` |
+| Quiz | `/quiz`, `/quiz/[slug]` |
+| Labs | `/labs`, `/labs/[slug]` |
+| Certifications | `/certifications` |
+| Ressources | `/resources` |
+| Vidéos | `/videos` |
+| Dashboard | `/dashboard` |
+| Tarifs | `/pricing` (alias `/tarifs`) |
+
+> Note : il n’existe pas de routes `/modules` ni `/ressources` (FR) — utiliser `/cours` et `/resources`.
+
+## Logo et assets
+
+- Logo / icônes UI : `components/ui/logo-icon.tsx`, `public/logos/`
+- Wordmark sidebar : `components/ui/site-wordmark.tsx`
+- Open Graph : `/opengraph-image`
+- Mentions légales marques : `components/brands/BrandLegalNotices.tsx`
 
 ## Configuration Supabase
 
-### 1. SQL (dans l'ordre)
+1. Exécuter dans l’ordre : `supabase/schema.sql`, puis `supabase/schema-admin.sql`
+2. Auth → URL Configuration :
+   - Site URL : URL publique du site
+   - Redirect : `{SITE_URL}/auth/callback` et `http://localhost:3000/auth/callback`
+3. Variables (voir `.env.example`) :
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SITE_URL`
+   - `ADMIN_EMAILS` (optionnel)
 
-Dans [SQL Editor](https://supabase.com/dashboard/project/_/sql) :
-
-1. `supabase/schema.sql`
-2. `supabase/schema-admin.sql`
-
-### 2. Auth → URL Configuration
-
-| Champ | Valeur |
-|-------|--------|
-| **Site URL** | `https://apple-mdm-academy-refonte.vercel.app` |
-| **Redirect URLs** | `https://apple-mdm-academy-refonte.vercel.app/auth/callback` |
-| | `http://localhost:3000/auth/callback` |
-
-Le code utilise toujours le chemin **`/auth/callback`** (PKCE + confirmation email).
-
-### 3. Variables d'environnement
-
-**Local** : copiez `.env.example` → `.env.local`
-
-**Vercel** (Settings → Environment Variables) :
-
-| Variable | Obligatoire | Description |
-|----------|-------------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | URL projet Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Clé anon (publique) |
-| `NEXT_PUBLIC_SITE_URL` | ✅ | `https://apple-mdm-academy-refonte.vercel.app` |
-| `ADMIN_EMAILS` | optionnel | Emails admin séparés par des virgules |
-| `SUPABASE_SERVICE_ROLE_KEY` | ❌ non requis | Admin via RLS `is_admin`, pas de bypass service role |
-
-```bash
-npx vercel env add NEXT_PUBLIC_SUPABASE_URL
-npx vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
-npx vercel env add NEXT_PUBLIC_SITE_URL
-```
-
-## Démarrage
+## Commandes locales
 
 ```bash
 npm install
-npm run dev
+npm run dev          # http://localhost:3000
+npm run lint
+npx tsc --noEmit
+npm run build
+node scripts/check-internal-links.mjs   # audit liens internes (si présent)
 ```
 
-Ouvrir [http://localhost:3000](http://localhost:3000)
+Compte démo (si provisionné) : voir `lib/demo/constants.ts` et bouton « Connexion démo » sur `/auth/login`.
 
-## Pages
+## Vérification locale (checklist)
 
-| Route | Description |
-|-------|-------------|
-| `/` | Accueil premium |
-| `/parcours` | Liste des 7 parcours |
-| `/parcours/[slug]` | Détail parcours |
-| `/cours/[slug]` | Cours avec modules et leçons |
-| `/cours/[slug]/[lessonSlug]` | Leçon individuelle |
-| `/quiz` | Quiz & examens blancs |
-| `/quiz/[slug]` | Quiz interactif avec score |
-| `/labs` | Labs pratiques |
-| `/labs/[slug]` | Détail lab |
-| `/auth/login` | Connexion |
-| `/auth/signup` | Inscription |
-| `/dashboard` | Dashboard (protégé si Supabase configuré) |
-| `/tarifs` | Plans tarifaires |
-| `/admin` | Tableau de bord admin (stats apprenants) |
+1. `npm run lint` → 0 erreur
+2. `npx tsc --noEmit` → OK
+3. `npm run build` → OK
+4. Smoke manuel : `/`, `/parcours`, `/dashboard`, `/examens`, `/cours`, `/resources`, `/certifications`
+5. Mobile ~375 px : menu hamburger, pas de scroll horizontal, CTA visibles
+6. Clavier : Tab + focus visible + Escape ferme la sidebar mobile
 
-## Parcours
+## Checklist avant déploiement
 
-- Apple Fundamentals
-- Apple Device Support
-- Apple IT Professional
-- Jamf 100 / 170 / 200
-- Microsoft Intune pour Mac
+- [ ] Variables d’environnement Vercel à jour
+- [ ] Redirect Auth Supabase alignés sur le domaine prod
+- [ ] `npm run build` vert
+- [ ] Pas de secrets dans le commit (`.env`, clés service role)
+- [ ] Mentions « non affilié » présentes (footer / docs)
+- [ ] Liens sidebar / footer vérifiés
 
-## Structure
+## Limites connues V1
 
-```
-app/           → Pages Next.js
-components/    → UI, layout, cards, quiz engine
-lib/data/      → Données TypeScript (tracks, courses, quizzes, labs, pricing)
-lib/types.ts   → Types partagés
-```
+- Progression peut rester en localStorage si Supabase n’est pas synchronisé
+- Certaines vidéos / captures peuvent être en mode préparation
+- Pages admin protégées (`requireAdmin`)
+- Bundle admin lourd — exclusions tracing Vercel déjà en place sur `main`
 
-## Fonctionnalités
-
-- Quiz fonctionnel avec score automatique et corrections
-- **Sauvegarde Supabase** : résultats quiz, progression par parcours, badges
-- **Certificats PDF** téléchargeables après réussite d'un quiz
-- **Espace admin** : stats apprenants, résultats quiz, progression
-- Labs pratiques guidés
-- Design premium style Apple
-
-## Déploiement Vercel
+## Déploiement
 
 ```bash
-# Lier le projet (première fois)
-npx vercel link
-
-# Ajouter les variables d'environnement sur Vercel
-npx vercel env add NEXT_PUBLIC_SUPABASE_URL
-npx vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
-npx vercel env add NEXT_PUBLIC_SITE_URL
-
-# Déployer
+npx vercel link   # première fois
 npm run build
-npx vercel --prod
+# Déploiement via CI / Vercel Git integration recommandé
 ```
 
-Dans Supabase Auth → URL Configuration, ajoutez :
-- `https://votre-domaine.vercel.app/auth/callback`
-
-## Prochaines étapes
-
-- [x] Supabase Auth
-- [x] Sauvegarde progression quiz en base
-- [x] Certificats PDF
-- [x] Espace admin
+Ne jamais committer `.env`, `.env.local`, ni clés API.

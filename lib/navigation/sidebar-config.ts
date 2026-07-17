@@ -24,7 +24,7 @@ export const sidebarMainNav: SidebarNavItem[] = [
       { label: "Microsoft Intune Apple", href: "/parcours/intune-mac", icon: "intune" },
       { label: "Jamf 100", href: "/parcours/jamf-100", icon: "jamf" },
       { label: "Jamf 200", href: "/parcours/jamf-200", icon: "jamf" },
-      { label: "Apple Security", href: "/certifications/apple-certified-it-professional", icon: "shield" },
+      { label: "Apple Security", href: "/examens/apple-security", icon: "shield" },
       { label: "Apple Enterprise", href: "/parcours/apple-enterprise-expert", icon: "apple" },
       { label: "Apple Enterprise Architect", href: "/parcours/apple-enterprise-architect", icon: "apple" },
     ],
@@ -49,4 +49,6 @@ export const sidebarMainNav: SidebarNavItem[] = [
   { label: "Examens", href: "/examens", icon: "shield" },
   { label: "Vidéos", href: "/videos", icon: "video" },
   { label: "Ressources", href: "/resources", icon: "resource" },
+  { label: "Tarifs", href: "/pricing", icon: "certificate" },
+  { label: "Support", href: "/support", icon: "shield" },
 ];

@@ -6,7 +6,7 @@ import { FreePlatformBanner } from "@/components/layout/free-platform-banner";
 import { AuthButtons } from "@/components/auth/auth-buttons";
 import { ButtonLink } from "@/components/ui";
 import { BrandLegalNotices } from "@/components/brands/BrandLegalNotices";
-import { LogoIcon } from "@/components/ui/logo-icon";
+import { AcademyLogo } from "@/components/layout/academy-logo";
 
 function AuthButtonsFallback() {
   return (
@@ -26,27 +26,23 @@ function AuthButtonsFallback() {
 
 const footerLinks = [
   { href: "/parcours", label: "Parcours" },
+  { href: "/cours", label: "Cours" },
+  { href: "/examens", label: "Examens" },
+  { href: "/labs", label: "Labs pratiques" },
   { href: "/videos", label: "Vidéos" },
   { href: "/resources", label: "Ressources" },
-  { href: "/labs", label: "Labs pratiques" },
 ];
 
 export function Footer() {
   return (
     <footer className="border-t border-border-light bg-surface-elevated" role="contentinfo">
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-8">
-        <div className="grid gap-6 md:grid-cols-4 md:gap-8">
-          <div className="md:col-span-2">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-base font-semibold text-ink"
-              aria-label="Apple MDM Academy — Accueil"
-            >
-              <LogoIcon name="apple" size={20} alt="Apple MDM Academy" />
-              Apple MDM Academy
-            </Link>
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4 md:gap-8">
+          <div className="sm:col-span-2 md:col-span-2">
+            <AcademyLogo variant="full" size="sm" className="inline-flex" />
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-ink-secondary">
-              Formation professionnelle Apple, Jamf Pro et Microsoft Intune en français.
+              Formation indépendante Apple MDM, Jamf Pro et Microsoft Intune en français.
+              Non affiliée à Apple Inc., Jamf ou Microsoft.
             </p>
           </div>
           <div>
@@ -54,7 +50,10 @@ export function Footer() {
             <ul className="mt-3 space-y-2">
               {footerLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-ink-secondary hover:text-ink">
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-10 items-center text-sm text-ink-secondary hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -64,10 +63,31 @@ export function Footer() {
           <div>
             <p className="text-sm font-semibold text-ink">Plateforme</p>
             <ul className="mt-3 space-y-2">
-              <li><Link href="/pricing" className="text-sm text-ink-secondary hover:text-ink">Tarifs</Link></li>
-              <li><Link href="/support" className="text-sm text-ink-secondary hover:text-ink">Centre d&apos;aide</Link></li>
-              <li><Link href="/status" className="text-sm text-ink-secondary hover:text-ink">Statut</Link></li>
-              <li><Link href="/auth/login" className="text-sm text-ink-secondary hover:text-ink">Connexion</Link></li>
+              <li>
+                <Link href="/certifications" className="inline-flex min-h-10 items-center text-sm text-ink-secondary hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                  Certifications
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="inline-flex min-h-10 items-center text-sm text-ink-secondary hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                  Tarifs
+                </Link>
+              </li>
+              <li>
+                <Link href="/support" className="inline-flex min-h-10 items-center text-sm text-ink-secondary hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                  Centre d&apos;aide
+                </Link>
+              </li>
+              <li>
+                <Link href="/status" className="inline-flex min-h-10 items-center text-sm text-ink-secondary hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                  Statut
+                </Link>
+              </li>
+              <li>
+                <Link href="/auth/login" className="inline-flex min-h-10 items-center text-sm text-ink-secondary hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                  Connexion
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -75,9 +95,9 @@ export function Footer() {
         <div className="mt-4 flex flex-col items-center justify-between gap-2 text-xs text-ink-tertiary md:flex-row">
           <p>© 2026 Apple MDM Academy. Tous droits réservés.</p>
           <nav aria-label="Liens légaux" className="flex flex-wrap justify-center gap-x-4 gap-y-1">
-            <Link href="/privacy" className="hover:text-ink">Confidentialité</Link>
-            <Link href="/terms" className="hover:text-ink">CGU</Link>
-            <Link href="/legal" className="hover:text-ink">Mentions légales</Link>
+            <Link href="/privacy" className="hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">Confidentialité</Link>
+            <Link href="/terms" className="hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">CGU</Link>
+            <Link href="/legal" className="hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">Mentions légales</Link>
           </nav>
         </div>
       </div>

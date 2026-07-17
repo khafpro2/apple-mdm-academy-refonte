@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent, type ReactNode } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "@/components/layout/sidebar-context";
 
@@ -21,12 +22,12 @@ export function Header({ authSlot }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 border-b border-border-light bg-surface/90 px-4 backdrop-blur-xl lg:px-6">
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-border-light bg-surface/90 px-3 backdrop-blur-xl sm:gap-3 sm:px-4 lg:px-6">
       <button
         type="button"
         onClick={toggleMobile}
         className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-border-light p-2 text-ink-secondary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
-        aria-label="Ouvrir le menu de navigation"
+        aria-label={mobileOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
         aria-expanded={mobileOpen}
         aria-controls="sidebar-nav"
       >
@@ -34,6 +35,16 @@ export function Header({ authSlot }: HeaderProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+
+      <Link
+        href="/parcours"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-border-light text-ink-secondary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:hidden"
+        aria-label="Rechercher un parcours"
+      >
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
+        </svg>
+      </Link>
 
       <form onSubmit={onSearch} className="hidden min-w-0 flex-1 sm:block sm:max-w-md" role="search">
         <label htmlFor="header-search" className="sr-only">
@@ -55,12 +66,12 @@ export function Header({ authSlot }: HeaderProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Rechercher un parcours…"
-            className="w-full rounded-lg border border-border-light bg-surface py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-tertiary focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20"
+            className="min-h-11 w-full rounded-lg border border-border-light bg-surface py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-tertiary focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/20"
           />
         </div>
       </form>
 
-      <div className="ml-auto flex items-center gap-2 sm:gap-3">{authSlot}</div>
+      <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-3">{authSlot}</div>
     </header>
   );
 }
