@@ -1,6 +1,6 @@
 import { getQuiz } from "@/lib/data/quizzes";
 import { examRouteToQuizSlug, examPools, examQuestionCounts, getExamRouteSlugs } from "@/lib/data/exams/pools";
-import { getExamDurationMinutes } from "@/lib/exam/exam-config";
+import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
 import { analyzePoolQuality, type PoolQualityReport } from "@/lib/exam/pool-quality-audit";
 import { getExamAttemptsStorageKey } from "@/lib/exam/exam-attempts-storage";
 import { getSupabaseEnv } from "@/lib/env";
@@ -22,6 +22,10 @@ export type ExamAuditRow = {
   localStorageOk: boolean;
   supabaseSyncAvailable: boolean;
   timerEnabled: boolean;
+  formatVerified: boolean;
+  verificationStatus: string;
+  vendor: string;
+  passingScore: number;
   poolOk: boolean;
   bankComplete: boolean;
   poolWarning: string | null;
@@ -87,10 +91,12 @@ export function runExamAudit(): ExamAuditReport {
   const rows: ExamAuditRow[] = getExamRouteSlugs().map((routeSlug) => {
     const quizSlug = examRouteToQuizSlug[routeSlug];
     const quiz = quizSlug ? getQuiz(quizSlug) : undefined;
-    const pool = quizSlug ? examPools[quizSlug] : undefined;
+    const pool = quizSlug ? examPools[quizSlug] ?? quiz?.questions : undefined;
     const baseQuestions = pool?.length ?? 0;
-    const targetQuestions = quiz?.examQuestionCount ?? examQuestionCounts[quizSlug ?? ""] ?? 0;
+    const targetQuestions = getExamQuestionCount(routeSlug, quiz?.examQuestionCount ?? examQuestionCounts[quizSlug ?? ""] ?? 0);
     const durationMinutes = getExamDurationMinutes(routeSlug, quiz?.durationMinutes);
+    const passingScore = getExamPassingScore(routeSlug, quiz?.passingScore ?? 0);
+    const format = getExamFormat(routeSlug);
     const quality = analyzePoolQuality(
       quizSlug ?? routeSlug,
       pool,
@@ -129,6 +135,10 @@ export function runExamAudit(): ExamAuditReport {
       localStorageOk: true,
       supabaseSyncAvailable,
       timerEnabled: timerOk,
+      formatVerified: format?.verificationStatus === "official-verified",
+      verificationStatus: format?.verificationStatus ?? "needs-review",
+      vendor: format?.vendor ?? "—",
+      passingScore,
       poolOk,
       bankComplete,
       poolWarning,

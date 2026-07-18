@@ -7,6 +7,7 @@ import { getBadgeById } from "@/lib/badges-config";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
 import type { ScoreTier } from "@/lib/exam/exam-config";
 import { isAnswerCorrect, type UserAnswer } from "@/lib/quiz/scoring";
+import { buildExamFinalReport } from "@/lib/exams/report";
 
 type Answers = Record<string, UserAnswer>;
 
@@ -42,6 +43,12 @@ export function ExamResultView({
   onRetake?: () => void;
 }) {
   const wrongCount = total - correct;
+  const report = buildExamFinalReport({
+    questions,
+    answers,
+    passingScore: quiz.passingScore,
+    elapsedSeconds,
+  });
   const recommendedModules = questions
     .filter((q) => !isAnswerCorrect(q, answers[q.id]))
     .map((q) => ({ href: q.moduleHref, label: q.moduleLabel ?? "Revoir le module" }))
@@ -82,6 +89,41 @@ export function ExamResultView({
         </div>
       </div>
 
+      {(report.strongDomains.length > 0 || report.weakDomains.length > 0) && (
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl bg-surface px-4 py-4">
+            <h3 className="font-bold text-ink">Domaines forts</h3>
+            {report.strongDomains.length > 0 ? (
+              <ul className="mt-3 space-y-2 text-sm text-ink-secondary">
+                {report.strongDomains.map((domain) => (
+                  <li key={domain.domain} className="flex justify-between gap-3">
+                    <span>{domain.domain}</span>
+                    <span className="font-semibold text-ink">{domain.percent}%</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-sm text-ink-tertiary">Aucun domaine au-dessus de 80 % pour cette tentative.</p>
+            )}
+          </div>
+          <div className="rounded-2xl bg-surface px-4 py-4">
+            <h3 className="font-bold text-ink">Domaines à renforcer</h3>
+            {report.weakDomains.length > 0 ? (
+              <ul className="mt-3 space-y-2 text-sm text-ink-secondary">
+                {report.weakDomains.map((domain) => (
+                  <li key={domain.domain} className="flex justify-between gap-3">
+                    <span>{domain.domain}</span>
+                    <span className="font-semibold text-ink">{domain.percent}%</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-sm text-ink-tertiary">Aucun domaine faible détecté.</p>
+            )}
+          </div>
+        </div>
+      )}
+
       {saveStatus === "saved" && (
         <div className="mt-4 rounded-2xl bg-green-50 px-4 py-3 text-center text-sm text-green-800">
           Résultat enregistré · Historique disponible dans votre transcript
@@ -103,11 +145,11 @@ export function ExamResultView({
         </div>
       )}
 
-      {recommendedModules.length > 0 && (
+      {(report.recommendations.length > 0 || recommendedModules.length > 0) && (
         <div className="mt-8">
           <h3 className="font-bold text-ink">Modules recommandés</h3>
           <ul className="mt-3 space-y-2">
-            {recommendedModules.map((m) => (
+            {(report.recommendations.length > 0 ? report.recommendations : recommendedModules).map((m) => (
               <li key={m.href}>
                 <Link href={m.href} className="text-sm font-semibold text-accent hover:underline">
                   → {m.label}

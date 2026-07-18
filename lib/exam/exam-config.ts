@@ -1,19 +1,12 @@
-import { examRouteToQuizSlug } from "@/lib/data/exams/pools";
-
-/** Durées officielles par route /examens/[slug] (minutes). */
-export const EXAM_DURATION_BY_ROUTE: Record<string, number> = {
-  "apple-it-professional": 120,
-  "jamf-100": 120,
-  "jamf-200": 180,
-  "intune-apple": 120,
-  "apple-security": 120,
-};
-
-export const EXAM_ROUTE_SLUGS = Object.keys(examRouteToQuizSlug);
-
-export function getExamDurationMinutes(routeSlug: string, fallback?: number): number {
-  return EXAM_DURATION_BY_ROUTE[routeSlug] ?? fallback ?? 120;
-}
+export {
+  EXAM_ROUTE_SLUGS,
+  getExamDurationMinutes,
+  getExamFormat,
+  getExamFormatByQuizSlug,
+  getExamPassingScore,
+  getExamQuestionCount,
+  shouldShowExplanations,
+} from "@/lib/exams/exam-config";
 
 export type ScoreTier = {
   id: string;

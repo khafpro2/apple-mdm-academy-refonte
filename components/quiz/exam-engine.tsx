@@ -6,13 +6,8 @@ import { useRouter } from "next/navigation";
 import type { Quiz, Question } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
 import { saveQuizResult } from "@/app/actions/progress";
-import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
-import { pickExamQuestions, formatDuration } from "@/lib/data/exams/exam-utils";
-import { pickAcitpExamQuestions } from "@/lib/data/acitp/exam-pool";
-import { pickAeaExamQuestions } from "@/lib/data/apple-enterprise-architect/exam-pool";
-import { pickAppleDeploymentExamQuestions } from "@/lib/data/apple-training/exam-apple-deployment";
-import { pickAppleSecurityExamQuestions } from "@/lib/data/apple-training/exam-apple-security";
+import { formatDuration } from "@/lib/data/exams/exam-utils";
 import { ACITP_EXAM_REPORT_STORAGE_KEY } from "@/lib/data/acitp/exam-report-storage";
 import { getExamLoginRedirect } from "@/lib/data/exams/exam-routes";
 import { getExamDurationMinutes, getScoreTier } from "@/lib/exam/exam-config";
@@ -28,6 +23,9 @@ import {
 import { isAnswerCorrect, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
 import { ExamResultView } from "@/components/exams/exam-result-view";
 import { ExamHistoryPanel } from "@/components/quiz/exam-history-panel";
+import { ExamTimer } from "@/components/exams/exam-timer";
+import { selectExamQuestions } from "@/lib/exams/selection";
+import type { ExamFormat, ExamMode } from "@/lib/exams/exam-types";
 
 type Answers = Record<string, UserAnswer>;
 type ViewMode = "intro" | "exam" | "result";
@@ -37,6 +35,7 @@ const ALERT_1_MIN = 60;
 
 export function ExamEngine({
   quiz,
+  examFormat,
   basePool,
   questionCount,
   isAuthenticated,
@@ -44,6 +43,7 @@ export function ExamEngine({
   viewMode = "intro",
 }: {
   quiz: Quiz;
+  examFormat?: ExamFormat;
   basePool: Question[];
   questionCount: number;
   isAuthenticated: boolean;
@@ -52,6 +52,7 @@ export function ExamEngine({
 }) {
   const router = useRouter();
   const [phase, setPhase] = useState<ViewMode>(viewMode);
+  const [activeMode, setActiveMode] = useState<ExamMode>(viewMode === "exam" ? "simulation" : "training");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -65,6 +66,7 @@ export function ExamEngine({
   const [showNavigator, setShowNavigator] = useState(false);
   const [resultId, setResultId] = useState<string | null>(null);
   const [timerAlert, setTimerAlert] = useState<string | null>(null);
+  const [timerPaused, setTimerPaused] = useState(false);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [poolWarning, setPoolWarning] = useState<string | null>(null);
 
@@ -76,6 +78,8 @@ export function ExamEngine({
 
   const savedRef = useRef(false);
   const startTimeRef = useRef(0);
+  const expiresAtRef = useRef<number | null>(null);
+  const attemptIdRef = useRef("");
   const containerRef = useRef<HTMLDivElement>(null);
   const sessionSeedRef = useRef("");
   const answersRef = useRef<Answers>({});
@@ -87,11 +91,16 @@ export function ExamEngine({
     answersRef.current = answers;
   }, [answers]);
 
-  const durationMinutes = getExamDurationMinutes(routeSlug, quiz.durationMinutes ?? 120);
+  const modeBehavior = examFormat?.modes[activeMode];
+  const durationMinutes = modeBehavior?.durationMinutes ?? (activeMode === "simulation" ? getExamDurationMinutes(routeSlug, quiz.durationMinutes ?? 120) : 0);
   const totalSeconds = durationMinutes * 60;
   const loginRedirect = getExamLoginRedirect(quiz.slug);
   const uniqueBaseCount = basePool.length;
   const incompletePool = uniqueBaseCount === 0 || uniqueBaseCount < questionCount;
+  const simulationTargetCount = examFormat?.modes.simulation.questionCount ?? questionCount;
+  const trainingTargetCount = examFormat?.modes.training.questionCount ?? Math.min(20, questionCount);
+  const effectiveSimulationCount = incompletePool ? uniqueBaseCount : simulationTargetCount;
+  const effectiveTrainingCount = Math.min(trainingTargetCount, uniqueBaseCount || trainingTargetCount);
 
   const question = questions[currentIndex];
   const total = questions.length;
@@ -111,28 +120,37 @@ export function ExamEngine({
       saveExamSession({
         routeSlug,
         quizSlug: quiz.slug,
+        attemptId: attemptIdRef.current,
+        mode: activeMode,
+        status: "in_progress",
         questions,
         answers,
         flagged: [...flagged],
         currentIndex,
         secondsLeft,
         startedAt: startTimeRef.current,
+        expiresAt: expiresAtRef.current,
+        updatedAt: Date.now(),
         sessionSeed: sessionSeedRef.current,
         ...next,
       });
     },
-    [phase, questions, answers, flagged, currentIndex, secondsLeft, routeSlug, quiz.slug]
+    [phase, questions, answers, flagged, currentIndex, secondsLeft, routeSlug, quiz.slug, activeMode]
   );
 
   const finishExam = useCallback(
     async (finalAnswers: Answers) => {
+      if (questions.length === 0) return;
       setShowSubmitConfirm(false);
       setPhase("result");
       clearExamSession(routeSlug, quiz.slug);
       if (document.fullscreenElement) {
         void document.exitFullscreen();
       }
-      const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
+      const duration =
+        totalSeconds > 0
+          ? Math.min(totalSeconds, Math.round((Date.now() - startTimeRef.current) / 1000))
+          : Math.round((Date.now() - startTimeRef.current) / 1000);
       const { correct, total: t, percent, passed } = calculateScore(finalAnswers);
       setElapsedSeconds(duration);
       const tier = getScoreTier(percent);
@@ -199,11 +217,11 @@ export function ExamEngine({
 
       router.replace(`/examens/${routeSlug}/result`);
     },
-    [calculateScore, isAuthenticated, quiz, questions, routeSlug, router]
+    [calculateScore, isAuthenticated, quiz, questions, routeSlug, router, totalSeconds]
   );
 
   useEffect(() => {
-    if (phase !== "exam") return;
+    if (phase !== "exam" || questions.length === 0 || timerPaused || totalSeconds <= 0) return;
     const timer = setInterval(() => {
       setSecondsLeft((s) => {
         if (s <= 1) {
@@ -223,42 +241,40 @@ export function ExamEngine({
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [phase, finishExam]);
+  }, [phase, finishExam, questions.length, timerPaused, totalSeconds]);
 
   useEffect(() => {
     if (phase === "exam") persistSession({});
   }, [phase, answers, flagged, currentIndex, secondsLeft, persistSession]);
 
-  function pickQuestions(seed: string): Question[] {
+  function pickQuestions(seed: string, mode: ExamMode): Question[] {
     if (basePool.length === 0) {
       setPoolWarning("Banque de questions incomplète — aucune question disponible.");
       return [];
     }
-    if (uniqueBaseCount < questionCount) {
+    const targetCount = examFormat?.modes[mode].questionCount ?? questionCount;
+    if (uniqueBaseCount < targetCount) {
       setPoolWarning(
-        `Banque de questions incomplète (${uniqueBaseCount} uniques / ${questionCount} cibles) — test avec les questions disponibles.`
+        `Banque de questions incomplète (${uniqueBaseCount} uniques / ${targetCount} cibles) — test avec les questions disponibles.`
       );
     } else {
       setPoolWarning(null);
     }
 
-    const picked =
-      quiz.slug === "examen-apple-it-pro"
-        ? pickAcitpExamQuestions(seed)
-        : quiz.slug === "examen-apple-enterprise-architect"
-          ? pickAeaExamQuestions(seed)
-          : quiz.slug === "examen-apple-deployment"
-            ? pickAppleDeploymentExamQuestions(seed)
-            : quiz.slug === "examen-apple-security"
-              ? pickAppleSecurityExamQuestions(seed)
-              : pickExamQuestions(basePool, questionCount, seed);
-
-    return picked.length > 0 ? picked : pickExamQuestions(basePool, Math.min(questionCount, uniqueBaseCount), seed);
+    const report = selectExamQuestions(basePool, {
+      seed,
+      count: targetCount,
+      level: examFormat?.difficulty,
+    });
+    if (report.warnings.length > 0) setPoolWarning(report.warnings.join(" "));
+    return report.selected;
   }
 
-  function beginExam(picked: Question[], seed: string, resume?: ExamSession) {
+  function beginExam(picked: Question[], seed: string, mode: ExamMode, resume?: ExamSession) {
     if (picked.length === 0) return;
+    setActiveMode(mode);
     sessionSeedRef.current = seed;
+    attemptIdRef.current = resume?.attemptId ?? `${quiz.slug}-${mode}-${Date.now()}`;
     alert10Ref.current = false;
     alert1Ref.current = false;
     setTimerAlert(null);
@@ -271,48 +287,57 @@ export function ExamEngine({
       setSelectedOption(Array.isArray(resumed) ? null : (resumed ?? null));
       setSecondsLeft(resume.secondsLeft);
       startTimeRef.current = resume.startedAt;
+      expiresAtRef.current = resume.expiresAt;
+      if (resume.status === "expired") {
+        window.setTimeout(() => void finishExam(resume.answers), 0);
+      }
     } else {
       setAnswers({});
       setFlagged(new Set());
       setCurrentIndex(0);
       setSelectedOption(null);
-      setSecondsLeft(totalSeconds);
+      const nextDuration = examFormat?.modes[mode].durationMinutes ?? (mode === "simulation" ? getExamDurationMinutes(routeSlug, quiz.durationMinutes ?? 120) : 0);
+      setSecondsLeft(nextDuration * 60);
       startTimeRef.current = Date.now();
+      expiresAtRef.current = nextDuration > 0 ? startTimeRef.current + nextDuration * 60 * 1000 : null;
     }
+    setTimerPaused(false);
     setSaveStatus("idle");
     setNewBadgeIds([]);
     setResultId(null);
     savedRef.current = false;
     setPhase("exam");
     markExamInProgress(routeSlug, quiz.slug, quiz.title);
-    router.replace(`/examens/${routeSlug}/start`);
+    if (mode === "simulation") router.replace(`/examens/${routeSlug}/start`);
   }
 
-  function startExam() {
-    const seed = `${quiz.slug}-${Date.now()}-${Math.random()}`;
-    beginExam(pickQuestions(seed), seed);
+  function startExam(mode: ExamMode = "simulation") {
+    const seed = `${quiz.slug}-${mode}-${Date.now()}-${Math.random()}`;
+    beginExam(pickQuestions(seed, mode), seed, mode);
   }
 
   function resumeExam() {
     if (!savedSession) return;
-    beginExam(savedSession.questions, savedSession.sessionSeed, savedSession);
+    beginExam(savedSession.questions, savedSession.sessionSeed, savedSession.mode, savedSession);
   }
 
   function restartExam() {
     clearExamSession(routeSlug, quiz.slug);
-    startExam();
+    startExam(activeMode);
   }
 
   useEffect(() => {
     if (viewMode !== "exam" || autoStartedRef.current) return;
+    const existingSession = loadExamSession(routeSlug, quiz.slug);
+    if (!existingSession && basePool.length === 0) return;
     autoStartedRef.current = true;
     const id = window.setTimeout(() => {
-      if (savedSession) resumeExam();
-      else startExam();
+      if (existingSession) beginExam(existingSession.questions, existingSession.sessionSeed, existingSession.mode, existingSession);
+      else startExam("simulation");
     }, 0);
     return () => window.clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- auto-start once on /start
-  }, [viewMode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- auto-start once when /start has a session or a hydrated question pool
+  }, [viewMode, basePool.length, routeSlug, quiz.slug]);
 
   function goToQuestion(index: number) {
     if (index < 0 || index >= total) return;
@@ -324,6 +349,13 @@ export function ExamEngine({
 
   function selectOption(index: number) {
     if (!question) return;
+    const existing = answers[question.id];
+    if (question.selectMultiple) {
+      const selected = Array.isArray(existing) ? existing : existing === undefined ? [] : [existing];
+      const next = selected.includes(index) ? selected.filter((item) => item !== index) : [...selected, index].sort((a, b) => a - b);
+      setAnswers((prev) => ({ ...prev, [question.id]: next.length > 0 ? next : undefined }));
+      return;
+    }
     setSelectedOption(index);
     setAnswers((prev) => ({ ...prev, [question.id]: index }));
   }
@@ -385,25 +417,31 @@ export function ExamEngine({
   if (phase === "intro") {
     return (
       <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
-        <Badge variant="dark">Mode examen</Badge>
+        <Badge variant="dark">Moteur professionnel</Badge>
         <h2 className="mt-4 text-2xl font-bold text-ink">{quiz.title}</h2>
         <p className="mt-3 text-ink-secondary">{quiz.description}</p>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl bg-surface px-4 py-3 text-sm">
-            <span className="text-ink-tertiary">Questions · </span>
-            <span className="font-semibold text-ink">{questionCount} aléatoires</span>
+            <span className="text-ink-tertiary">Simulation · </span>
+            <span className="font-semibold text-ink">
+              {incompletePool
+                ? `${effectiveSimulationCount} disponibles / cible ${simulationTargetCount}`
+                : `${simulationTargetCount} questions`}
+            </span>
           </div>
           <div className="rounded-2xl bg-surface px-4 py-3 text-sm">
-            <span className="text-ink-tertiary">Durée · </span>
-            <span className="font-semibold text-ink">{durationMinutes} min</span>
+            <span className="text-ink-tertiary">Entraînement · </span>
+            <span className="font-semibold text-ink">
+              {effectiveTrainingCount} questions
+            </span>
           </div>
           <div className="rounded-2xl bg-surface px-4 py-3 text-sm">
             <span className="text-ink-tertiary">Seuil · </span>
             <span className="font-semibold text-ink">{quiz.passingScore}%</span>
           </div>
           <div className="rounded-2xl bg-surface px-4 py-3 text-sm">
-            <span className="text-ink-tertiary">Timer · </span>
-            <span className="font-semibold text-ink">Activé</span>
+            <span className="text-ink-tertiary">Timer simulation · </span>
+            <span className="font-semibold text-ink">{getExamDurationMinutes(routeSlug, quiz.durationMinutes ?? 120)} min</span>
           </div>
         </div>
         {incompletePool && (
@@ -412,18 +450,22 @@ export function ExamEngine({
           </div>
         )}
         <ul className="mt-6 space-y-2 text-sm text-ink-secondary">
-          <li>⏱ Chronomètre {durationMinutes} minutes — soumission auto à expiration</li>
-          <li>🧭 Navigation libre entre les questions</li>
-          <li>🔖 Marquer pour révision</li>
-          <li>💾 Reprise de session si vous quittez la page</li>
-          <li>📋 Correction détaillée avec modules recommandés</li>
+          <li>Mode entraînement : correction immédiate, explications visibles, pause autorisée.</li>
+          <li>
+            {examFormat?.verificationStatus === "official-verified"
+              ? "Simulation basée sur les informations officielles actuellement publiées."
+              : "Simulation interne — format officiel non entièrement confirmé."}
+          </li>
+          <li>Mode simulation : chronomètre obligatoire, correction uniquement à la fin.</li>
+          <li>Sélection équilibrée par domaines, sans répétition volontaire.</li>
+          <li>Reprise locale si vous quittez la page pendant une simulation.</li>
         </ul>
         {savedSession && (
           <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/5 p-4">
             <p className="text-sm font-semibold text-accent">Une tentative est en cours</p>
             <p className="mt-1 text-xs text-ink-secondary">
               Question {savedSession.currentIndex + 1}/{savedSession.questions.length} ·{" "}
-              {formatDuration(savedSession.secondsLeft)} restantes
+              {savedSession.expiresAt ? `expire ${new Date(savedSession.expiresAt).toLocaleTimeString("fr-FR")}` : `${formatDuration(savedSession.secondsLeft)} restantes`}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button onClick={resumeExam} size="sm">
@@ -445,15 +487,27 @@ export function ExamEngine({
           </p>
         )}
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button
-            onClick={() => {
-              clearExamSession(routeSlug, quiz.slug);
-              router.push(`/examens/${routeSlug}/start`);
-            }}
-            aria-label={`Commencer l'examen ${quiz.title}`}
-          >
-            Commencer l&apos;examen
+          <Button onClick={() => startExam("training")} aria-label={`Démarrer l'entraînement ${quiz.title}`}>
+            Mode entraînement
           </Button>
+          <a
+            href={`/examens/${routeSlug}/start`}
+            onClick={() => {
+              if (!incompletePool) clearExamSession(routeSlug, quiz.slug);
+            }}
+            aria-disabled={incompletePool}
+            onClickCapture={(event) => {
+              if (!incompletePool) return;
+              event.preventDefault();
+            }}
+            className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent ${
+              incompletePool
+                ? "cursor-not-allowed bg-surface text-ink-tertiary"
+                : "bg-white text-ink hover:bg-surface"
+            }`}
+          >
+            {incompletePool ? "Simulation complète indisponible" : "Mode simulation"}
+          </a>
           <Link
             href={isAuthenticated ? "/dashboard/transcript" : `/auth/login?redirect=${loginRedirect}`}
             className="inline-flex min-h-11 items-center rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink-secondary hover:text-ink"
@@ -482,6 +536,9 @@ export function ExamEngine({
   const answeredCount = Object.keys(answers).length;
   const unansweredCount = total - answeredCount;
   const timerPercent = totalSeconds > 0 ? (secondsLeft / totalSeconds) * 100 : 0;
+  const currentAnswer = answers[question.id];
+  const currentAnswered = currentAnswer !== undefined;
+  const revealExplanation = activeMode === "training" && currentAnswered;
 
   return (
     <div
@@ -497,27 +554,39 @@ export function ExamEngine({
         </div>
       )}
 
-      <div className="mb-4">
-        <div className="mb-2 flex items-center justify-between text-xs text-ink-tertiary">
-          <span>Temps restant</span>
-          <span>{Math.round(timerPercent)}%</span>
-        </div>
-        <ProgressBar
-          value={timerPercent}
-          className={`h-2 ${secondsLeft <= ALERT_1_MIN ? "[&>div]:bg-red-500" : secondsLeft <= ALERT_10_MIN ? "[&>div]:bg-amber-500" : ""}`}
-        />
+      <div className="mb-4 rounded-2xl border border-border-light bg-surface px-4 py-3 text-xs font-medium text-ink-secondary">
+        {examFormat?.verificationStatus === "official-verified"
+          ? "Simulation basée sur les informations officielles actuellement publiées."
+          : "Simulation interne — format officiel non entièrement confirmé."}
+        {poolWarning ? <span className="ml-1 text-amber-700">{poolWarning}</span> : null}
       </div>
+
+      {totalSeconds > 0 && (
+        <div className="mb-4">
+          <div className="mb-2 flex items-center justify-between text-xs text-ink-tertiary">
+            <span>Temps restant</span>
+            <span>{Math.round(timerPercent)}%</span>
+          </div>
+          <ProgressBar
+            value={timerPercent}
+            className={`h-2 ${secondsLeft <= ALERT_1_MIN ? "[&>div]:bg-red-500" : secondsLeft <= ALERT_10_MIN ? "[&>div]:bg-amber-500" : ""}`}
+          />
+        </div>
+      )}
 
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <span className="text-sm font-medium text-ink-tertiary">
           Question {currentIndex + 1} / {total} · {answeredCount} répondues · {unansweredCount} non répondues
         </span>
         <div className="flex flex-wrap items-center gap-2">
-          <div
-            className={`rounded-full px-4 py-1.5 text-sm font-bold tabular-nums ${secondsLeft <= ALERT_1_MIN ? "bg-red-100 text-red-700 animate-pulse" : secondsLeft <= ALERT_10_MIN ? "bg-amber-100 text-amber-800" : "bg-surface text-ink"}`}
-          >
-            ⏱ {formatDuration(secondsLeft)}
-          </div>
+          <ExamTimer
+            mode={activeMode}
+            secondsLeft={secondsLeft}
+            totalSeconds={totalSeconds}
+            paused={timerPaused}
+            onPause={() => setTimerPaused(true)}
+            onResume={() => setTimerPaused(false)}
+          />
           <button
             type="button"
             onClick={() => setShowNavigator((v) => !v)}
@@ -565,24 +634,46 @@ export function ExamEngine({
       <h2 className="text-xl font-bold leading-snug text-ink">{question.text}</h2>
 
       <div className="mt-6 space-y-3">
-        {question.options.map((option, index) => (
-          <button
-            key={option}
-            type="button"
-            onClick={() => selectOption(index)}
-            className={`w-full rounded-2xl border p-4 text-left text-sm font-medium text-ink transition-all ${
-              selectedOption === index
-                ? "border-accent bg-accent/5 ring-2 ring-accent/20"
-                : "border-border-light bg-surface hover:border-accent/40"
-            }`}
-          >
-            <span className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-border-light text-xs font-bold">
-              {String.fromCharCode(65 + index)}
-            </span>
-            {option}
-          </button>
-        ))}
+        {question.options.map((option, index) => {
+          const selected = Array.isArray(currentAnswer) ? currentAnswer.includes(index) : selectedOption === index || currentAnswer === index;
+          const locked = false;
+          const correct = question.selectMultiple && question.correctIndices
+            ? question.correctIndices.includes(index)
+            : question.correctIndex === index;
+          return (
+            <button
+              key={option}
+              type="button"
+              onClick={() => selectOption(index)}
+              disabled={locked && !selected}
+              aria-pressed={selected}
+              className={`w-full rounded-2xl border p-4 text-left text-sm font-medium text-ink transition-all ${
+                revealExplanation && correct
+                  ? "border-green-300 bg-green-50"
+                  : revealExplanation && selected && !correct
+                    ? "border-red-300 bg-red-50"
+                    : selected
+                      ? "border-accent bg-accent/5 ring-2 ring-accent/20"
+                      : "border-border-light bg-surface hover:border-accent/40"
+              } ${locked && !selected ? "cursor-not-allowed opacity-60" : ""}`}
+            >
+              <span className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-border-light text-xs font-bold">
+                {String.fromCharCode(65 + index)}
+              </span>
+              {option}
+            </button>
+          );
+        })}
       </div>
+
+      {revealExplanation && (
+        <div className="mt-4 rounded-2xl border border-border-light bg-surface px-4 py-3 text-sm text-ink-secondary">
+          <p className="font-semibold text-ink">
+            {isAnswerCorrect(question, currentAnswer) ? "Bonne réponse" : "À revoir"}
+          </p>
+          <p className="mt-1">{question.explanation}</p>
+        </div>
+      )}
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
         <button
