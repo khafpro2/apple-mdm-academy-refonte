@@ -1,3 +1,8 @@
+/**
+ * Compatibility re-exports for legacy imports of `@/lib/exam/exam-config`.
+ * Source of truth: `@/lib/exams/exam-config` (Codex).
+ * Prefer importing from `@/lib/exams/exam-config` or `@/lib/exams/ui-metadata-adapter` in new code.
+ */
 export {
   EXAM_ROUTE_SLUGS,
   getExamDurationMinutes,

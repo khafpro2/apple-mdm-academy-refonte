@@ -41,7 +41,8 @@ export const commercialCertificationPaths: CommercialCertPath[] = [
     slug: "apple-deployment",
     title: "Apple Deployment & Management",
     shortTitle: "Apple Deployment",
-    description: "ABM, ADE, APNs, Apps & Books, Managed Apple IDs, Platform SSO, DDM et attestation — examen 100 Q.",
+    description:
+      "ABM, ADE, APNs, Apps & Books, Managed Apple Account (anciennement Managed Apple ID), Platform SSO, DDM et attestation — examen 100 Q.",
     level: "Avancé",
     duration: "20 h",
     logo: "apple",

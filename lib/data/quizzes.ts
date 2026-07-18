@@ -379,7 +379,7 @@ export const rawQuizzesBeforePrepare: Quiz[] = [
     title: "Examen blanc — Apple Deployment & Management",
     type: "examen",
     description:
-      "Simulation Apple Deployment & Management : environ 80 questions techniques, sans copie du contenu officiel.",
+      "Simulation Apple Deployment & Management : environ 80 questions techniques (ABM, ADE, APNs, Apps & Books, Managed Apple Account, Platform SSO, DDM) — sans copie du contenu officiel.",
     duration: "120 min",
     durationMinutes: 120,
     passingScore: 75,

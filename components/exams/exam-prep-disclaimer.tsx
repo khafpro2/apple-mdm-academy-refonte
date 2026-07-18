@@ -15,6 +15,10 @@ export function ExamPrepDisclaimer({ examRouteSlug, examTitle }: Props) {
         « {examTitle} » est une <strong>simulation pédagogique</strong> Apple MDM Academy.
         Il ne remplace pas une certification officielle Pearson VUE, Jamf ou Microsoft.
       </p>
+      <p className="mt-3 leading-relaxed text-amber-950/90">
+        Cette simulation est une préparation indépendante. Elle n&apos;est ni fournie, ni approuvée, ni
+        administrée par Apple, Jamf ou Microsoft.
+      </p>
       {official && (
         <p className="mt-3">
           Certification officielle associée :{" "}

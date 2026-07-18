@@ -20,6 +20,10 @@ const ExamResultPageClient = dynamic(
 
 type ExamContext = ExamPageContext;
 
+/**
+ * Cursor page shell — metadata via Codex public adapter only
+ * (getExamDisplayMetadata → officialPanel / simulationPanel / disclaimer).
+ */
 export function ExamPageShell({
   ctx,
   viewMode,
@@ -28,7 +32,8 @@ export function ExamPageShell({
   viewMode: "intro" | "start" | "result";
 }) {
   const { routeSlug, quiz, basePool, questionCount, examTier, isAuthenticated } = ctx;
-  const examMetadata = viewMode === "intro" ? getExamDisplayMetadata(routeSlug, basePool.length) : null;
+  const examMetadata =
+    viewMode === "intro" ? getExamDisplayMetadata(routeSlug, basePool.length) : null;
 
   const jsonLd =
     quiz.examQuestionCount && quiz.durationMinutes
