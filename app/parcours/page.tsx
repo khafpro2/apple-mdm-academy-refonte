@@ -3,25 +3,67 @@ import { PageShell } from "@/components/layout";
 import { SectionHeading, Badge, Card } from "@/components/ui";
 import { TrackCard } from "@/components/cards";
 import { TrackLogo } from "@/components/ui/track-logo";
-import { tracks } from "@/lib/data";
+import { getVisibleTracks } from "@/lib/data";
 import { certificationPaths } from "@/lib/data/pro-modules/paths";
+import { AppleCurriculumMap } from "@/components/course/AppleCurriculumMap";
 
 import { buildPageMetadata } from "@/lib/seo/metadata";
 export const metadata = buildPageMetadata({
   title: "Parcours de formation",
-  description: "19 parcours certifiants Apple MDM — Jamf 100/200/300, Apple Certified IT Pro, Intune, Kandji, Mosyle et plus.",
+  description: "Parcours certifiants Apple MDM — Apple Platform Deployment, Jamf, Intune et Entra ID pour les appareils Apple.",
   path: "/parcours",
 });
 
-export default function ParcoursPage() {
+type Props = {
+  searchParams?: Promise<{ q?: string }>;
+};
+
+export default async function ParcoursPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const query = params?.q?.trim() ?? "";
+  const visibleTracks = getVisibleTracks();
+  const normalizedQuery = query.toLowerCase();
+  const filteredTracks = normalizedQuery
+    ? visibleTracks.filter((track) =>
+        [track.title, track.description, track.certification ?? "", track.level]
+          .join(" ")
+          .toLowerCase()
+          .includes(normalizedQuery),
+      )
+    : visibleTracks;
+
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
         <SectionHeading
           label="Certifications"
           title="Parcours de formation"
-          description={`${tracks.length} parcours complets — Apple, Jamf, Intune, MDM alternatifs (Kandji, Mosyle, Addigy, Workspace ONE) et certifications expert.`}
+          description={`${visibleTracks.length} parcours complets — Apple Platform Deployment, Jamf, Intune et Entra ID pour l'administration des appareils Apple.`}
         />
+
+        <AppleCurriculumMap />
+
+        <form action="/parcours" method="get" role="search" className="mb-10 mt-10 max-w-2xl">
+          <label htmlFor="parcours-search" className="text-sm font-medium text-ink">
+            Rechercher dans les parcours
+          </label>
+          <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+            <input
+              id="parcours-search"
+              name="q"
+              type="search"
+              defaultValue={query}
+              placeholder="Apple Business Manager, Jamf 100, Intune..."
+              className="min-h-12 flex-1 rounded-xl border border-border bg-surface px-4 text-base text-ink outline-none transition placeholder:text-ink-tertiary focus:border-accent focus:ring-2 focus:ring-accent/20"
+            />
+            <button
+              type="submit"
+              className="min-h-12 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              Rechercher
+            </button>
+          </div>
+        </form>
 
         <section>
           <h2 className="text-lg font-bold text-ink">Parcours certification</h2>
@@ -57,10 +99,15 @@ export default function ParcoursPage() {
         <section className="mt-14">
           <h2 className="text-lg font-bold text-ink">Parcours par technologie</h2>
           <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {tracks.map((track) => (
+            {filteredTracks.map((track) => (
               <TrackCard key={track.slug} track={track} />
             ))}
           </div>
+          {filteredTracks.length === 0 && (
+            <p className="mt-6 rounded-xl border border-border bg-surface p-4 text-sm text-ink-secondary">
+              Aucun parcours public ne correspond à cette recherche.
+            </p>
+          )}
         </section>
       </div>
     </PageShell>

@@ -22,19 +22,23 @@ import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
 import { getLessonContent } from "@/lib/data/lesson-content";
-import { getLesson, courses, getTrack } from "@/lib/data";
+import { getLesson, courses, getTrack, isTrackVisible } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   const params: { slug: string; lessonSlug: string }[] = [];
-  courses.forEach((course) => {
-    course.modules.forEach((mod) => {
-      mod.lessons.forEach((lesson) => {
-        params.push({ slug: course.slug, lessonSlug: lesson.slug });
+  courses
+    .filter((course) => isTrackVisible(course.trackSlug))
+    .forEach((course) => {
+      course.modules.forEach((mod) => {
+        mod.lessons.forEach((lesson) => {
+          params.push({ slug: course.slug, lessonSlug: lesson.slug });
+        });
       });
     });
-  });
   return params;
 }
 
@@ -55,7 +59,7 @@ export default async function LessonPage({
 }) {
   const { slug, lessonSlug } = await params;
   const data = getLesson(slug, lessonSlug);
-  if (!data) notFound();
+  if (!data || !isTrackVisible(data.course.trackSlug)) notFound();
 
   const { course, module, lesson } = data;
   const custom = getCustomLesson(slug, lessonSlug);
@@ -94,11 +98,11 @@ export default async function LessonPage({
 
         <div className="lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[240px_minmax(0,1fr)]">
           <aside className="mb-8 lg:sticky lg:top-28 lg:mb-0 lg:self-start">
-            {CustomToc ? <CustomToc /> : <LessonTableOfContents showComparison={course.trackSlug === "mdm-comparatif-apple"} />}
+            {CustomToc ? <CustomToc /> : <LessonTableOfContents />}
           </aside>
 
           <div>
-            {CustomToc ? <CustomToc mobile /> : <LessonTableOfContents mobile showComparison={course.trackSlug === "mdm-comparatif-apple"} />}
+            {CustomToc ? <CustomToc mobile /> : <LessonTableOfContents mobile />}
 
             <header className="overflow-hidden rounded-[2rem] border border-border-light bg-surface-elevated shadow-sm">
               <div className="bg-gradient-to-br from-surface via-surface-elevated to-indigo-50/40 px-6 py-8 md:px-10 md:py-10">

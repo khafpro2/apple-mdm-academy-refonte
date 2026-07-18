@@ -2,11 +2,14 @@ import { PageShell } from "@/components/layout";
 import { SectionHeading } from "@/components/ui";
 import { LabCatalogGrid } from "@/components/labs/lab-catalog-grid";
 import { labs } from "@/lib/labs";
+import { isTrackVisible } from "@/lib/data/tracks";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+
+const visibleLabs = labs.filter((lab) => isTrackVisible(lab.trackSlug));
 
 export const metadata = buildPageMetadata({
   title: "Labs pratiques",
-  description: `${labs.length} labs guidés — Jamf Pro, Apple MDM, Microsoft Intune. Validez chaque étape, suivez votre progression et obtenez des badges.`,
+  description: `${visibleLabs.length} labs guidés — Jamf Pro, Apple MDM, Microsoft Intune. Validez chaque étape, suivez votre progression et obtenez des badges.`,
   path: "/labs",
 });
 
@@ -19,7 +22,7 @@ export default function LabsPage() {
           title="Labs pratiques"
           description="Exercices guidés pas à pas — validez chaque étape, suivez votre progression et obtenez des badges."
         />
-        <LabCatalogGrid labs={labs} />
+        <LabCatalogGrid labs={visibleLabs} />
       </div>
     </PageShell>
   );

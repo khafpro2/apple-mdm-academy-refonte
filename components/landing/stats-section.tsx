@@ -2,14 +2,26 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SectionHeading } from "@/components/ui";
+import { courses, getExams, getQuizList, getVisibleTracks, isTrackVisible, labs } from "@/lib/data";
+
+const visibleTracks = getVisibleTracks();
+const visibleCourses = courses.filter((course) => isTrackVisible(course.trackSlug));
+const visibleLabs = labs.filter((lab) => isTrackVisible(lab.trackSlug));
+const visibleQuizzes = getQuizList().filter((quiz) => isTrackVisible(quiz.trackSlug));
+const visibleExams = getExams().filter((quiz) => isTrackVisible(quiz.trackSlug));
+const moduleCount = visibleCourses.reduce((total, course) => total + course.modules.length, 0);
+const lessonCount = visibleCourses.reduce(
+  (total, course) => total + course.modules.reduce((courseTotal, module) => courseTotal + module.lessons.length, 0),
+  0,
+);
 
 const STATS = [
-  { value: "2 400+", label: "Apprenants actifs", icon: "👥" },
-  { value: "93%",    label: "Taux de réussite",  icon: "🎯" },
-  { value: "9",      label: "Parcours certifiants", icon: "📚" },
-  { value: "40+",    label: "Labs pratiques",    icon: "🔧" },
-  { value: "120+",   label: "Heures de contenu", icon: "⏱️" },
-  { value: "4.9/5",  label: "Satisfaction",      icon: "⭐" },
+  { value: String(visibleTracks.length), label: "Parcours publics", icon: "📚" },
+  { value: String(visibleCourses.length), label: "Cours", icon: "🧭" },
+  { value: String(moduleCount), label: "Modules", icon: "🧩" },
+  { value: String(lessonCount), label: "Leçons", icon: "📖" },
+  { value: String(visibleQuizzes.length), label: "Quiz", icon: "✅" },
+  { value: String(visibleLabs.length + visibleExams.length), label: "Labs / examens", icon: "🔧" },
 ];
 
 export function StatsSection() {
@@ -30,7 +42,7 @@ export function StatsSection() {
   return (
     <section ref={ref} className="border-y border-border-light bg-surface-elevated py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <SectionHeading label="Impact" title="Des résultats mesurables" align="center" />
+        <SectionHeading label="Catalogue" title="Contenu disponible" align="center" />
         <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
           {STATS.map((s, i) => (
             <div

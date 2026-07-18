@@ -7,17 +7,21 @@ import { JamfLogo } from "@/components/brands/JamfLogo";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge, ButtonLink } from "@/components/ui";
 import { TrackLogo } from "@/components/ui/track-logo";
-import { getTrack, tracks, getQuizzesByTrack, getLabsByTrack } from "@/lib/data";
+import { getTrack, getVisibleTracks, getQuizzesByTrack, getLabsByTrack, isTrackVisible } from "@/lib/data";
 import { resolveTrackCourseHref, trackHasCourse } from "@/lib/navigation/track-links";
+import { AppleCurriculumMap } from "@/components/course/AppleCurriculumMap";
+import { formatPlatformLabel, platformVersions } from "@/lib/platform-versions";
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return tracks.map((t) => ({ slug: t.slug }));
+  return getVisibleTracks().map((t) => ({ slug: t.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const track = getTrack(slug);
-  if (!track) {
+  if (!track || !isTrackVisible(slug)) {
     return buildPageMetadata({
       title: "Parcours introuvable",
       description: "Ce parcours n'existe pas ou a été déplacé.",
@@ -35,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function TrackDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const track = getTrack(slug);
-  if (!track) notFound();
+  if (!track || !isTrackVisible(slug)) notFound();
 
   const trackQuizzes = getQuizzesByTrack(slug);
   const trackLabs = getLabsByTrack(slug);
@@ -81,6 +85,17 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
             )}
           </div>
         </header>
+
+        {track.category === "apple" && <AppleCurriculumMap currentTrackSlug={track.slug} />}
+
+        {track.category === "apple" && (
+          <p className="mt-6 text-sm text-ink-secondary">
+            Référence plateforme de production : {formatPlatformLabel("macOS")},{" "}
+            {formatPlatformLabel("iOS")}, {formatPlatformLabel("iPadOS")}
+            {" — "}
+            vérifié le {platformVersions.macOS.lastVerifiedAt}.
+          </p>
+        )}
 
         {trackLabs.length > 0 && (
           <section className="mt-10">

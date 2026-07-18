@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import {
-  academyResources,
+  getVisibleResources,
   getCategoryLabel,
   getPopularResources,
   getResourcesByCourse,
 } from "@/src/lib/resources";
 import { loadResourceViews, subscribeToResourceViews } from "@/lib/resources/progress-storage";
-import { tracks } from "@/lib/data/tracks";
+import { getVisibleTracks } from "@/lib/data/tracks";
 
 type TrackProgress = { slug: string; title: string; percent: number };
 
@@ -28,7 +28,7 @@ export function ResourcesPanel({ trackProgress = [] }: Props) {
   const inProgressTracks = trackProgress.filter((t) => t.percent > 0 && t.percent < 100);
 
   const moduleResources = inProgressTracks.flatMap((track) => {
-    const courseSlug = tracks.find((tr) => tr.slug === track.slug)?.slug ?? track.slug;
+    const courseSlug = getVisibleTracks().find((tr) => tr.slug === track.slug)?.slug ?? track.slug;
     return getResourcesByCourse(courseSlug).slice(0, 2);
   });
 
@@ -36,8 +36,9 @@ export function ResourcesPanel({ trackProgress = [] }: Props) {
     (r, i, arr) => arr.findIndex((x) => x.slug === r.slug) === i
   ).slice(0, 4);
 
+  const visibleResources = getVisibleResources();
   const recentResources = recentViews
-    .map((v) => academyResources.find((r) => r.slug === v.resourceSlug))
+    .map((v) => visibleResources.find((r) => r.slug === v.resourceSlug))
     .filter(Boolean)
     .slice(0, 4);
 

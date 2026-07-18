@@ -75,9 +75,6 @@ export const roadmapVersions: RoadmapVersion[] = [
       { title: "Apple Security Research", description: "Threat modeling, XProtect, sécurité avancée enterprise", status: "planned", quarter: "Q4 2026", icon: "🔒" },
       { title: "Microsoft Defender for Endpoint", description: "Intégration MDE + Apple MDM", status: "planned", quarter: "Q4 2026", icon: "🛡️" },
       { title: "Okta + Apple", description: "SSO, SCIM, fédération d'identité avec Okta", status: "planned", quarter: "Q1 2027", icon: "🔑" },
-      { title: "Kandji", description: "Parcours complet MDM alternatif Apple — Kandji Business", status: "planned", quarter: "Q1 2027", icon: "🌀" },
-      { title: "Mosyle", description: "Formation Mosyle Business & Manager", status: "planned", quarter: "Q2 2027", icon: "🌿" },
-      { title: "Workspace ONE", description: "VMware Workspace ONE + Apple — intégration avancée", status: "planned", quarter: "Q2 2027", icon: "☁️" },
     ],
   },
 ];

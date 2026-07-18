@@ -12,11 +12,6 @@ const PREFIX_MODULES: { prefix: string; href: string; label: string }[] = [
   { prefix: "aee-", href: "/cours/apple-enterprise-expert/aee-m01", label: "Apple Enterprise Expert" },
   { prefix: "aea-", href: "/cours/apple-enterprise-architect/aea-m01", label: "Apple Enterprise Architect" },
   { prefix: "iaa-", href: "/cours/intune-apple-advanced/iaa-m01", label: "Intune Apple Advanced" },
-  { prefix: "kfd-", href: "/cours/kandji-fundamentals/kfd-m01", label: "Kandji Fundamentals" },
-  { prefix: "msl-", href: "/cours/mosyle-fundamentals/msl-m01", label: "Mosyle Fundamentals" },
-  { prefix: "adg-", href: "/cours/addigy-fundamentals/adg-m01", label: "Addigy Fundamentals" },
-  { prefix: "wsa-", href: "/cours/workspace-one-apple/wsa-m01", label: "Workspace ONE Apple" },
-  { prefix: "mdm-", href: "/cours/mdm-comparatif-apple/mdm-m01", label: "Comparatif MDM Apple" },
   { prefix: "azap-", href: "/cours/azure-for-apple-admins/azure-entra-id-introduction", label: "Azure essentiel pour Apple Administrators" },
 ];
 

@@ -12,9 +12,9 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-6 py-3 text-sm",
-  lg: "px-8 py-4 text-base",
+  sm: "min-h-11 px-4 py-2 text-sm",
+  md: "min-h-11 px-6 py-3 text-sm",
+  lg: "min-h-12 px-8 py-4 text-base",
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -55,7 +55,7 @@ export function ButtonLink({ href, variant = "primary", size = "md", className =
     <Link
       href={href}
       onClick={onClick}
-      className={`inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {children}
     </Link>
@@ -157,19 +157,29 @@ export function SectionHeading({
 
 export function Breadcrumb({ items }: { items: { label: string; href?: string }[] }) {
   return (
-    <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm text-ink-tertiary">
-      {items.map((item, i) => (
-        <span key={item.label} className="flex items-center gap-2">
-          {i > 0 && <span aria-hidden="true">/</span>}
-          {item.href ? (
-            <Link href={item.href} className="hover:text-ink">
-              {item.label}
-            </Link>
-          ) : (
-            <span className="text-ink">{item.label}</span>
-          )}
-        </span>
-      ))}
+    <nav aria-label="Fil d'Ariane" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-ink-tertiary">
+      <ol className="flex flex-wrap items-center gap-2">
+        {items.map((item, i) => {
+          const isLast = i === items.length - 1;
+          return (
+            <li key={`${item.label}-${i}`} className="flex items-center gap-2">
+              {i > 0 && <span aria-hidden="true">/</span>}
+              {item.href && !isLast ? (
+                <Link
+                  href={item.href}
+                  className="hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <span className="text-ink" aria-current={isLast ? "page" : undefined}>
+                  {item.label}
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
     </nav>
   );
 }

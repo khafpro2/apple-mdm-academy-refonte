@@ -11,6 +11,7 @@ export default function NotFound() {
           description="Cette page n'existe pas ou a été déplacée."
           actionHref="/"
           actionLabel="Accueil"
+          titleAs="h1"
           recommendedLinks={[
             { href: "/parcours", label: "Parcours" },
             { href: "/cours", label: "Cours" },

@@ -1,7 +1,10 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
+import { blockRemovedV1Paths } from "@/lib/v1/block-removed-paths";
 
 export async function proxy(request: NextRequest) {
+  const blocked = blockRemovedV1Paths(request);
+  if (blocked) return blocked;
   return updateSession(request);
 }
 

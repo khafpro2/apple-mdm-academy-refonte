@@ -14,20 +14,11 @@ function trackLabel(trackSlug: string, vendor?: string): string {
   if (trackSlug === "apple-enterprise-expert") return "Apple Enterprise Expert";
   if (trackSlug === "apple-enterprise-architect") return "Apple Enterprise Architect";
   if (trackSlug === "intune-apple-advanced") return "Intune Apple Advanced";
-  if (trackSlug === "kandji-fundamentals") return "Kandji Fundamentals";
-  if (trackSlug === "mosyle-fundamentals") return "Mosyle Fundamentals";
-  if (trackSlug === "addigy-fundamentals") return "Addigy Fundamentals";
-  if (trackSlug === "workspace-one-apple") return "Workspace ONE Apple";
-  if (trackSlug === "mdm-comparatif-apple") return "Comparatif MDM Apple";
   return trackSlug;
 }
 
 function scenarioForTitle(title: string, trackSlug: string): string {
   const lower = title.toLowerCase();
-  if (lower.includes("blueprint") || lower.includes("library"))
-    return "Une scale-up de 400 Mac doit standardiser l'onboarding développeurs avec Blueprint Kandji et Library Items réutilisables.";
-  if (lower.includes("liftoff") || lower.includes("passport"))
-    return "Le premier jour d'un nouvel employé : Mac livré en zero-touch, Liftoff brandé, Passport SSO et apps métier installées automatiquement.";
   if (lower.includes("enrollment") || lower.includes("ade"))
     return "L'IT doit enrôler 150 iPad éducation ou Mac corporate via ABM sans intervention manuelle au setup assistant.";
   if (lower.includes("compliance") || lower.includes("conditional"))
@@ -36,13 +27,11 @@ function scenarioForTitle(title: string, trackSlug: string): string {
     return "L'équipe automation synchronise l'inventaire MDM vers ServiceNow toutes les 15 minutes via API REST.";
   if (lower.includes("smart group") || lower.includes("policy"))
     return "Un administrateur Jamf cible dynamiquement les Mac sans FileVault avant d'appliquer une restriction réseau.";
-  if (lower.includes("comparatif") || lower.includes("matrice"))
-    return "Le DSI doit choisir entre Jamf, Intune et Kandji pour 800 Mac — POC 30 jours sur deux finalistes.";
-  if (lower.includes("golive") || lower.includes("remote"))
-    return "Un MSP intervient à distance sur un Mac client via GoLive pour diagnostiquer un échec de policy.";
+  if (lower.includes("prestage") || lower.includes("zero-touch"))
+    return "Le premier jour d'un nouvel employé : Mac livré en zero-touch via ADE, profils et apps métier installés automatiquement.";
   if (trackSlug.startsWith("jamf"))
     return "Une entreprise Apple-first de 2 000 Mac utilise Jamf Pro pour automatiser déploiement, patch et conformité.";
-  if (trackSlug === "intune-apple-advanced")
+  if (trackSlug === "intune-apple-advanced" || trackSlug.includes("intune"))
     return "Une organisation Microsoft 365 gère 1 500 Mac via Intune avec Conditional Access et Defender.";
   if (trackSlug === "apple-enterprise-expert")
     return "Un architecte Apple Platform Deployment prépare le rollout DDM et Platform SSO sur flotte internationale.";

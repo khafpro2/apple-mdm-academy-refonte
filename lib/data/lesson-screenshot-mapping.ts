@@ -1,6 +1,5 @@
 /** Association leçon → IDs de la bibliothèque pédagogique (01–90) */
 import { allAdvancedModules } from "@/lib/data/advanced-tracks/module-definitions";
-import { allAltMdmModules } from "@/lib/data/alternative-mdm-tracks/module-definitions";
 import { proModules } from "@/lib/data/pro-modules/index";
 
 const CORE_LESSON_SCREENSHOT_IDS: Record<string, string[]> = {
@@ -92,11 +91,6 @@ const TRACK_SCREENSHOT_POOLS: Record<string, string[]> = {
   "apple-enterprise-expert": ["01", "02", "09", "16", "17", "18", "79", "80", "81", "82"],
   "apple-enterprise-architect": ["01", "02", "09", "16", "17", "18", "79", "80"],
   "intune-apple-advanced": ["26", "27", "28", "35", "36", "37", "38", "39", "79", "80"],
-  "kandji-fundamentals": ["16", "17", "69", "70", "75", "76", "77"],
-  "mosyle-fundamentals": ["16", "17", "18", "32", "38", "39"],
-  "addigy-fundamentals": ["64", "65", "69", "72", "74"],
-  "workspace-one-apple": ["26", "27", "32", "35", "36", "38"],
-  "mdm-comparatif-apple": ["64", "26", "02", "16", "69", "70"],
   "parcours-professionnel": ["02", "16", "64", "26", "70", "79"],
 };
 
@@ -109,9 +103,6 @@ function idsForTrack(trackSlug: string, index: number): string[] {
 function buildExtendedLessonScreenshotIds(): Record<string, string[]> {
   const out = { ...CORE_LESSON_SCREENSHOT_IDS };
   allAdvancedModules.forEach((mod, i) => {
-    if (!out[mod.slug]) out[mod.slug] = idsForTrack(mod.trackSlug, i);
-  });
-  allAltMdmModules.forEach((mod, i) => {
     if (!out[mod.slug]) out[mod.slug] = idsForTrack(mod.trackSlug, i);
   });
   proModules.forEach((pm, mi) => {
@@ -138,11 +129,6 @@ export const TRACK_DEFAULT_SCREENSHOT_IDS: Record<string, string[]> = {
   "intune-apple-advanced": ["26", "27", "35", "36"],
   "apple-fundamentals": ["02", "79", "81"],
   "apple-device-support": ["38", "54", "87"],
-  "kandji-fundamentals": ["16", "69", "70"],
-  "mosyle-fundamentals": ["16", "32", "38"],
-  "addigy-fundamentals": ["64", "69", "72"],
-  "workspace-one-apple": ["26", "32", "35"],
-  "mdm-comparatif-apple": ["64", "26", "02"],
   "parcours-professionnel": ["02", "64", "26"],
 };
 

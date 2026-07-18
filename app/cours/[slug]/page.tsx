@@ -19,7 +19,7 @@ import {
   getLessonPoints,
 } from "@/lib/course/helpers";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
-import { getCourse, courses, getTrack, getQuizzesByTrack } from "@/lib/data";
+import { getCourse, courses, getTrack, getQuizzesByTrack, isTrackVisible } from "@/lib/data";
 import { getLabsByTrack } from "@/lib/labs";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { courseJsonLd } from "@/lib/seo/course-schema";
@@ -30,15 +30,22 @@ import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { CourseVideoInProductionBlock } from "@/components/course/CourseVideoInProductionBlock";
 import { CourseEnrichedSections } from "@/components/course/CourseEnrichedSections";
 import { CourseLearningPath } from "@/components/course/CourseLearningPath";
+import { CourseCompatibility } from "@/components/course/CourseCompatibility";
+import { VersionDifferenceCallout } from "@/components/course/VersionDifferenceCallout";
+import { OfficialSources } from "@/components/course/OfficialSources";
+import { CourseIllustrations } from "@/components/course/CourseIllustrations";
+import { AppleCurriculumMap } from "@/components/course/AppleCurriculumMap";
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return courses.map((c) => ({ slug: c.slug }));
+  return courses.filter((c) => isTrackVisible(c.trackSlug)).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const course = getCourse(slug);
-  if (!course) {
+  if (!course || !isTrackVisible(course.trackSlug)) {
     return buildPageMetadata({
       title: "Cours introuvable",
       description: "Ce cours n'existe pas ou a été déplacé.",
@@ -56,7 +63,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const course = getCourse(slug);
-  if (!course) notFound();
+  if (!course || !isTrackVisible(course.trackSlug)) notFound();
 
   const track = getTrack(course.trackSlug);
   const flatLessons = getFlatLessons(course);
@@ -111,6 +118,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 points={totalPoints}
               />
             </div>
+
+            <CourseCompatibility course={course} />
           </div>
 
           <div className="border-t border-border-light px-6 py-8 md:px-10">
@@ -136,6 +145,14 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         {learnRef && (
           <MicrosoftLearnReference href={learnRef.href} description={learnRef.description} className="mt-6" />
         )}
+
+        {course.trackSlug.startsWith("apple-") && (
+          <AppleCurriculumMap currentTrackSlug={course.trackSlug} />
+        )}
+
+        <CourseIllustrations courseSlug={course.slug} />
+
+        <VersionDifferenceCallout differences={course.versionDifferences} />
 
         {enriched && <CourseEnrichedSections content={enriched} />}
 
@@ -234,6 +251,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             Tous les labs
           </ButtonLink>
         </div>
+
+        <OfficialSources sources={course.officialSources} />
       </div>
     </PageShell>
   );

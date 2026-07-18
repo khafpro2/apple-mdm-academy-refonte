@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { tracks, courses, labs, quizzes } from "@/lib/data";
+import { tracks, courses, labs, quizzes, isTrackVisible } from "@/lib/data";
 import { commercialCertificationPaths } from "@/lib/data/commercial-certification-paths";
 
 const API_HEADERS = {
@@ -22,6 +22,10 @@ export async function GET(
 ) {
   const { resource } = await params;
   const key = resource?.[0];
+  const visibleTracks = tracks.filter((track) => !track.hidden);
+  const visibleCourses = courses.filter((course) => isTrackVisible(course.trackSlug));
+  const visibleLabs = labs.filter((lab) => isTrackVisible(lab.trackSlug));
+  const visibleQuizzes = quizzes.filter((quiz) => isTrackVisible(quiz.trackSlug));
 
   switch (key) {
     case "users":
@@ -31,25 +35,25 @@ export async function GET(
       });
     case "courses":
       return json({
-        data: courses.map((c) => ({
+        data: visibleCourses.map((c) => ({
           slug: c.slug,
           title: c.title,
           track: c.trackSlug,
           lessons: c.modules.reduce((acc, m) => acc + m.lessons.length, 0),
         })),
-        meta: { total: courses.length, tracks: tracks.length },
+        meta: { total: visibleCourses.length, tracks: visibleTracks.length },
       });
     case "labs":
       return json({
-        data: labs.map((l) => ({ slug: l.slug, title: l.title, track: l.trackSlug, duration: l.duration })),
-        meta: { total: labs.length },
+        data: visibleLabs.map((l) => ({ slug: l.slug, title: l.title, track: l.trackSlug, duration: l.duration })),
+        meta: { total: visibleLabs.length },
       });
     case "exams":
       return json({
-        data: quizzes
+        data: visibleQuizzes
           .filter((q) => q.type === "examen")
           .map((q) => ({ slug: q.slug, title: q.title, questions: q.questions.length, duration: q.duration })),
-        meta: { total: quizzes.filter((q) => q.type === "examen").length },
+        meta: { total: visibleQuizzes.filter((q) => q.type === "examen").length },
       });
     case "certificates":
       return json({
@@ -62,7 +66,7 @@ export async function GET(
       });
     case "progress":
       return json({
-        data: tracks.map((t) => ({
+        data: visibleTracks.map((t) => ({
           trackSlug: t.slug,
           title: t.title,
           percent: 0,

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-labelledby="title">
+  <title id="title">Vue d’ensemble Platform SSO</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <style>
+  .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5;rx:10}
+  .boxAccent{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5;rx:10}
+  .title{font:600 13px system-ui,sans-serif;fill:#0f172a}
+  .sub{font:500 11px system-ui,sans-serif;fill:#64748b}
+  .arrow{stroke:#64748b;stroke-width:1.75;fill:none;marker-end:url(#arrow)}
+  .label{font:500 10px system-ui,sans-serif;fill:#475569}
+</style>
+  <rect width="640" height="200" fill="#ffffff"/>
+  
+    <g>
+    <rect class="boxAccent" x="40" y="60" width="150" height="80"/>
+    <text class="title" x="115" y="96" text-anchor="middle">IdP</text>
+    <text class="sub" x="115" y="112" text-anchor="middle">Entra ID / Okta</text>
+  </g>
+    <path class="arrow" d="M200 100 H250"/>
+    <g>
+    <rect class="box" x="260" y="60" width="150" height="80"/>
+    <text class="title" x="335" y="96" text-anchor="middle">Platform SSO</text>
+    <text class="sub" x="335" y="112" text-anchor="middle">macOS</text>
+  </g>
+    <path class="arrow" d="M420 100 H470"/>
+    <g>
+    <rect class="box" x="480" y="60" width="140" height="80"/>
+    <text class="title" x="550" y="96" text-anchor="middle">MDM</text>
+    <text class="sub" x="550" y="112" text-anchor="middle">Config + scope</text>
+  </g>
+  
+</svg>

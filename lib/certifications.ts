@@ -100,41 +100,6 @@ export const trackCertificates: TrackCertificateDef[] = [
     examQuizSlug: "examen-intune-apple-advanced",
     passingScore: 80,
   },
-  {
-    id: "kandji-fundamentals-path",
-    title: "Kandji Fundamentals",
-    trackSlug: "kandji-fundamentals",
-    examQuizSlug: "examen-kandji-fundamentals",
-    passingScore: 75,
-  },
-  {
-    id: "mosyle-fundamentals-path",
-    title: "Mosyle Fundamentals",
-    trackSlug: "mosyle-fundamentals",
-    examQuizSlug: "examen-mosyle-fundamentals",
-    passingScore: 75,
-  },
-  {
-    id: "addigy-fundamentals-path",
-    title: "Addigy Fundamentals",
-    trackSlug: "addigy-fundamentals",
-    examQuizSlug: "examen-addigy-fundamentals",
-    passingScore: 75,
-  },
-  {
-    id: "workspace-one-apple-path",
-    title: "Workspace ONE Apple Specialist",
-    trackSlug: "workspace-one-apple",
-    examQuizSlug: "examen-workspace-one-apple",
-    passingScore: 75,
-  },
-  {
-    id: "mdm-comparatif-path",
-    title: "MDM Comparison Expert",
-    trackSlug: "mdm-comparatif-apple",
-    examQuizSlug: "quiz-mdm-m08",
-    passingScore: 75,
-  },
 ];
 
 export function getTrackCertificate(id: string) {

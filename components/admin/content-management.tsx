@@ -1,14 +1,24 @@
 import Link from "next/link";
 import { videoScripts } from "@/src/lib/video-scripts";
 import { courses } from "@/lib/data/courses";
-import { quizzes } from "@/lib/data/quizzes";
-import { tracks } from "@/lib/data/tracks";
+import { quizzes, getQuiz } from "@/lib/data/quizzes";
+import { getVisibleTracks, isTrackVisible } from "@/lib/data/tracks";
 import { getExamRouteSlugs, getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { Badge } from "@/components/ui";
 
 export function AdminContentManagement() {
-  const examSlugs = getExamRouteSlugs();
-  const lessonCount = courses.reduce((acc, c) => acc + c.modules.reduce((a, m) => a + m.lessons.length, 0), 0);
+  const visibleTracks = getVisibleTracks();
+  const visibleCourses = courses.filter((c) => isTrackVisible(c.trackSlug));
+  const visibleQuizzes = quizzes.filter((q) => isTrackVisible(q.trackSlug));
+  const examSlugs = getExamRouteSlugs().filter((slug) => {
+    const quizSlug = getQuizSlugFromExamRoute(slug);
+    const quiz = quizSlug ? getQuiz(quizSlug) : undefined;
+    return quiz ? isTrackVisible(quiz.trackSlug) : false;
+  });
+  const lessonCount = visibleCourses.reduce(
+    (acc, c) => acc + c.modules.reduce((a, m) => a + m.lessons.length, 0),
+    0,
+  );
 
   return (
     <div className="mt-10 space-y-8">
@@ -21,10 +31,10 @@ export function AdminContentManagement() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {[
-          { label: "Parcours", value: tracks.length },
+          { label: "Parcours", value: visibleTracks.length },
           { label: "Leçons", value: lessonCount },
           { label: "Vidéos", value: videoScripts.length },
-          { label: "Quiz", value: quizzes.length },
+          { label: "Quiz", value: visibleQuizzes.length },
           { label: "Examens blancs", value: examSlugs.length },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border border-border-light bg-surface-elevated p-5">
@@ -46,7 +56,7 @@ export function AdminContentManagement() {
               </tr>
             </thead>
             <tbody>
-              {courses.flatMap((c) =>
+              {visibleCourses.flatMap((c) =>
                 c.modules.map((m) => (
                   <tr key={`${c.slug}-${m.title}`} className="border-b border-border-light">
                     <td className="py-3 pr-4 font-medium text-ink">{c.title}</td>
@@ -121,7 +131,7 @@ export function AdminContentManagement() {
           Les statistiques détaillées par utilisateur sont disponibles dans le tableau de bord principal via Supabase.
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          {tracks.slice(0, 3).map((t) => (
+          {visibleTracks.slice(0, 3).map((t) => (
             <div key={t.slug} className="rounded-xl bg-surface p-4">
               <p className="font-semibold text-ink">{t.title}</p>
               <p className="mt-1 text-xs text-ink-tertiary">{t.lessons} leçons · {t.level}</p>

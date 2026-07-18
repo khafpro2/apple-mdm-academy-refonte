@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LogoIcon } from "@/components/ui/logo-icon";
-import { SiteWordmark } from "@/components/ui/site-wordmark";
+import { AcademyLogo } from "@/components/layout/academy-logo";
 import { useSidebar } from "@/components/layout/sidebar-context";
 import {
   SIDEBAR_STORAGE_KEY,
@@ -67,7 +67,7 @@ function NavLink({
           <button
             type="button"
             onClick={() => setUserOpen(!open)}
-            className="mr-1 rounded p-1 text-ink-tertiary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+            className="mr-1 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-1 text-ink-tertiary hover:bg-surface hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             aria-expanded={open}
             aria-label={open ? `Replier ${item.label}` : `Déplier ${item.label}`}
           >
@@ -196,38 +196,19 @@ export function Sidebar() {
         aria-label="Navigation principale"
       >
         {/* ── Logo ──────────────────────────────────────────────────────── */}
-        {/* Bouton flèche SUPPRIMÉ — le logo n'est jamais recouvert.
-            État collapsed : icône Apple seule (toujours visible).
-            État expanded  : icône Apple + wordmark MDM ACADEMY.            */}
         <div className="flex h-14 shrink-0 items-center gap-3 border-b border-border-light px-4">
-          <Link
-            href="/"
+          <AcademyLogo
+            variant={isExpanded ? "full" : "mark"}
+            size="sm"
             onClick={onNavigate}
-            className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-            aria-label="Apple MDM Academy — Accueil"
-          >
-            {/* Icône Apple : TOUJOURS visible, jamais chevauché */}
-            <LogoIcon name="apple" size={24} alt="" className="shrink-0" aria-hidden="true" />
+            className="flex-1"
+          />
 
-            {/* Wordmark MDM ACADEMY : visible seulement quand expanded */}
-            <span
-              className={[
-                "transition-opacity duration-250 ease-out",
-                isExpanded ? "opacity-100" : "opacity-0 pointer-events-none select-none w-0 overflow-hidden",
-              ].join(" ")}
-              aria-hidden={!isExpanded}
-            >
-              <SiteWordmark />
-            </span>
-          </Link>
-
-          {/* ❌ Pas de bouton flèche collapse/expand sur desktop */}
-          {/* Bouton fermeture mobile uniquement */}
           {mobileOpen && (
             <button
               type="button"
               onClick={closeMobile}
-              className="rounded-lg p-1.5 text-ink-secondary hover:bg-surface shrink-0 lg:hidden"
+              className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg p-1.5 text-ink-secondary hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
               aria-label="Fermer le menu"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">

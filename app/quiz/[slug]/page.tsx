@@ -5,28 +5,31 @@ import { Breadcrumb } from "@/components/ui";
 import { QuizEngine } from "@/components/quiz/quiz-engine";
 import { ExamEngine } from "@/components/quiz/exam-engine";
 import { getExamRouteFromQuizSlug } from "@/lib/data/exams/exam-routes";
-import { getQuiz, getExamPool, quizzes } from "@/lib/data";
+import { getQuiz, getExamPool, quizzes, isTrackVisible } from "@/lib/data";
 import { getUser } from "@/lib/supabase/server";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return quizzes.map((q) => ({ slug: q.slug }));
+  return quizzes.filter((q) => isTrackVisible(q.trackSlug)).map((q) => ({ slug: q.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const quiz = getQuiz(slug);
+  const visible = quiz && isTrackVisible(quiz.trackSlug);
   return buildPageMetadata({
-    title: quiz?.title ?? "Quiz introuvable",
-    description: quiz?.description ?? "Ce quiz n'existe pas ou a été déplacé.",
+    title: visible ? quiz.title : "Quiz introuvable",
+    description: visible ? quiz.description : "Ce quiz n'existe pas ou a été déplacé.",
     path: `/quiz/${slug}`,
-    noIndex: !quiz,
+    noIndex: !visible,
   });
 }
 
 export default async function QuizDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const quiz = getQuiz(slug);
-  if (!quiz) notFound();
+  if (!quiz || !isTrackVisible(quiz.trackSlug)) notFound();
 
   const user = await getUser();
 

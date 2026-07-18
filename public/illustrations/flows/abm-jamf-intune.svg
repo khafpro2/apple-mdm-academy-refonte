@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-labelledby="title">
+  <title id="title">ABM avec Jamf Pro et Intune</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <style>
+  .box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5;rx:10}
+  .boxAccent{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5;rx:10}
+  .title{font:600 13px system-ui,sans-serif;fill:#0f172a}
+  .sub{font:500 11px system-ui,sans-serif;fill:#64748b}
+  .arrow{stroke:#64748b;stroke-width:1.75;fill:none;marker-end:url(#arrow)}
+  .label{font:500 10px system-ui,sans-serif;fill:#475569}
+</style>
+  <rect width="640" height="220" fill="#ffffff"/>
+  
+    <g>
+    <rect class="boxAccent" x="220" y="20" width="200" height="70"/>
+    <text class="title" x="320" y="51" text-anchor="middle">Apple Business Manager</text>
+    <text class="sub" x="320" y="67" text-anchor="middle">Apps · Devices · Accounts</text>
+  </g>
+    <path class="arrow" d="M280 100 V130"/>
+    <path class="arrow" d="M360 100 V130"/>
+    <g>
+    <rect class="box" x="60" y="140" width="200" height="60"/>
+    <text class="title" x="160" y="166" text-anchor="middle">Jamf Pro</text>
+    <text class="sub" x="160" y="182" text-anchor="middle">Flotte Apple</text>
+  </g>
+    <g>
+    <rect class="box" x="380" y="140" width="200" height="60"/>
+    <text class="title" x="480" y="166" text-anchor="middle">Microsoft Intune</text>
+    <text class="sub" x="480" y="182" text-anchor="middle">Apple + Conditional Access</text>
+  </g>
+  
+</svg>

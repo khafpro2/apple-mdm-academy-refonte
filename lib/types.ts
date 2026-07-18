@@ -3,12 +3,16 @@ import type { LogoName } from "@/lib/navigation/logo-names";
 export type Track = {
   slug: string;
   title: string;
+  category: "apple" | "jamf" | "intune";
+  hidden: boolean;
   level: "Débutant" | "Intermédiaire" | "Avancé" | "Pro" | "Expert";
   lessons: number;
   description: string;
   duration: string;
   logo: LogoName;
   certification?: string;
+  /** Niveau pédagogique Apple (1–5), optionnel */
+  applePedagogyLevel?: 1 | 2 | 3 | 4 | 5;
 };
 
 export type LessonStatus = "en-cours" | "termine" | "verrouille";
@@ -19,6 +23,38 @@ export type Lesson = {
   duration: string;
   points?: number;
   completed?: boolean;
+};
+
+export type ApplePlatformName = "macOS" | "iOS" | "iPadOS";
+
+export type CourseVersionStatus =
+  | "current"
+  | "compatible"
+  | "changed"
+  | "legacy"
+  | "needs-review";
+
+export type OfficialSource = {
+  title: string;
+  publisher: "Apple" | "Jamf" | "Microsoft" | "Other";
+  url: string;
+  checkedAt: string;
+};
+
+export type VersionDifference = {
+  platform: ApplePlatformName;
+  fromVersion?: string;
+  toVersion?: string;
+  summary: string;
+  detail?: string;
+  kind?:
+    | "ui"
+    | "setting"
+    | "mdm"
+    | "security"
+    | "hardware"
+    | "deprecation"
+    | "new-capability";
 };
 
 export type ScreenshotCategory =
@@ -71,10 +107,6 @@ export type LessonContent = {
   /** Paragraphes de synthèse en fin de leçon */
   summary?: string[];
   finalQuizSlug?: string;
-  /** Tableau comparatif MDM (parcours comparatif) */
-  comparisonTable?: import("@/lib/data/alternative-mdm-tracks/comparison-table").MdmComparisonRow[];
-  /** Surligner une ligne du tableau (module vendor-specific) */
-  comparisonHighlight?: string;
 };
 
 export type Module = {
@@ -90,6 +122,19 @@ export type Course = {
   duration: string;
   objectives: string[];
   modules: Module[];
+  /** Plateformes couvertes par le cours (optionnel — migration progressive) */
+  platforms?: ApplePlatformName[];
+  /** Version majeure de référence pédagogique */
+  primaryVersion?: string;
+  /** Version minimale encore documentée */
+  minimumVersion?: string;
+  /** Versions majeures explicitement couvertes */
+  supportedVersions?: string[];
+  versionStatus?: CourseVersionStatus;
+  lastVerifiedAt?: string;
+  officialSources?: OfficialSource[];
+  /** Différences réelles entre versions — ne pas remplir artificiellement */
+  versionDifferences?: VersionDifference[];
 };
 
 export type Question = {
@@ -171,11 +216,7 @@ export type LabTechnology =
   | "Intune Compliance"
   | "Microsoft Entra ID"
   | "Microsoft Defender"
-  | "Managed Apple ID + Federation"
-  | "Kandji"
-  | "Mosyle"
-  | "Addigy"
-  | "Workspace ONE";
+  | "Managed Apple ID + Federation";
 
 export type LabProgressSummary = {
   completedCount: number;
