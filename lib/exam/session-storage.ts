@@ -2,14 +2,19 @@ import type { Question } from "@/lib/types";
 import type { UserAnswer } from "@/lib/quiz/scoring";
 
 export type ExamSession = {
+  attemptId: string;
   routeSlug: string;
   quizSlug: string;
+  mode: "training" | "simulation";
+  status: "in_progress" | "completed" | "expired";
   questions: Question[];
   answers: Record<string, UserAnswer>;
   flagged: string[];
   currentIndex: number;
   secondsLeft: number;
   startedAt: number;
+  expiresAt: number | null;
+  updatedAt: number;
   sessionSeed: string;
 };
 
@@ -33,19 +38,48 @@ export function loadExamSession(routeSlug: string, quizSlug?: string): ExamSessi
     let value: ExamSession | null = null;
     if (raw) {
       const parsed = JSON.parse(raw) as ExamSession;
-      if (parsed.routeSlug === routeSlug) value = parsed;
+      if (parsed.routeSlug === routeSlug) value = normalizeSession(parsed);
     }
     if (!value && quizSlug && legacyRaw) {
       const parsed = JSON.parse(legacyRaw) as ExamSession & { routeSlug?: string };
       if (parsed.quizSlug === quizSlug) {
-        value = { ...parsed, routeSlug };
+        value = normalizeSession({ ...parsed, routeSlug });
       }
+    }
+    if (value?.status === "in_progress" && value.expiresAt && Date.now() >= value.expiresAt) {
+      value = {
+        ...value,
+        secondsLeft: 0,
+        status: "expired",
+        updatedAt: Date.now(),
+      };
+    } else if (value?.expiresAt && value.status === "in_progress") {
+      value = {
+        ...value,
+        secondsLeft: Math.max(0, Math.ceil((value.expiresAt - Date.now()) / 1000)),
+        updatedAt: Date.now(),
+      };
     }
     sessionCache.set(cacheKey, { raw, legacyRaw, value });
     return value;
   } catch {
     return null;
   }
+}
+
+function normalizeSession(session: ExamSession & Partial<Pick<ExamSession, "attemptId" | "mode" | "status" | "expiresAt" | "updatedAt">>): ExamSession {
+  const startedAt = session.startedAt || Date.now();
+  const secondsLeft = Math.max(0, session.secondsLeft ?? 0);
+  return {
+    ...session,
+    attemptId: session.attemptId ?? `${session.quizSlug}-${startedAt}`,
+    mode: session.mode ?? "simulation",
+    status: session.status ?? "in_progress",
+    secondsLeft,
+    startedAt,
+    expiresAt: session.expiresAt ?? (secondsLeft > 0 ? startedAt + secondsLeft * 1000 : null),
+    updatedAt: session.updatedAt ?? Date.now(),
+  };
 }
 
 export function saveExamSession(session: ExamSession): void {

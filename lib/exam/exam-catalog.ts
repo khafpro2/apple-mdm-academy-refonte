@@ -1,9 +1,11 @@
 import { getQuiz } from "@/lib/data/quizzes";
 import { examRouteToQuizSlug, examPools, examQuestionCounts } from "@/lib/data/exams/pools";
-import { getExamDurationMinutes } from "@/lib/exam/exam-config";
+import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
 import { isTrackVisible } from "@/lib/data/tracks";
 
 export const PRIORITY_EXAM_ROUTES = [
+  "apple-device-support",
+  "apple-deployment",
   "apple-it-professional",
   "jamf-100",
   "jamf-200",
@@ -13,6 +15,8 @@ export const PRIORITY_EXAM_ROUTES = [
 
 const EXAM_LEVEL_BY_ROUTE: Record<string, string> = {
   "apple-it-professional": "Avancé",
+  "apple-device-support": "Intermédiaire",
+  "apple-deployment": "Avancé",
   "jamf-100": "Pro",
   "jamf-200": "Expert",
   "intune-apple": "Pro",
@@ -27,8 +31,11 @@ export type ExamCatalogItem = {
   durationMinutes: number;
   durationLabel: string;
   questionCount: number;
+  availableQuestionCount: number;
   passingScore: number;
   level: string;
+  vendor: string;
+  verificationStatus: string;
   baseQuestions: number;
   bankComplete: boolean;
   priority: boolean;
@@ -41,8 +48,9 @@ export function buildExamCatalogItem(routeSlug: string): ExamCatalogItem | null 
   if (!quiz?.examMode) return null;
   if (!isTrackVisible(quiz.trackSlug)) return null;
 
-  const baseQuestions = examPools[quizSlug]?.length ?? 0;
-  const questionCount = quiz.examQuestionCount ?? examQuestionCounts[quizSlug] ?? 0;
+  const format = getExamFormat(routeSlug);
+  const baseQuestions = examPools[quizSlug]?.length ?? quiz.questions.length;
+  const questionCount = getExamQuestionCount(routeSlug, quiz.examQuestionCount ?? examQuestionCounts[quizSlug] ?? 0);
   const durationMinutes = getExamDurationMinutes(routeSlug, quiz.durationMinutes);
 
   return {
@@ -53,8 +61,11 @@ export function buildExamCatalogItem(routeSlug: string): ExamCatalogItem | null 
     durationMinutes,
     durationLabel: `${durationMinutes} min`,
     questionCount,
-    passingScore: quiz.passingScore,
+    availableQuestionCount: baseQuestions,
+    passingScore: getExamPassingScore(routeSlug, quiz.passingScore),
     level: EXAM_LEVEL_BY_ROUTE[routeSlug] ?? "Pro",
+    vendor: format?.vendor ?? "—",
+    verificationStatus: format?.verificationStatus ?? "needs-review",
     baseQuestions,
     bankComplete: baseQuestions >= questionCount && questionCount > 0,
     priority: (PRIORITY_EXAM_ROUTES as readonly string[]).includes(routeSlug),

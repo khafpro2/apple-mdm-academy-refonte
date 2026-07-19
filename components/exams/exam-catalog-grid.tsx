@@ -48,13 +48,16 @@ function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
   const stats = getExamAttemptStats(item.routeSlug);
   const hasResume = !!session && session.secondsLeft > 0;
   const progressPercent = stats.bestScore ?? 0;
+  const questionLabel = item.bankComplete
+    ? `${item.questionCount} questions`
+    : `${item.availableQuestionCount} disponibles / cible ${item.questionCount}`;
 
   return (
     <article className="group flex flex-col rounded-3xl border border-border-light bg-surface-elevated p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-md">
       <Link
         href={`/examens/${item.routeSlug}`}
         className="flex flex-1 flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        aria-label={`${item.title} — ${item.durationLabel}, ${item.questionCount} questions, niveau ${item.level}`}
+        aria-label={`${item.title} — ${item.durationLabel}, ${questionLabel}, niveau ${item.level}`}
       >
         <div className="flex flex-wrap items-center gap-2">
           {isJamfExam(item.routeSlug) && <JamfLogo variant="mark" size={22} alt="Jamf" />}
@@ -72,7 +75,7 @@ function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
         <div className="mt-4 flex flex-wrap gap-3 text-xs text-ink-tertiary">
           <span>{item.durationLabel}</span>
           <span>·</span>
-          <span>{item.questionCount} questions</span>
+          <span>{questionLabel}</span>
           <span>·</span>
           <span>Niveau {item.level}</span>
           <span>·</span>
@@ -102,6 +105,10 @@ function ExamCatalogCard({ item }: { item: ExamCatalogItem }) {
         {hasResume ? (
           <ButtonLink href={`/examens/${item.routeSlug}/start`} className="flex-1 text-center">
             Reprendre
+          </ButtonLink>
+        ) : !item.bankComplete ? (
+          <ButtonLink href={`/examens/${item.routeSlug}`} className="flex-1 text-center">
+            Voir les détails
           </ButtonLink>
         ) : (
           <ButtonLink href={`/examens/${item.routeSlug}/start`} className="flex-1 text-center">

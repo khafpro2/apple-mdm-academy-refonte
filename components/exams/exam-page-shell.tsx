@@ -3,7 +3,9 @@ import { PageShell } from "@/components/layout";
 import { Breadcrumb } from "@/components/ui";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { ExamPrepDisclaimer } from "@/components/exams/exam-prep-disclaimer";
+import { ExamFormatPanels } from "@/components/exams/exam-format-panels";
 import { examJsonLd } from "@/lib/seo/exam-schema";
+import { getExamDisplayMetadata } from "@/lib/exams/ui-metadata-adapter";
 import type { ExamPageContext } from "@/lib/exam/exam-page-data";
 
 const ExamEngine = dynamic(
@@ -26,6 +28,7 @@ export function ExamPageShell({
   viewMode: "intro" | "start" | "result";
 }) {
   const { routeSlug, quiz, basePool, questionCount, examTier, isAuthenticated } = ctx;
+  const examMetadata = viewMode === "intro" ? getExamDisplayMetadata(routeSlug, basePool.length) : null;
 
   const jsonLd =
     quiz.examQuestionCount && quiz.durationMinutes
@@ -53,12 +56,15 @@ export function ExamPageShell({
           ].filter(Boolean) as { label: string; href?: string }[]}
         />
         <ExamPrepDisclaimer examRouteSlug={routeSlug} examTitle={quiz.title} />
+        {viewMode === "intro" && <ExamFormatPanels metadata={examMetadata} />}
         <SubscriptionGate requiredTier={examTier} featureLabel="examens blancs">
           {viewMode === "result" ? (
             <ExamResultPageClient routeSlug={routeSlug} quiz={quiz} />
           ) : (
             <ExamEngine
+              key={`${routeSlug}-${viewMode}`}
               quiz={quiz}
+              examFormat={ctx.examFormat}
               basePool={basePool}
               questionCount={questionCount}
               isAuthenticated={isAuthenticated}

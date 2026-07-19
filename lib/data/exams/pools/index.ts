@@ -41,6 +41,7 @@ export const examPools: Record<string, Question[]> = {
 };
 
 export const examQuestionCounts: Record<string, number> = {
+  "examen-apple-device-support": 80,
   "examen-apple-it-pro": 200,
   "examen-jamf-100-blanc": 100,
   "examen-jamf-100": 100,
@@ -57,6 +58,7 @@ export const examQuestionCounts: Record<string, number> = {
 
 /** Slug URL /examens/[slug] → quiz slug interne */
 export const examRouteToQuizSlug: Record<string, string> = {
+  "apple-device-support": "examen-apple-device-support",
   "apple-it-professional": "examen-apple-it-pro",
   "jamf-100": "examen-jamf-100-blanc",
   "jamf-200": "examen-jamf-200",
