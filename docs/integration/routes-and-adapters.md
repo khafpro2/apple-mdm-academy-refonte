@@ -9,55 +9,53 @@
 | Recherche | searchbox header (globale) | **Pas** de route `/recherche` |
 | Dashboard | `/dashboard` | Authentifié (redirect si anonyme) |
 | Examens | `/examens` | Canonical |
-| Modules | n/a | Contenu via `/cours` |
+| Modules | `/cours` via redirect | Alias UX |
 
-### Redirections évaluées (non implémentées dans cette PR)
+### Redirections (Phase 7)
 
 | Alias | Cible | Décision |
 |---|---|---|
-| `/ressources` | `/resources` | **Reportée** — utile UX, mais non urgente ; créer via `next.config` redirects si produit valide |
-| `/modules` | `/cours` | **Reportée** — même motif |
+| `/modules` | `/cours` | **Implémentée** (`next.config.ts`, permanent) |
+| `/ressources` | `/resources` | **Implémentée** (`next.config.ts`, permanent) |
 | `/recherche` | — | **Non créée** — recherche volontairement globale dans le header |
-
-Ne pas ajouter d’alias uniquement pour masquer des 404 sans décision produit.
 
 ---
 
 ## Dépendance : moteur d’examens Codex
 
-PR Codex : [#5](https://github.com/khafpro2/apple-mdm-academy-refonte/pull/5) — **fusionnée** dans `main` (`69dc2f4`, squash de `05b5031`).
+PR Codex : [#5](https://github.com/khafpro2/apple-mdm-academy-refonte/pull/5) — **fusionnée** dans `main` (`69dc2f4`).
 
-### API publique attendue (`lib/exams`)
+### API publique (`lib/exams`)
 
 ```ts
 getExamConfig(examId)
 getExamOfficialFormat(examId)
 getExamSimulationConfig(examId)
 getExamAvailability(examId)
-getExamDisplayMetadata(examId)  // ← shell Cursor
+getExamDisplayMetadata(examId, availableCount?)
 createExamAttempt(examId, mode)
 scoreExamAttempt(attempt)
 ```
 
-`getExamDisplayMetadata` expose notamment :
+### Architecture UI (Phase 7) — props-only
 
-- `officialPanel` / `simulationPanel` / `disclaimer`
-- `official.verificationStatus`: `official-verified` | `official-partial` | `needs-review` | `internal`
-- banques incomplètes via `simulation.bankStatus` + `warning`
+```text
+getExamDisplayMetadata (Codex)
+        ↓
+mapExamDisplayToPanelProps (Cursor mapper)
+        ↓
+ExamFormatPanels({ official?, simulation? })  ← props simples, null-safe
+```
 
-### Adaptateur UI (post-rebase)
+- **Panels** (`exam-format-panels.tsx`) : aucun import banque / scoring / timer
+- **Mapper** (`map-exam-display-to-panels.ts`) : labels + passthrough uniquement
+- **Disclaimer** : constante unique `EXAM_INDEPENDENCE_DISCLAIMER` dans `exam-independence.ts`
+- **Temporaire** : `lib/exam/exam-config.ts` = re-exports legacy vers `@/lib/exams/exam-config`
+  > Temporary integration layer. Replace with lib/exams public API after Codex merge.
 
-- **Supprimé** : `lib/exam/exam-metadata.ts` (plus de seconde source de vérité)
-- **Utilisé** : `getExamDisplayMetadata` depuis `@/lib/exams/ui-metadata-adapter`
-- `lib/exam/exam-config.ts` = re-exports compat uniquement vers `@/lib/exams/exam-config`
-- Shells Cursor : layout / a11y / responsive — pas de recalcul métier
+### Classification des fichiers
 
-### Conflits connus (test Codex)
-
-- `components/exams/exam-format-panels.tsx`
-- `components/exams/exam-page-shell.tsx`
-- `lib/data/quizzes.ts`
-- `lib/exam/exam-config.ts`
+Voir [`pr4-file-classification.md`](./pr4-file-classification.md).
 
 Règle : **Codex = source de vérité examens** · **Cursor = shells UI / pages / tests UI / leçon pilote**.
 
@@ -65,9 +63,5 @@ Règle : **Codex = source de vérité examens** · **Cursor = shells UI / pages 
 
 ## Lockfile (PR #4)
 
-Changement documenté :
-
-1. Ajout **`@playwright/test@^1.52.0`** (dev) — requis par `import { test } from "@playwright/test"` dans les specs E2E ; `playwright` seul ne fournit pas ce package.
-2. Resynchronisation du lock avec `package.json` déjà pinné sur `main` (`@types/node@^22`, etc.) — corrige l’échec `npm ci` (lock avait encore `@types/node@25`).
-
-Aucune dépendance runtime ajoutée.
+1. `@playwright/test@^1.52.0` (dev) pour les specs E2E
+2. Sync lock avec `package.json` pinné sur `main`

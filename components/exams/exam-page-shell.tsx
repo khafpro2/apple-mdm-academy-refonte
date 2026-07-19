@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/ui";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { ExamPrepDisclaimer } from "@/components/exams/exam-prep-disclaimer";
 import { ExamFormatPanels } from "@/components/exams/exam-format-panels";
+import { mapExamDisplayToPanelProps } from "@/components/exams/map-exam-display-to-panels";
 import { examJsonLd } from "@/lib/seo/exam-schema";
 import { getExamAvailability } from "@/lib/exams/exam-config";
 import { getExamDisplayMetadata } from "@/lib/exams/ui-metadata-adapter";
@@ -22,8 +23,8 @@ const ExamResultPageClient = dynamic(
 type ExamContext = ExamPageContext;
 
 /**
- * Cursor page shell — metadata via Codex public adapter only
- * (getExamDisplayMetadata → officialPanel / simulationPanel / disclaimer).
+ * Cursor page shell — fetches Codex display metadata, maps to pure UI props.
+ * Panels do not import banks or recompute availability.
  */
 export function ExamPageShell({
   ctx,
@@ -33,12 +34,12 @@ export function ExamPageShell({
   viewMode: "intro" | "start" | "result";
 }) {
   const { routeSlug, quiz, basePool, questionCount, examTier, isAuthenticated } = ctx;
-  // Use Codex availability (pool ∪ quiz), not raw basePool.length — empty pools would hide real bank size.
   const availability = viewMode === "intro" ? getExamAvailability(routeSlug) : null;
   const examMetadata =
     viewMode === "intro"
       ? getExamDisplayMetadata(routeSlug, availability?.available)
       : null;
+  const panelProps = mapExamDisplayToPanelProps(examMetadata);
 
   const jsonLd =
     quiz.examQuestionCount && quiz.durationMinutes
@@ -66,7 +67,9 @@ export function ExamPageShell({
           ].filter(Boolean) as { label: string; href?: string }[]}
         />
         <ExamPrepDisclaimer examRouteSlug={routeSlug} examTitle={quiz.title} />
-        {viewMode === "intro" && <ExamFormatPanels metadata={examMetadata} />}
+        {viewMode === "intro" && (
+          <ExamFormatPanels official={panelProps.official} simulation={panelProps.simulation} />
+        )}
         <SubscriptionGate requiredTier={examTier} featureLabel="examens blancs">
           {viewMode === "result" ? (
             <ExamResultPageClient routeSlug={routeSlug} quiz={quiz} />

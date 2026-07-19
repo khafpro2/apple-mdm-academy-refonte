@@ -4,6 +4,7 @@ const OUT_OF_SCOPE = /kandji|mosyle|addigy|workspace\s*one|vmware workspace|comp
 const INDEPENDENCE =
   /Cette simulation est une préparation indépendante\. Elle n'est ni fournie,\s*ni approuvée,\s*ni administrée par Apple, Jamf ou Microsoft/;
 const APPLE_BUSINESS_MANAGER = /Apple Business Manager/;
+const MANAGED_APPLE_ACCOUNT = /Managed Apple Account/;
 
 const CORE_ROUTES = [
   "/",
@@ -21,7 +22,20 @@ async function collectPageText(page: Page): Promise<string> {
   return page.locator("body").innerText();
 }
 
-test.describe("V1 scope + Codex exam shell", () => {
+/** Assert no empty badge-like UI nodes and no literal "undefined" in panels. */
+async function assertNoEmptyBadgesOrUndefined(page: Page) {
+  await expect(page.locator('[data-empty-badge="true"], .badge:empty')).toHaveCount(0);
+  const panelText = await page
+    .locator('[data-testid="exam-official-panel"], [data-testid="exam-simulation-panel"]')
+    .allInnerTexts();
+  for (const text of panelText) {
+    expect(text).not.toMatch(/\bundefined\b/i);
+    expect(text).not.toMatch(/\bnull\b/i);
+    expect(text).not.toMatch(/0\s*minute/i);
+  }
+}
+
+test.describe("V1 scope + Codex exam shell (Phase 7)", () => {
   for (const path of CORE_ROUTES) {
     test(`no out-of-scope MDM on ${path}`, async ({ page }) => {
       const response = await page.goto(path, { waitUntil: "domcontentloaded", timeout: 30_000 });
@@ -33,29 +47,29 @@ test.describe("V1 scope + Codex exam shell", () => {
     });
   }
 
-  test("Jamf 100: official panel + simulation + independence", async ({ page }) => {
+  test("official panel complete (Jamf 100) + disclaimer + no empty badges", async ({ page }) => {
     await page.goto("/examens/jamf-100", { waitUntil: "domcontentloaded" });
     await expect(page.getByTestId("exam-official-panel")).toBeVisible();
     await expect(page.getByTestId("exam-simulation-panel")).toBeVisible();
+    await expect(page.getByTestId("exam-independence-disclaimer")).toBeVisible();
+    await expect(page.getByTestId("exam-independence-disclaimer")).toHaveText(INDEPENDENCE);
     const text = await collectPageText(page);
-    expect(text).toMatch(INDEPENDENCE);
     expect(text).toMatch(/Format officiel vérifié|Format officiel partiellement vérifié|Format à vérifier/);
     expect(text).toContain("Configuration de la simulation Apple MDM Academy");
     expect(text).not.toMatch(OUT_OF_SCOPE);
+    await assertNoEmptyBadgesOrUndefined(page);
   });
 
-  test("Apple Device Support incomplete bank", async ({ page }) => {
-    await page.goto("/examens/apple-device-support", { waitUntil: "domcontentloaded" });
-    const sim = page.getByTestId("exam-simulation-panel");
-    await expect(sim).toBeVisible();
-    const simText = await sim.innerText();
-    expect(simText).toMatch(/10/);
-    expect(simText).toMatch(/80|cible/i);
-    expect(simText).toMatch(/Simulation complète indisponible/i);
-    await expect(page.getByTestId("exam-training-available")).toBeVisible();
+  test("official panel partial / needs-review (Jamf 200)", async ({ page }) => {
+    await page.goto("/examens/jamf-200", { waitUntil: "domcontentloaded" });
+    const official = page.getByTestId("exam-official-panel");
+    await expect(official).toBeVisible();
+    const text = await official.innerText();
+    expect(text).toMatch(/Format à vérifier|partiellement vérifié|Format officiel vérifié/);
+    await assertNoEmptyBadgesOrUndefined(page);
   });
 
-  test("Intune Apple incomplete bank + internal status", async ({ page }) => {
+  test("internal exam (Intune Apple) + incomplete bank", async ({ page }) => {
     await page.goto("/examens/intune-apple", { waitUntil: "domcontentloaded" });
     const official = page.getByTestId("exam-official-panel");
     const sim = page.getByTestId("exam-simulation-panel");
@@ -67,6 +81,19 @@ test.describe("V1 scope + Codex exam shell", () => {
     expect(simText).toMatch(/35/);
     expect(simText).toMatch(/60|cible/i);
     expect(simText).toMatch(/Simulation complète indisponible/i);
+    await assertNoEmptyBadgesOrUndefined(page);
+  });
+
+  test("Apple Device Support incomplete bank", async ({ page }) => {
+    await page.goto("/examens/apple-device-support", { waitUntil: "domcontentloaded" });
+    const sim = page.getByTestId("exam-simulation-panel");
+    await expect(sim).toBeVisible();
+    const simText = await sim.innerText();
+    expect(simText).toMatch(/10/);
+    expect(simText).toMatch(/80|cible/i);
+    expect(simText).toMatch(/Simulation complète indisponible/i);
+    await expect(page.getByTestId("exam-training-available")).toBeVisible();
+    await assertNoEmptyBadgesOrUndefined(page);
   });
 
   test("Apple Enterprise Expert internal + incomplete bank", async ({ page }) => {
@@ -79,18 +106,14 @@ test.describe("V1 scope + Codex exam shell", () => {
     expect(simText).toMatch(/65/);
     expect(simText).toMatch(/100|cible/i);
     expect(simText).toMatch(/Simulation complète indisponible/i);
-    const pageText = await collectPageText(page);
-    expect(pageText).toMatch(INDEPENDENCE);
+    await expect(page.getByTestId("exam-independence-disclaimer")).toBeVisible();
+    await assertNoEmptyBadgesOrUndefined(page);
   });
 
-  test("needs-review exam (Jamf 200) does not claim full official verified layout blindly", async ({
-    page,
-  }) => {
-    await page.goto("/examens/jamf-200", { waitUntil: "domcontentloaded" });
-    const official = page.getByTestId("exam-official-panel");
-    await expect(official).toBeVisible();
-    const text = await official.innerText();
-    expect(text).toMatch(/Format à vérifier|partiellement vérifié|Format officiel vérifié/);
+  test("single independence disclaimer (not duplicated across panels)", async ({ page }) => {
+    await page.goto("/examens/jamf-100", { waitUntil: "domcontentloaded" });
+    await expect(page.getByTestId("exam-independence-disclaimer")).toHaveCount(1);
+    await expect(page.getByTestId("exam-codex-disclaimer")).toHaveCount(0);
   });
 
   test("pilot FileVault lesson + no empty badges", async ({ page }) => {
@@ -104,11 +127,25 @@ test.describe("V1 scope + Codex exam shell", () => {
     await expect(page.getByRole("heading", { name: "Différences selon la version" })).toHaveCount(0);
   });
 
-  test("terminology keeps Apple Business Manager", async ({ page }) => {
+  test("terminology: Apple Business Manager", async ({ page }) => {
     await page.goto("/parcours", { waitUntil: "domcontentloaded" });
     const text = await collectPageText(page);
     expect(text).toMatch(APPLE_BUSINESS_MANAGER);
     expect(text).not.toMatch(/\bApple Business\b(?!\s+Manager)/);
+  });
+
+  test("terminology: Managed Apple Account on exam/course surfaces", async ({ page }) => {
+    await page.goto("/examens", { waitUntil: "domcontentloaded" });
+    const examensText = await collectPageText(page);
+    // Soft: if the catalogue mentions Managed Apple Account, it must be the canonical form
+    if (/Managed Apple|Apple ID géré|compte Apple géré/i.test(examensText)) {
+      expect(examensText).toMatch(MANAGED_APPLE_ACCOUNT);
+    }
+    await page.goto("/cours", { waitUntil: "domcontentloaded" });
+    const coursText = await collectPageText(page);
+    if (/Managed Apple|Apple ID géré|compte Apple géré/i.test(coursText)) {
+      expect(coursText).toMatch(MANAGED_APPLE_ACCOUNT);
+    }
   });
 
   test("removed MDM paths return 404", async ({ page }) => {
@@ -122,24 +159,42 @@ test.describe("V1 scope + Codex exam shell", () => {
     }
   });
 
-  test("mobile search focus", async ({ page }) => {
+  test("redirects: /modules → /cours, /ressources → /resources", async ({ page }) => {
+    const modules = await page.goto("/modules", { waitUntil: "domcontentloaded" });
+    expect(modules).not.toBeNull();
+    expect(page.url()).toMatch(/\/cours\/?$/);
+    const ressources = await page.goto("/ressources", { waitUntil: "domcontentloaded" });
+    expect(ressources).not.toBeNull();
+    expect(page.url()).toMatch(/\/resources\/?$/);
+  });
+
+  test("mobile viewport: search focus + panels readable", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/examens", { waitUntil: "domcontentloaded" });
     const search = page.getByRole("searchbox").first();
     await expect(search).toBeVisible();
     await search.focus();
     await expect(search).toBeFocused();
+
+    await page.goto("/examens/jamf-100", { waitUntil: "domcontentloaded" });
+    await expect(page.getByTestId("exam-official-panel")).toBeVisible();
+    await expect(page.getByTestId("exam-simulation-panel")).toBeVisible();
+    await assertNoEmptyBadgesOrUndefined(page);
   });
 
-  test("keyboard: exam start CTA visible", async ({ page }) => {
+  test("keyboard: skip link + exam start CTA", async ({ page }) => {
     await page.goto("/examens/jamf-100", { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("link", { name: /Aller au contenu principal/i })).toBeAttached();
     await expect(page.getByRole("button", { name: /Commencer l'examen/i })).toBeVisible();
   });
 
-  test("no second source of truth: exam-metadata route absent from pages", async ({ page }) => {
+  test("no out-of-scope MDM links on exam intro", async ({ page }) => {
     await page.goto("/examens/jamf-100", { waitUntil: "domcontentloaded" });
-    // Panels must come from Codex adapter (disclaimer test id)
-    await expect(page.getByTestId("exam-codex-disclaimer")).toBeVisible();
+    const hrefs = await page.locator("a[href]").evaluateAll((anchors) =>
+      anchors.map((a) => (a as HTMLAnchorElement).href)
+    );
+    for (const href of hrefs) {
+      expect(href).not.toMatch(/kandji|mosyle|addigy/i);
+    }
   });
 });

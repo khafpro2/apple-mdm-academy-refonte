@@ -1,4 +1,5 @@
 import { appleTrainingResources, getOfficialCertLinkForExamRoute } from "@/lib/data/official-cert-links";
+import { EXAM_INDEPENDENCE_DISCLAIMER } from "@/components/exams/exam-independence";
 
 type Props = {
   examRouteSlug: string;
@@ -15,9 +16,8 @@ export function ExamPrepDisclaimer({ examRouteSlug, examTitle }: Props) {
         « {examTitle} » est une <strong>simulation pédagogique</strong> Apple MDM Academy.
         Il ne remplace pas une certification officielle Pearson VUE, Jamf ou Microsoft.
       </p>
-      <p className="mt-3 leading-relaxed text-amber-950/90">
-        Cette simulation est une préparation indépendante. Elle n&apos;est ni fournie, ni approuvée, ni
-        administrée par Apple, Jamf ou Microsoft.
+      <p className="mt-3 leading-relaxed text-amber-950/90" data-testid="exam-independence-disclaimer">
+        {EXAM_INDEPENDENCE_DISCLAIMER}
       </p>
       {official && (
         <p className="mt-3">

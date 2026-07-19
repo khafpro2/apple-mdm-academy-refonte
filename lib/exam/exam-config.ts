@@ -1,7 +1,11 @@
 /**
  * Compatibility re-exports for legacy imports of `@/lib/exam/exam-config`.
- * Source of truth: `@/lib/exams/exam-config` (Codex).
- * Prefer importing from `@/lib/exams/exam-config` or `@/lib/exams/ui-metadata-adapter` in new code.
+ *
+ * Temporary integration layer. Replace with lib/exams public API after Codex merge.
+ * (Codex is now on main — this file remains a thin re-export for legacy paths only.
+ * Prefer `@/lib/exams/exam-config` or `@/lib/exams/ui-metadata-adapter` in new code.)
+ *
+ * Source of truth: `@/lib/exams/exam-config` (Codex). No duplicated business data here.
  */
 export {
   EXAM_ROUTE_SLUGS,
