@@ -54,3 +54,12 @@ Chaque leçon (ou petit groupe cohérent) expose :
 - Cours : `apple-fundamentals`
 - Fichier : `lib/data/lessons/apple/macos-filevault.ts`
 - UI : `LessonCompatibilityShell` sous le titre (null-safe)
+
+## Ordre d’intégration post-Codex
+
+1. Fusion PR Codex #5 (moteur examens) — par le responsable, pas Cursor.
+2. Rebase PR Cursor #4 → brancher shells sur `getExamDisplayMetadata`.
+3. Fusion PR #4.
+4. **Lot Claude suivant** : pilote FileVault (comparer brouillon Claude vs `macos-filevault.ts`), max 5–10 leçons / PR.
+
+Voir aussi : `docs/integration/routes-and-adapters.md`.
