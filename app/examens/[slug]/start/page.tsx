@@ -1,5 +1,5 @@
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { EXAM_ROUTE_SLUGS } from "@/lib/exam/exam-config";
+import { EXAM_ROUTE_SLUGS } from "@/lib/exams/exam-config";
 import { requireExamPageContext } from "@/lib/exam/exam-page-data";
 import { ExamPageShell } from "@/components/exams/exam-page-shell";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";

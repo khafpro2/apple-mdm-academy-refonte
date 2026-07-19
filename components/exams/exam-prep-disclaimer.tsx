@@ -3,9 +3,11 @@ import { appleTrainingResources, getOfficialCertLinkForExamRoute } from "@/lib/d
 type Props = {
   examRouteSlug: string;
   examTitle: string;
+  /** From Codex `getExamDisplayMetadata(...).disclaimer` — single source. */
+  disclaimer?: string | null;
 };
 
-export function ExamPrepDisclaimer({ examRouteSlug, examTitle }: Props) {
+export function ExamPrepDisclaimer({ examRouteSlug, examTitle, disclaimer }: Props) {
   const official = getOfficialCertLinkForExamRoute(examRouteSlug);
 
   return (
@@ -15,6 +17,11 @@ export function ExamPrepDisclaimer({ examRouteSlug, examTitle }: Props) {
         « {examTitle} » est une <strong>simulation pédagogique</strong> Apple MDM Academy.
         Il ne remplace pas une certification officielle Pearson VUE, Jamf ou Microsoft.
       </p>
+      {hasText(disclaimer) && (
+        <p className="mt-3 leading-relaxed text-amber-950/90" data-testid="exam-independence-disclaimer">
+          {disclaimer}
+        </p>
+      )}
       {official && (
         <p className="mt-3">
           Certification officielle associée :{" "}
@@ -38,4 +45,8 @@ export function ExamPrepDisclaimer({ examRouteSlug, examTitle }: Props) {
       </p>
     </div>
   );
+}
+
+function hasText(value: string | undefined | null): value is string {
+  return typeof value === "string" && value.trim().length > 0;
 }

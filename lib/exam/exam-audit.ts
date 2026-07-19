@@ -1,6 +1,6 @@
 import { getQuiz } from "@/lib/data/quizzes";
 import { examRouteToQuizSlug, examPools, examQuestionCounts, getExamRouteSlugs } from "@/lib/data/exams/pools";
-import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
+import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exams/exam-config";
 import { analyzePoolQuality, type PoolQualityReport } from "@/lib/exam/pool-quality-audit";
 import { getExamAttemptsStorageKey } from "@/lib/exam/exam-attempts-storage";
 import { getSupabaseEnv } from "@/lib/env";

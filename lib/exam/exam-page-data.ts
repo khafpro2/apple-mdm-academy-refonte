@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getQuiz, getExamPool } from "@/lib/data";
 import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { getRequiredTierForExam } from "@/lib/pricing/access-control";
-import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
+import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exams/exam-config";
 import { getUser } from "@/lib/supabase/server";
 
 export async function getExamPageContext(routeSlug: string) {

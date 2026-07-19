@@ -316,7 +316,7 @@ export const courses: Course[] = [
           { slug: "abm-intune", title: "Lier ABM à Intune", duration: "40 min", points: 40 },
           {
             slug: "managed-apple-ids",
-            title: "Managed Apple IDs (Identifiants Apple gérés)",
+            title: "Managed Apple Account (anciennement Managed Apple ID)",
             duration: "90 min",
             points: 90,
           },

@@ -10,7 +10,8 @@ import { trackEvent } from "@/lib/analytics/events";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
 import { ACITP_EXAM_REPORT_STORAGE_KEY } from "@/lib/data/acitp/exam-report-storage";
 import { getExamLoginRedirect } from "@/lib/data/exams/exam-routes";
-import { getExamDurationMinutes, getScoreTier } from "@/lib/exam/exam-config";
+import { getExamDurationMinutes } from "@/lib/exams/exam-config";
+import { getScoreTier } from "@/components/exams/score-tiers";
 import { saveExamResult } from "@/lib/exam/exam-result-storage";
 import { markExamInProgress, recordExamCompletion } from "@/lib/exam/exam-history-storage";
 import {
@@ -41,6 +42,8 @@ export function ExamEngine({
   isAuthenticated,
   routeSlug,
   viewMode = "intro",
+  fullSimulationAvailable,
+  simulationBlockedReason,
 }: {
   quiz: Quiz;
   examFormat?: ExamFormat;
@@ -49,6 +52,9 @@ export function ExamEngine({
   isAuthenticated: boolean;
   routeSlug: string;
   viewMode?: ViewMode;
+  /** From Codex availability / simulationPanel — when set, overrides local pool length heuristic. */
+  fullSimulationAvailable?: boolean;
+  simulationBlockedReason?: string;
 }) {
   const router = useRouter();
   const [phase, setPhase] = useState<ViewMode>(viewMode);
@@ -96,7 +102,10 @@ export function ExamEngine({
   const totalSeconds = durationMinutes * 60;
   const loginRedirect = getExamLoginRedirect(quiz.slug);
   const uniqueBaseCount = basePool.length;
-  const incompletePool = uniqueBaseCount === 0 || uniqueBaseCount < questionCount;
+  const incompletePool =
+    typeof fullSimulationAvailable === "boolean"
+      ? !fullSimulationAvailable
+      : uniqueBaseCount === 0 || uniqueBaseCount < questionCount;
   const simulationTargetCount = examFormat?.modes.simulation.questionCount ?? questionCount;
   const trainingTargetCount = examFormat?.modes.training.questionCount ?? Math.min(20, questionCount);
   const effectiveSimulationCount = incompletePool ? uniqueBaseCount : simulationTargetCount;
@@ -490,24 +499,46 @@ export function ExamEngine({
           <Button onClick={() => startExam("training")} aria-label={`Démarrer l'entraînement ${quiz.title}`}>
             Mode entraînement
           </Button>
-          <a
-            href={`/examens/${routeSlug}/start`}
-            onClick={() => {
-              if (!incompletePool) clearExamSession(routeSlug, quiz.slug);
-            }}
-            aria-disabled={incompletePool}
-            onClickCapture={(event) => {
-              if (!incompletePool) return;
-              event.preventDefault();
-            }}
-            className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent ${
-              incompletePool
-                ? "cursor-not-allowed bg-surface text-ink-tertiary"
-                : "bg-white text-ink hover:bg-surface"
-            }`}
-          >
-            {incompletePool ? "Simulation complète indisponible" : "Mode simulation"}
-          </a>
+          {incompletePool ? (
+            <>
+              <span
+                role="button"
+                tabIndex={0}
+                aria-disabled="true"
+                aria-describedby="exam-simulation-blocked-reason"
+                title={
+                  simulationBlockedReason ||
+                  poolWarning ||
+                  "Simulation complète indisponible — banque insuffisante."
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") event.preventDefault();
+                }}
+                className="inline-flex min-h-11 cursor-not-allowed items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-ink-tertiary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent"
+                data-testid="exam-simulation-blocked"
+              >
+                Simulation complète indisponible
+              </span>
+              <p
+                id="exam-simulation-blocked-reason"
+                className="basis-full text-sm text-ink-secondary"
+                data-testid="exam-simulation-blocked-reason"
+              >
+                {simulationBlockedReason ||
+                  poolWarning ||
+                  `La banque contient actuellement ${uniqueBaseCount} questions uniques sur les ${simulationTargetCount} requises.`}
+              </p>
+            </>
+          ) : (
+            <a
+              href={`/examens/${routeSlug}/start`}
+              onClick={() => clearExamSession(routeSlug, quiz.slug)}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border bg-white px-6 py-3 text-sm font-semibold text-ink transition-all duration-200 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent"
+              data-testid="exam-simulation-start"
+            >
+              Mode simulation
+            </a>
+          )}
           <Link
             href={isAuthenticated ? "/dashboard/transcript" : `/auth/login?redirect=${loginRedirect}`}
             className="inline-flex min-h-11 items-center rounded-full border border-border-light px-5 py-2.5 text-sm font-semibold text-ink-secondary hover:text-ink"

@@ -40,6 +40,9 @@ const config: NextConfig = {
       { source: "/pricing", destination: "/tarifs", permanent: false },
       { source: "/home", destination: "/", permanent: true },
       { source: "/blog", destination: "/resources", permanent: true },
+      // UX aliases — canonical routes remain /cours and /resources (no /recherche page)
+      { source: "/modules", destination: "/cours", permanent: true },
+      { source: "/ressources", destination: "/resources", permanent: true },
     ];
   },
 

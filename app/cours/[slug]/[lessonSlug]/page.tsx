@@ -21,10 +21,12 @@ import { CourseReadingModeShell } from "@/components/course/CourseReadingModeShe
 import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
 import { getCustomLesson } from "@/lib/data/lessons/custom-lessons";
+import { getModularLesson } from "@/lib/data/lessons/registry";
 import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack, isTrackVisible } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
+import { LessonCompatibilityShell } from "@/components/course/LessonCompatibilityShell";
 
 export const dynamicParams = false;
 
@@ -63,6 +65,7 @@ export default async function LessonPage({
 
   const { course, module, lesson } = data;
   const custom = getCustomLesson(slug, lessonSlug);
+  const modularLesson = getModularLesson(slug, lessonSlug);
   const track = getTrack(course.trackSlug);
   const flatLessons = getFlatLessons(course);
   const totalLessons = flatLessons.length;
@@ -128,6 +131,8 @@ export default async function LessonPage({
                     {meta.subtitle}
                   </p>
                 )}
+
+                <LessonCompatibilityShell course={course} lessonMeta={modularLesson?.meta} />
 
                 <div className="mt-8">
                   <CourseProgressBar percent={progressPercent} label="Progression du parcours" />

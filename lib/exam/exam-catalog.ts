@@ -1,6 +1,6 @@
 import { getQuiz } from "@/lib/data/quizzes";
 import { examRouteToQuizSlug, examPools, examQuestionCounts } from "@/lib/data/exams/pools";
-import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
+import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exams/exam-config";
 import { isTrackVisible } from "@/lib/data/tracks";
 
 export const PRIORITY_EXAM_ROUTES = [

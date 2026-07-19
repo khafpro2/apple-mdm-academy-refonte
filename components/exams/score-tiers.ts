@@ -1,13 +1,4 @@
-export {
-  EXAM_ROUTE_SLUGS,
-  getExamDurationMinutes,
-  getExamFormat,
-  getExamFormatByQuizSlug,
-  getExamPassingScore,
-  getExamQuestionCount,
-  shouldShowExplanations,
-} from "@/lib/exams/exam-config";
-
+/** UI-only score bands for result presentation — not exam business logic. */
 export type ScoreTier = {
   id: string;
   label: string;
