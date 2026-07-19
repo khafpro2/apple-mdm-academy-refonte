@@ -1,59 +1,99 @@
 /**
- * Presentational props for exam format panels.
- * Cursor UI only — no bank/scoring/timer imports. Parent maps Codex metadata here.
+ * Presentational exam format panels — Cursor UI only.
+ * Consumes Codex adapter shapes (`ExamCursorOfficialPanel` / `ExamCursorSimulationPanel`).
+ * No bank/scoring/timer imports and no business recalculation.
  */
 
-export type OfficialPanelProps = {
-  title?: string;
-  provider?: string;
-  duration?: string;
-  questionCount?: string;
-  passingScore?: string;
-  questionTypes?: string;
-  /** Display heading derived by parent from Codex verification status. */
-  status?: string;
-  /** Short helper under the heading (partial / internal / needs-review). */
-  statusHint?: string;
-  verifiedAt?: string;
-  sources?: Array<{ title: string; url: string }>;
-  /** When false, hide duration/count/score/sources (e.g. internal exams). */
-  showOfficialDetails?: boolean;
-};
-
-export type SimulationPanelProps = {
-  mode?: string;
-  duration?: string;
-  availableQuestions?: number;
-  targetQuestions?: number;
-  fullSimulationAvailable?: boolean;
-  trainingAvailable?: boolean;
-  passingScore?: string;
-  warning?: string;
-};
+import type {
+  ExamCursorOfficialPanel,
+  ExamCursorSimulationPanel,
+} from "@/lib/exams/ui-metadata-adapter";
+import type { ExamVerificationStatus } from "@/lib/exams/exam-types";
 
 export type ExamFormatPanelsProps = {
-  official?: OfficialPanelProps | null;
-  simulation?: SimulationPanelProps | null;
+  officialPanel?: ExamCursorOfficialPanel | null;
+  simulationPanel?: ExamCursorSimulationPanel | null;
+  /** Required when officialPanel is null (internal exams). */
+  verificationStatus?: ExamVerificationStatus;
+  officialName?: string;
+  certification?: string;
 };
 
 function hasText(value: string | undefined | null): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function formatOptionalCount(value: number | undefined): string | null {
+function formatMinutes(value: number | null | undefined): string | null {
+  if (value == null || !Number.isFinite(value) || value <= 0) return null;
+  return `${value} min`;
+}
+
+function formatCount(value: number | null | undefined): string | null {
   if (value == null || !Number.isFinite(value) || value < 0) return null;
   return String(value);
+}
+
+function formatPassingScore(value: number | null | undefined): string | null {
+  if (value == null || !Number.isFinite(value) || value <= 0) return null;
+  return `${value}%`;
+}
+
+function statusCopy(
+  status: ExamVerificationStatus | undefined
+): { heading: string; hint: string; showOfficialDetails: boolean } {
+  switch (status) {
+    case "official-verified":
+      return {
+        heading: "Format officiel vérifié",
+        hint: "Référence éditeur associée — durées, volumes et barèmes issus du registre d’examens sourcé.",
+        showOfficialDetails: true,
+      };
+    case "official-partial":
+      return {
+        heading: "Format officiel partiellement vérifié",
+        hint: "Certaines informations ne sont pas publiées ou doivent être confirmées.",
+        showOfficialDetails: true,
+      };
+    case "needs-review":
+      return {
+        heading: "Format à vérifier",
+        hint: "Les informations officielles doivent encore être confirmées avant affichage comme format vérifié.",
+        showOfficialDetails: true,
+      };
+    case "internal":
+      return {
+        heading: "Examen interne Apple MDM Academy",
+        hint: "Format interne Apple MDM Academy — ce n’est pas une certification officielle éditeur.",
+        showOfficialDetails: false,
+      };
+    default:
+      return {
+        heading: "Format officiel",
+        hint: "",
+        showOfficialDetails: true,
+      };
+  }
 }
 
 /**
  * Pure UI panels — null-safe, no engine imports, no empty badges.
  */
-export function ExamFormatPanels({ official, simulation }: ExamFormatPanelsProps) {
-  if (!official && !simulation) return null;
+export function ExamFormatPanels({
+  officialPanel,
+  simulationPanel,
+  verificationStatus,
+  officialName,
+  certification,
+}: ExamFormatPanelsProps) {
+  const status = verificationStatus ?? officialPanel?.verificationStatus;
+  const showOfficialSection = Boolean(officialPanel) || status === "internal";
+  if (!showOfficialSection && !simulationPanel) return null;
 
-  const showOfficialDetails = official?.showOfficialDetails !== false;
-  const availableLabel = formatOptionalCount(simulation?.availableQuestions);
-  const targetLabel = formatOptionalCount(simulation?.targetQuestions);
+  const copy = statusCopy(status);
+  const showOfficialDetails = copy.showOfficialDetails && officialPanel != null;
+
+  const availableLabel = formatCount(simulationPanel?.availableQuestions);
+  const targetLabel = formatCount(simulationPanel?.targetQuestions);
 
   let questionsLine: string | null = null;
   if (availableLabel && targetLabel) {
@@ -63,39 +103,56 @@ export function ExamFormatPanels({ official, simulation }: ExamFormatPanelsProps
   }
 
   const availabilityLabel =
-    simulation?.fullSimulationAvailable === true
+    simulationPanel?.fullSimulationAvailable === true
       ? hasText(targetLabel)
         ? `${targetLabel} questions`
         : hasText(availableLabel)
           ? `${availableLabel} questions`
           : null
-      : simulation?.fullSimulationAvailable === false
+      : simulationPanel?.fullSimulationAvailable === false
         ? "Simulation complète indisponible"
         : null;
 
+  const official = officialPanel ?? null;
+  const durationLabel = formatMinutes(official?.duration);
+  const questionCountLabel = formatCount(official?.questionCount);
+  const passingScoreLabel = formatPassingScore(official?.passingScore);
+  const simulationDuration = formatMinutes(simulationPanel?.duration);
+  const simulationPassing = formatPassingScore(simulationPanel?.passingScore);
+
   return (
     <div className="mb-8 grid gap-4 md:grid-cols-2">
-      {official && (
+      {showOfficialSection && (
         <section
           className="rounded-2xl border border-border-light bg-surface px-5 py-4"
           aria-labelledby="exam-official-format-heading"
           data-testid="exam-official-panel"
         >
           <h2 id="exam-official-format-heading" className="text-sm font-semibold text-ink">
-            {hasText(official.status) ? official.status : "Format officiel"}
+            {copy.heading}
           </h2>
-          {hasText(official.statusHint) && (
-            <p className="mt-2 text-sm leading-relaxed text-ink-secondary">{official.statusHint}</p>
+          {hasText(copy.hint) && (
+            <p className="mt-2 text-sm leading-relaxed text-ink-secondary">{copy.hint}</p>
           )}
 
           <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-            {hasText(official.title) && (
+            {hasText(officialName ?? official?.title) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">Nom</dt>
-                <dd className="mt-0.5 font-medium text-ink">{official.title}</dd>
+                <dd className="mt-0.5 font-medium text-ink">{officialName ?? official?.title}</dd>
               </div>
             )}
-            {hasText(official.provider) && (
+            {status === "internal" && hasText(certification) && (
+              <div className="sm:col-span-2">
+                <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
+                  Statut
+                </dt>
+                <dd className="mt-0.5 text-ink-secondary" data-testid="exam-internal-certification">
+                  {certification}
+                </dd>
+              </div>
+            )}
+            {showOfficialDetails && official && hasText(official.provider) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
                   Fournisseur
@@ -103,39 +160,33 @@ export function ExamFormatPanels({ official, simulation }: ExamFormatPanelsProps
                 <dd className="mt-0.5 text-ink-secondary">{official.provider}</dd>
               </div>
             )}
-            {showOfficialDetails && hasText(official.duration) && (
+            {showOfficialDetails && hasText(durationLabel) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
                   Durée officielle
                 </dt>
-                <dd className="mt-0.5 text-ink-secondary">{official.duration}</dd>
+                <dd className="mt-0.5 text-ink-secondary">{durationLabel}</dd>
               </div>
             )}
-            {showOfficialDetails && hasText(official.questionCount) && (
+            {showOfficialDetails && hasText(questionCountLabel) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
                   Questions officielles
                 </dt>
-                <dd className="mt-0.5 text-ink-secondary">{official.questionCount}</dd>
+                <dd className="mt-0.5 text-ink-secondary">{questionCountLabel}</dd>
               </div>
             )}
-            {showOfficialDetails && hasText(official.passingScore) && (
+            {showOfficialDetails && hasText(passingScoreLabel) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
                   Seuil officiel
                 </dt>
-                <dd className="mt-0.5 text-ink-secondary">{official.passingScore}</dd>
-              </div>
-            )}
-            {showOfficialDetails && hasText(official.questionTypes) && (
-              <div>
-                <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">Types</dt>
-                <dd className="mt-0.5 text-ink-secondary">{official.questionTypes}</dd>
+                <dd className="mt-0.5 text-ink-secondary">{passingScoreLabel}</dd>
               </div>
             )}
           </dl>
 
-          {showOfficialDetails && official.sources && official.sources.length > 0 && (
+          {showOfficialDetails && official && official.sources.length > 0 && (
             <div className="mt-3 space-y-1">
               {official.sources.map((source) => (
                 <a
@@ -150,13 +201,13 @@ export function ExamFormatPanels({ official, simulation }: ExamFormatPanelsProps
               ))}
             </div>
           )}
-          {showOfficialDetails && hasText(official.verifiedAt) && (
+          {showOfficialDetails && official && hasText(official.verifiedAt) && (
             <p className="mt-2 text-xs text-ink-tertiary">Vérifié le {official.verifiedAt}.</p>
           )}
         </section>
       )}
 
-      {simulation && (
+      {simulationPanel && (
         <section
           className="rounded-2xl border border-border-light bg-surface-elevated px-5 py-4"
           aria-labelledby="exam-simulation-config-heading"
@@ -185,38 +236,38 @@ export function ExamFormatPanels({ official, simulation }: ExamFormatPanelsProps
                 <dd className="mt-0.5 font-medium text-ink">{questionsLine}</dd>
               </div>
             )}
-            {hasText(simulation.duration) && (
+            {hasText(simulationDuration) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
                   Durée interne
                 </dt>
-                <dd className="mt-0.5 font-medium text-ink">{simulation.duration}</dd>
+                <dd className="mt-0.5 font-medium text-ink">{simulationDuration}</dd>
               </div>
             )}
-            {hasText(simulation.passingScore) && (
+            {hasText(simulationPassing) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">
                   Seuil interne
                 </dt>
-                <dd className="mt-0.5 font-medium text-ink">{simulation.passingScore}</dd>
+                <dd className="mt-0.5 font-medium text-ink">{simulationPassing}</dd>
               </div>
             )}
-            {hasText(simulation.mode) && (
+            {hasText(simulationPanel.mode) && (
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-ink-tertiary">Mode</dt>
-                <dd className="mt-0.5 text-ink-secondary">{simulation.mode}</dd>
+                <dd className="mt-0.5 text-ink-secondary">{simulationPanel.mode}</dd>
               </div>
             )}
           </dl>
-          {hasText(simulation.warning) && (
+          {hasText(simulationPanel.warning) && (
             <p
               className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-900"
               data-testid="exam-bank-warning"
             >
-              {simulation.warning}
+              {simulationPanel.warning}
             </p>
           )}
-          {simulation.trainingAvailable === true && (
+          {simulationPanel.trainingAvailable === true && (
             <p className="mt-3 text-xs text-ink-tertiary" data-testid="exam-training-available">
               Entraînement limité disponible.
             </p>

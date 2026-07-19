@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import type { Quiz } from "@/lib/types";
 import { loadExamResult } from "@/lib/exam/exam-result-storage";
-import { getScoreTier } from "@/lib/exam/exam-config";
+import { getScoreTier } from "@/components/exams/score-tiers";
 import { ExamResultView } from "@/components/exams/exam-result-view";
 
 export function ExamResultPageClient({

@@ -5,7 +5,7 @@ import type { Quiz, Question } from "@/lib/types";
 import { Button } from "@/components/ui";
 import { getBadgeById } from "@/lib/badges-config";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
-import type { ScoreTier } from "@/lib/exam/exam-config";
+import type { ScoreTier } from "@/components/exams/score-tiers";
 import { isAnswerCorrect, type UserAnswer } from "@/lib/quiz/scoring";
 import { buildExamFinalReport } from "@/lib/exams/report";
 

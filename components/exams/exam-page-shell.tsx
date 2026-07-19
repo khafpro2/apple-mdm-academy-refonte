@@ -4,7 +4,6 @@ import { Breadcrumb } from "@/components/ui";
 import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { ExamPrepDisclaimer } from "@/components/exams/exam-prep-disclaimer";
 import { ExamFormatPanels } from "@/components/exams/exam-format-panels";
-import { mapExamDisplayToPanelProps } from "@/components/exams/map-exam-display-to-panels";
 import { examJsonLd } from "@/lib/seo/exam-schema";
 import { getExamAvailability } from "@/lib/exams/exam-config";
 import { getExamDisplayMetadata } from "@/lib/exams/ui-metadata-adapter";
@@ -23,8 +22,8 @@ const ExamResultPageClient = dynamic(
 type ExamContext = ExamPageContext;
 
 /**
- * Cursor page shell — fetches Codex display metadata, maps to pure UI props.
- * Panels do not import banks or recompute availability.
+ * Cursor page shell — consumes Codex `getExamDisplayMetadata` public adapter only.
+ * Panels receive officialPanel / simulationPanel / disclaimer — no local registries.
  */
 export function ExamPageShell({
   ctx,
@@ -34,12 +33,9 @@ export function ExamPageShell({
   viewMode: "intro" | "start" | "result";
 }) {
   const { routeSlug, quiz, basePool, questionCount, examTier, isAuthenticated } = ctx;
-  const availability = viewMode === "intro" ? getExamAvailability(routeSlug) : null;
-  const examMetadata =
-    viewMode === "intro"
-      ? getExamDisplayMetadata(routeSlug, availability?.available)
-      : null;
-  const panelProps = mapExamDisplayToPanelProps(examMetadata);
+  // Public Codex APIs only — available count required so incomplete banks are not mislabeled as full
+  const availability = getExamAvailability(routeSlug);
+  const metadata = getExamDisplayMetadata(routeSlug, availability?.available ?? undefined);
 
   const jsonLd =
     quiz.examQuestionCount && quiz.durationMinutes
@@ -66,9 +62,19 @@ export function ExamPageShell({
             ...(viewMode === "result" ? [{ label: "Résultat" }] : []),
           ].filter(Boolean) as { label: string; href?: string }[]}
         />
-        <ExamPrepDisclaimer examRouteSlug={routeSlug} examTitle={quiz.title} />
-        {viewMode === "intro" && (
-          <ExamFormatPanels official={panelProps.official} simulation={panelProps.simulation} />
+        <ExamPrepDisclaimer
+          examRouteSlug={routeSlug}
+          examTitle={quiz.title}
+          disclaimer={metadata?.disclaimer}
+        />
+        {viewMode === "intro" && metadata && (
+          <ExamFormatPanels
+            officialPanel={metadata.officialPanel}
+            simulationPanel={metadata.simulationPanel}
+            verificationStatus={metadata.official.verificationStatus}
+            officialName={metadata.official.officialName}
+            certification={metadata.official.certification}
+          />
         )}
         <SubscriptionGate requiredTier={examTier} featureLabel="examens blancs">
           {viewMode === "result" ? (
@@ -83,6 +89,11 @@ export function ExamPageShell({
               isAuthenticated={isAuthenticated}
               routeSlug={routeSlug}
               viewMode={viewMode === "start" ? "exam" : "intro"}
+              fullSimulationAvailable={
+                metadata?.simulationPanel.fullSimulationAvailable ??
+                availability?.fullSimulationAvailable
+              }
+              simulationBlockedReason={metadata?.simulationPanel.warning ?? undefined}
             />
           )}
         </SubscriptionGate>

@@ -29,6 +29,7 @@ export type ExamCursorSimulationPanel = {
   targetQuestions: number;
   passingScore: number;
   fullSimulationAvailable: boolean;
+  trainingAvailable: boolean;
   warning: string | null;
 };
 
@@ -181,11 +182,13 @@ export function getExamDisplayMetadata(routeSlug: string, availableQuestionCount
       targetQuestions: availability.required,
       passingScore: format.scoring.passingScore,
       fullSimulationAvailable,
+      trainingAvailable: availability.trainingAvailable,
       warning,
     },
+    // Single public disclaimer for Cursor shells — do not duplicate variants in UI components.
     disclaimer:
       format.verificationStatus === "internal"
-        ? "Examen interne Apple MDM Academy : ce format ne représente pas une certification officielle éditeur."
-        : "Simulation de préparation indépendante : aucun contenu officiel d'examen n'est reproduit.",
+        ? "Examen interne Apple MDM Academy. Simulation de préparation indépendante : elle n'est ni fournie, ni approuvée, ni administrée par Apple, Jamf ou Microsoft."
+        : "Simulation de préparation indépendante : elle n'est ni fournie, ni approuvée, ni administrée par Apple, Jamf ou Microsoft.",
   };
 }

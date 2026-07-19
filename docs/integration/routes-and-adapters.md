@@ -1,67 +1,52 @@
 # Routes réelles & adaptateurs Cursor ↔ Codex
 
-## Routes (décision produit)
+## Routes
 
-| Intention | Route réelle | Décision |
+| Intention | Route | Décision |
 |---|---|---|
-| Catalogue cours | `/cours` | Canonical |
-| Ressources | `/resources` | Canonical (anglais, historique app) |
-| Recherche | searchbox header (globale) | **Pas** de route `/recherche` |
-| Dashboard | `/dashboard` | Authentifié (redirect si anonyme) |
+| Cours | `/cours` | Canonical |
+| Ressources | `/resources` | Canonical |
 | Examens | `/examens` | Canonical |
-| Modules | `/cours` via redirect | Alias UX |
+| Recherche | header searchbox | Pas de `/recherche` |
+| Dashboard | `/dashboard` | Protégé |
 
-### Redirections (Phase 7)
+### Redirects
 
-| Alias | Cible | Décision |
-|---|---|---|
-| `/modules` | `/cours` | **Implémentée** (`next.config.ts`, permanent) |
-| `/ressources` | `/resources` | **Implémentée** (`next.config.ts`, permanent) |
-| `/recherche` | — | **Non créée** — recherche volontairement globale dans le header |
+| Alias | Cible |
+|---|---|
+| `/modules` | `/cours` |
+| `/ressources` | `/resources` |
 
 ---
 
-## Dépendance : moteur d’examens Codex
+## Intégration moteur Codex (Phase 8)
 
-PR Codex : [#5](https://github.com/khafpro2/apple-mdm-academy-refonte/pull/5) — **fusionnée** dans `main` (`69dc2f4`).
+PR Codex [#5](https://github.com/khafpro2/apple-mdm-academy-refonte/pull/5) fusionnée (`69dc2f4`).
 
-### API publique (`lib/exams`)
+### Source de vérité
+
+`lib/exams/*`
+
+### API consommée par le shell
 
 ```ts
-getExamConfig(examId)
-getExamOfficialFormat(examId)
-getExamSimulationConfig(examId)
 getExamAvailability(examId)
 getExamDisplayMetadata(examId, availableCount?)
-createExamAttempt(examId, mode)
-scoreExamAttempt(attempt)
+// → metadata.officialPanel
+// → metadata.simulationPanel
+// → metadata.disclaimer
 ```
 
-### Architecture UI (Phase 7) — props-only
+### Shell Cursor
 
-```text
-getExamDisplayMetadata (Codex)
-        ↓
-mapExamDisplayToPanelProps (Cursor mapper)
-        ↓
-ExamFormatPanels({ official?, simulation? })  ← props simples, null-safe
-```
+- `ExamPageShell` → `getExamDisplayMetadata`
+- `ExamFormatPanels` → types Codex `ExamCursorOfficialPanel` / `ExamCursorSimulationPanel`
+- Pas de registre `lib/exam/exam-metadata.ts`
+- Pas de `lib/exam/exam-config.ts` (supprimé) — imports → `@/lib/exams/exam-config`
+- Tiers de score UI : `components/exams/score-tiers.ts` (présentation uniquement)
 
-- **Panels** (`exam-format-panels.tsx`) : aucun import banque / scoring / timer
-- **Mapper** (`map-exam-display-to-panels.ts`) : labels + passthrough uniquement
-- **Disclaimer** : constante unique `EXAM_INDEPENDENCE_DISCLAIMER` dans `exam-independence.ts`
-- **Temporaire** : `lib/exam/exam-config.ts` = re-exports legacy vers `@/lib/exams/exam-config`
-  > Temporary integration layer. Replace with lib/exams public API after Codex merge.
+### Responsabilités
 
-### Classification des fichiers
-
-Voir [`pr4-file-classification.md`](./pr4-file-classification.md).
-
-Règle : **Codex = source de vérité examens** · **Cursor = shells UI / pages / tests UI / leçon pilote**.
-
----
-
-## Lockfile (PR #4)
-
-1. `@playwright/test@^1.52.0` (dev) pour les specs E2E
-2. Sync lock avec `package.json` pinné sur `main`
+| Cursor | Codex |
+|---|---|
+| UI, a11y, responsive, shells, FileVault, tests UI | moteur, timer, scoring, formats, audits, banques |
