@@ -5,6 +5,7 @@ import { SubscriptionGate } from "@/components/subscription/subscription-gate";
 import { ExamPrepDisclaimer } from "@/components/exams/exam-prep-disclaimer";
 import { ExamFormatPanels } from "@/components/exams/exam-format-panels";
 import { examJsonLd } from "@/lib/seo/exam-schema";
+import { getExamAvailability } from "@/lib/exams/exam-config";
 import { getExamDisplayMetadata } from "@/lib/exams/ui-metadata-adapter";
 import type { ExamPageContext } from "@/lib/exam/exam-page-data";
 
@@ -32,8 +33,12 @@ export function ExamPageShell({
   viewMode: "intro" | "start" | "result";
 }) {
   const { routeSlug, quiz, basePool, questionCount, examTier, isAuthenticated } = ctx;
+  // Use Codex availability (pool ∪ quiz), not raw basePool.length — empty pools would hide real bank size.
+  const availability = viewMode === "intro" ? getExamAvailability(routeSlug) : null;
   const examMetadata =
-    viewMode === "intro" ? getExamDisplayMetadata(routeSlug, basePool.length) : null;
+    viewMode === "intro"
+      ? getExamDisplayMetadata(routeSlug, availability?.available)
+      : null;
 
   const jsonLd =
     quiz.examQuestionCount && quiz.durationMinutes

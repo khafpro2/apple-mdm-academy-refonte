@@ -25,7 +25,7 @@ Ne pas ajouter d’alias uniquement pour masquer des 404 sans décision produit.
 
 ## Dépendance : moteur d’examens Codex
 
-PR Codex : [#5](https://github.com/khafpro2/apple-mdm-academy-refonte/pull/5) (`codex/exam-engine-phase3`, draft).
+PR Codex : [#5](https://github.com/khafpro2/apple-mdm-academy-refonte/pull/5) — **fusionnée** dans `main` (`69dc2f4`, squash de `05b5031`).
 
 ### API publique attendue (`lib/exams`)
 
@@ -45,20 +45,12 @@ scoreExamAttempt(attempt)
 - `official.verificationStatus`: `official-verified` | `official-partial` | `needs-review` | `internal`
 - banques incomplètes via `simulation.bankStatus` + `warning`
 
-### Adaptateur temporaire Cursor
+### Adaptateur UI (post-rebase)
 
-Fichier : `lib/exam/exam-metadata.ts`
-
-```text
-Temporary UI adapter — replace with lib/exams public API after Codex merge.
-```
-
-Après fusion Codex + rebase PR #4 :
-
-1. Supprimer `lib/exam/exam-metadata.ts`
-2. Brancher `ExamFormatPanels` / `ExamPageShell` sur `getExamDisplayMetadata`
-3. Conserver layout / a11y / responsive Cursor
-4. Laisser types, formats, timer, scoring, audits à Codex
+- **Supprimé** : `lib/exam/exam-metadata.ts` (plus de seconde source de vérité)
+- **Utilisé** : `getExamDisplayMetadata` depuis `@/lib/exams/ui-metadata-adapter`
+- `lib/exam/exam-config.ts` = re-exports compat uniquement vers `@/lib/exams/exam-config`
+- Shells Cursor : layout / a11y / responsive — pas de recalcul métier
 
 ### Conflits connus (test Codex)
 
