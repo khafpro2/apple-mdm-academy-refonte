@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-labelledby="title desc">
+  <title id="title">AMA Logo Proposal C — horizontal</title>
+  <desc id="desc">Original AMA logo proposal C — not for production use.</desc>
+  <rect width="640" height="200" rx="24" fill="#0B102B"/><g transform="translate(24,24) scale(0.28)"><rect />
+  <path d="M160 160h80v80h-80z M272 160h80v80h-80z M216 272h80v80h-80z" fill="none" stroke="#2563EB" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M240 200h32M272 240v32M200 240h32" stroke="#13B8D3" stroke-width="6"/>
+  <circle cx="256" cy="256" r="120" fill="none" stroke="#6D4AFF" stroke-width="4" stroke-dasharray="8 12" opacity="0.5"/></g><text x="200" y="110" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="#F1F5F9">Apple MDM Academy</text>
+</svg>

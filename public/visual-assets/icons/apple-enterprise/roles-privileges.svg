@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Roles and Privileges</title>
+  <desc id="desc">Key and shield for administrative roles.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 12l14 6v10c0 8-6 14-14 18"/><circle cx="32" cy="28" r="4"/><path d="M18 44l8-8"/>
+  </g>
+</svg>

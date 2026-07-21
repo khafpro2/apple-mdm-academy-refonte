@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" role="img" aria-labelledby="title desc">
+  <title id="title">Microsoft Intune</title>
+  <desc id="desc">Freeform starter board: Microsoft Intune</desc>
+  <rect width="560" height="380" fill="#FFFFFF"/>
+  <text x="40" y="36" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#0F172A">Microsoft Intune</text>
+  <text x="40" y="56" font-family="system-ui,sans-serif" font-size="11" fill="#94A3B8">Apple MDM Academy — Enterprise Icon System</text>
+  <rect x="40" y="100" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="72" y="178" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Intune</text><rect x="120" y="100" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="152" y="178" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Entra ID</text><rect x="200" y="100" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="232" y="178" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Defender</text><rect x="280" y="100" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="312" y="178" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Cond Access</text><rect x="360" y="100" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="392" y="178" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Compliance</text><rect x="440" y="100" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="472" y="178" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Settings</text><rect x="40" y="180" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="72" y="258" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">App Protect</text><rect x="120" y="180" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="152" y="258" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Endpoint</text><rect x="200" y="180" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="232" y="258" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Portal</text><rect x="280" y="180" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="312" y="258" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Dynamic Grp</text><rect x="360" y="180" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="392" y="258" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Remote</text><rect x="440" y="180" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="472" y="258" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">SCEP</text><rect x="40" y="260" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="72" y="338" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">VPN</text><rect x="120" y="260" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="152" y="338" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Wi-Fi</text><rect x="200" y="260" width="64" height="64" rx="8" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="232" y="338" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#475569">Token</text>
+</svg>

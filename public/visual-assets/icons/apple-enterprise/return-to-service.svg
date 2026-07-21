@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Return to Service</title>
+  <desc id="desc">Device wipe and re-enrollment.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="18" width="28" height="28" rx="6"/><path d="M26 32h12M32 26v12"/>
+  </g>
+</svg>

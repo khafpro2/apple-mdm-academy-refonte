@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 128" role="img" aria-labelledby="title desc">
+  <title id="title">Step 7</title>
+  <desc id="desc">Numbered workflow step card 7 with connectors.</desc>
+  <rect width="220" height="128" rx="12" fill="#F1F5F9" stroke="#2563EB" stroke-width="2"/>
+  <circle cx="36" cy="36" r="20" fill="#2563EB"/>
+  <text x="36" y="41" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#FFFFFF">7</text>
+  <rect x="68" y="24" width="120" height="12" rx="6" fill="#475569"/>
+  <rect x="68" y="44" width="96" height="8" rx="4" fill="#94A3B8"/>
+  <circle cx="8" cy="64" r="4" fill="#2563EB"/>
+  <circle cx="212" cy="64" r="4" fill="#2563EB"/>
+</svg>

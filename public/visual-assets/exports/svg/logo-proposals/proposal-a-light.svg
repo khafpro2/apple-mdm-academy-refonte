@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AMA Logo Proposal A — light</title>
+  <desc id="desc">Original AMA logo proposal A — not for production use.</desc>
+  <rect width="512" height="512" rx="96" fill="#F1F5F9"/>
+  <path d="M128 320c0-80 64-128 128-128s128 48 128 128" fill="none" stroke="#2563EB" stroke-width="12"/>
+  <path d="M192 192h128" stroke="#2563EB" stroke-width="8"/>
+  <circle cx="192" cy="192" r="24" fill="#13B8D3"/>
+  <circle cx="320" cy="192" r="24" fill="#6D4AFF"/>
+  <circle cx="256" cy="320" r="24" fill="#22C55E"/>
+  <path d="M216 216l40 40M296 216l-40 40" stroke="#2563EB" stroke-width="4"/>
+  <path d="M256 128v-32" stroke="#94A3B8" stroke-width="6"/>
+  <path d="M224 352l32 48 32-48" fill="none" stroke="#2563EB" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M208 368h96" stroke="#2563EB" stroke-width="8"/>
+  <path d="M360 140l24-16v32z" fill="#22C55E" opacity="0.6"/>
+</svg>

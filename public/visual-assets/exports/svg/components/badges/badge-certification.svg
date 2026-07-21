@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" role="img" aria-labelledby="title desc">
+  <title id="title">Certification</title>
+  <desc id="desc">Certification badge for content labeling.</desc>
+  <rect width="160" height="40" rx="20" fill="#F59E0B" opacity="0.15" stroke="#F59E0B" stroke-width="2"/>
+  <text x="80" y="25" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#F59E0B">Certification</text>
+</svg>

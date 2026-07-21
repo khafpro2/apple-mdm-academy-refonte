@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Managed Application</title>
+  <desc id="desc">Managed app with compliance check.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="16" y="16" width="32" height="32" rx="8"/><path d="M24 32l4 4 8-10"/>
+  </g>
+</svg>

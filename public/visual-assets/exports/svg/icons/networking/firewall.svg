@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Firewall</title>
+  <desc id="desc">Network firewall.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="14" y="16" width="36" height="32" rx="6"/><path d="M14 28h36M14 36h36"/><path d="M26 22v24M38 22v24"/>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Supervision</title>
+  <desc id="desc">Supervised device indicator.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="14" width="28" height="36" rx="5"/><path d="M26 14v-4h12v4"/><circle cx="32" cy="36" r="6"/><path d="M29 36l2 2 4-4"/>
+  </g>
+</svg>

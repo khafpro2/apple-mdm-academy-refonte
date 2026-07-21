@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Warning</title>
+  <desc id="desc">Warning alert state.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 12l18 34H14z"/><line x1="32" y1="26" x2="32" y2="34"/><circle cx="32" cy="40" r="1.5" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

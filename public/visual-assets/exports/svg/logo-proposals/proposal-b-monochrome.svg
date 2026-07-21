@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AMA Logo Proposal B — monochrome</title>
+  <desc id="desc">Original AMA logo proposal B — not for production use.</desc>
+  <rect width="512" height="512" rx="61.44" fill="#FFFFFF"/><g fill="none" stroke="#0F172A" stroke-width="8"><rect width="512" height="512" rx="96" />
+  <path d="M96 384 Q256 128 416 384"   stroke-width="14" stroke-linecap="round"/>
+  <rect x="216" y="200" width="80" height="56" rx="12"   stroke-width="8"/>
+  <circle cx="296" cy="128" r="32" />
+  <path d="M284 128l8 8 16-16"  stroke-width="6" /></g>
+</svg>
