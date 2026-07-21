@@ -27,77 +27,36 @@ const FREE_INCLUDES = [
 export default function PricingPage() {
   return (
     <PageShell>
-      <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
-        <SectionHeading
-          label="Tarifs"
-          title="C'est gratuit pour le moment"
-          description="Profitez d'un accès complet à Apple MDM Academy — cours, labs, examens blancs et certificats, sans abonnement."
-          align="center"
-        />
+      <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8 lg:py-16">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div>
+            <SectionHeading
+              label="Tarifs"
+              title="C'est gratuit pour le moment"
+              description="Profitez d'un accès complet à Apple MDM Academy — cours, labs, examens blancs et certificats, sans abonnement."
+              align="left"
+            />
+            <p className="-mt-4 text-sm font-medium text-ink-secondary lg:max-w-md">
+              Moins de configuration manuelle. Plus de temps pour les vrais projets.
+            </p>
+          </div>
 
-        <div
-          className="mx-auto mt-10 flex justify-center"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 320 200"
-            className="h-44 w-full max-w-sm text-emerald-600"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-label="Illustration — accès gratuit à la plateforme"
-          >
-            <rect
-              x="24"
-              y="40"
-              width="272"
-              height="140"
-              rx="20"
-              className="fill-emerald-50 stroke-emerald-200"
-              strokeWidth="2"
+          <figure className="mx-auto w-full max-w-md lg:max-w-none">
+            {/* SVG local : img plutôt que next/image (convention du projet pour les SVG) */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/illustrations/pricing-admin-relief.svg"
+              alt="Administrateur IT soulagé après avoir automatisé la gestion de ses appareils"
+              width={800}
+              height={520}
+              className="h-auto w-full max-w-full"
+              decoding="async"
+              fetchPriority="high"
             />
-            <rect
-              x="48"
-              y="64"
-              width="80"
-              height="56"
-              rx="10"
-              className="fill-white stroke-emerald-300"
-              strokeWidth="2"
-            />
-            <path
-              d="M60 88h64M60 100h48M60 112h56"
-              className="stroke-emerald-400"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-            <circle cx="200" cy="92" r="36" className="fill-emerald-100 stroke-emerald-400" strokeWidth="2" />
-            <path
-              d="M182 92c0-10 8-18 18-18s18 8 18 18-8 18-18 18"
-              className="stroke-emerald-600"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-            <text
-              x="200"
-              y="100"
-              textAnchor="middle"
-              className="fill-emerald-700 text-[22px] font-bold"
-              style={{ fontFamily: "system-ui, sans-serif" }}
-            >
-              0 €
-            </text>
-            <path
-              d="M148 148l12-12 16 16 28-28"
-              className="stroke-emerald-500"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="88" cy="36" r="10" className="fill-amber-300" />
-            <circle cx="248" cy="44" r="6" className="fill-emerald-300" />
-            <circle cx="268" cy="160" r="8" className="fill-emerald-200" />
-          </svg>
+            <figcaption className="sr-only">
+              Illustration humoristique d&apos;un administrateur qui automatise la gestion de plusieurs appareils.
+            </figcaption>
+          </figure>
         </div>
 
         <div className="mt-10 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-surface-elevated p-8 shadow-sm">
