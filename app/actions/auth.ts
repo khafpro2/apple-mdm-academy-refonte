@@ -5,12 +5,14 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
 import { mapAuthError } from "@/lib/auth/errors";
-import { passwordValidationMessage, validatePassword } from "@/lib/auth/password-policy";
+import { parseSignupFormData, validateSignupInput } from "@/lib/auth/signup-validation";
+import { ensureUserProfile } from "@/lib/supabase/ensure-profile";
 
 export type AuthActionState = {
   ok: boolean;
   error?: string;
   message?: string;
+  field?: string;
 };
 
 function logAuthFailure(action: "signup" | "login", errorCode?: string) {
@@ -26,33 +28,14 @@ function getRedirectFromForm(formData: FormData): string {
 }
 
 export async function signUpAction(_prev: AuthActionState | null, formData: FormData): Promise<AuthActionState> {
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
-  const confirmPassword = String(formData.get("confirmPassword") ?? "");
-  const fullName = String(formData.get("fullName") ?? "").trim();
-  const acceptTerms = formData.get("acceptTerms") === "on";
   const redirectTo = getRedirectFromForm(formData);
+  const validation = validateSignupInput(parseSignupFormData(formData));
 
-  if (!email) {
-    return { ok: false, error: "L'adresse email est requise." };
+  if (validation.ok === false) {
+    return { ok: false, error: validation.error, field: validation.field };
   }
 
-  if (!fullName) {
-    return { ok: false, error: "Le nom complet est requis." };
-  }
-
-  if (!acceptTerms) {
-    return { ok: false, error: "Vous devez accepter les conditions d'utilisation." };
-  }
-
-  const passwordCheck = validatePassword(password);
-  if (!passwordCheck.valid) {
-    return { ok: false, error: passwordValidationMessage(passwordCheck) };
-  }
-
-  if (password !== confirmPassword) {
-    return { ok: false, error: "Les mots de passe ne correspondent pas." };
-  }
+  const { email, password, fullName } = validation.data;
 
   const supabase = await createClient();
   if (!supabase) {
@@ -73,7 +56,7 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
 
   if (error) {
     logAuthFailure("signup", error.code);
-    return { ok: false, error: mapAuthError(error) };
+    return { ok: false, error: mapAuthError(error, "Impossible de créer le compte pour le moment.") };
   }
 
   if (data.user && (!data.user.identities || data.user.identities.length === 0)) {
@@ -81,7 +64,15 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
     return {
       ok: false,
       error: "Un compte existe déjà avec cette adresse email. Connectez-vous ou réinitialisez votre mot de passe.",
+      field: "email",
     };
+  }
+
+  if (data.user) {
+    const profileResult = await ensureUserProfile(supabase, data.user.id, fullName);
+    if (profileResult.ok === false) {
+      return { ok: false, error: profileResult.error };
+    }
   }
 
   revalidatePath("/", "layout");
@@ -110,11 +101,19 @@ export async function signInAction(_prev: AuthActionState | null, formData: Form
     };
   }
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
     logAuthFailure("login", error.code);
     return { ok: false, error: mapAuthError(error) };
+  }
+
+  if (data.user) {
+    const fullName =
+      (data.user.user_metadata?.full_name as string | undefined) ??
+      (data.user.user_metadata?.fullName as string | undefined) ??
+      null;
+    await ensureUserProfile(supabase, data.user.id, fullName);
   }
 
   revalidatePath("/", "layout");

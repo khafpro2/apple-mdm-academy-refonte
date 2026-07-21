@@ -50,7 +50,7 @@ export function mapAuthError(error: AuthErrorLike | null | undefined, fallback =
     return ERROR_MESSAGES.invalid_email;
   }
 
-  return error.message ?? fallback;
+  return fallback;
 }
 
 export function mapAuthCallbackError(code: string | null): string | null {
