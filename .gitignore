@@ -27,6 +27,10 @@ next-env.d.ts
 # misc
 .DS_Store
 *.pem
+
+# generated audit reports (motion, etc.)
+.tmp/
+motion-audit*.json
 .vercel
 *.swp
 *-official-originals/

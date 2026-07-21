@@ -25,7 +25,9 @@
     "audit:versions": "npx --yes tsx scripts/audit-versions.ts",
     "test:exams": "npx --yes tsx scripts/test-exam-engine.ts",
     "audit:pedagogy": "npx --yes tsx -e \"import { runPedagogicalAudit } from './lib/audit/pedagogical-audit.ts'; const a=runPedagogicalAudit(); console.log('Score global:', a.scores.global, a.scores);\"",
+    "motion:audit": "npx --yes tsx scripts/audit-motion-library.ts",
     "type-check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "test": "npx --yes tsx --test tests/unit/**/*.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:auth": "playwright test tests/e2e/auth-signup.spec.ts"
