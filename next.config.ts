@@ -37,7 +37,7 @@ const config: NextConfig = {
   // ── Redirects SEO ─────────────────────────────────────────────────────────
   async redirects() {
     return [
-      { source: "/pricing", destination: "/tarifs", permanent: false },
+      // /tarifs → /pricing (app/tarifs/page.tsx) : ne pas ajouter l'inverse ici (boucle)
       { source: "/home", destination: "/", permanent: true },
       { source: "/blog", destination: "/resources", permanent: true },
     ];
