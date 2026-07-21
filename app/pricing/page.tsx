@@ -1,15 +1,11 @@
 import { PageShell } from "@/components/layout";
 import { SectionHeading, ButtonLink } from "@/components/ui";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { isFreePlatformMode, PLATFORM_ACCESS } from "@/lib/pricing/platform-access";
-import { commercialPlans, comparisonFeatures, PRICING_FAQ } from "@/lib/pricing/plans";
-import { PricingCardPremium } from "@/components/pricing/pricing-card-premium";
-import { PricingComparison } from "@/components/pricing/pricing-comparison";
-import { stripeConfig } from "@/lib/pricing/stripe-config";
 
 export const metadata = buildPageMetadata({
   title: "Tarifs",
-  description: "Apple MDM Academy — formation Apple, Jamf Pro et Microsoft Intune en français.",
+  description:
+    "Apple MDM Academy — formation Apple, Jamf Pro et Microsoft Intune en français. Accès 100 % gratuit pour le moment.",
   path: "/pricing",
 });
 
@@ -22,103 +18,116 @@ const FREE_INCLUDES = [
   "Badges et dashboard apprenant",
 ];
 
+/**
+ * Page tarifs — version autonome et anti-crash.
+ * Aucune dépendance à Stripe, aux plans commerciaux ni aux cartes de prix :
+ * la page ne peut donc pas échouer au rendu côté serveur.
+ * Quand les offres payantes seront prêtes, réintroduire la branche commerciale.
+ */
 export default function PricingPage() {
-  if (isFreePlatformMode()) {
-    return (
-      <PageShell>
-        <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
-          <SectionHeading
-            label="Accès"
-            title="Plateforme en accès gratuit"
-            description="Accès complet à tous les cours, examens blancs et certificats."
-            align="center"
-          />
-
-          <div className="mt-10 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-surface-elevated p-8 shadow-sm">
-            
-            <ul className="mx-auto mt-8 max-w-md space-y-3">
-              {FREE_INCLUDES.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm text-ink-secondary">
-                  <span className="mt-0.5 text-emerald-600" aria-hidden="true">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <ButtonLink href="/auth/signup">Créer un compte</ButtonLink>
-              <ButtonLink href="/parcours" variant="secondary">
-                Explorer les parcours
-              </ButtonLink>
-            </div>
-          </div>
-
-          <p className="mt-8 text-center text-xs text-ink-tertiary">
-            Les offres payantes (Pro / Entreprise) seront proposées ultérieurement. L&apos;architecture
-            de facturation est préparée pour une activation future.
-          </p>
-        </div>
-      </PageShell>
-    );
-  }
-
   return (
     <PageShell>
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
         <SectionHeading
-          label="Abonnements"
-          title="Formez vos équipes Apple MDM"
-          description="Commencez gratuitement ou débloquez l'accès complet aux cours, labs, examens blancs et certificats PDF."
+          label="Tarifs"
+          title="C'est gratuit pour le moment"
+          description="Profitez d'un accès complet à Apple MDM Academy — cours, labs, examens blancs et certificats, sans abonnement."
           align="center"
         />
 
-        {!stripeConfig.enabled && (
-          <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-900">
-            Paiement Stripe en mode préparation — configurez{" "}
-            <code className="rounded bg-amber-100 px-1">STRIPE_SECRET_KEY</code>,{" "}
-            <code className="rounded bg-amber-100 px-1">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</code> et{" "}
-            <code className="rounded bg-amber-100 px-1">STRIPE_WEBHOOK_SECRET</code>.
-          </div>
-        )}
-
-        <div className="mx-auto mt-12 grid max-w-5xl gap-8 lg:grid-cols-3">
-          {commercialPlans.map((plan) => (
-            <PricingCardPremium key={plan.slug} plan={plan} />
-          ))}
+        <div
+          className="mx-auto mt-10 flex justify-center"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 320 200"
+            className="h-44 w-full max-w-sm text-emerald-600"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="Illustration — accès gratuit à la plateforme"
+          >
+            <rect
+              x="24"
+              y="40"
+              width="272"
+              height="140"
+              rx="20"
+              className="fill-emerald-50 stroke-emerald-200"
+              strokeWidth="2"
+            />
+            <rect
+              x="48"
+              y="64"
+              width="80"
+              height="56"
+              rx="10"
+              className="fill-white stroke-emerald-300"
+              strokeWidth="2"
+            />
+            <path
+              d="M60 88h64M60 100h48M60 112h56"
+              className="stroke-emerald-400"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <circle cx="200" cy="92" r="36" className="fill-emerald-100 stroke-emerald-400" strokeWidth="2" />
+            <path
+              d="M182 92c0-10 8-18 18-18s18 8 18 18-8 18-18 18"
+              className="stroke-emerald-600"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <text
+              x="200"
+              y="100"
+              textAnchor="middle"
+              className="fill-emerald-700 text-[22px] font-bold"
+              style={{ fontFamily: "system-ui, sans-serif" }}
+            >
+              0 €
+            </text>
+            <path
+              d="M148 148l12-12 16 16 28-28"
+              className="stroke-emerald-500"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <circle cx="88" cy="36" r="10" className="fill-amber-300" />
+            <circle cx="248" cy="44" r="6" className="fill-emerald-300" />
+            <circle cx="268" cy="160" r="8" className="fill-emerald-200" />
+          </svg>
         </div>
 
-        <section className="mt-20">
-          <h2 className="text-center text-2xl font-bold text-ink">Comparaison des fonctionnalités</h2>
-          <div className="mt-8">
-            <PricingComparison features={comparisonFeatures} />
-          </div>
-        </section>
-
-        <section className="mt-20 rounded-3xl bg-ink p-10 text-center text-white">
-          <h2 className="text-2xl font-bold">Prêt à passer au niveau supérieur ?</h2>
-          <p className="mx-auto mt-3 max-w-lg text-zinc-300">
-            Rejoignez les administrateurs Apple qui se préparent aux certifications Jamf 100, Jamf 200 et Apple IT Professional.
+        <div className="mt-10 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-surface-elevated p-8 shadow-sm">
+          <p className="text-center text-lg font-semibold text-emerald-800">
+            Accès 100&nbsp;% gratuit — aucune carte bancaire requise
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <ButtonLink href="/checkout?plan=pro" className="bg-white text-ink hover:bg-zinc-100">
-              Passer à Pro — 29 €/mois
-            </ButtonLink>
-            <ButtonLink href="/enterprise" variant="secondary" className="border-white/30 text-white hover:bg-white/10">
-              Offre Entreprise
-            </ButtonLink>
-          </div>
-        </section>
 
-        <section className="mx-auto mt-20 max-w-2xl">
-          <h2 className="text-center text-xl font-bold text-ink">Questions fréquentes</h2>
-          <div className="mt-8 space-y-4">
-            {PRICING_FAQ.map((faq) => (
-              <div key={faq.q} className="rounded-2xl border border-border-light bg-surface-elevated p-5">
-                <p className="font-semibold text-ink">{faq.q}</p>
-                <p className="mt-2 text-sm text-ink-secondary">{faq.a}</p>
-              </div>
+          <ul className="mx-auto mt-8 max-w-md space-y-3">
+            {FREE_INCLUDES.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-sm text-ink-secondary">
+                <span className="mt-0.5 text-emerald-600" aria-hidden="true">
+                  ✓
+                </span>
+                {item}
+              </li>
             ))}
+          </ul>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <ButtonLink href="/auth/signup">Créer un compte</ButtonLink>
+            <ButtonLink href="/parcours" variant="secondary">
+              Explorer les parcours
+            </ButtonLink>
           </div>
-        </section>
+        </div>
+
+        <p className="mt-8 text-center text-xs text-ink-tertiary">
+          Les offres payantes (Pro / Entreprise) seront proposées ultérieurement. L&apos;architecture
+          de facturation est préparée pour une activation future.
+        </p>
       </div>
     </PageShell>
   );
