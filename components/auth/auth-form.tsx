@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, type FormEvent } from "react";
+import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
@@ -16,6 +16,13 @@ type AuthMode = "login" | "signup";
 
 const initialState: AuthActionState = { ok: true };
 
+const FIELD_IDS = {
+  fullName: "fullName",
+  email: "email",
+  password: "password",
+  confirmPassword: "confirmPassword",
+} as const;
+
 export function AuthForm({ mode }: { mode: AuthMode }) {
   const searchParams = useSearchParams();
   const redirect = sanitizeRedirectPath(searchParams.get("redirect"));
@@ -27,14 +34,31 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [clientError, setClientError] = useState<string | null>(() => mapAuthCallbackError(urlError));
+  const [clientField, setClientField] = useState<string | undefined>();
+  const formRef = useRef<HTMLFormElement>(null);
+  const trackedRef = useRef(false);
 
   const configured = isSupabaseConfigured();
   const isLogin = mode === "login";
   const passwordCheck = validatePassword(password);
 
+  const displayError = clientError ?? state?.error ?? null;
+  const errorField = clientField ?? state?.field;
+
+  useEffect(() => {
+    if (!displayError || !formRef.current) return;
+    const fieldId = errorField && errorField in FIELD_IDS ? FIELD_IDS[errorField as keyof typeof FIELD_IDS] : null;
+    const target = fieldId ? formRef.current.querySelector<HTMLElement>(`#${fieldId}`) : null;
+    (target ?? formRef.current.querySelector<HTMLElement>("[role=alert]"))?.focus();
+  }, [displayError, errorField]);
+
+  useEffect(() => {
+    if (pending) trackedRef.current = false;
+  }, [pending]);
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
     setClientError(null);
+    setClientField(undefined);
 
     const formData = new FormData(event.currentTarget);
 
@@ -45,35 +69,38 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
 
       const check = validatePassword(pwd);
       if (!check.valid) {
+        event.preventDefault();
         setClientError(
           `Mot de passe invalide : ${check.failedRules.map((r) => r.label.toLowerCase()).join(", ")}.`
         );
+        setClientField("password");
         return;
       }
 
       if (pwd !== confirm) {
+        event.preventDefault();
         setClientError("Les mots de passe ne correspondent pas.");
+        setClientField("confirmPassword");
         return;
       }
 
       if (!terms) {
+        event.preventDefault();
         setClientError("Vous devez accepter les conditions d'utilisation.");
+        setClientField("acceptTerms");
         return;
       }
-
-      trackEvent("inscription");
-    } else {
-      trackEvent("connexion");
     }
 
-    formAction(formData);
+    if (!trackedRef.current) {
+      trackEvent(isLogin ? "connexion" : "inscription");
+      trackedRef.current = true;
+    }
   }
-
-  const displayError = clientError ?? state?.error ?? null;
 
   if (!configured) {
     return (
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-900">
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-900" role="alert">
         <p className="font-semibold">Configuration Supabase requise</p>
         <p className="mt-2">
           Copiez <code className="rounded bg-amber-100 px-1">.env.example</code> vers{" "}
@@ -98,8 +125,18 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       : "Créer mon compte";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form
+      ref={formRef}
+      action={formAction}
+      onSubmit={handleSubmit}
+      className="space-y-5"
+      noValidate
+    >
       <input type="hidden" name="redirect" value={redirect} />
+
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {pending ? (isLogin ? "Connexion en cours" : "Création du compte en cours") : ""}
+      </div>
 
       {!isLogin && (
         <div>
@@ -113,6 +150,8 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
             required
             autoComplete="name"
             disabled={pending}
+            aria-invalid={errorField === "fullName"}
+            aria-describedby={errorField === "fullName" ? "form-error" : undefined}
             className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
             placeholder="Jean Dupont"
           />
@@ -130,6 +169,8 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           required
           autoComplete="email"
           disabled={pending}
+          aria-invalid={errorField === "email"}
+          aria-describedby={errorField === "email" ? "form-error" : undefined}
           className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
           placeholder="vous@entreprise.fr"
         />
@@ -148,9 +189,11 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           disabled={pending}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onInput={(e) => setPassword(e.currentTarget.value)}
+          aria-invalid={errorField === "password"}
+          aria-describedby={!isLogin ? "password-rules" : errorField === "password" ? "form-error" : undefined}
           className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
           placeholder="••••••••"
-          aria-describedby={!isLogin ? "password-rules" : undefined}
         />
         {!isLogin && (
           <ul id="password-rules" className="mt-3 space-y-1.5 text-xs text-ink-secondary">
@@ -180,11 +223,24 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
             disabled={pending}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            onInput={(e) => setConfirmPassword(e.currentTarget.value)}
+            aria-invalid={
+              errorField === "confirmPassword" || (confirmPassword.length > 0 && password !== confirmPassword)
+            }
+            aria-describedby={
+              confirmPassword.length > 0 && password !== confirmPassword
+                ? "confirm-password-hint"
+                : errorField === "confirmPassword"
+                  ? "form-error"
+                  : undefined
+            }
             className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
             placeholder="••••••••"
           />
           {confirmPassword.length > 0 && password !== confirmPassword && (
-            <p className="mt-2 text-xs text-red-600">Les mots de passe ne correspondent pas.</p>
+            <p id="confirm-password-hint" className="mt-2 text-xs text-red-600">
+              Les mots de passe ne correspondent pas.
+            </p>
           )}
         </div>
       )}
@@ -196,6 +252,8 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
             name="acceptTerms"
             required
             disabled={pending}
+            aria-invalid={errorField === "acceptTerms"}
+            aria-describedby={errorField === "acceptTerms" ? "form-error" : undefined}
             className="mt-1 h-4 w-4 rounded border-border-light text-accent focus:ring-accent"
           />
           <span>
@@ -221,12 +279,22 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       )}
 
       {displayError && (
-        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+        <div
+          id="form-error"
+          className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700"
+          role="alert"
+          tabIndex={-1}
+        >
           {displayError}
         </div>
       )}
 
-      <Button type="submit" disabled={pending || (!isLogin && password.length > 0 && !passwordCheck.valid)} className="w-full" aria-busy={pending}>
+      <Button
+        type="submit"
+        disabled={pending || (!isLogin && password.length > 0 && !passwordCheck.valid)}
+        className="w-full"
+        aria-busy={pending}
+      >
         {submitLabel}
       </Button>
 

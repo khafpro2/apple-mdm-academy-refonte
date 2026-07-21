@@ -22,6 +22,11 @@ create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
+drop policy if exists "Users can insert own profile" on public.profiles;
+create policy "Users can insert own profile"
+  on public.profiles for insert
+  with check (auth.uid() = id);
+
 -- Auto-création du profil à l'inscription
 create or replace function public.handle_new_user()
 returns trigger
