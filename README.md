@@ -60,7 +60,7 @@ Les contenus hors scope sont **conservés** dans le dépôt ; ils ne sont simple
 2. Auth → URL Configuration :
    - Site URL : URL publique du site
    - Redirect : `{SITE_URL}/auth/callback` et `http://localhost:3000/auth/callback`
-3. Variables (voir `.env.example`) :
+3. Variables (voir `.env.example` et `docs/AUTH-SETUP.md`) :
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `NEXT_PUBLIC_SITE_URL`

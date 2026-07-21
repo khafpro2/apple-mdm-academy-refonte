@@ -1,86 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
+import { useSearchParams } from "next/navigation";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { sanitizeRedirectPath } from "@/lib/auth/url";
+import { mapAuthCallbackError } from "@/lib/auth/errors";
+import { PASSWORD_RULES, validatePassword } from "@/lib/auth/password-policy";
+import { signInAction, signUpAction, type AuthActionState } from "@/app/actions/auth";
 import { Button } from "@/components/ui";
 import { trackEvent } from "@/lib/analytics/events";
 import { DemoLoginButton } from "@/components/auth/demo-login-button";
 
 type AuthMode = "login" | "signup";
 
+const initialState: AuthActionState = { ok: true };
+
 export function AuthForm({ mode }: { mode: AuthMode }) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = sanitizeRedirectPath(searchParams.get("redirect"));
   const urlError = searchParams.get("error");
 
-  const [email, setEmail] = useState("");
+  const action = mode === "login" ? signInAction : signUpAction;
+  const [state, formAction, pending] = useActionState(action, initialState);
+
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(() => {
-    if (urlError === "auth_callback_failed") return "Échec de la connexion. Réessayez.";
-    if (urlError === "supabase_not_configured") return "Supabase non configuré sur le serveur.";
-    return null;
-  });
-  const [message, setMessage] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [clientError, setClientError] = useState<string | null>(() => mapAuthCallbackError(urlError));
 
   const configured = isSupabaseConfigured();
   const isLogin = mode === "login";
+  const passwordCheck = validatePassword(password);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!configured) {
-      setError("Supabase non configuré. Ajoutez vos clés dans .env.local");
-      return;
-    }
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setClientError(null);
 
-    setLoading(true);
-    setError(null);
-    setMessage(null);
+    const formData = new FormData(event.currentTarget);
 
-    try {
-      const supabase = createClient();
+    if (!isLogin) {
+      const pwd = String(formData.get("password") ?? "");
+      const confirm = String(formData.get("confirmPassword") ?? "");
+      const terms = formData.get("acceptTerms") === "on";
 
-      if (isLogin) {
-        const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
-        if (authError) throw authError;
-        trackEvent("connexion");
-        router.push(redirect);
-        router.refresh();
-      } else {
-        const { data, error: authError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: fullName },
-            emailRedirectTo: getAuthCallbackUrl(redirect),
-          },
-        });
-        if (authError) throw authError;
-
-        if (data.session) {
-          trackEvent("inscription");
-          router.push(redirect);
-          router.refresh();
-          return;
-        }
-
-        trackEvent("inscription");
-
-        setMessage(
-          "Compte créé ! Vérifiez votre email de confirmation, ou connectez-vous si la confirmation est désactivée dans Supabase."
+      const check = validatePassword(pwd);
+      if (!check.valid) {
+        setClientError(
+          `Mot de passe invalide : ${check.failedRules.map((r) => r.label.toLowerCase()).join(", ")}.`
         );
+        return;
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue.");
-    } finally {
-      setLoading(false);
+
+      if (pwd !== confirm) {
+        setClientError("Les mots de passe ne correspondent pas.");
+        return;
+      }
+
+      if (!terms) {
+        setClientError("Vous devez accepter les conditions d'utilisation.");
+        return;
+      }
+
+      trackEvent("inscription");
+    } else {
+      trackEvent("connexion");
     }
+
+    formAction(formData);
   }
+
+  const displayError = clientError ?? state?.error ?? null;
 
   if (!configured) {
     return (
@@ -88,14 +77,30 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         <p className="font-semibold">Configuration Supabase requise</p>
         <p className="mt-2">
           Copiez <code className="rounded bg-amber-100 px-1">.env.example</code> vers{" "}
-          <code className="rounded bg-amber-100 px-1">.env.local</code> et renseignez vos clés Supabase.
+          <code className="rounded bg-amber-100 px-1">.env.local</code> et renseignez{" "}
+          <code className="rounded bg-amber-100 px-1">NEXT_PUBLIC_SUPABASE_URL</code> et{" "}
+          <code className="rounded bg-amber-100 px-1">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>.
+        </p>
+        <p className="mt-3 text-xs text-amber-800/90">
+          Consultez <code className="rounded bg-amber-100 px-1">docs/AUTH-SETUP.md</code> ou la{" "}
+          <Link href="/status" className="font-semibold underline">page d&apos;état des services</Link>.
         </p>
       </div>
     );
   }
 
+  const submitLabel = isLogin
+    ? pending
+      ? "Connexion en cours…"
+      : "Se connecter"
+    : pending
+      ? "Création en cours…"
+      : "Créer mon compte";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      <input type="hidden" name="redirect" value={redirect} />
+
       {!isLogin && (
         <div>
           <label htmlFor="fullName" className="block text-sm font-medium text-ink">
@@ -103,10 +108,12 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           </label>
           <input
             id="fullName"
+            name="fullName"
             type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+            required
+            autoComplete="name"
+            disabled={pending}
+            className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
             placeholder="Jean Dupont"
           />
         </div>
@@ -118,11 +125,12 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </label>
         <input
           id="email"
+          name="email"
           type="email"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+          autoComplete="email"
+          disabled={pending}
+          className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
           placeholder="vous@entreprise.fr"
         />
       </div>
@@ -133,15 +141,76 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </label>
         <input
           id="password"
+          name="password"
           type="password"
           required
-          minLength={6}
+          autoComplete={isLogin ? "current-password" : "new-password"}
+          disabled={pending}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+          className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
           placeholder="••••••••"
+          aria-describedby={!isLogin ? "password-rules" : undefined}
         />
+        {!isLogin && (
+          <ul id="password-rules" className="mt-3 space-y-1.5 text-xs text-ink-secondary">
+            {PASSWORD_RULES.map((rule) => {
+              const passed = password.length > 0 && rule.test(password);
+              return (
+                <li key={rule.id} className={passed ? "text-emerald-700" : ""}>
+                  <span aria-hidden="true">{passed ? "✓" : "○"}</span> {rule.label}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
+
+      {!isLogin && (
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-ink">
+            Confirmer le mot de passe
+          </label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            required
+            autoComplete="new-password"
+            disabled={pending}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="mt-2 w-full rounded-xl border border-border-light bg-surface px-4 py-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
+            placeholder="••••••••"
+          />
+          {confirmPassword.length > 0 && password !== confirmPassword && (
+            <p className="mt-2 text-xs text-red-600">Les mots de passe ne correspondent pas.</p>
+          )}
+        </div>
+      )}
+
+      {!isLogin && (
+        <label className="flex items-start gap-3 text-sm text-ink-secondary">
+          <input
+            type="checkbox"
+            name="acceptTerms"
+            required
+            disabled={pending}
+            className="mt-1 h-4 w-4 rounded border-border-light text-accent focus:ring-accent"
+          />
+          <span>
+            J&apos;accepte les{" "}
+            <Link href="/terms" className="font-semibold text-accent hover:underline" target="_blank">
+              conditions d&apos;utilisation
+            </Link>{" "}
+            et la{" "}
+            <Link href="/privacy" className="font-semibold text-accent hover:underline" target="_blank">
+              politique de confidentialité
+            </Link>
+            .
+          </span>
+        </label>
+      )}
 
       {isLogin && (
         <p className="text-right text-sm">
@@ -151,15 +220,14 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </p>
       )}
 
-      {error && (
-        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
-      )}
-      {message && (
-        <div className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">{message}</div>
+      {displayError && (
+        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+          {displayError}
+        </div>
       )}
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Chargement…" : isLogin ? "Se connecter" : "Créer mon compte"}
+      <Button type="submit" disabled={pending || (!isLogin && password.length > 0 && !passwordCheck.valid)} className="w-full" aria-busy={pending}>
+        {submitLabel}
       </Button>
 
       {isLogin && <DemoLoginButton />}
@@ -168,18 +236,30 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         {isLogin ? (
           <>
             Pas encore de compte ?{" "}
-            <Link href={`/auth/signup?redirect=${encodeURIComponent(redirect)}`} className="font-semibold text-accent hover:underline">
+            <Link
+              href={`/auth/signup?redirect=${encodeURIComponent(redirect)}`}
+              className="font-semibold text-accent hover:underline"
+            >
               S&apos;inscrire
             </Link>
           </>
         ) : (
           <>
             Déjà inscrit ?{" "}
-            <Link href={`/auth/login?redirect=${encodeURIComponent(redirect)}`} className="font-semibold text-accent hover:underline">
+            <Link
+              href={`/auth/login?redirect=${encodeURIComponent(redirect)}`}
+              className="font-semibold text-accent hover:underline"
+            >
               Se connecter
             </Link>
           </>
         )}
+      </p>
+
+      <p className="text-center text-xs text-ink-tertiary">
+        <Link href="/" className="hover:text-accent hover:underline">
+          ← Retour à l&apos;accueil
+        </Link>
       </p>
     </form>
   );

@@ -22,7 +22,10 @@ export async function GET(request: NextRequest) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    console.error("Auth callback error:", error.message);
+    console.error("AUTH_CALLBACK_FAILED", {
+      provider: "supabase",
+      errorCode: error.code ?? "unknown",
+    });
     return NextResponse.redirect(`${origin}/auth/login?error=auth_callback_failed`);
   }
 

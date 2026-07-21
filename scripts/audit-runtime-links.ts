@@ -53,6 +53,7 @@ async function main() {
     "/checkout/success",
     "/auth/login",
     "/auth/signup",
+    "/auth/check-email",
     "/auth/forgot-password",
     "/auth/reset-password",
     "/privacy",
