@@ -13,6 +13,10 @@ import {
   resolveMp4Url,
   resolvePublishableMp4Url,
 } from "@/src/lib/video-production.server";
+import { resolveCaptionsSrc } from "@/lib/video/captions";
+import { buildVideoCatalog } from "@/lib/video/catalog";
+import { getRelatedVideoEntries } from "@/lib/video/related";
+import { getMp4AvailabilityMap } from "@/src/lib/video-production.server";
 import {
   getOfficialVideo,
   getVideoCourseNotes,
@@ -59,6 +63,12 @@ export default async function VideoDetailPage({ params }: Props) {
   const official = getOfficialVideo(slug);
   const transcript = getVideoTranscript(slug);
   const courseNotes = getVideoCourseNotes(slug);
+  const captionsSrc = resolveCaptionsSrc(slug, { hasTranscript: Boolean(transcript) });
+  const catalog = buildVideoCatalog(getMp4AvailabilityMap());
+  const currentEntry = catalog.find((entry) => entry.slug === slug);
+  const relatedVideos = currentEntry
+    ? getRelatedVideoEntries(catalog, currentEntry)
+    : catalog.filter((entry) => entry.slug !== slug).slice(0, 8);
 
   let storyboard = rawStoryboard;
   if (rawStoryboard) {
@@ -85,10 +95,12 @@ export default async function VideoDetailPage({ params }: Props) {
             storyboard={storyboard}
             script={script}
             mp4Url={mp4Url}
+            captionsSrc={captionsSrc}
             transcript={transcript}
             courseNotes={courseNotes}
             certificationLabel={official?.certificationLabel}
             certificationSlug={official?.certificationSlug}
+            relatedVideos={relatedVideos}
           />
         ) : legacyVideo ? (
           <PremiumVideoPlayer key={legacyVideo.slug} video={legacyVideo} />

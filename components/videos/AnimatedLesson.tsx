@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import type { VideoStoryboard } from "@/src/lib/video-lessons";
 import { exportStoryboardToMarkdown } from "@/src/lib/video-lessons";
@@ -11,8 +10,15 @@ import { HEYGEN_VIDEO_DEFAULTS } from "@/src/lib/video-scripts";
 import { VideoStoryboardPanel } from "@/components/videos/VideoStoryboard";
 import { VideoThumbnail } from "@/components/videos/VideoThumbnail";
 import { VideoDiagram } from "@/components/videos/VideoDiagram";
-import { OfficialVideoPlayer } from "@/components/videos/OfficialVideoPlayer";
 import { PedagogicalAnimation } from "@/components/video/pedagogical-animation";
+import { VideoPlayer } from "@/components/video/video-player";
+import { VideoSidebar } from "@/components/video/video-sidebar";
+import { VideoResources } from "@/components/video/video-resources";
+import { VideoTimeline } from "@/components/video/video-timeline";
+import { VideoPlaylist } from "@/components/video/video-playlist";
+import { VideoBadge } from "@/components/video/video-badge";
+import { resolveVideoAvailability } from "@/lib/video/availability";
+import type { VideoCatalogEntry } from "@/lib/video/catalog";
 import { IntuneLogo } from "@/components/brands/IntuneLogo";
 import { JamfLogo } from "@/components/brands/JamfLogo";
 import { Badge, ButtonLink } from "@/components/ui";
@@ -54,20 +60,24 @@ type Props = {
   storyboard: VideoStoryboard;
   script?: VideoScript;
   mp4Url?: string;
+  captionsSrc?: string;
   transcript?: VideoTranscript;
   courseNotes?: VideoCourseNotes;
   certificationLabel?: string;
   certificationSlug?: string;
+  relatedVideos?: VideoCatalogEntry[];
 };
 
 export function AnimatedLesson({
   storyboard,
   script,
   mp4Url,
+  captionsSrc,
   transcript,
   courseNotes,
   certificationLabel,
   certificationSlug,
+  relatedVideos = [],
 }: Props) {
   const [playing, setPlaying] = useState(false);
   const [simTime, setSimTime] = useState(0);
@@ -164,6 +174,10 @@ export function AnimatedLesson({
   const assetPack = getVideoAssets(storyboard.slug);
   const diagram = getDiagramForVideo(storyboard.slug);
   const hasOfficialMp4 = Boolean(mp4Url);
+  const availability = resolveVideoAvailability({
+    hasMp4: hasOfficialMp4,
+    isPublishable: hasOfficialMp4,
+  });
   const displayBadges = getVideoDisplayBadges({
     slug: storyboard.slug,
     hasMp4: hasOfficialMp4,
@@ -174,7 +188,7 @@ export function AnimatedLesson({
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
       <div className="space-y-6">
-        {hasOfficialMp4 && mp4Url ? (
+        {availability.canPlay && mp4Url ? (
           <>
             {assetPack && (
               <VideoThumbnail
@@ -186,22 +200,30 @@ export function AnimatedLesson({
                 thumbnailPath={assetPack.thumbnailPath}
               />
             )}
-            <OfficialVideoPlayer
+            <VideoPlayer
               slug={storyboard.slug}
               title={storyboard.title}
               mp4Url={mp4Url}
               poster={assetPack?.thumbnailPath}
+              captionsSrc={captionsSrc}
               durationSeconds={durationSeconds}
               durationLabel={storyboard.duration}
               courseSlug={storyboard.courseSlug}
               transcript={transcript}
+              availabilityState={availability.state}
             />
           </>
         ) : (
-          <VideoDemoPlayer storyboard={storyboard} assetPack={assetPack} heygenScript={heygenScript} />
+          <>
+            <div className="flex flex-wrap items-center gap-2">
+              <VideoBadge state={availability.state} />
+              <span className="text-sm text-ink-secondary">{availability.description}</span>
+            </div>
+            <VideoDemoPlayer storyboard={storyboard} assetPack={assetPack} heygenScript={heygenScript} />
+          </>
         )}
 
-        {!hasOfficialMp4 && (
+        {!availability.canPlay && (
           <>
             <div className="overflow-hidden rounded-2xl border border-border-light bg-black shadow-xl">
               {animationSlug ? (
@@ -303,6 +325,20 @@ export function AnimatedLesson({
           />
         </div>
 
+        <VideoTimeline
+          scenes={storyboard.scenes.map((scene) => ({
+            id: scene.id,
+            title: scene.title,
+            durationSeconds: scene.durationSeconds,
+          }))}
+          activeIndex={activeSceneIndex}
+          currentSeconds={availability.canPlay ? undefined : simTime}
+          onSeek={(seconds) => {
+            setSimTime(seconds);
+            setPlaying(false);
+          }}
+        />
+
         <section id="video-script" className="rounded-2xl border border-border-light bg-surface-elevated p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <button
@@ -348,114 +384,58 @@ export function AnimatedLesson({
         </section>
       </div>
 
-      <aside className="space-y-4">
-        <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
-          <h2 className="font-bold text-ink">Informations</h2>
-          <dl className="mt-4 space-y-3 text-sm">
-            <div>
-              <dt className="text-xs text-ink-tertiary">Statut</dt>
-              <dd className="mt-1">
-                <VideoStatusBadges badges={displayBadges} />
-              </dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Module</dt>
-              <dd className="font-medium text-ink">{storyboard.module}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Durée</dt>
-              <dd className="font-medium text-ink">{storyboard.duration}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Scènes</dt>
-              <dd className="font-medium text-ink">{storyboard.scenes.length}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Niveau</dt>
-              <dd className="font-medium text-ink">{storyboard.level}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Quiz associé</dt>
-              <dd>
-                <Link href={`/quiz/${storyboard.quizSlug}`} className="font-medium text-accent hover:underline">
-                  {storyboard.quizSlug}
-                </Link>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Cours associé</dt>
-              <dd>
-                <Link href={`/cours/${storyboard.courseSlug}`} className="font-medium text-accent hover:underline">
-                  {storyboard.courseSlug}
-                </Link>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-tertiary">Lab associé</dt>
-              <dd>
-                <Link href={`/labs/${storyboard.labSlug}`} className="font-medium text-accent hover:underline">
-                  {storyboard.labSlug}
-                </Link>
-              </dd>
-            </div>
-            {certificationSlug && (
-              <div>
-                <dt className="text-xs text-ink-tertiary">Certification</dt>
-                <dd>
-                  <Link href={getCertificationHref(certificationSlug)} className="font-medium text-accent hover:underline">
-                    {certificationLabel ?? certificationSlug}
-                  </Link>
-                </dd>
-              </div>
-            )}
-            {transcript && (
-              <div>
-                <dt className="text-xs text-ink-tertiary">Transcript</dt>
-                <dd>
-                  <Link href={`/transcripts#${storyboard.slug}`} className="font-medium text-accent hover:underline">
-                    {transcript.wordCount} mots
-                  </Link>
-                </dd>
-              </div>
-            )}
-          </dl>
-        </div>
-
-        <div className="rounded-2xl border border-border-light bg-surface-elevated p-5">
-          <h2 className="font-bold text-ink">Ressources associées</h2>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li>
-              <Link href={`/cours/${storyboard.courseSlug}`} className="font-medium text-accent hover:underline">
-                Cours · {storyboard.courseSlug}
-              </Link>
-            </li>
-            <li>
-              <Link href={`/labs/${storyboard.labSlug}`} className="font-medium text-accent hover:underline">
-                Lab · {storyboard.labSlug}
-              </Link>
-            </li>
-            <li>
-              <Link href={`/quiz/${storyboard.quizSlug}`} className="font-medium text-accent hover:underline">
-                Quiz · {storyboard.quizSlug}
-              </Link>
-            </li>
-            {transcript && (
-              <li>
-                <Link href={`/transcripts#${storyboard.slug}`} className="font-medium text-accent hover:underline">
-                  Transcript · {transcript.wordCount} mots
-                </Link>
-              </li>
-            )}
-          </ul>
-        </div>
-
-        <Link href="/resources/guide-captures-video" className="block text-sm font-semibold text-accent hover:underline">
-          Guide captures vidéo →
-        </Link>
-        <Link href="/videos" className="block text-sm font-semibold text-accent hover:underline">
-          ← Toutes les vidéos
-        </Link>
-      </aside>
+      <VideoSidebar
+        availability={availability.state}
+        badges={displayBadges}
+        meta={{
+          module: storyboard.module,
+          duration: storyboard.duration,
+          sceneCount: storyboard.scenes.length,
+          level: storyboard.level,
+          quizSlug: storyboard.quizSlug,
+          courseSlug: storyboard.courseSlug,
+          labSlug: storyboard.labSlug,
+          certificationHref: certificationSlug
+            ? getCertificationHref(certificationSlug)
+            : undefined,
+          certificationLabel,
+          transcriptHref: transcript ? `/transcripts#${storyboard.slug}` : undefined,
+          transcriptWordCount: transcript?.wordCount,
+        }}
+        resources={
+          <>
+            <VideoResources
+              links={[
+                {
+                  href: `/cours/${storyboard.courseSlug}`,
+                  label: `Cours · ${storyboard.courseSlug}`,
+                },
+                {
+                  href: `/labs/${storyboard.labSlug}`,
+                  label: `Lab · ${storyboard.labSlug}`,
+                },
+                {
+                  href: `/quiz/${storyboard.quizSlug}`,
+                  label: `Quiz · ${storyboard.quizSlug}`,
+                },
+                ...(transcript
+                  ? [
+                      {
+                        href: `/transcripts#${storyboard.slug}`,
+                        label: `Transcript · ${transcript.wordCount} mots`,
+                      },
+                    ]
+                  : []),
+              ]}
+            />
+            <VideoPlaylist
+              title="Vidéos liées"
+              items={relatedVideos}
+              currentSlug={storyboard.slug}
+            />
+          </>
+        }
+      />
     </div>
   );
 }
