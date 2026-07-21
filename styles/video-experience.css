@@ -1,0 +1,28 @@
+/* Video Experience V1 — motion & a11y helpers (identité visuelle Academy inchangée) */
+
+.video-experience-player,
+.video-experience-library,
+.video-experience-detail {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-experience-reduced-motion *,
+  .video-experience-reduced-motion *::before,
+  .video-experience-reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.video-experience-controls input[type="range"] {
+  accent-color: var(--color-accent, #2563eb);
+}
+
+.video-experience-detail :focus-visible,
+.video-experience-library :focus-visible,
+.video-experience-player :focus-visible {
+  outline-color: var(--color-accent, #2563eb);
+}
