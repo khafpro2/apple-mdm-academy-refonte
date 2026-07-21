@@ -19,6 +19,13 @@ import {
   type MotionScene,
   type ValidationIssue,
 } from "@/lib/motion/asset-types";
+import {
+  FORMAT_PREFERRED_SUBDIR,
+  isAllowedMotionAssetUrlPath,
+  isPublicMotionAssetPath,
+  MOTION_PUBLIC_SUBDIRS,
+  resolveMotionAssetDiskPath,
+} from "@/lib/motion/media-path";
 
 const REQUIRED_FIELDS = [
   "id",
@@ -38,9 +45,9 @@ const REQUIRED_FIELDS = [
 
 const DIMENSIONS_RE = /^[1-9]\d*x[1-9]\d*$/;
 const VERSION_RE = /^v[1-9]\d*$/;
-const INTERNAL_PATH_PREFIX = "/media/motion/assets/";
 const SCENE_ID_RE = /^scene-\d{3}-[a-z0-9-]+$/;
 const SCENE_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const ALLOWED_PATH_HINT = `/motion/{${MOTION_PUBLIC_SUBDIRS.join("|")}}/… (or legacy /media/motion/assets/)`;
 
 const FORMAT_EXTENSION: Record<AssetFormat, string> = {
   svg: ".svg",
@@ -304,14 +311,32 @@ export function validateMotionAssets(
           );
         }
 
-        if (!assetPath.startsWith(INTERNAL_PATH_PREFIX)) {
+        if (!isAllowedMotionAssetUrlPath(assetPath)) {
           issues.push(
             issue(
               "path-prefix",
-              `${prefix}: path must start with ${INTERNAL_PATH_PREFIX}`,
+              `${prefix}: path must be ${ALLOWED_PATH_HINT}`,
               { assetId }
             )
           );
+        }
+
+        if (
+          isPublicMotionAssetPath(assetPath) &&
+          typeof raw.format === "string" &&
+          ASSET_FORMATS.includes(raw.format as AssetFormat)
+        ) {
+          const preferred = FORMAT_PREFERRED_SUBDIR[raw.format as AssetFormat];
+          const subdir = assetPath.split("/")[2];
+          if (preferred && subdir && preferred !== subdir && raw.format === "svg" && subdir !== "svg") {
+            issues.push(
+              warn(
+                "path-subdir-format",
+                `${prefix}: format svg usually lives under /motion/svg/ (got /motion/${subdir}/)`,
+                { assetId }
+              )
+            );
+          }
         }
 
         const basename = path.posix.basename(assetPath);
@@ -357,9 +382,8 @@ export function validateMotionAssets(
           }
         }
 
-        // Physical existence
-        const relative = assetPath.replace(/^\//, "");
-        const absolute = path.join(options.repoRoot, relative);
+        // Physical existence (public URLs resolve under public/)
+        const absolute = resolveMotionAssetDiskPath(options.repoRoot, assetPath);
         if (!existsSync(absolute)) {
           issues.push(
             issue(

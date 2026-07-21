@@ -20,6 +20,17 @@ docs/motion-design/**
 Les fichiers physiques ne sont ajoutes que lorsqu'ils existent vraiment :
 
 ```text
+public/motion/svg/
+public/motion/posters/
+public/motion/backgrounds/
+public/motion/icons/
+public/motion/thumbnails/
+public/motion/illustrations/
+```
+
+Legacy (V1, encore accepte par le validateur) :
+
+```text
 media/motion/assets/
 ```
 
@@ -49,9 +60,10 @@ Dans le registre final, ne pas mettre `path: null` : supprimer simplement le cha
 
 Quand le fichier existe reellement :
 
-1. le placer sous `media/motion/assets/` ;
+1. le placer sous le sous-dossier adapte de `public/motion/` (ex. `svg/`, `icons/`, `illustrations/`) ;
 2. verifier que son nom correspond a `<id>.<extension>` ;
-3. renseigner `path` sous la forme `/media/motion/assets/<id>.<extension>` ;
+3. renseigner `path` sous la forme `/motion/<sous-dossier>/<id>.<extension>`
+   (ex. `/motion/svg/security-lock-front-closed-cyan-v1.svg`) ;
 4. passer le statut a `generated`, `selected`, `retouch-required`, `review` ou `approved`.
 
 Un asset `approved` doit declarer un chemin existant.

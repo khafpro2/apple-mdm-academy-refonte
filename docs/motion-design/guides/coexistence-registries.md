@@ -26,7 +26,7 @@ Icônes, thumbnails, diagrams et captures Screen Studio pour le montage. **Pas**
 | Élément | Chemin |
 |---|---|
 | SoT machine | `media/motion/registry/assets.json` + `scenes.json` |
-| Fichiers physiques | `media/motion/assets/` (uniquement s’ils existent) |
+| Fichiers physiques | `public/motion/**` (legacy : `media/motion/assets/`) |
 | Code | `lib/motion/*` |
 | Galerie interne | `/admin/motion-assets` (admin + `noindex`) |
 

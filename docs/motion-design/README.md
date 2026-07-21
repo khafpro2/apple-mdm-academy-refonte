@@ -23,8 +23,15 @@ Les exemples YAML dans la documentation ne sont **pas** une seconde source activ
 Fichiers physiques (uniquement s’ils existent) :
 
 ```text
-media/motion/assets/
+public/motion/svg/
+public/motion/posters/
+public/motion/backgrounds/
+public/motion/icons/
+public/motion/thumbnails/
+public/motion/illustrations/
 ```
+
+Legacy encore accepté : `media/motion/assets/`.
 
 ## Galerie interne
 

@@ -133,7 +133,13 @@ Lorsque `path` est présent, l’extension doit correspondre à `format`.
 Chemins internes autorisés uniquement sous :
 
 ```text
-/media/motion/assets/<id>.<ext>
+/motion/<subdir>/<id>.<ext>
+
+Sous-dossiers autorisés : `svg`, `posters`, `backgrounds`, `icons`, `thumbnails`, `illustrations`.
+
+Exemple : `/motion/svg/security-lock-front-closed-cyan-v1.svg`.
+
+Legacy (V1) encore accepté : `/media/motion/assets/<id>.<ext>`.
 ```
 
 ---

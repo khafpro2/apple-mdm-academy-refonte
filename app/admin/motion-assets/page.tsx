@@ -1,5 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/page-shell";
 import { SectionHeading } from "@/components/ui";
@@ -13,6 +11,7 @@ import {
   getMotionValidationIssues,
   motionAssets,
 } from "@/lib/motion/registry";
+import { motionAssetFileExists } from "@/lib/motion/media-path";
 
 export const metadata = {
   title: "Motion Design assets (admin)",
@@ -21,9 +20,7 @@ export const metadata = {
 };
 
 function fileExistsForAssetPath(assetPath: string | undefined): boolean {
-  if (!assetPath) return false;
-  const absolute = path.join(process.cwd(), assetPath.replace(/^\//, ""));
-  return existsSync(absolute);
+  return motionAssetFileExists(process.cwd(), assetPath);
 }
 
 type SearchParams = Promise<{ scene?: string; status?: string; category?: string }>;
@@ -67,7 +64,7 @@ export default async function AdminMotionAssetsPage({
           <SectionHeading
             label="Motion Design"
             title="Galerie de contrôle des assets"
-            description="Source de vérité : media/motion/registry/*.json. Aucun média fictif n’est affiché."
+            description="Source de vérité : media/motion/registry/*.json. Médias physiques : public/motion/**. Aucun média fictif n’est affiché."
           />
         </div>
 

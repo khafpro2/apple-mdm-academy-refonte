@@ -1,41 +1,18 @@
 import type { AssetMetadata } from "@/lib/motion/asset-types";
+import { MotionAssetMedia } from "@/components/motion/motion-asset-media";
 import { MotionStatusBadge } from "@/components/motion/motion-status";
-
-function MotionAssetPlaceholder({ asset }: { asset: AssetMetadata }) {
-  return (
-    <div className="flex aspect-square min-h-40 items-center justify-center rounded-lg border border-dashed border-border-light bg-surface text-center">
-      <div className="px-4">
-        <p className="text-sm font-semibold text-ink">Asset non encore produit</p>
-        <p className="mt-1 text-xs text-ink-tertiary">{asset.format.toUpperCase()} attendu</p>
-      </div>
-    </div>
-  );
-}
 
 export function MotionAssetCard({
   asset,
   fileExistsOnDisk = false,
 }: {
   asset: AssetMetadata;
-  /** Server-verified existence under media/motion/assets — never invent a path. */
+  /** Server-verified existence under public/motion or legacy media/motion/assets. */
   fileExistsOnDisk?: boolean;
 }) {
-  const canPreview = Boolean(asset.path) && fileExistsOnDisk;
-
   return (
     <article className="rounded-lg border border-border-light bg-surface-elevated p-4">
-      {canPreview ? (
-        <div className="flex aspect-square min-h-40 items-center justify-center rounded-lg border border-border-light bg-white p-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={asset.path}
-            alt={asset.decorative ? "" : asset.altText}
-            className="max-h-full max-w-full object-contain"
-          />
-        </div>
-      ) : (
-        <MotionAssetPlaceholder asset={asset} />
-      )}
+      <MotionAssetMedia asset={asset} fileExistsOnDisk={fileExistsOnDisk} />
 
       <div className="mt-4 flex flex-wrap items-start justify-between gap-2">
         <div>
@@ -72,6 +49,12 @@ export function MotionAssetCard({
           {asset.decorative ? "Decoratif : alt text vide" : asset.altText}
         </p>
       </div>
+
+      {asset.path && (
+        <p className="mt-3 break-all text-xs text-ink-tertiary">
+          path : <code>{asset.path}</code>
+        </p>
+      )}
 
       {asset.path && !fileExistsOnDisk && (
         <p className="mt-3 text-xs font-medium text-red-800">

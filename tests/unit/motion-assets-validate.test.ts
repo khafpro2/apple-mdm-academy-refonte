@@ -164,7 +164,7 @@ const validMissing = {
   const withPath = {
     ...validMissing,
     status: "review",
-    path: "/media/motion/assets/security-lock-front-closed-cyan-v1.svg",
+    path: "/motion/svg/security-lock-front-closed-cyan-v1.svg",
   };
   const issues = validateMotionAssets([withPath], { repoRoot: process.cwd(), scenes });
   assert.ok(issues.some((i) => i.code === "path-missing-file"));
@@ -175,7 +175,7 @@ const validMissing = {
   const withPath = {
     ...validMissing,
     status: "missing",
-    path: "/media/motion/assets/security-lock-front-closed-cyan-v1.svg",
+    path: "/motion/svg/security-lock-front-closed-cyan-v1.svg",
   };
   const issues = validateMotionAssets([withPath], { repoRoot: process.cwd(), scenes });
   assert.ok(issues.some((i) => i.code === "path-status-mismatch"));
@@ -193,7 +193,7 @@ const validMissing = {
   const withPath = {
     ...validMissing,
     status: "review",
-    path: "/media/motion/assets/security-lock-front-closed-cyan-v1.png",
+    path: "/motion/svg/security-lock-front-closed-cyan-v1.png",
   };
   const issues = validateMotionAssets([withPath], { repoRoot: process.cwd(), scenes });
   assert.ok(issues.some((i) => i.code === "path-format-mismatch"));
@@ -204,21 +204,45 @@ const validMissing = {
   const first = {
     ...validMissing,
     status: "review",
-    path: "/media/motion/assets/security-lock-front-closed-cyan-v1.svg",
+    path: "/motion/svg/security-lock-front-closed-cyan-v1.svg",
   };
   const second = {
     ...validMissing,
     id: "security-vault-front-closed-enterprise-v1",
     name: "Vault",
-    path: "/media/motion/assets/security-lock-front-closed-cyan-v1.svg",
+    path: "/motion/svg/security-lock-front-closed-cyan-v1.svg",
   };
   const issues = validateMotionAssets([first, second], { repoRoot: process.cwd(), scenes });
   assert.ok(issues.some((i) => i.code === "path-duplicate"));
 }
 
-// path present and file exists → ok
+// path present and file exists under public/motion → ok
 {
   const root = mkdtempSync(path.join(tmpdir(), "motion-assets-"));
+  try {
+    const dir = path.join(root, "public/motion/svg");
+    mkdirSync(dir, { recursive: true });
+    const file = path.join(dir, "security-lock-front-closed-cyan-v1.svg");
+    writeFileSync(file, "<svg xmlns='http://www.w3.org/2000/svg'></svg>\n");
+    const withPath = {
+      ...validMissing,
+      status: "review",
+      path: "/motion/svg/security-lock-front-closed-cyan-v1.svg",
+    };
+    const issues = validateMotionAssets([withPath], { repoRoot: root, scenes });
+    assert.equal(
+      issues.filter((i) => i.severity === "error").length,
+      0,
+      JSON.stringify(issues, null, 2)
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}
+
+// legacy path under media/motion/assets still resolves
+{
+  const root = mkdtempSync(path.join(tmpdir(), "motion-assets-legacy-"));
   try {
     const dir = path.join(root, "media/motion/assets");
     mkdirSync(dir, { recursive: true });

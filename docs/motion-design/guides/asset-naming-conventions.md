@@ -111,7 +111,11 @@ Ici `neutral-dark` est la variante (segments reliés avant `vN`). Le validateur 
 Lorsque le fichier existe :
 
 ```text
-/media/motion/assets/<id>.<ext>
+/motion/<subdir>/<id>.<ext>
+
+Sous-dossiers : `svg`, `posters`, `backgrounds`, `icons`, `thumbnails`, `illustrations`.
+
+Legacy encore accepté : `/media/motion/assets/<id>.<ext>`.
 ```
 
 L’extension doit correspondre au champ `format` (`svg`, `png`, `webp`, `jpg`, `lottie`).
