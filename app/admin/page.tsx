@@ -33,6 +33,12 @@ export default async function AdminPage() {
             description="Vue d'ensemble des apprenants, quiz et progression."
           />
           <Link
+            href="/admin/motion-assets"
+            className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
+          >
+            Motion assets
+          </Link>
+          <Link
             href="/admin/content"
             className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink"
           >
@@ -127,6 +133,12 @@ export default async function AdminPage() {
             className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2 text-sm font-semibold text-blue-900 hover:bg-blue-100"
           >
             Audit marques & logos
+          </Link>
+          <Link
+            href="/admin/motion-assets"
+            className="rounded-full border border-violet-200 bg-violet-50 px-5 py-2 text-sm font-semibold text-violet-900 hover:bg-violet-100"
+          >
+            Motion Design (interne)
           </Link>
           <Link
             href="/admin/jamf-content-status"
