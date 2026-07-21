@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Android Phone</title>
+  <desc id="desc">Generic Android phone.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="20" y="12" width="24" height="40" rx="5"/><circle cx="26" cy="18" r="1.5" fill="currentColor" stroke="none"/><circle cx="38" cy="18" r="1.5" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

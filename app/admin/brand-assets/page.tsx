@@ -58,6 +58,9 @@ export default function BrandAssetsAdminPage() {
         />
 
         <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/studio-visuel/assets" className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink">
+            Bibliothèque visuelle
+          </Link>
           <Link href="/admin/jamf-content-status" className="rounded-full border border-border-light px-5 py-2 text-sm font-semibold text-ink-secondary hover:text-ink">
             Statut Jamf
           </Link>

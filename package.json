@@ -11,6 +11,8 @@
     "seed:demo": "npx --yes tsx scripts/seed-demo-user.ts",
     "generate:screenshots": "node scripts/generate-screenshots.mjs",
     "generate:video-assets": "node scripts/generate-video-assets.mjs",
+    "generate:visual-assets": "node scripts/generate-visual-assets.mjs",
+    "export:visual-assets": "node scripts/export-visual-assets.mjs",
     "check:screenshots": "node scripts/check-video-screenshots.mjs",
     "check:mp4": "node scripts/check-video-mp4.mjs",
     "convert:screenshots": "node scripts/convert-screenshots-to-webp.mjs",

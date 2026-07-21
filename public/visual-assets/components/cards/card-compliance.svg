@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140" role="img" aria-labelledby="title desc">
+  <title id="title">Compliance Card</title>
+  <desc id="desc">Compliance status card with conform/warning/non-conform states.</desc>
+  <rect width="220" height="140" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+  <path d="M110 24l28 10v16c0 14-10 24-28 28-18-4-28-14-28-28V34z" fill="none" stroke="#22C55E" stroke-width="2.5"/>
+  <path d="M98 44l8 8 16-16" stroke="#22C55E" stroke-width="2.5" fill="none"/>
+  <rect x="24" y="80" width="48" height="40" rx="8" fill="#22C55E" opacity="0.15" stroke="#22C55E" stroke-width="1.5"/>
+  <rect x="86" y="80" width="48" height="40" rx="8" fill="#F59E0B" opacity="0.15" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="148" y="80" width="48" height="40" rx="8" fill="#EF4444" opacity="0.15" stroke="#EF4444" stroke-width="1.5"/>
+</svg>

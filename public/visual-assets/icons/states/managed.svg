@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Managed</title>
+  <desc id="desc">MDM managed device.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="16" y="18" width="32" height="28" rx="5"/><path d="M24 32l4 4 8-8"/>
+  </g>
+</svg>

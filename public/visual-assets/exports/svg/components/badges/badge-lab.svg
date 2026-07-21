@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" role="img" aria-labelledby="title desc">
+  <title id="title">Lab</title>
+  <desc id="desc">Lab badge for content labeling.</desc>
+  <rect width="160" height="40" rx="20" fill="#18B6D9" opacity="0.15" stroke="#18B6D9" stroke-width="2"/>
+  <text x="80" y="25" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#18B6D9">Lab</text>
+</svg>

@@ -1,0 +1,2787 @@
+[
+  {
+    "id": "apple-business-manager",
+    "name": "Apple Business Manager",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "abm",
+      "enrollment"
+    ],
+    "description": "Building portal representing Apple Business Manager administration.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/apple-business-manager.svg"
+  },
+  {
+    "id": "automated-device-enrollment",
+    "name": "Automated Device Enrollment",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "ade",
+      "enrollment"
+    ],
+    "description": "Device with checkmark for ADE zero-touch enrollment.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/automated-device-enrollment.svg"
+  },
+  {
+    "id": "device-enrollment",
+    "name": "Device Enrollment",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "enrollment"
+    ],
+    "description": "Manual device enrollment profile download.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/device-enrollment.svg"
+  },
+  {
+    "id": "user-enrollment",
+    "name": "User Enrollment",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "byod"
+    ],
+    "description": "User-owned device with BYOD enrollment.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/user-enrollment.svg"
+  },
+  {
+    "id": "apple-school-manager",
+    "name": "Apple School Manager",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "asm",
+      "education"
+    ],
+    "description": "Education building with graduation cap motif.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/apple-school-manager.svg"
+  },
+  {
+    "id": "managed-apple-account",
+    "name": "Managed Apple Account",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "account"
+    ],
+    "description": "User with managed account badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/managed-apple-account.svg"
+  },
+  {
+    "id": "apps-and-books",
+    "name": "Apps and Books",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "vpp"
+    ],
+    "description": "Application grid for volume content.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/apps-and-books.svg"
+  },
+  {
+    "id": "volume-content",
+    "name": "Volume Content",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "vpp"
+    ],
+    "description": "Stack of licensed content packages.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/volume-content.svg"
+  },
+  {
+    "id": "locations",
+    "name": "Locations",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "abm"
+    ],
+    "description": "Map pin for ABM location hierarchy.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/locations.svg"
+  },
+  {
+    "id": "roles-privileges",
+    "name": "Roles and Privileges",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "admin"
+    ],
+    "description": "Key and shield for administrative roles.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/roles-privileges.svg"
+  },
+  {
+    "id": "managed-distribution",
+    "name": "Managed Distribution",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "distribution"
+    ],
+    "description": "Distribution arrow to devices.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/managed-distribution.svg"
+  },
+  {
+    "id": "federation",
+    "name": "Federation",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "identity"
+    ],
+    "description": "Linked identity providers.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/federation.svg"
+  },
+  {
+    "id": "domain-verification",
+    "name": "Domain Verification",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "domain"
+    ],
+    "description": "Globe with verification check.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/domain-verification.svg"
+  },
+  {
+    "id": "scim",
+    "name": "SCIM",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "identity",
+      "sync"
+    ],
+    "description": "Directory sync between systems.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/scim.svg"
+  },
+  {
+    "id": "apple-push-notification-service",
+    "name": "Apple Push Notification Service",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "apns",
+      "push"
+    ],
+    "description": "Notification bell for APNs push channel.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/apple-push-notification-service.svg"
+  },
+  {
+    "id": "push-certificate",
+    "name": "Push Certificate",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "apns",
+      "certificate"
+    ],
+    "description": "Certificate for APNs authentication.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/push-certificate.svg"
+  },
+  {
+    "id": "activation",
+    "name": "Activation",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "setup"
+    ],
+    "description": "Device activation during setup.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/activation.svg"
+  },
+  {
+    "id": "setup-assistant",
+    "name": "Setup Assistant",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "setup"
+    ],
+    "description": "Setup wizard screens.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/setup-assistant.svg"
+  },
+  {
+    "id": "supervision",
+    "name": "Supervision",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "supervised"
+    ],
+    "description": "Supervised device indicator.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/supervision.svg"
+  },
+  {
+    "id": "declarative-device-management",
+    "name": "Declarative Device Management",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "ddm"
+    ],
+    "description": "Declarative status sync loop.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/declarative-device-management.svg"
+  },
+  {
+    "id": "mdm-command",
+    "name": "MDM Command",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "mdm"
+    ],
+    "description": "Remote management command dispatch.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/mdm-command.svg"
+  },
+  {
+    "id": "configuration-profile",
+    "name": "Configuration Profile",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "profile"
+    ],
+    "description": "Settings profile document.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/configuration-profile.svg"
+  },
+  {
+    "id": "managed-application",
+    "name": "Managed Application",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "app"
+    ],
+    "description": "Managed app with compliance check.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/managed-application.svg"
+  },
+  {
+    "id": "managed-configuration",
+    "name": "Managed Configuration",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "app-config"
+    ],
+    "description": "App config payload.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/managed-configuration.svg"
+  },
+  {
+    "id": "bootstrap-token",
+    "name": "Bootstrap Token",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "macos",
+      "token"
+    ],
+    "description": "Secure bootstrap token for macOS.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/bootstrap-token.svg"
+  },
+  {
+    "id": "secure-token",
+    "name": "Secure Token",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "macos",
+      "token"
+    ],
+    "description": "Secure token escrow indicator.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/secure-token.svg"
+  },
+  {
+    "id": "filevault",
+    "name": "FileVault",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "encryption"
+    ],
+    "description": "Full disk encryption lock.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/filevault.svg"
+  },
+  {
+    "id": "recovery-key",
+    "name": "Recovery Key",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "filevault"
+    ],
+    "description": "Institutional recovery key.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/recovery-key.svg"
+  },
+  {
+    "id": "platform-sso",
+    "name": "Platform SSO",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "sso"
+    ],
+    "description": "Single sign-on bridge between IdP and device.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/platform-sso.svg"
+  },
+  {
+    "id": "extensible-sso",
+    "name": "Extensible SSO",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "sso"
+    ],
+    "description": "App extension SSO plugin.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/extensible-sso.svg"
+  },
+  {
+    "id": "passcode-policy",
+    "name": "Passcode Policy",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "compliance"
+    ],
+    "description": "Device passcode requirements.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/passcode-policy.svg"
+  },
+  {
+    "id": "software-update",
+    "name": "Software Update",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "update"
+    ],
+    "description": "Managed OS update cycle.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/software-update.svg"
+  },
+  {
+    "id": "rapid-security-response",
+    "name": "Rapid Security Response",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Fast security patch delivery.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/rapid-security-response.svg"
+  },
+  {
+    "id": "compliance",
+    "name": "Compliance",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "compliance"
+    ],
+    "description": "Device compliance evaluation.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/compliance.svg"
+  },
+  {
+    "id": "restrictions",
+    "name": "Restrictions",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "policy"
+    ],
+    "description": "Blocked action indicator.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/restrictions.svg"
+  },
+  {
+    "id": "lost-mode",
+    "name": "Lost Mode",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Locate and lock lost device.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/lost-mode.svg"
+  },
+  {
+    "id": "activation-lock",
+    "name": "Activation Lock",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Activation lock enabled device.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/activation-lock.svg"
+  },
+  {
+    "id": "return-to-service",
+    "name": "Return to Service",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "lifecycle"
+    ],
+    "description": "Device wipe and re-enrollment.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/return-to-service.svg"
+  },
+  {
+    "id": "managed-device-attestation",
+    "name": "Managed Device Attestation",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Hardware attestation validation.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/managed-device-attestation.svg"
+  },
+  {
+    "id": "device-identity",
+    "name": "Device Identity",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "identity"
+    ],
+    "description": "Unique device identifier.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/device-identity.svg"
+  },
+  {
+    "id": "user-identity",
+    "name": "User Identity",
+    "category": "apple-enterprise",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "identity"
+    ],
+    "description": "User identity binding.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/apple-enterprise/user-identity.svg"
+  },
+  {
+    "id": "jamf-pro-service",
+    "name": "Jamf Pro",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "jamf-pro"
+    ],
+    "description": "Jamf Pro server management service.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-pro-service.svg"
+  },
+  {
+    "id": "jamf-connect-service",
+    "name": "Jamf Connect",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "connect"
+    ],
+    "description": "Identity bridge for macOS login.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-connect-service.svg"
+  },
+  {
+    "id": "jamf-protect-service",
+    "name": "Jamf Protect",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "protect"
+    ],
+    "description": "Endpoint security monitoring.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-protect-service.svg"
+  },
+  {
+    "id": "jamf-school-service",
+    "name": "Jamf School",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "school"
+    ],
+    "description": "Education device management.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-school-service.svg"
+  },
+  {
+    "id": "jamf-security-cloud",
+    "name": "Jamf Security Cloud",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Cloud security platform.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-security-cloud.svg"
+  },
+  {
+    "id": "prestage-enrollment",
+    "name": "PreStage Enrollment",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "enrollment"
+    ],
+    "description": "Zero-touch PreStage configuration.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/prestage-enrollment.svg"
+  },
+  {
+    "id": "smart-group",
+    "name": "Smart Group",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "group"
+    ],
+    "description": "Dynamic criteria-based group.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/smart-group.svg"
+  },
+  {
+    "id": "static-group",
+    "name": "Static Group",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "group"
+    ],
+    "description": "Fixed membership device group.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/static-group.svg"
+  },
+  {
+    "id": "policy",
+    "name": "Policy",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "policy"
+    ],
+    "description": "Jamf Pro policy document.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/policy.svg"
+  },
+  {
+    "id": "jamf-configuration-profile",
+    "name": "Configuration Profile",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "profile"
+    ],
+    "description": "Jamf configuration profile payload.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/configuration-profile.svg"
+  },
+  {
+    "id": "package",
+    "name": "Package",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "deployment"
+    ],
+    "description": "Composer or PKG deployment.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/package.svg"
+  },
+  {
+    "id": "script",
+    "name": "Script",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "automation"
+    ],
+    "description": "Shell script automation.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/script.svg"
+  },
+  {
+    "id": "extension-attribute",
+    "name": "Extension Attribute",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "inventory"
+    ],
+    "description": "Custom inventory attribute.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/extension-attribute.svg"
+  },
+  {
+    "id": "inventory",
+    "name": "Inventory",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "inventory"
+    ],
+    "description": "Device inventory record.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/inventory.svg"
+  },
+  {
+    "id": "recon",
+    "name": "Recon",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "enrollment"
+    ],
+    "description": "Enrollment reconnaissance data.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/recon.svg"
+  },
+  {
+    "id": "self-service",
+    "name": "Self Service",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "catalog"
+    ],
+    "description": "User self-service catalog.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/self-service.svg"
+  },
+  {
+    "id": "patch-management",
+    "name": "Patch Management",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "patch"
+    ],
+    "description": "Software patch workflow.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/patch-management.svg"
+  },
+  {
+    "id": "app-installer",
+    "name": "App Installer",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "app"
+    ],
+    "description": "Automated app installation.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/app-installer.svg"
+  },
+  {
+    "id": "enrollment-invitation",
+    "name": "Enrollment Invitation",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "enrollment"
+    ],
+    "description": "User enrollment invitation link.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/enrollment-invitation.svg"
+  },
+  {
+    "id": "jamf-automated-device-enrollment",
+    "name": "Automated Device Enrollment",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "ade"
+    ],
+    "description": "Jamf ADE integration.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/automated-device-enrollment.svg"
+  },
+  {
+    "id": "ldap",
+    "name": "LDAP",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "directory"
+    ],
+    "description": "LDAP directory connection.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/ldap.svg"
+  },
+  {
+    "id": "cloud-identity-provider",
+    "name": "Cloud Identity Provider",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "identity"
+    ],
+    "description": "Cloud IdP integration.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/cloud-identity-provider.svg"
+  },
+  {
+    "id": "webhook",
+    "name": "Webhook",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "integration"
+    ],
+    "description": "Event webhook notification.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/webhook.svg"
+  },
+  {
+    "id": "jamf-api",
+    "name": "API",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "api"
+    ],
+    "description": "Jamf Pro API access.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/api.svg"
+  },
+  {
+    "id": "jamf-binary",
+    "name": "Jamf Binary",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "agent"
+    ],
+    "description": "jamf binary agent on device.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-binary.svg"
+  },
+  {
+    "id": "threat-prevention",
+    "name": "Threat Prevention",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Active threat blocking.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/threat-prevention.svg"
+  },
+  {
+    "id": "zero-trust-network-access",
+    "name": "Zero Trust Network Access",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "ztna"
+    ],
+    "description": "ZTNA secure access.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/zero-trust-network-access.svg"
+  },
+  {
+    "id": "jamf-trust",
+    "name": "Jamf Trust",
+    "category": "jamf",
+    "ecosystem": "jamf",
+    "type": "icon",
+    "tags": [
+      "trust"
+    ],
+    "description": "Trust score indicator.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/jamf/jamf-trust.svg"
+  },
+  {
+    "id": "intune-service",
+    "name": "Microsoft Intune",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "intune"
+    ],
+    "description": "Intune device management service.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/intune-service.svg"
+  },
+  {
+    "id": "entra-id-service",
+    "name": "Microsoft Entra ID",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "entra"
+    ],
+    "description": "Cloud identity directory service.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/entra-id-service.svg"
+  },
+  {
+    "id": "defender-endpoint",
+    "name": "Defender for Endpoint",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "defender"
+    ],
+    "description": "Endpoint detection and response.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/defender-endpoint.svg"
+  },
+  {
+    "id": "conditional-access",
+    "name": "Conditional Access",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "access"
+    ],
+    "description": "Policy-based access control.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/conditional-access.svg"
+  },
+  {
+    "id": "compliance-policy",
+    "name": "Compliance Policy",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "compliance"
+    ],
+    "description": "Device compliance rules.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/compliance-policy.svg"
+  },
+  {
+    "id": "settings-catalog",
+    "name": "Settings Catalog",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "profile"
+    ],
+    "description": "Granular settings catalog profile.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/settings-catalog.svg"
+  },
+  {
+    "id": "device-configuration",
+    "name": "Device Configuration",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "profile"
+    ],
+    "description": "Legacy device configuration profile.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/device-configuration.svg"
+  },
+  {
+    "id": "enrollment-profile",
+    "name": "Enrollment Profile",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "enrollment"
+    ],
+    "description": "Apple ADE enrollment profile.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/enrollment-profile.svg"
+  },
+  {
+    "id": "apple-enrollment-token",
+    "name": "Apple Enrollment Token",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "ade",
+      "token"
+    ],
+    "description": "ABM server token upload.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/apple-enrollment-token.svg"
+  },
+  {
+    "id": "ade-token",
+    "name": "ADE Token",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "ade"
+    ],
+    "description": "Automated Device Enrollment token.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/ade-token.svg"
+  },
+  {
+    "id": "vpp-token",
+    "name": "VPP Token",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "vpp"
+    ],
+    "description": "Volume Purchase Program token.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/vpp-token.svg"
+  },
+  {
+    "id": "app-protection-policy",
+    "name": "App Protection Policy",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "mam"
+    ],
+    "description": "MAM app protection rules.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/app-protection-policy.svg"
+  },
+  {
+    "id": "device-compliance",
+    "name": "Device Compliance",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "compliance"
+    ],
+    "description": "Compliance state evaluation.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/device-compliance.svg"
+  },
+  {
+    "id": "endpoint-security",
+    "name": "Endpoint Security",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Security baselines and EDR.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/endpoint-security.svg"
+  },
+  {
+    "id": "security-baseline",
+    "name": "Security Baseline",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "baseline"
+    ],
+    "description": "Microsoft security baseline.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/security-baseline.svg"
+  },
+  {
+    "id": "update-ring",
+    "name": "Update Ring",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "update"
+    ],
+    "description": "Staged update deployment ring.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/update-ring.svg"
+  },
+  {
+    "id": "company-portal",
+    "name": "Company Portal",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "portal"
+    ],
+    "description": "End-user company portal app.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/company-portal.svg"
+  },
+  {
+    "id": "dynamic-group",
+    "name": "Dynamic Group",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "group"
+    ],
+    "description": "Rule-based dynamic group.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/dynamic-group.svg"
+  },
+  {
+    "id": "assignment",
+    "name": "Assignment",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "targeting"
+    ],
+    "description": "Policy assignment targeting.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/assignment.svg"
+  },
+  {
+    "id": "scope-tag",
+    "name": "Scope Tag",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "rbac"
+    ],
+    "description": "Administrative scope tag.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/scope-tag.svg"
+  },
+  {
+    "id": "remote-action",
+    "name": "Remote Action",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "action"
+    ],
+    "description": "Remote device action command.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/remote-action.svg"
+  },
+  {
+    "id": "device-wipe",
+    "name": "Device Wipe",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "action"
+    ],
+    "description": "Full device wipe action.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/device-wipe.svg"
+  },
+  {
+    "id": "single-sign-on",
+    "name": "Single Sign-On",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "sso"
+    ],
+    "description": "Enterprise SSO configuration.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/single-sign-on.svg"
+  },
+  {
+    "id": "scep",
+    "name": "SCEP",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "certificate"
+    ],
+    "description": "SCEP certificate enrollment.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/scep.svg"
+  },
+  {
+    "id": "vpn",
+    "name": "VPN",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "network"
+    ],
+    "description": "VPN configuration profile.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/vpn.svg"
+  },
+  {
+    "id": "wifi-profile",
+    "name": "Wi-Fi Profile",
+    "category": "microsoft",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "network"
+    ],
+    "description": "Wireless network profile.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/microsoft/wifi-profile.svg"
+  },
+  {
+    "id": "administrator",
+    "name": "Administrator",
+    "category": "users",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "role"
+    ],
+    "description": "IT administrator user role.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/users/administrator.svg"
+  },
+  {
+    "id": "user",
+    "name": "User",
+    "category": "users",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "role"
+    ],
+    "description": "Standard end user.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/users/user.svg"
+  },
+  {
+    "id": "mac-laptop",
+    "name": "MacBook",
+    "category": "devices",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "mac"
+    ],
+    "description": "Generic Mac laptop silhouette.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/mac-laptop.svg"
+  },
+  {
+    "id": "iphone-device",
+    "name": "iPhone",
+    "category": "devices",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "ios"
+    ],
+    "description": "Generic iPhone silhouette.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/iphone-device.svg"
+  },
+  {
+    "id": "ipad-device",
+    "name": "iPad",
+    "category": "devices",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "ipados"
+    ],
+    "description": "Generic iPad silhouette.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/ipad-device.svg"
+  },
+  {
+    "id": "windows-laptop",
+    "name": "Windows Laptop",
+    "category": "devices",
+    "ecosystem": "microsoft",
+    "type": "icon",
+    "tags": [
+      "windows"
+    ],
+    "description": "Generic Windows laptop.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/windows-laptop.svg"
+  },
+  {
+    "id": "android-phone",
+    "name": "Android Phone",
+    "category": "devices",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "android"
+    ],
+    "description": "Generic Android phone.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/android-phone.svg"
+  },
+  {
+    "id": "imac-device",
+    "name": "iMac",
+    "category": "devices",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "mac"
+    ],
+    "description": "Generic iMac silhouette.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/imac-device.svg"
+  },
+  {
+    "id": "mac-mini",
+    "name": "Mac mini",
+    "category": "devices",
+    "ecosystem": "apple",
+    "type": "icon",
+    "tags": [
+      "mac"
+    ],
+    "description": "Generic Mac mini.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/mac-mini.svg"
+  },
+  {
+    "id": "server",
+    "name": "Server",
+    "category": "devices",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "infrastructure"
+    ],
+    "description": "Generic server hardware.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/devices/server.svg"
+  },
+  {
+    "id": "cloud-service",
+    "name": "Cloud Service",
+    "category": "networking",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "cloud"
+    ],
+    "description": "Cloud-hosted service.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/networking/cloud-service.svg"
+  },
+  {
+    "id": "mdm-server",
+    "name": "MDM Server",
+    "category": "mdm",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "mdm"
+    ],
+    "description": "Mobile device management server.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/mdm/mdm-server.svg"
+  },
+  {
+    "id": "certificate",
+    "name": "Certificate",
+    "category": "security",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "certificate"
+    ],
+    "description": "Digital certificate document.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/security/certificate.svg"
+  },
+  {
+    "id": "shield-compliant",
+    "name": "Compliant",
+    "category": "security",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "compliance"
+    ],
+    "description": "Compliant security status.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/security/shield-compliant.svg"
+  },
+  {
+    "id": "shield-non-compliant",
+    "name": "Non-Compliant",
+    "category": "security",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "compliance"
+    ],
+    "description": "Non-compliant security status.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/security/shield-non-compliant.svg"
+  },
+  {
+    "id": "sync",
+    "name": "Synchronization",
+    "category": "networking",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "sync"
+    ],
+    "description": "Bidirectional sync.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/networking/sync.svg"
+  },
+  {
+    "id": "secure-connection",
+    "name": "Secure Connection",
+    "category": "networking",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Encrypted tunnel connection.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/networking/secure-connection.svg"
+  },
+  {
+    "id": "warning",
+    "name": "Warning",
+    "category": "states",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "alert"
+    ],
+    "description": "Warning alert state.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/states/warning.svg"
+  },
+  {
+    "id": "status-success",
+    "name": "Success",
+    "category": "states",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "status"
+    ],
+    "description": "Successful operation state.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/states/status-success.svg"
+  },
+  {
+    "id": "status-error",
+    "name": "Error",
+    "category": "states",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "status"
+    ],
+    "description": "Error state indicator.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/states/status-error.svg"
+  },
+  {
+    "id": "status-pending",
+    "name": "Pending",
+    "category": "states",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "status"
+    ],
+    "description": "Pending operation state.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/states/status-pending.svg"
+  },
+  {
+    "id": "encrypted",
+    "name": "Encrypted",
+    "category": "states",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "encryption"
+    ],
+    "description": "Encryption enabled.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/states/encrypted.svg"
+  },
+  {
+    "id": "managed",
+    "name": "Managed",
+    "category": "states",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "mdm"
+    ],
+    "description": "MDM managed device.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/states/managed.svg"
+  },
+  {
+    "id": "add",
+    "name": "Add",
+    "category": "actions",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "action"
+    ],
+    "description": "Add or create action.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/actions/add.svg"
+  },
+  {
+    "id": "remove",
+    "name": "Remove",
+    "category": "actions",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "action"
+    ],
+    "description": "Remove or delete action.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/actions/remove.svg"
+  },
+  {
+    "id": "deploy",
+    "name": "Deploy",
+    "category": "actions",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "action"
+    ],
+    "description": "Deploy content action.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/actions/deploy.svg"
+  },
+  {
+    "id": "identity-federation",
+    "name": "Identity Federation",
+    "category": "identity",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "identity"
+    ],
+    "description": "Federated identity link.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/identity/federation.svg"
+  },
+  {
+    "id": "mfa",
+    "name": "Multi-Factor Authentication",
+    "category": "identity",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "auth"
+    ],
+    "description": "MFA second factor.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/identity/mfa.svg"
+  },
+  {
+    "id": "zero-trust",
+    "name": "Zero Trust",
+    "category": "security",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "security"
+    ],
+    "description": "Zero trust security model.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/security/zero-trust.svg"
+  },
+  {
+    "id": "firewall",
+    "name": "Firewall",
+    "category": "networking",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "network"
+    ],
+    "description": "Network firewall.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/networking/firewall.svg"
+  },
+  {
+    "id": "api-endpoint",
+    "name": "API Endpoint",
+    "category": "networking",
+    "ecosystem": "neutral",
+    "type": "icon",
+    "tags": [
+      "api"
+    ],
+    "description": "REST API endpoint.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/icons/networking/api.svg"
+  },
+  {
+    "id": "connector-arrow-right",
+    "name": "Arrow Right",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Horizontal arrow connector pointing right.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-arrow-right.svg"
+  },
+  {
+    "id": "connector-arrow-left",
+    "name": "Arrow Left",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Horizontal arrow connector pointing left.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-arrow-left.svg"
+  },
+  {
+    "id": "connector-arrow-vertical",
+    "name": "Arrow Vertical",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Vertical arrow connector.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-arrow-vertical.svg"
+  },
+  {
+    "id": "connector-curved",
+    "name": "Curved Connector",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Curved flow connector.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-curved.svg"
+  },
+  {
+    "id": "connector-double-arrow",
+    "name": "Double Arrow",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Bidirectional sync connector.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-double-arrow.svg"
+  },
+  {
+    "id": "connector-dashed",
+    "name": "Dashed Connector",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Optional or async dashed connector.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-dashed.svg"
+  },
+  {
+    "id": "connector-sync",
+    "name": "Sync Connector",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Synchronization connector with arrows.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-sync.svg"
+  },
+  {
+    "id": "connector-secure",
+    "name": "Secure Connector",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Encrypted secure tunnel connector.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-secure.svg"
+  },
+  {
+    "id": "connector-validation",
+    "name": "Validation Connector",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Validated flow connector with check.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-validation.svg"
+  },
+  {
+    "id": "connector-error",
+    "name": "Error Connector",
+    "category": "connectors",
+    "ecosystem": "neutral",
+    "type": "connector",
+    "tags": [
+      "connector",
+      "freeform"
+    ],
+    "description": "Failed flow connector.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/connectors/connector-error.svg"
+  },
+  {
+    "id": "card-service-apple",
+    "name": "Apple Service Card",
+    "category": "cards",
+    "ecosystem": "apple",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Apple Service Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-service-apple.svg"
+  },
+  {
+    "id": "card-service-jamf",
+    "name": "Jamf Service Card",
+    "category": "cards",
+    "ecosystem": "jamf",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Jamf Service Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-service-jamf.svg"
+  },
+  {
+    "id": "card-service-microsoft",
+    "name": "Microsoft Service Card",
+    "category": "cards",
+    "ecosystem": "microsoft",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Microsoft Service Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-service-microsoft.svg"
+  },
+  {
+    "id": "card-service-neutral",
+    "name": "Neutral Service Card",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Neutral Service Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-service-neutral.svg"
+  },
+  {
+    "id": "card-device",
+    "name": "Device Card",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Device Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-device.svg"
+  },
+  {
+    "id": "card-user",
+    "name": "User Card",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "User Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-user.svg"
+  },
+  {
+    "id": "card-policy",
+    "name": "Policy Card",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Policy Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-policy.svg"
+  },
+  {
+    "id": "card-compliance",
+    "name": "Compliance Card",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "card",
+      "freeform"
+    ],
+    "description": "Compliance Card for Freeform diagrams.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-compliance.svg"
+  },
+  {
+    "id": "card-step-1",
+    "name": "Step Card 1",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 1 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-1.svg"
+  },
+  {
+    "id": "card-step-2",
+    "name": "Step Card 2",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 2 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-2.svg"
+  },
+  {
+    "id": "card-step-3",
+    "name": "Step Card 3",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 3 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-3.svg"
+  },
+  {
+    "id": "card-step-4",
+    "name": "Step Card 4",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 4 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-4.svg"
+  },
+  {
+    "id": "card-step-5",
+    "name": "Step Card 5",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 5 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-5.svg"
+  },
+  {
+    "id": "card-step-6",
+    "name": "Step Card 6",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 6 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-6.svg"
+  },
+  {
+    "id": "card-step-7",
+    "name": "Step Card 7",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 7 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-7.svg"
+  },
+  {
+    "id": "card-step-8",
+    "name": "Step Card 8",
+    "category": "cards",
+    "ecosystem": "neutral",
+    "type": "component",
+    "tags": [
+      "step",
+      "workflow",
+      "freeform"
+    ],
+    "description": "Numbered step 8 for video storyboards.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/cards/card-step-8.svg"
+  },
+  {
+    "id": "badge-verified-source",
+    "name": "Verified Source",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Verified Source content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-verified-source.svg"
+  },
+  {
+    "id": "badge-tech-reviewed",
+    "name": "Technically Reviewed",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Technically Reviewed content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-tech-reviewed.svg"
+  },
+  {
+    "id": "badge-draft",
+    "name": "Draft",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Draft content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-draft.svg"
+  },
+  {
+    "id": "badge-to-verify",
+    "name": "To Verify",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "To Verify content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-to-verify.svg"
+  },
+  {
+    "id": "badge-beginner",
+    "name": "Beginner",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Beginner content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-beginner.svg"
+  },
+  {
+    "id": "badge-intermediate",
+    "name": "Intermediate",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Intermediate content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-intermediate.svg"
+  },
+  {
+    "id": "badge-advanced",
+    "name": "Advanced",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Advanced content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-advanced.svg"
+  },
+  {
+    "id": "badge-certification",
+    "name": "Certification",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Certification content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-certification.svg"
+  },
+  {
+    "id": "badge-lab",
+    "name": "Lab",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Lab content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-lab.svg"
+  },
+  {
+    "id": "badge-video",
+    "name": "Video",
+    "category": "badges",
+    "ecosystem": "neutral",
+    "type": "badge",
+    "tags": [
+      "badge",
+      "label"
+    ],
+    "description": "Video content badge.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/components/badges/badge-video.svg"
+  },
+  {
+    "id": "logo-proposal-a-symbol",
+    "name": "Logo Proposal A (symbol)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "symbol"
+    ],
+    "description": "AMA logo proposal A — symbol. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-symbol.svg"
+  },
+  {
+    "id": "logo-proposal-a-horizontal",
+    "name": "Logo Proposal A (horizontal)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "horizontal"
+    ],
+    "description": "AMA logo proposal A — horizontal. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-horizontal.svg"
+  },
+  {
+    "id": "logo-proposal-a-vertical",
+    "name": "Logo Proposal A (vertical)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "vertical"
+    ],
+    "description": "AMA logo proposal A — vertical. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-vertical.svg"
+  },
+  {
+    "id": "logo-proposal-a-light",
+    "name": "Logo Proposal A (light)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "light"
+    ],
+    "description": "AMA logo proposal A — light. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-light.svg"
+  },
+  {
+    "id": "logo-proposal-a-dark",
+    "name": "Logo Proposal A (dark)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "dark"
+    ],
+    "description": "AMA logo proposal A — dark. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-dark.svg"
+  },
+  {
+    "id": "logo-proposal-a-monochrome",
+    "name": "Logo Proposal A (monochrome)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "monochrome"
+    ],
+    "description": "AMA logo proposal A — monochrome. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-monochrome.svg"
+  },
+  {
+    "id": "logo-proposal-a-favicon",
+    "name": "Logo Proposal A (favicon)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "favicon"
+    ],
+    "description": "AMA logo proposal A — favicon. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-favicon.svg"
+  },
+  {
+    "id": "logo-proposal-a-app-icon",
+    "name": "Logo Proposal A (app-icon)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "app-icon"
+    ],
+    "description": "AMA logo proposal A — app-icon. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-a-app-icon.svg"
+  },
+  {
+    "id": "logo-proposal-b-symbol",
+    "name": "Logo Proposal B (symbol)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "symbol"
+    ],
+    "description": "AMA logo proposal B — symbol. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-symbol.svg"
+  },
+  {
+    "id": "logo-proposal-b-horizontal",
+    "name": "Logo Proposal B (horizontal)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "horizontal"
+    ],
+    "description": "AMA logo proposal B — horizontal. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-horizontal.svg"
+  },
+  {
+    "id": "logo-proposal-b-vertical",
+    "name": "Logo Proposal B (vertical)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "vertical"
+    ],
+    "description": "AMA logo proposal B — vertical. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-vertical.svg"
+  },
+  {
+    "id": "logo-proposal-b-light",
+    "name": "Logo Proposal B (light)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "light"
+    ],
+    "description": "AMA logo proposal B — light. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-light.svg"
+  },
+  {
+    "id": "logo-proposal-b-dark",
+    "name": "Logo Proposal B (dark)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "dark"
+    ],
+    "description": "AMA logo proposal B — dark. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-dark.svg"
+  },
+  {
+    "id": "logo-proposal-b-monochrome",
+    "name": "Logo Proposal B (monochrome)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "monochrome"
+    ],
+    "description": "AMA logo proposal B — monochrome. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-monochrome.svg"
+  },
+  {
+    "id": "logo-proposal-b-favicon",
+    "name": "Logo Proposal B (favicon)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "favicon"
+    ],
+    "description": "AMA logo proposal B — favicon. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-favicon.svg"
+  },
+  {
+    "id": "logo-proposal-b-app-icon",
+    "name": "Logo Proposal B (app-icon)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "app-icon"
+    ],
+    "description": "AMA logo proposal B — app-icon. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-b-app-icon.svg"
+  },
+  {
+    "id": "logo-proposal-c-symbol",
+    "name": "Logo Proposal C (symbol)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "symbol"
+    ],
+    "description": "AMA logo proposal C — symbol. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-symbol.svg"
+  },
+  {
+    "id": "logo-proposal-c-horizontal",
+    "name": "Logo Proposal C (horizontal)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "horizontal"
+    ],
+    "description": "AMA logo proposal C — horizontal. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-horizontal.svg"
+  },
+  {
+    "id": "logo-proposal-c-vertical",
+    "name": "Logo Proposal C (vertical)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "vertical"
+    ],
+    "description": "AMA logo proposal C — vertical. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-vertical.svg"
+  },
+  {
+    "id": "logo-proposal-c-light",
+    "name": "Logo Proposal C (light)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "light"
+    ],
+    "description": "AMA logo proposal C — light. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-light.svg"
+  },
+  {
+    "id": "logo-proposal-c-dark",
+    "name": "Logo Proposal C (dark)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "dark"
+    ],
+    "description": "AMA logo proposal C — dark. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-dark.svg"
+  },
+  {
+    "id": "logo-proposal-c-monochrome",
+    "name": "Logo Proposal C (monochrome)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "monochrome"
+    ],
+    "description": "AMA logo proposal C — monochrome. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-monochrome.svg"
+  },
+  {
+    "id": "logo-proposal-c-favicon",
+    "name": "Logo Proposal C (favicon)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "favicon"
+    ],
+    "description": "AMA logo proposal C — favicon. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-favicon.svg"
+  },
+  {
+    "id": "logo-proposal-c-app-icon",
+    "name": "Logo Proposal C (app-icon)",
+    "category": "logo-proposals",
+    "ecosystem": "neutral",
+    "type": "logo",
+    "tags": [
+      "proposal",
+      "ama",
+      "app-icon"
+    ],
+    "description": "AMA logo proposal C — app-icon. Does not replace current brand mark.",
+    "freeformReady": false,
+    "verificationStatus": "to-verify",
+    "path": "/visual-assets/logo-proposals/proposal-c-app-icon.svg"
+  },
+  {
+    "id": "apple-enterprise-board",
+    "name": "Apple Enterprise",
+    "category": "freeform-boards",
+    "ecosystem": "apple",
+    "type": "freeform-board",
+    "tags": [
+      "freeform",
+      "board",
+      "starter-kit"
+    ],
+    "description": "Freeform starter board: Apple Enterprise.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/freeform/apple/apple-enterprise-board.svg"
+  },
+  {
+    "id": "jamf-board",
+    "name": "Jamf Ecosystem",
+    "category": "freeform-boards",
+    "ecosystem": "jamf",
+    "type": "freeform-board",
+    "tags": [
+      "freeform",
+      "board",
+      "starter-kit"
+    ],
+    "description": "Freeform starter board: Jamf Ecosystem.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/freeform/jamf/jamf-board.svg"
+  },
+  {
+    "id": "microsoft-board",
+    "name": "Microsoft Intune",
+    "category": "freeform-boards",
+    "ecosystem": "microsoft",
+    "type": "freeform-board",
+    "tags": [
+      "freeform",
+      "board",
+      "starter-kit"
+    ],
+    "description": "Freeform starter board: Microsoft Intune.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/freeform/microsoft/microsoft-board.svg"
+  },
+  {
+    "id": "common-board",
+    "name": "Common Library",
+    "category": "freeform-boards",
+    "ecosystem": "neutral",
+    "type": "freeform-board",
+    "tags": [
+      "freeform",
+      "board",
+      "starter-kit"
+    ],
+    "description": "Freeform starter board: Common Library.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/freeform/complete-library/common-board.svg"
+  },
+  {
+    "id": "video-components-board",
+    "name": "Video Components",
+    "category": "freeform-boards",
+    "ecosystem": "neutral",
+    "type": "freeform-board",
+    "tags": [
+      "freeform",
+      "board",
+      "starter-kit"
+    ],
+    "description": "Freeform starter board: Video Components.",
+    "freeformReady": true,
+    "verificationStatus": "original",
+    "path": "/visual-assets/freeform/starter-kit/video-components-board.svg"
+  }
+]

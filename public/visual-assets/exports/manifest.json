@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-07-21T06:30:00.125Z",
+  "version": "1.0.0",
+  "sourceManifest": "/workspace/lib/visual-assets/generated-manifest.json",
+  "stats": {
+    "svgScanned": 191,
+    "registryEntries": 191,
+    "pngExported": 15,
+    "svgCopied": 15,
+    "errors": 0,
+    "warnings": 352,
+    "orphans": 0
+  },
+  "exported": [
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-a-dark.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-a-dark.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-a-horizontal.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-a-horizontal.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-a-light.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-a-light.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-a-monochrome.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-a-monochrome.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-a-vertical.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-a-vertical.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-b-dark.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-b-dark.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-b-horizontal.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-b-horizontal.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-b-light.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-b-light.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-b-monochrome.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-b-monochrome.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-b-vertical.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-b-vertical.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-c-dark.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-c-dark.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-c-horizontal.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-c-horizontal.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-c-light.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-c-light.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-c-monochrome.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-c-monochrome.png"
+    },
+    {
+      "type": "svg",
+      "path": "/visual-assets/exports/svg/logo-proposals/proposal-c-vertical.svg"
+    },
+    {
+      "type": "png",
+      "path": "/visual-assets/exports/png/logo-proposals/proposal-c-vertical.png"
+    }
+  ],
+  "orphans": []
+}

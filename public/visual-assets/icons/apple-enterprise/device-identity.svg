@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Device Identity</title>
+  <desc id="desc">Unique device identifier.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="16" y="20" width="32" height="24" rx="5"/><path d="M22 32h8M34 28v8"/>
+  </g>
+</svg>
