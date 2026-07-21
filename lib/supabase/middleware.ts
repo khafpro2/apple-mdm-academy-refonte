@@ -5,7 +5,7 @@ import { sanitizeRedirectPath } from "@/lib/auth/url";
 import { DEMO_USER_EMAIL, DEMO_SESSION_COOKIE } from "@/lib/demo/constants";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
-const AUTH_PAGES = ["/auth/login", "/auth/signup"];
+const AUTH_PAGES = ["/auth/login", "/auth/signup", "/auth/check-email"];
 
 function hasDemoSession(request: NextRequest): boolean {
   return request.cookies.get(DEMO_SESSION_COOKIE)?.value === "1";
