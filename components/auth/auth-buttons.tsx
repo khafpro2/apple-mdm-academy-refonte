@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { getUser } from "@/lib/supabase/server";
 import { checkIsAdmin } from "@/lib/supabase/admin";
+import { isDemoSession } from "@/lib/demo/demo-session.server";
 import { ButtonLink } from "@/components/ui";
 
 export async function AuthButtons() {
   const user = await getUser();
+  const demoSession = !user ? await isDemoSession() : false;
 
-  if (user) {
-    const name = user.user_metadata?.full_name || user.email?.split("@")[0] || "Compte";
-    const isAdmin = await checkIsAdmin(user.id, user.email);
+  if (user || demoSession) {
+    const name = demoSession
+      ? "Apprenant Démo"
+      : user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Compte";
+    const isAdmin = user ? await checkIsAdmin(user.id, user.email) : false;
 
     return (
       <div className="flex items-center gap-3">

@@ -59,6 +59,8 @@ export function mapAuthCallbackError(code: string | null): string | null {
       return "Échec de la confirmation ou de la connexion. Réessayez ou demandez un nouveau lien.";
     case "supabase_not_configured":
       return "Authentification indisponible — configuration serveur incomplète.";
+    case "access_denied":
+      return "Connexion Google annulée : le consentement a été refusé. Vous pouvez réessayer ou utiliser l'email.";
     default:
       return null;
   }

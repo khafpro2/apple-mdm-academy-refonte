@@ -15,8 +15,8 @@ export async function ensureUserProfile(
     .maybeSingle();
 
   if (readError) {
-    console.error("PROFILE_ENSURE_READ_FAILED", { userId, errorCode: readError.code ?? "unknown" });
-    return { ok: false, error: "Impossible de créer le compte pour le moment." };
+    console.error("PROFILE_ENSURE_READ_FAILED", { errorCode: readError.code ?? "unknown" });
+    return { ok: false, error: "Impossible de créer le compte pour le moment. (réf. PROFILE-READ)" };
   }
 
   if (existing) {
@@ -27,7 +27,7 @@ export async function ensureUserProfile(
         .eq("id", userId);
 
       if (updateError) {
-        console.error("PROFILE_ENSURE_UPDATE_FAILED", { userId, errorCode: updateError.code ?? "unknown" });
+        console.error("PROFILE_ENSURE_UPDATE_FAILED", { errorCode: updateError.code ?? "unknown" });
       }
     }
     return { ok: true };
@@ -42,8 +42,8 @@ export async function ensureUserProfile(
     if (insertError.code === "23505") {
       return { ok: true };
     }
-    console.error("PROFILE_ENSURE_INSERT_FAILED", { userId, errorCode: insertError.code ?? "unknown" });
-    return { ok: false, error: "Impossible de créer le compte pour le moment." };
+    console.error("PROFILE_ENSURE_INSERT_FAILED", { errorCode: insertError.code ?? "unknown" });
+    return { ok: false, error: "Impossible de créer le compte pour le moment. (réf. PROFILE-INSERT)" };
   }
 
   return { ok: true };

@@ -126,4 +126,72 @@ test.describe("Page d'inscription", () => {
     await expect(page.getByLabel("Mot de passe", { exact: true })).toHaveAttribute("autocomplete", "new-password");
     await expect(page.getByLabel("Confirmer le mot de passe")).toHaveAttribute("autocomplete", "new-password");
   });
+
+  test("bouton Continuer avec Google présent (signup + login)", async ({ page }, testInfo) => {
+    await openSignup(page, testInfo);
+    const googleSignup = page.getByRole("button", { name: /Continuer avec Google/i });
+    await expect(googleSignup).toBeVisible();
+    await expect(googleSignup).toHaveAttribute("aria-label", /Continuer avec Google/i);
+
+    await page.goto(LOGIN_PATH, { waitUntil: "domcontentloaded" });
+    await dismissCookieBanner(page);
+    await skipIfSupabaseMissing(page, testInfo);
+    await expect(page.getByRole("button", { name: /Continuer avec Google/i })).toBeVisible();
+  });
+
+  test("consentement Google refusé affiché via ?error=access_denied", async ({ page }, testInfo) => {
+    await page.goto(`${LOGIN_PATH}?error=access_denied`, { waitUntil: "domcontentloaded" });
+    await dismissCookieBanner(page);
+    await skipIfSupabaseMissing(page, testInfo);
+
+    await expect(page.getByRole("alert").filter({ hasText: /consentement|refusé|annul/i })).toBeVisible();
+  });
+
+  test("inscription avec confirmation email — pas de faux échec profil (live)", async ({ page }, testInfo) => {
+    if (process.env.E2E_AUTH_LIVE !== "1") {
+      testInfo.skip(true, "Définir E2E_AUTH_LIVE=1 avec un projet Supabase (confirmation email ON)");
+    }
+
+    await openSignup(page, testInfo);
+
+    const email = `e2e-${Date.now()}@example.com`;
+    await page.getByLabel("Nom complet").fill("E2E User");
+    await page.getByLabel("Email").fill(email);
+    await page.getByLabel("Mot de passe", { exact: true }).fill("ValidPass1");
+    await page.getByLabel("Confirmer le mot de passe").fill("ValidPass1");
+    await page.getByRole("checkbox").check();
+    await page.getByRole("button", { name: "Créer mon compte" }).click();
+
+    await expect(page).toHaveURL(/\/auth\/check-email/, { timeout: 20_000 });
+    await expect(page.getByText(/Impossible de créer le compte/i)).toHaveCount(0);
+  });
+
+  test("login / logout / reconnexion (démo)", async ({ page }, testInfo) => {
+    await page.goto(LOGIN_PATH, { waitUntil: "domcontentloaded" });
+    await dismissCookieBanner(page);
+    await skipIfSupabaseMissing(page, testInfo);
+
+    const demo = page.getByRole("button", { name: /Connexion démo/i });
+    await demo.waitFor({ state: "visible", timeout: 5_000 }).catch(() => null);
+    if (!(await demo.isVisible().catch(() => false))) {
+      testInfo.skip(true, "Bouton démo indisponible");
+    }
+
+    await demo.scrollIntoViewIfNeeded();
+    await demo.click();
+    await expect(page).toHaveURL(/\/dashboard/, { timeout: 20_000 });
+
+    const logout = page.getByRole("button", { name: /Déconnexion/i });
+    await expect(logout).toBeVisible();
+    await logout.click();
+
+    await page.goto("/dashboard", { waitUntil: "domcontentloaded" });
+    await expect(page).toHaveURL(/\/auth\/login\?redirect=%2Fdashboard/);
+
+    await dismissCookieBanner(page);
+    const demoAgain = page.getByRole("button", { name: /Connexion démo/i });
+    await demoAgain.waitFor({ state: "visible", timeout: 5_000 });
+    await demoAgain.click();
+    await expect(page).toHaveURL(/\/dashboard/, { timeout: 20_000 });
+  });
 });

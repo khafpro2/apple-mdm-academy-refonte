@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { mapAuthError } from "../../lib/auth/errors.ts";
+import { mapAuthError, mapAuthCallbackError } from "../../lib/auth/errors.ts";
 import { validatePassword } from "../../lib/auth/password-policy.ts";
 import { sanitizeRedirectPath } from "../../lib/auth/url.ts";
 import { parseSignupFormData, validateSignupInput } from "../../lib/auth/signup-validation.ts";
@@ -92,6 +92,9 @@ test("mapAuthError — erreur fournisseur masquée", () => {
   assert.equal(message, "Impossible de créer le compte pour le moment.");
 });
 
+test("mapAuthCallbackError — access_denied (consentement refusé)", () => {
+  assert.match(mapAuthCallbackError("access_denied") ?? "", /consentement|refusé|annul/i);
+});
 test("sanitizeRedirectPath — bloque les domaines externes", () => {
   assert.equal(sanitizeRedirectPath("//evil.com"), "/dashboard");
   assert.equal(sanitizeRedirectPath("https://evil.com"), "/dashboard");
