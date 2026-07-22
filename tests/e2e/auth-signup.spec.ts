@@ -11,16 +11,23 @@ async function dismissCookieBanner(page: Page) {
 }
 
 async function skipIfSupabaseMissing(page: Page, testInfo: TestInfo) {
-  const missing = await page.getByText("Configuration Supabase requise").isVisible().catch(() => false);
+  const setupAlert = page.getByRole("alert").filter({ hasText: "Configuration Supabase requise" });
+  const missing = await setupAlert.waitFor({ state: "visible", timeout: 1_000 }).then(
+    () => true,
+    () => false
+  );
   if (missing) {
     testInfo.skip(true, "Supabase non configuré — rebuild E2E requis (scripts/start-e2e-server.sh)");
+    return true;
   }
+
+  return false;
 }
 
 async function openSignup(page: Page, testInfo: TestInfo) {
   await page.goto(SIGNUP_PATH, { waitUntil: "domcontentloaded" });
   await dismissCookieBanner(page);
-  await skipIfSupabaseMissing(page, testInfo);
+  return skipIfSupabaseMissing(page, testInfo);
 }
 
 async function fillValidSignup(page: Page, email: string) {
@@ -33,7 +40,7 @@ async function fillValidSignup(page: Page, email: string) {
 
 test.describe("Page d'inscription", () => {
   test("affiche le formulaire complet sans erreur JS", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     await expect(page.getByRole("heading", { name: "Créer un compte" })).toBeVisible();
     await expect(page.getByLabel("Nom complet")).toBeVisible();
@@ -46,7 +53,7 @@ test.describe("Page d'inscription", () => {
   });
 
   test("validation locale — mot de passe faible", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     await page.getByLabel("Nom complet").fill("Test User");
     await page.getByLabel("Email").fill("test@example.com");
@@ -58,7 +65,7 @@ test.describe("Page d'inscription", () => {
   });
 
   test("validation locale — mots de passe différents", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     await page.getByLabel("Nom complet").fill("Test User");
     await page.getByLabel("Email").fill("test@example.com");
@@ -71,7 +78,7 @@ test.describe("Page d'inscription", () => {
   });
 
   test("validation locale — champs obligatoires HTML5", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     await expect(page.getByLabel("Nom complet")).toHaveAttribute("required", "");
     await expect(page.getByLabel("Email")).toHaveAttribute("required", "");
@@ -80,7 +87,7 @@ test.describe("Page d'inscription", () => {
   });
 
   test("double soumission empêchée pendant l'envoi", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     await page.route("**/*", async (route) => {
       if (route.request().method() === "POST") {
@@ -100,7 +107,7 @@ test.describe("Page d'inscription", () => {
   test("lien vers connexion conserve la redirection", async ({ page }, testInfo) => {
     await page.goto(`${SIGNUP_PATH}?redirect=/dashboard`, { waitUntil: "domcontentloaded" });
     await dismissCookieBanner(page);
-    await skipIfSupabaseMissing(page, testInfo);
+    if (await skipIfSupabaseMissing(page, testInfo)) return;
 
     const loginLink = page.getByRole("link", { name: "Se connecter" });
     await expect(loginLink).toHaveAttribute("href", /redirect=%2Fdashboard/);
@@ -114,7 +121,7 @@ test.describe("Page d'inscription", () => {
   test("page login accessible avec Google", async ({ page }, testInfo) => {
     await page.goto(LOGIN_PATH, { waitUntil: "domcontentloaded" });
     await dismissCookieBanner(page);
-    await skipIfSupabaseMissing(page, testInfo);
+    if (await skipIfSupabaseMissing(page, testInfo)) return;
 
     await expect(page.getByRole("heading", { name: "Connexion" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Continuer avec Google" })).toBeVisible();
@@ -125,7 +132,7 @@ test.describe("Page d'inscription", () => {
   });
 
   test("autocomplete correct sur les champs d'inscription", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     await expect(page.getByLabel("Nom complet")).toHaveAttribute("autocomplete", "name");
     await expect(page.getByLabel("Email")).toHaveAttribute("autocomplete", "email");
@@ -144,7 +151,7 @@ test.describe("Parcours auth E2E (compte de test)", () => {
   test("login → dashboard → logout", async ({ page }, testInfo) => {
     await page.goto(LOGIN_PATH, { waitUntil: "domcontentloaded" });
     await dismissCookieBanner(page);
-    await skipIfSupabaseMissing(page, testInfo);
+    if (await skipIfSupabaseMissing(page, testInfo)) return;
 
     await page.getByLabel("Email").fill(email!);
     await page.getByLabel("Mot de passe", { exact: true }).fill(password!);
@@ -162,7 +169,7 @@ test.describe("Parcours auth E2E (compte de test)", () => {
   });
 
   test("signup email déjà utilisé", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
     await fillValidSignup(page, email!);
     await page.getByRole("button", { name: "Créer mon compte" }).click();
     await expect(page.getByRole("alert")).toContainText(/existe déjà|déjà/i, { timeout: 20_000 });
@@ -171,14 +178,14 @@ test.describe("Parcours auth E2E (compte de test)", () => {
   test("reset password page accessible", async ({ page }, testInfo) => {
     await page.goto("/auth/forgot-password", { waitUntil: "domcontentloaded" });
     await dismissCookieBanner(page);
-    await skipIfSupabaseMissing(page, testInfo);
+    if (await skipIfSupabaseMissing(page, testInfo)) return;
     await expect(page.getByRole("heading", { name: /mot de passe/i })).toBeVisible();
   });
 });
 
 test.describe("Google OAuth bouton", () => {
   test("déclenche signInWithOAuth (mock réseau)", async ({ page }, testInfo) => {
-    await openSignup(page, testInfo);
+    if (await openSignup(page, testInfo)) return;
 
     let oauthCalled = false;
     await page.route("**/auth/v1/authorize**", async (route) => {

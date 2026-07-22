@@ -2,8 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
+import { getAuthCallbackUrl, getAuthCallbackUrlForOrigin, sanitizeRedirectPath } from "@/lib/auth/url";
 import { mapAuthError } from "@/lib/auth/errors";
 import { parseSignupFormData, validateSignupInput } from "@/lib/auth/signup-validation";
 import { ensureUserProfile } from "@/lib/supabase/ensure-profile";
@@ -27,6 +28,31 @@ function getRedirectFromForm(formData: FormData): string {
   return sanitizeRedirectPath(typeof raw === "string" ? raw : null);
 }
 
+async function getRequestOrigin(): Promise<string | null> {
+  const headerStore = await headers();
+  const forwardedHost = headerStore.get("x-forwarded-host");
+  const host = forwardedHost ?? headerStore.get("host");
+
+  if (!host) return null;
+
+  const proto =
+    headerStore.get("x-forwarded-proto") ??
+    (host.startsWith("localhost") || host.startsWith("127.0.0.1") ? "http" : "https");
+
+  return `${proto}://${host}`;
+}
+
+function canUseRequestOrigin(origin: string): boolean {
+  let hostname: string;
+  try {
+    hostname = new URL(origin).hostname;
+  } catch {
+    return false;
+  }
+
+  return hostname === "localhost" || hostname === "127.0.0.1" || process.env.VERCEL_ENV === "preview";
+}
+
 export async function signUpAction(_prev: AuthActionState | null, formData: FormData): Promise<AuthActionState> {
   const redirectTo = getRedirectFromForm(formData);
   const validation = validateSignupInput(parseSignupFormData(formData));
@@ -45,12 +71,17 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
     };
   }
 
+  const requestOrigin = await getRequestOrigin();
+  const emailRedirectTo = requestOrigin && canUseRequestOrigin(requestOrigin)
+    ? getAuthCallbackUrlForOrigin(requestOrigin, redirectTo)
+    : getAuthCallbackUrl(redirectTo);
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: { full_name: fullName },
-      emailRedirectTo: getAuthCallbackUrl(redirectTo),
+      emailRedirectTo,
     },
   });
 

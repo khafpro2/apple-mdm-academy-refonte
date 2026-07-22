@@ -1,7 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { mapAuthError, mapAuthCallbackError } from "@/lib/auth/errors";
 import { validatePassword } from "@/lib/auth/password-policy";
-import { getAuthCallbackPath, getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
+import {
+  getAuthCallbackPath,
+  getAuthCallbackUrl,
+  getAuthCallbackUrlForOrigin,
+  getSiteUrl,
+  sanitizeRedirectPath,
+} from "@/lib/auth/url";
 import { parseSignupFormData, validateSignupInput } from "@/lib/auth/signup-validation";
 import {
   isPlaceholderValue,
@@ -34,6 +40,10 @@ const validSignup = {
   fullName: "Jean Dupont",
   acceptTerms: true,
 };
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe("validateSignupInput", () => {
   it("accepte des champs valides", () => {
@@ -143,6 +153,23 @@ describe("sanitizeRedirectPath / auth URLs", () => {
       "https://example.test/auth/callback?redirect=%2Fdashboard"
     );
     process.env.NEXT_PUBLIC_SITE_URL = previous;
+  });
+
+  it("préfère l'origine navigateur pour les callbacks OAuth/reset", () => {
+    const previous = process.env.NEXT_PUBLIC_SITE_URL;
+    process.env.NEXT_PUBLIC_SITE_URL = "https://production.example";
+    vi.stubGlobal("window", { location: { origin: "http://localhost:3000" } });
+
+    expect(getSiteUrl()).toBe("http://localhost:3000");
+    expect(getAuthCallbackUrl("/dashboard")).toBe("http://localhost:3000/auth/callback?redirect=%2Fdashboard");
+
+    process.env.NEXT_PUBLIC_SITE_URL = previous;
+  });
+
+  it("construit un callback depuis une origine de requête serveur", () => {
+    expect(getAuthCallbackUrlForOrigin("https://preview.example/", "/dashboard")).toBe(
+      "https://preview.example/auth/callback?redirect=%2Fdashboard"
+    );
   });
 });
 
