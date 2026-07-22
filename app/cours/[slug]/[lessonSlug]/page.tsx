@@ -16,7 +16,6 @@ import {
   getTotalPoints,
 } from "@/lib/course/helpers";
 import { LabLessonLink } from "@/components/labs/lab-lesson-link";
-import { LessonVideoCallout } from "@/components/video/lesson-video-callout";
 import { CourseReadingModeShell } from "@/components/course/CourseReadingModeShell";
 import { resolveMp4Url } from "@/src/lib/video-production.server";
 import { getLabSlugForLesson } from "@/lib/labs/mapping";
@@ -25,6 +24,8 @@ import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack, isTrackVisible } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
+import { CourseMediaSections } from "@/components/course/course-media-sections";
+import { videoScriptToBundle } from "@/lib/video/resolve-lesson-bundle";
 
 export const dynamicParams = false;
 
@@ -85,6 +86,9 @@ export default async function LessonPage({
   const labSlug = getLabSlugForLesson(lessonSlug);
   const video = getVideoScriptForLesson(lessonSlug);
   const videoMp4 = video ? resolveMp4Url(video.slug) : undefined;
+  const videoBundle = video
+    ? videoScriptToBundle(video, { mp4Url: videoMp4, lessonSlug })
+    : null;
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -162,8 +166,6 @@ export default async function LessonPage({
               </div>
             </header>
 
-            {video && <LessonVideoCallout video={video} hasMp4={Boolean(videoMp4)} />}
-
             <CourseReadingModeShell courseSlug={slug} lessonSlug={lessonSlug}>
               <article className="mt-10 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
                 {CustomLesson ? (
@@ -183,6 +185,22 @@ export default async function LessonPage({
                 <LabLessonLink labSlug={labSlug} />
               </div>
             )}
+
+            <section className="mt-12 rounded-[2rem] border border-border-light bg-surface-elevated p-6 shadow-sm md:p-10">
+              <h2 className="text-xl font-bold text-ink">Médias et ressources</h2>
+              <p className="mt-2 text-sm text-ink-secondary">
+                Vidéo, illustrations, architecture et téléchargements — les contenus seront publiés au fil de la production.
+              </p>
+              <CourseMediaSections
+                className="mt-8"
+                courseSlug={slug}
+                lessonSlug={lessonSlug}
+                moduleLabel={module.title}
+                videoBundle={videoBundle}
+                labSlug={labSlug}
+                quizSlug={content.finalQuizSlug}
+              />
+            </section>
 
             <LessonProgressTracker
               courseSlug={course.slug}
