@@ -114,7 +114,11 @@ Les échecs auth serveur journalisent des codes sans données sensibles :
 AUTH_SIGNUP_FAILED { provider: 'supabase', errorCode: '...' }
 AUTH_LOGIN_FAILED { provider: 'supabase', errorCode: '...' }
 AUTH_CALLBACK_FAILED { provider: 'supabase', errorCode: '...' }
-AUTH_SIGNUP_PROFILE_ENSURE_FAILED { provider: 'supabase', errorCode: 'profile_ensure_failed' }
+AUTH_SIGNUP_PROFILE_SYNC_FAILED { provider: 'supabase', errorCode: 'profile_sync_failed' }
+PROFILE_ENSURE_READ_FAILED { errorCode: '...' }
+PROFILE_ENSURE_INSERT_FAILED { errorCode: '...' }
 ```
 
-Ne jamais logger : mot de passe, tokens, cookies complets, emails, user ids dans les logs signup profil.
+Références utilisateur (sans secret) : `(réf. SIGNUP-AUTH)`, `(réf. PROFILE-READ)`, `(réf. PROFILE-INSERT)`.
+
+Ne jamais logger : mot de passe, tokens, cookies complets, emails, user ids.

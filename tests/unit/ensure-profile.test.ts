@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test, { mock } from "node:test";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { ensureUserProfile } from "../../lib/supabase/ensure-profile.ts";
-import { runSignupProfileEnsure } from "../../lib/auth/signup-profile.ts";
+import { shouldEnsureProfileAfterSignup } from "../../lib/auth/signup-profile.ts";
 import { mapAuthCallbackError } from "../../lib/auth/errors.ts";
 
 type QueryResult = {
@@ -56,6 +56,11 @@ function createMockSupabase(handlers: {
 }
 
 test("ensureUserProfile — insert refusé RLS (42501) => ok:false", async () => {
+  const errors: unknown[] = [];
+  const restore = mock.method(console, "error", (...args: unknown[]) => {
+    errors.push(args);
+  });
+
   const supabase = createMockSupabase({
     select: () => ({ data: null, error: null }),
     insert: () => ({ error: { code: "42501", message: "new row violates row-level security policy" } }),
@@ -64,9 +69,17 @@ test("ensureUserProfile — insert refusé RLS (42501) => ok:false", async () =>
   const result = await ensureUserProfile(supabase, "user-1", "Jean");
   assert.equal(result.ok, false);
   if (result.ok === false) {
-    assert.match(result.error, /Impossible de créer le compte/i);
+    assert.match(result.error, /PROFILE-INSERT/);
   }
   assert.equal(supabase._insertCalls.length, 1);
+
+  const insertLog = errors.find((entry) => Array.isArray(entry) && entry[0] === "PROFILE_ENSURE_INSERT_FAILED") as
+    | unknown[]
+    | undefined;
+  assert.ok(insertLog);
+  assert.equal("userId" in (insertLog[1] as object), false);
+
+  restore.mock.restore();
 });
 
 test("ensureUserProfile — conflit 23505 => ok:true", async () => {
@@ -89,54 +102,35 @@ test("ensureUserProfile — profil existant => pas d'insert", async () => {
   assert.equal(supabase._insertCalls.length, 0);
 });
 
-test("runSignupProfileEnsure — sans session ne doit jamais retourner d'erreur profil", async () => {
-  let ensureCalled = false;
-  const supabase = createMockSupabase({
-    select: () => {
-      ensureCalled = true;
-      return { data: null, error: null };
-    },
-    insert: () => ({ error: { code: "42501", message: "rls" } }),
-  });
-
-  await runSignupProfileEnsure(
-    supabase,
-    { session: null, user: { id: "user-1" } },
-    "Jean Dupont"
-  );
-
-  assert.equal(ensureCalled, false);
-  assert.equal(supabase._insertCalls.length, 0);
-});
-
-test("runSignupProfileEnsure — avec session et échec profil : ne propage pas d'erreur", async () => {
+test("ensureUserProfile — lecture échouée => réf. PROFILE-READ", async () => {
   const errors: unknown[] = [];
   const restore = mock.method(console, "error", (...args: unknown[]) => {
     errors.push(args);
   });
 
   const supabase = createMockSupabase({
-    select: () => ({ data: null, error: null }),
-    insert: () => ({ error: { code: "42501", message: "rls" } }),
+    select: () => ({ data: null, error: { code: "42501", message: "rls" } }),
   });
 
-  await runSignupProfileEnsure(
-    supabase,
-    { session: { access_token: "tok" }, user: { id: "user-1" } },
-    "Jean Dupont"
-  );
-
-  assert.equal(supabase._insertCalls.length, 1);
-  assert.ok(errors.some((entry) => Array.isArray(entry) && entry[0] === "AUTH_SIGNUP_PROFILE_ENSURE_FAILED"));
-  const payload = (errors.find((entry) => Array.isArray(entry) && entry[0] === "AUTH_SIGNUP_PROFILE_ENSURE_FAILED") as unknown[])[1] as Record<
-    string,
-    unknown
-  >;
-  assert.equal(payload.provider, "supabase");
-  assert.equal("userId" in payload, false);
-  assert.equal("email" in payload, false);
+  const result = await ensureUserProfile(supabase, "user-1", "Jean");
+  assert.equal(result.ok, false);
+  if (result.ok === false) {
+    assert.match(result.error, /PROFILE-READ/);
+  }
+  const readLog = errors.find((entry) => Array.isArray(entry) && entry[0] === "PROFILE_ENSURE_READ_FAILED") as
+    | unknown[]
+    | undefined;
+  assert.ok(readLog);
+  assert.equal("userId" in (readLog[1] as object), false);
 
   restore.mock.restore();
+});
+
+test("signUp sans session — ensureUserProfile ne doit jamais être appelé (régression RLS)", () => {
+  assert.equal(shouldEnsureProfileAfterSignup(null, { id: "user-1" }), false);
+  assert.equal(shouldEnsureProfileAfterSignup(undefined, { id: "user-1" }), false);
+  assert.equal(shouldEnsureProfileAfterSignup({ access_token: "t" }, null), false);
+  assert.equal(shouldEnsureProfileAfterSignup({ access_token: "t" }, { id: "user-1" }), true);
 });
 
 test("mapAuthCallbackError — consentement Google refusé", () => {

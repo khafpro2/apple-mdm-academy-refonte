@@ -7,7 +7,7 @@ import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
 import { mapAuthError } from "@/lib/auth/errors";
 import { parseSignupFormData, validateSignupInput } from "@/lib/auth/signup-validation";
 import { ensureUserProfile } from "@/lib/supabase/ensure-profile";
-import { runSignupProfileEnsure } from "@/lib/auth/signup-profile";
+import { shouldEnsureProfileAfterSignup } from "@/lib/auth/signup-profile";
 
 export type AuthActionState = {
   ok: boolean;
@@ -57,7 +57,7 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
 
   if (error) {
     logAuthFailure("signup", error.code);
-    return { ok: false, error: mapAuthError(error, "Impossible de créer le compte pour le moment.") };
+    return { ok: false, error: mapAuthError(error, "Impossible de créer le compte pour le moment. (réf. SIGNUP-AUTH)") };
   }
 
   if (data.user && (!data.user.identities || data.user.identities.length === 0)) {
@@ -69,10 +69,19 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
     };
   }
 
-  // Avec confirmation email active, signUp renvoie data.user SANS session.
-  // ensureUserProfile (RLS: auth.uid() = id) échouerait alors — le profil
-  // est créé par le trigger handle_new_user, puis finalisé au /auth/callback.
-  await runSignupProfileEnsure(supabase, data, fullName);
+  // Sans session (confirmation email active), aucun contexte auth n'existe côté Postgres :
+  // la policy RLS "Users can insert own profile" (with check auth.uid() = id) rejette
+  // l'insert (42501) alors que l'utilisateur Auth est bien créé. Le profil est garanti par
+  // le trigger handle_new_user (security definer) puis complété dans /auth/callback.
+  if (shouldEnsureProfileAfterSignup(data.session, data.user)) {
+    const profileResult = await ensureUserProfile(supabase, data.user!.id, fullName);
+    if (profileResult.ok === false) {
+      console.error("AUTH_SIGNUP_PROFILE_SYNC_FAILED", {
+        provider: "supabase",
+        errorCode: "profile_sync_failed",
+      });
+    }
+  }
 
   revalidatePath("/", "layout");
 
