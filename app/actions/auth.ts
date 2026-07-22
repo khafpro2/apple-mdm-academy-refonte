@@ -7,6 +7,7 @@ import { getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
 import { mapAuthError } from "@/lib/auth/errors";
 import { parseSignupFormData, validateSignupInput } from "@/lib/auth/signup-validation";
 import { ensureUserProfile } from "@/lib/supabase/ensure-profile";
+import { runSignupProfileEnsure } from "@/lib/auth/signup-profile";
 
 export type AuthActionState = {
   ok: boolean;
@@ -68,12 +69,10 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
     };
   }
 
-  if (data.user) {
-    const profileResult = await ensureUserProfile(supabase, data.user.id, fullName);
-    if (profileResult.ok === false) {
-      return { ok: false, error: profileResult.error };
-    }
-  }
+  // Avec confirmation email active, signUp renvoie data.user SANS session.
+  // ensureUserProfile (RLS: auth.uid() = id) échouerait alors — le profil
+  // est créé par le trigger handle_new_user, puis finalisé au /auth/callback.
+  await runSignupProfileEnsure(supabase, data, fullName);
 
   revalidatePath("/", "layout");
 

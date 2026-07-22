@@ -7,7 +7,12 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const origin = getRedirectOrigin(request);
   const code = requestUrl.searchParams.get("code");
+  const oauthError = requestUrl.searchParams.get("error");
   const redirect = sanitizeRedirectPath(requestUrl.searchParams.get("redirect"));
+
+  if (oauthError === "access_denied") {
+    return NextResponse.redirect(`${origin}/auth/login?error=access_denied`);
+  }
 
   if (!code) {
     return NextResponse.redirect(`${origin}/auth/login?error=auth_callback_failed`);
@@ -37,6 +42,7 @@ export async function GET(request: NextRequest) {
   if (user) {
     const fullName =
       (user.user_metadata?.full_name as string | undefined) ??
+      (user.user_metadata?.name as string | undefined) ??
       (user.user_metadata?.fullName as string | undefined) ??
       null;
     await ensureUserProfile(supabase, user.id, fullName);

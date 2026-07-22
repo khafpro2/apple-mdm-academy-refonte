@@ -68,7 +68,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (user && AUTH_PAGES.some((p) => pathname.startsWith(p))) {
+  if ((user || demoSession) && AUTH_PAGES.some((p) => pathname.startsWith(p))) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = sanitizeRedirectPath(request.nextUrl.searchParams.get("redirect"));
     redirectUrl.searchParams.delete("redirect");

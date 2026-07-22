@@ -27,7 +27,8 @@ create policy "Users can insert own profile"
   on public.profiles for insert
   with check (auth.uid() = id);
 
--- Auto-création du profil à l'inscription
+-- Auto-création du profil à l'inscription (email + OAuth Google)
+-- Google fournit souvent `name` plutôt que `full_name` dans raw_user_meta_data.
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -35,7 +36,13 @@ security definer set search_path = ''
 as $$
 begin
   insert into public.profiles (id, full_name)
-  values (new.id, new.raw_user_meta_data ->> 'full_name')
+  values (
+    new.id,
+    coalesce(
+      new.raw_user_meta_data ->> 'full_name',
+      new.raw_user_meta_data ->> 'name'
+    )
+  )
   on conflict (id) do update
     set full_name = coalesce(excluded.full_name, public.profiles.full_name),
         updated_at = now();

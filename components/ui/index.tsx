@@ -34,7 +34,10 @@ export function Button({ variant = "primary", size = "md", className = "", child
       {...props}
     >
       {isLoading && (
-        <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />
+        <span
+          className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none"
+          aria-hidden="true"
+        />
       )}
       {children}
     </button>

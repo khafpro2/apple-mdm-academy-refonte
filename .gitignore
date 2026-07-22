@@ -33,3 +33,8 @@ next-env.d.ts
 *-originals.zip
 jamf-pro-captures/
 jamf-pro-captures.zip
+
+# tests / playwright
+test-results/
+playwright-report/
+tests/e2e/results.json

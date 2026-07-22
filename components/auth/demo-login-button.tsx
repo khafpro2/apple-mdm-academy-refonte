@@ -1,23 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { DEMO_USER_EMAIL, DEMO_USER_PASSWORD } from "@/lib/demo/constants";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
 import { Button } from "@/components/ui";
 import { trackEvent } from "@/lib/analytics/events";
 
-async function startLocalDemoSession(redirect: string, router: ReturnType<typeof useRouter>) {
+async function startLocalDemoSession(redirect: string) {
   const res = await fetch("/api/auth/demo/session", { method: "POST" });
   if (!res.ok) throw new Error("Impossible d'activer le mode démo local.");
   trackEvent("connexion_demo");
-  router.push(redirect);
-  router.refresh();
+  // Navigation pleine page pour garantir l'envoi du cookie Set-Cookie (router.push soft-nav peut le rater).
+  window.location.assign(redirect);
 }
 
 export function DemoLoginButton() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = sanitizeRedirectPath(searchParams.get("redirect"));
   const [loading, setLoading] = useState(false);
@@ -30,23 +29,31 @@ export function DemoLoginButton() {
 
     try {
       if (!supabaseConfigured) {
-        await startLocalDemoSession(redirect, router);
+        await startLocalDemoSession(redirect);
         return;
       }
 
       const supabase = createClient();
-      let signIn = await supabase.auth.signInWithPassword({
+      const signInPromise = supabase.auth.signInWithPassword({
         email: DEMO_USER_EMAIL,
         password: DEMO_USER_PASSWORD,
       });
+      const timeoutPromise = new Promise<{ data: { user: null }; error: Error }>((resolve) => {
+        setTimeout(() => resolve({ data: { user: null }, error: new Error("demo_signin_timeout") }), 4_000);
+      });
+      let signIn = await Promise.race([signInPromise, timeoutPromise]);
 
       if (signIn.error) {
         const provision = await fetch("/api/auth/demo/provision", { method: "POST" });
         const body = (await provision.json()) as { ok?: boolean; error?: string; hint?: string };
 
         if (!provision.ok || !body.ok) {
-          if (body.error === "service_role_missing" || body.error === "supabase_not_configured") {
-            await startLocalDemoSession(redirect, router);
+          if (
+            body.error === "service_role_missing" ||
+            body.error === "supabase_not_configured" ||
+            signIn.error.message === "demo_signin_timeout"
+          ) {
+            await startLocalDemoSession(redirect);
             return;
           }
           throw new Error(body.hint ?? "Compte démo indisponible.");
@@ -60,15 +67,18 @@ export function DemoLoginButton() {
       }
 
       trackEvent("connexion_demo");
-      router.push(redirect);
-      router.refresh();
+      window.location.assign(redirect);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Connexion démo impossible.");
-    } finally {
-      setLoading(false);
+      // Projet Supabase injoignable (ex. clés E2E factices) → bascule mode démo local.
+      try {
+        await startLocalDemoSession(redirect);
+        return;
+      } catch {
+        setError(err instanceof Error ? err.message : "Connexion démo impossible.");
+        setLoading(false);
+      }
     }
   }
-
   return (
     <div className="space-y-3 border-t border-border-light pt-5">
       <p className="text-center text-xs text-ink-tertiary">
