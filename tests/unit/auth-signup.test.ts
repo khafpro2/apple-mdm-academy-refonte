@@ -1,9 +1,19 @@
-import assert from "node:assert/strict";
-import test from "node:test";
-import { mapAuthError } from "../../lib/auth/errors.ts";
-import { validatePassword } from "../../lib/auth/password-policy.ts";
-import { sanitizeRedirectPath } from "../../lib/auth/url.ts";
-import { parseSignupFormData, validateSignupInput } from "../../lib/auth/signup-validation.ts";
+import { describe, expect, it } from "vitest";
+import { mapAuthError, mapAuthCallbackError } from "@/lib/auth/errors";
+import { validatePassword } from "@/lib/auth/password-policy";
+import { getAuthCallbackPath, getAuthCallbackUrl, sanitizeRedirectPath } from "@/lib/auth/url";
+import { parseSignupFormData, validateSignupInput } from "@/lib/auth/signup-validation";
+import {
+  isPlaceholderValue,
+  isSupabaseConfigured,
+  validateAnonKey,
+  validateSiteUrl,
+  validateSupabaseUrl,
+} from "@/lib/supabase/env-validation";
+import {
+  createDemoSessionCookieValue,
+  isValidDemoSessionCookieValue,
+} from "@/lib/demo/demo-session-cookie";
 
 function form(entries: Record<string, string | boolean>): FormData {
   const fd = new FormData();
@@ -25,75 +35,152 @@ const validSignup = {
   acceptTerms: true,
 };
 
-test("validateSignupInput — champs valides", () => {
-  const result = validateSignupInput(validSignup);
-  assert.equal(result.ok, true);
+describe("validateSignupInput", () => {
+  it("accepte des champs valides", () => {
+    expect(validateSignupInput(validSignup).ok).toBe(true);
+  });
+
+  it("rejette un email invalide", () => {
+    const result = validateSignupInput({ ...validSignup, email: "not-an-email" });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error).toMatch(/email/i);
+      expect(result.field).toBe("email");
+    }
+  });
+
+  it("exige le nom complet", () => {
+    const result = validateSignupInput({ ...validSignup, fullName: "" });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.field).toBe("fullName");
+  });
+
+  it("détecte des mots de passe différents", () => {
+    const result = validateSignupInput({ ...validSignup, confirmPassword: "OtherPass1" });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toMatch(/correspondent pas/i);
+  });
+
+  it("rejette un mot de passe trop faible", () => {
+    const result = validateSignupInput({ ...validSignup, password: "abc", confirmPassword: "abc" });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.field).toBe("password");
+  });
+
+  it("exige l'acceptation des CGU", () => {
+    const result = validateSignupInput({ ...validSignup, acceptTerms: false });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.field).toBe("acceptTerms");
+  });
 });
 
-test("validateSignupInput — email invalide", () => {
-  const result = validateSignupInput({ ...validSignup, email: "not-an-email" });
-  assert.equal(result.ok, false);
-  if (!result.ok) {
-    assert.match(result.error, /email/i);
-    assert.equal(result.field, "email");
-  }
+describe("parseSignupFormData", () => {
+  it("trim les espaces", () => {
+    const parsed = parseSignupFormData(
+      form({
+        email: "  user@example.com  ",
+        fullName: "  Jean  ",
+        password: "ValidPass1",
+        confirmPassword: "ValidPass1",
+        acceptTerms: true,
+      })
+    );
+    expect(parsed.email).toBe("user@example.com");
+    expect(parsed.fullName).toBe("Jean");
+  });
 });
 
-test("validateSignupInput — champs obligatoires", () => {
-  const result = validateSignupInput({ ...validSignup, fullName: "" });
-  assert.equal(result.ok, false);
-  if (!result.ok) assert.equal(result.field, "fullName");
+describe("validatePassword", () => {
+  it("applique les règles minimales", () => {
+    expect(validatePassword("ValidPass1").valid).toBe(true);
+    expect(validatePassword("short1A").valid).toBe(false);
+  });
 });
 
-test("validateSignupInput — mots de passe différents", () => {
-  const result = validateSignupInput({ ...validSignup, confirmPassword: "OtherPass1" });
-  assert.equal(result.ok, false);
-  if (!result.ok) assert.match(result.error, /correspondent pas/i);
+describe("mapAuthError", () => {
+  it("mappe un compte déjà existant", () => {
+    expect(mapAuthError({ message: "User already registered" })).toMatch(/existe déjà/i);
+  });
+
+  it("mappe signup_disabled", () => {
+    expect(mapAuthError({ code: "signup_disabled" })).toMatch(/désactivées/i);
+    expect(mapAuthError({ message: "Signups not allowed for this instance" })).toMatch(/désactivées/i);
+  });
+
+  it("mappe un échec d'envoi email", () => {
+    expect(mapAuthError({ message: "Error sending confirmation email" })).toMatch(/envoyer l'email/i);
+  });
+
+  it("masque les erreurs fournisseur inconnues", () => {
+    expect(
+      mapAuthError({ message: "Internal server error XYZ" }, "Impossible de créer le compte pour le moment.")
+    ).toBe("Impossible de créer le compte pour le moment.");
+  });
+
+  it("mappe les erreurs de callback", () => {
+    expect(mapAuthCallbackError("auth_callback_failed")).toMatch(/confirmation/i);
+    expect(mapAuthCallbackError("oauth_denied")).toMatch(/Google/i);
+    expect(mapAuthCallbackError(null)).toBeNull();
+  });
 });
 
-test("validateSignupInput — mot de passe insuffisant", () => {
-  const result = validateSignupInput({ ...validSignup, password: "abc", confirmPassword: "abc" });
-  assert.equal(result.ok, false);
-  if (!result.ok) assert.equal(result.field, "password");
+describe("sanitizeRedirectPath / auth URLs", () => {
+  it("bloque les open-redirects", () => {
+    expect(sanitizeRedirectPath("//evil.com")).toBe("/dashboard");
+    expect(sanitizeRedirectPath("https://evil.com")).toBe("/dashboard");
+    expect(sanitizeRedirectPath("/dashboard")).toBe("/dashboard");
+    expect(sanitizeRedirectPath("/courses?x=1")).toBe("/courses?x=1");
+  });
+
+  it("construit le chemin callback", () => {
+    expect(getAuthCallbackPath("/dashboard")).toBe("/auth/callback?redirect=%2Fdashboard");
+  });
+
+  it("utilise NEXT_PUBLIC_SITE_URL pour l'URL complète", () => {
+    const previous = process.env.NEXT_PUBLIC_SITE_URL;
+    process.env.NEXT_PUBLIC_SITE_URL = "https://example.test";
+    expect(getAuthCallbackUrl("/dashboard")).toBe(
+      "https://example.test/auth/callback?redirect=%2Fdashboard"
+    );
+    process.env.NEXT_PUBLIC_SITE_URL = previous;
+  });
 });
 
-test("validateSignupInput — CGU non acceptées", () => {
-  const result = validateSignupInput({ ...validSignup, acceptTerms: false });
-  assert.equal(result.ok, false);
-  if (!result.ok) assert.equal(result.field, "acceptTerms");
+describe("env-validation", () => {
+  it("détecte les placeholders", () => {
+    expect(isPlaceholderValue("your-anon-key")).toBe(true);
+    expect(isPlaceholderValue("https://abcd.supabase.co")).toBe(false);
+  });
+
+  it("valide URL et clé anon", () => {
+    expect(validateSupabaseUrl("https://abcd.supabase.co").state).toBe("configured");
+    expect(validateSupabaseUrl("https://your-project.supabase.co").state).toBe("invalid");
+    expect(validateAnonKey("short").state).toBe("invalid");
+    expect(validateAnonKey("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.demo").state).toBe("configured");
+    expect(validateSiteUrl("https://app.apple-mdm-academy.test").state).toBe("configured");
+    expect(isSupabaseConfigured("https://abcd.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.demo")).toBe(
+      true
+    );
+  });
 });
 
-test("parseSignupFormData — trim des espaces", () => {
-  const parsed = parseSignupFormData(
-    form({
-      email: "  user@example.com  ",
-      fullName: "  Jean  ",
-      password: "ValidPass1",
-      confirmPassword: "ValidPass1",
-      acceptTerms: true,
-    })
-  );
-  assert.equal(parsed.email, "user@example.com");
-  assert.equal(parsed.fullName, "Jean");
-});
+describe("demo session cookie", () => {
+  it("accepte la valeur simple sans secret", () => {
+    const previous = process.env.DEMO_SESSION_SECRET;
+    delete process.env.DEMO_SESSION_SECRET;
+    expect(createDemoSessionCookieValue()).toBe("1");
+    expect(isValidDemoSessionCookieValue("1")).toBe(true);
+    expect(isValidDemoSessionCookieValue("0")).toBe(false);
+    process.env.DEMO_SESSION_SECRET = previous;
+  });
 
-test("validatePassword — règles minimales", () => {
-  assert.equal(validatePassword("ValidPass1").valid, true);
-  assert.equal(validatePassword("short1A").valid, false);
-});
-
-test("mapAuthError — compte déjà existant", () => {
-  const message = mapAuthError({ message: "User already registered" });
-  assert.match(message, /existe déjà/i);
-});
-
-test("mapAuthError — erreur fournisseur masquée", () => {
-  const message = mapAuthError({ message: "Internal server error XYZ" }, "Impossible de créer le compte pour le moment.");
-  assert.equal(message, "Impossible de créer le compte pour le moment.");
-});
-
-test("sanitizeRedirectPath — bloque les domaines externes", () => {
-  assert.equal(sanitizeRedirectPath("//evil.com"), "/dashboard");
-  assert.equal(sanitizeRedirectPath("https://evil.com"), "/dashboard");
-  assert.equal(sanitizeRedirectPath("/dashboard"), "/dashboard");
+  it("signe et vérifie avec DEMO_SESSION_SECRET", () => {
+    const previous = process.env.DEMO_SESSION_SECRET;
+    process.env.DEMO_SESSION_SECRET = "unit-test-secret-16chars";
+    const value = createDemoSessionCookieValue();
+    expect(value.startsWith("1.")).toBe(true);
+    expect(isValidDemoSessionCookieValue(value)).toBe(true);
+    expect(isValidDemoSessionCookieValue("1.tampered")).toBe(false);
+    process.env.DEMO_SESSION_SECRET = previous;
+  });
 });

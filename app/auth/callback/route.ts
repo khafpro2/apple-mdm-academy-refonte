@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
   if (user) {
     const fullName =
       (user.user_metadata?.full_name as string | undefined) ??
+      (user.user_metadata?.name as string | undefined) ??
       (user.user_metadata?.fullName as string | undefined) ??
       null;
     await ensureUserProfile(supabase, user.id, fullName);

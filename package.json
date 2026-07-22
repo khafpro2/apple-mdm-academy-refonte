@@ -26,9 +26,10 @@
     "test:exams": "npx --yes tsx scripts/test-exam-engine.ts",
     "audit:pedagogy": "npx --yes tsx -e \"import { runPedagogicalAudit } from './lib/audit/pedagogical-audit.ts'; const a=runPedagogicalAudit(); console.log('Score global:', a.scores.global, a.scores);\"",
     "type-check": "tsc --noEmit",
-    "test": "npx --yes tsx --test tests/unit/**/*.test.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:e2e:auth": "playwright test tests/e2e/auth-signup.spec.ts"
+    "test:e2e:auth": "playwright test tests/e2e/auth-signup.spec.ts tests/e2e/auth-proxy.spec.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
@@ -56,7 +57,8 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.7",
     "playwright": "^1.52.0",
-    "sharp": "^0.34.2"
+    "sharp": "^0.34.2",
+    "vitest": "^3.2.7"
   },
   "engines": {
     "node": ">=20.0.0"

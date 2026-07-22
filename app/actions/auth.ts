@@ -68,11 +68,17 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
     };
   }
 
-  if (data.user) {
+  // Avec confirmation email, signUp n'établit souvent aucune session :
+  // RLS bloque alors ensureUserProfile. Le trigger SQL + /auth/callback
+  // créent / finalisent le profil — ne pas faire échouer l'inscription.
+  if (data.user && data.session) {
     const profileResult = await ensureUserProfile(supabase, data.user.id, fullName);
     if (profileResult.ok === false) {
+      console.error("PROFILE_ENSURE_SIGNUP_FAILED", { errorCode: "profile_ensure_failed" });
       return { ok: false, error: profileResult.error };
     }
+  } else if (data.user && !data.session) {
+    console.info("AUTH_SIGNUP_PENDING_CONFIRMATION", { provider: "supabase" });
   }
 
   revalidatePath("/", "layout");
@@ -111,6 +117,7 @@ export async function signInAction(_prev: AuthActionState | null, formData: Form
   if (data.user) {
     const fullName =
       (data.user.user_metadata?.full_name as string | undefined) ??
+      (data.user.user_metadata?.name as string | undefined) ??
       (data.user.user_metadata?.fullName as string | undefined) ??
       null;
     await ensureUserProfile(supabase, data.user.id, fullName);
