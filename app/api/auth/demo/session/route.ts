@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { DEMO_SESSION_COOKIE } from "@/lib/demo/constants";
+import { createDemoSessionCookieValue } from "@/lib/demo/demo-session-cookie";
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -12,7 +13,7 @@ const COOKIE_OPTIONS = {
 /** Active le mode démo local (sans Supabase) — cookie lecture seule côté dashboard. */
 export async function POST() {
   const response = NextResponse.json({ ok: true, mode: "local_demo" });
-  response.cookies.set(DEMO_SESSION_COOKIE, "1", COOKIE_OPTIONS);
+  response.cookies.set(DEMO_SESSION_COOKIE, createDemoSessionCookieValue(), COOKIE_OPTIONS);
   return response;
 }
 

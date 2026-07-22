@@ -3,12 +3,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
 import { DEMO_USER_EMAIL, DEMO_SESSION_COOKIE } from "@/lib/demo/constants";
+import { isValidDemoSessionCookieValue } from "@/lib/demo/demo-session-cookie";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
 const AUTH_PAGES = ["/auth/login", "/auth/signup", "/auth/check-email"];
 
 function hasDemoSession(request: NextRequest): boolean {
-  return request.cookies.get(DEMO_SESSION_COOKIE)?.value === "1";
+  return isValidDemoSessionCookieValue(request.cookies.get(DEMO_SESSION_COOKIE)?.value);
 }
 
 export async function updateSession(request: NextRequest) {

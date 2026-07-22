@@ -1,10 +1,10 @@
 /** URL de base du site (prod Vercel ou local) */
 export function getSiteUrl(): string {
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
-  }
   if (typeof window !== "undefined") {
     return window.location.origin;
+  }
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
   }
   return "http://localhost:3000";
 }
@@ -18,6 +18,10 @@ export function getAuthCallbackPath(redirect = "/dashboard"): string {
 /** URL complète du callback pour emailRedirectTo Supabase */
 export function getAuthCallbackUrl(redirect = "/dashboard"): string {
   return `${getSiteUrl()}${getAuthCallbackPath(redirect)}`;
+}
+
+export function getAuthCallbackUrlForOrigin(origin: string, redirect = "/dashboard"): string {
+  return `${origin.replace(/\/$/, "")}${getAuthCallbackPath(redirect)}`;
 }
 
 /** Empêche les open-redirects (chemins relatifs internes uniquement) */
