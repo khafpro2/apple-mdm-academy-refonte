@@ -68,7 +68,9 @@ export async function signUpAction(_prev: AuthActionState | null, formData: Form
     };
   }
 
-  if (data.user) {
+  // Profil sans session : créé par le trigger handle_new_user (security definer).
+  // ensureUserProfile nécessite auth.uid() (RLS) — uniquement si session immédiate.
+  if (data.session && data.user) {
     const profileResult = await ensureUserProfile(supabase, data.user.id, fullName);
     if (profileResult.ok === false) {
       return { ok: false, error: profileResult.error };
