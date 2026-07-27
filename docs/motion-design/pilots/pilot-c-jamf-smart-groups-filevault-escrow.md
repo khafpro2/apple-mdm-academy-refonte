@@ -114,6 +114,8 @@ Représentation détaillée : `scene-005-jamf-smart-groups-filevault-escrow-flow
 
 Résolution 1920×1080, export `.webp`. Toutes les captures **doivent** provenir d'une instance Jamf Pro de laboratoire dédiée — jamais d'un tenant de production.
 
+**Aucun asset officiel disponible pour ces 21 captures.** Vérifié : `public/images/courses/jamf-originals/SOURCES.md` confirme explicitement que « Jamf ne publie pas de remplacements 1:1 pour tous les écrans (**Smart Groups**, Packages, etc.) ». Seuls 3 visuels Jamf officiels existent (Dashboard, Mobile Devices, Inventory) — aucun ne couvre Smart Groups ni FileVault. **⚠️ Ne pas utiliser** `jamf-pro-captures/*.webp` ni `public/images/courses/{jamf,filevault}/*.webp` : ce sont des illustrations **générées par IA** (`generation-manifest.json`). Un examen visuel de `jamf-pro-captures/67-smart-groups.webp` a confirmé une interface **factuellement inventée** (tableau générique d'inventaire d'appareils identique à celui vu sur l'image APNs générée du pilote (b) — signe clair de réutilisation de gabarit IA, pas une vraie capture Jamf Pro). `public/video-assets/screenshots/jamf-smart-groups.webp` est une illustration plus soignée (colonnes Smart Group/Criteria/Operator/Members cohérentes avec la vraie UI Jamf) mais reste générée, pas une capture réelle — ne pas la présenter comme un écran authentique.
+
 ## 7. Interdictions de sécurité (bloquantes)
 
 | Donnée | Remplacement obligatoire |

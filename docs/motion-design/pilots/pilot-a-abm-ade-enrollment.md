@@ -73,6 +73,8 @@ Source du storyboard détaillé (acteurs, connecteurs, instructions Firefly/Canv
 | ADE-01 | Setup Assistant — écran de supervision / gestion à distance | À produire |
 | ADE-02 | Confirmation d'inscription réussie côté MDM (Jamf Pro ou Intune) | À produire |
 
+**Aucun asset officiel disponible pour ces 4 captures.** Vérifié : `public/images/courses/apple-originals/SOURCES.md` confirme qu'Apple ne publie pas de capture 1:1 pour les écrans ABM/ADE — seuls 2 visuels Apple officiels existent (fédération d'authentification, Apps & Books), sans rapport avec l'attribution ABM ou le Setup Assistant. **⚠️ Ne pas utiliser** les images dans `public/images/courses/{apple-business-manager,ade}/*.webp` : ce sont des illustrations **générées par IA** (voir `generation-manifest.json`), pas des captures réelles — un examen visuel de l'équivalent pour le pilote (b) a révélé des interfaces factuellement inventées (ex. tableau d'inventaire qui n'existe pas réellement).
+
 Résolution 1920×1080, export `.webp`, suivre `app/resources/guide-captures-video`. Flouter tout identifiant Apple, numéro de série ou nom d'organisation réel.
 
 ## 6. Illustrations motion design
