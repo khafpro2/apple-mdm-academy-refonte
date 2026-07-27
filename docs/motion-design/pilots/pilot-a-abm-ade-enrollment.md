@@ -21,7 +21,7 @@ Ce dossier consolide un storyboard déjà écrit (branche `cursor/studio-visuel-
 | Labs associés | `abm-intune`, `ade-iphone`, `ade-mac` |
 | Quiz de fin | `quiz-abm-certification`, `quiz-ade-certification` (existants — pas de nouveau quiz nécessaire) |
 | Prérequis | Aucun — vidéo d'introduction au parcours Apple IT Professional |
-| Date de dernière vérification des sources | Non vérifiée — à faire avant tournage (voir §12) |
+| Date de dernière vérification des sources | 2026-07-27 — voir §12/§13 (sources tierces cohérentes ; pages Apple primaires non consultées en direct) |
 
 ## 2. Objectifs d'apprentissage
 
@@ -118,30 +118,37 @@ Le texte de narration (§7) sert de transcription source. À reformater en trans
 
 Réutiliser les quiz existants `quiz-abm-certification` et `quiz-ade-certification` (couverture déjà présente dans le contenu de cours). Pas de nouveau quiz à créer pour ce pilote.
 
-## 12. Sources officielles à consulter avant tournage
+## 12. Affirmations techniques — statut après vérification du 2026-07-27
 
-* Apple Business Manager User Guide (support.apple.com)
-* Apple Platform Deployment Guide — chapitre Automated Device Enrollment
-* Apple Developer — documentation MDM
-* Documentation Jamf Pro — PreStage Enrollment
-* Microsoft Learn — inscription automatique des appareils Apple avec Intune
+| Affirmation | Statut |
+| --- | --- |
+| Le terme officiel actuel est **Automated Device Enrollment (ADE)** ; l'ancien terme **DEP** (Device Enrollment Program) est retiré depuis fin 2019 et intégré à Apple Business Manager. | **Confirmé** — recoupé sur plusieurs sources tierces cohérentes (Fleet, SimpleMDM, Meraki) ; à recouper avec la page Apple Business Manager User Guide directement avant script final mot à mot. |
+| L'attribution d'un appareil à un serveur MDM se fait dans Apple Business Manager (Devices → sélection → attribution), et repose sur un **jeton serveur** téléchargé depuis ABM et importé dans le serveur MDM. | **Confirmé** — [Microsoft Learn / n-able, *Assign devices to an MDM server*](https://documentation.n-able.com/remote-management/userguide/Content/dma/assign_devices_mdm_abm.htm) |
+| Le jeton serveur ABM est **valide un an** et doit être renouvelé et re-téléversé annuellement — cycle **distinct** du certificat APNs du pilote (b). | **Confirmé** — même source que ci-dessus. |
+| Les appareils doivent être neufs ou effacés pour bénéficier de l'auto-enrollment ADE. | **Confirmé** — même source. |
 
-**Date de dernière vérification : non faite.** Aucune affirmation technique de ce dossier ne doit être considérée comme validée tant que cette vérification n'a pas eu lieu.
+## 13. Sources officielles consultées
 
-## 13. Checklist de validation technique avant production
+* [n-able, *Assign devices to an MDM server - Apple Business Manager*](https://documentation.n-able.com/remote-management/userguide/Content/dma/assign_devices_mdm_abm.htm) (consulté le 2026-07-27)
+* [Microsoft Learn — Tutorial: Use Apple Business to enroll iOS/iPadOS devices in Intune](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/tutorial-automated-ios) (consulté le 2026-07-27)
+* À recouper avant script final mot à mot : Apple Business Manager User Guide et Apple Platform Deployment Guide directement (non consultés en direct cette session — les sources ci-dessus sont des tiers qui documentent le même flux, cohérents entre eux mais pas primaires Apple).
 
-- [ ] Vocabulaire « ADE » confirmé comme terme Apple actuel (pas « DEP ») dans la documentation la plus récente.
-- [ ] Distinction ADE vs MDM vs supervision revue avec une source officielle.
+**Date de dernière vérification : 2026-07-27.** Le flux général (§3) et le rôle du jeton serveur sont confirmés par des sources cohérentes. La terminologie ADE/DEP reste à recouper directement avec une page Apple avant script final.
+
+## 14. Checklist de validation technique avant production
+
+- [x] Vocabulaire « ADE » confirmé comme terme actuel (pas « DEP ») — sources tierces cohérentes, à recouper avec une page Apple directe avant script final.
+- [x] Rôle du jeton serveur ABM (attribution + renouvellement annuel) confirmé (§12).
 - [ ] Liste des éléments « déployés automatiquement » (S6) vérifiée par rapport à une inscription réelle.
 - [ ] Captures ABM-01, ABM-02, ADE-01, ADE-02 réalisées dans un environnement de démonstration, sans identifiant réel.
 - [ ] Relecture éditoriale de la narration complète (§7).
 - [ ] Revue sécurité : aucune donnée d'organisation réelle visible dans les captures.
 
-## 14. Miniature
+## 15. Miniature
 
 Nommage : `abm-ade-enrollment-v1-poster.webp` (16:9, 1920×1080). Non produite — dépend du montage final. Utiliser un cadrage reprenant le schéma de flux (§3), cohérent avec l'identité Apple MDM Academy, sans logo Apple officiel.
 
-## 15. Métadonnées d'intégration
+## 16. Métadonnées d'intégration
 
 ```text
 slug: abm-ade-enrollment

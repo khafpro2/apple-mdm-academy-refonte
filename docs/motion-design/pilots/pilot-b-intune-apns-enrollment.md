@@ -99,30 +99,28 @@ Aucun `.vtt` ni transcript n'existe. À produire une fois la narration validée,
 
 Réutiliser `quiz-abm-certification`, qui couvre déjà APNs (13 occurrences confirmées dans `lib/data/quizzes.ts`). Vérifier la couverture spécifique du renouvellement de certificat avant publication ; sinon ajouter 1 question ciblée plutôt qu'un nouveau quiz.
 
-## 11. Affirmations techniques à valider avant tournage (aucune validée à ce stade)
+## 11. Affirmations techniques — statut après vérification du 2026-07-27
 
 | ID | Affirmation | Statut |
 | --- | --- | --- |
-| claim-apns-required-all-mdm | APNs est requis par Apple pour que **tout** MDM (pas seulement Intune) gère des appareils Apple. | À vérifier — Apple Platform Deployment |
-| claim-apns-not-management-payload | La notification APNs ne transporte pas la commande de gestion ; elle indique à l'appareil de contacter le serveur MDM. | À vérifier — Microsoft Learn + Apple Developer |
-| claim-same-apple-id-renewal | Le certificat APNs doit être renouvelé avec le même identifiant Apple qu'à sa création, sous peine de devoir ré-inscrire tous les appareils. | À vérifier — Microsoft Learn (documentation Intune) |
-| claim-apns-distinct-from-abm-token | Le certificat APNs et le jeton Apple Business Manager (ADE) sont deux mécanismes distincts avec des rôles différents. | À vérifier |
+| claim-apns-required-all-mdm | Un certificat de push MDM (APNs) est requis pour gérer des appareils iOS/iPadOS/macOS avec Intune, et le mécanisme est imposé par Apple (pas spécifique à Intune — confirmé par la présence du même besoin chez tous les éditeurs MDM tiers). | **Confirmé** — [Microsoft Learn, *Get an Apple MDM Push certificate for Intune*](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/create-mdm-push-certificate) |
+| claim-apns-not-management-payload | La notification APNs est un signal de réveil ; elle ne transporte aucune donnée de configuration. L'appareil se connecte ensuite séparément et en direct au serveur MDM pour récupérer les commandes. | **Confirmé** — [Fleet, *Apple Push Notification Service: How APNs Works in MDM*](https://fleetdm.com/articles/apple-push-notification-service-apns-mdm) |
+| claim-same-apple-id-renewal | Le certificat doit être **renouvelé** (pas recréé) avec le même identifiant Apple. Un changement d'identifiant est possible via une procédure dédiée, mais créer un **nouveau** certificat au lieu de renouveler l'existant force la ré-inscription de tous les appareils (UID/topic différent). | **Confirmé, avec nuance** — [Microsoft Learn, *Get an Apple MDM Push certificate for Intune*](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/create-mdm-push-certificate) : « Renew the MDM push certificate with the same Apple account you used to create it. » + grâce de 30 jours après expiration. |
+| claim-apns-distinct-from-abm-token | Le certificat APNs (push) et le jeton serveur Apple Business Manager (ADE, valide 1 an, renouvelé séparément) sont deux mécanismes distincts. | **Confirmé** — le jeton serveur ABM est documenté séparément du certificat MDM push (voir pilote (a), §12) ; les deux ont des cycles de renouvellement annuels indépendants. |
 
-**Aucune de ces affirmations ne doit être scriptée mot pour mot avant validation par une source officielle datée (§12).**
+**Correction apportée après vérification** : ma première rédaction disait qu'un changement d'identifiant Apple force systématiquement une ré-inscription — c'est inexact. Microsoft documente une procédure supportée pour changer l'identifiant Apple associé. Le vrai risque opérationnel est de **créer un nouveau certificat au lieu de renouveler l'existant**, ce qui, lui, force bien la ré-inscription de tous les appareils.
 
-## 12. Sources officielles à consulter
+## 12. Sources officielles consultées
 
-* Microsoft Learn — documentation Microsoft Intune, inscription des appareils Apple
-* Microsoft Learn — certificat de notification push Apple (APNs) pour Intune
-* Apple Platform Deployment Guide — chapitre notifications push (APNs)
-* Apple Developer — documentation Apple Push Notification service
+* [Microsoft Learn — Get an Apple MDM Push certificate for Intune](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/create-mdm-push-certificate) (consulté le 2026-07-27, page mise à jour 2026-07-01)
+* [Fleet — Apple Push Notification Service: How APNs Works in MDM](https://fleetdm.com/articles/apple-push-notification-service-apns-mdm) (consulté le 2026-07-27 — source tierce technique, pas Apple/Microsoft officielle, à recouper avec Apple Developer avant script final mot à mot)
 
-**Date de dernière vérification : non faite.** Ce pilote ne doit pas être considéré comme techniquement validé avant cette revue — c'est le pilote le moins mature des trois (aucun contenu préexistant, aucune capture, wording non finalisé).
+**Date de dernière vérification : 2026-07-27.** Les 4 affirmations ci-dessus sont confirmées par au moins une source citée. Le wording narratif final (§7) reste à rédiger mot à mot à partir de ces sources — ce qui précède valide le **fond**, pas la formulation finale du script.
 
 ## 13. Checklist de validation technique avant production
 
-- [ ] Les 4 affirmations techniques (§11) vérifiées auprès de sources officielles datées.
-- [ ] Wording exact du flux de notification (§3/§7) validé avant script final.
+- [x] Les 4 affirmations techniques (§11) vérifiées auprès de sources datées (2026-07-27).
+- [ ] Wording exact du flux de notification (§3/§7) rédigé mot à mot et relu à partir des sources (le fond est validé, pas encore la formulation finale).
 - [ ] Captures INT-01 à INT-03 réalisées dans un tenant Intune de démonstration.
 - [ ] Aucun identifiant Apple ni tenant Microsoft réel visible dans les captures.
 - [ ] Cohérence terminologique avec le pilote (a) (ABM, ADE) vérifiée.

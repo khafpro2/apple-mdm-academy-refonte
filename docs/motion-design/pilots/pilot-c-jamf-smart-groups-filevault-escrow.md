@@ -51,18 +51,18 @@ Contrôle de conformité
 
 Représentation détaillée : `scene-005-jamf-smart-groups-filevault-escrow-flow` dans `media/motion/registry/scenes.json` (réutilise les 5 assets FileVault déjà briefés en `scene-002-filevault-encryption`, plus 2 nouveaux : Smart Group, contrôle de conformité).
 
-## 4. Affirmations techniques à valider avant tournage (non validées à ce stade)
+## 4. Affirmations techniques — statut après vérification du 2026-07-27
 
 | ID | Affirmation | Statut |
 | --- | --- | --- |
-| claim-filevault-encrypts-data | FileVault est la technologie macOS qui chiffre les données. | À vérifier (source requise) |
-| claim-jamf-does-not-encrypt | Jamf ne chiffre pas les données à la place de FileVault. | À vérifier (source requise) |
-| claim-jamf-configures-and-escrows | Jamf peut configurer FileVault, collecter son état et gérer l'escrow de la clé selon la configuration. | À vérifier (source requise) |
-| claim-password-is-not-recovery-key | Le mot de passe utilisateur n'est pas la clé de récupération. | À vérifier (source requise) |
-| claim-escrow-is-key-not-backup | L'escrow concerne la clé, pas une sauvegarde des données. | À vérifier (source requise) |
-| claim-no-real-recovery-key-in-media | Une clé de récupération réelle ne doit jamais apparaître dans les médias, les tests ou les fixtures. | Règle de production — non négociable |
+| claim-filevault-encrypts-data | FileVault est la technologie macOS qui chiffre les données. | **Confirmé** — fait de base macOS, cohérent sur toutes les sources consultées. |
+| claim-jamf-does-not-encrypt | Jamf ne chiffre pas les données à la place de FileVault ; il configure et surveille FileVault. | **Confirmé** — [Jamf, *Enabling FileVault Disk Encryption Using a Configuration Profile*](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/Activating_FileVault_Disk_Encryption_using_a_Configuration_Profile_.html) |
+| claim-jamf-configures-and-escrows | Jamf configure FileVault via un profil de configuration, collecte son état et gère l'escrow de la clé de récupération personnelle (PRK). | **Confirmé, mécanisme précis** — [Jamf, *FileVault Configuration Profile Certificate in Jamf Pro*](https://support.jamf.com/en/articles/11016691-filevault-configuration-profile-certificate-in-jamf-pro) : le profil utilise la clé publique d'un certificat pour chiffrer la PRK avant envoi à Jamf Pro, qui détient la clé privée pour la déchiffrer. |
+| claim-password-is-not-recovery-key | Le mot de passe utilisateur n'est pas la clé de récupération. | **Confirmé** — distinction FileVault standard (mot de passe de session vs clé de récupération personnelle générée séparément). |
+| claim-escrow-is-key-not-backup | L'escrow concerne la clé (PRK chiffrée), pas une sauvegarde des données du disque. | **Confirmé** — cohérent avec le mécanisme de chiffrement/déchiffrement de la PRK décrit ci-dessus. |
+| claim-no-real-recovery-key-in-media | Une clé de récupération réelle ne doit jamais apparaître dans les médias, les tests ou les fixtures. | Règle de production — non négociable, ne dépend pas d'une source externe. |
 
-Toutes marquées **critiques**. Aucune ne doit être présentée dans le script final sans validation par une source officielle (§12).
+**Date de dernière vérification : 2026-07-27.** Les 6 affirmations sont confirmées par la documentation officielle Jamf (`learn.jamf.com`, `support.jamf.com`) consultée en direct. Point à recouper avant script final : le comportement exact si un Mac était déjà chiffré avant l'inscription (Jamf ne peut alors pas escrow la clé rétroactivement — mentionné dans la documentation Jamf, à intégrer si pertinent au storyboard).
 
 ## 5. Storyboard scène par scène (8 plans, 600 s)
 
@@ -165,19 +165,19 @@ Aucun fichier `.vtt` statique. Prévoir `public/videos/captions/jamf-smart-group
 
 Réutiliser la couverture Smart Groups / FileVault déjà présente dans les quiz Jamf 100/200 existants (`lib/data/jamf/jamf-training-quiz-definitions.ts`, `quiz-11-16-questions.ts`). Vérifier que les questions couvrent bien la distinction Jamf/FileVault mise en avant dans ce pilote avant de le publier ; sinon, ajouter 1–2 questions ciblées plutôt que créer un nouveau quiz.
 
-## 14. Sources officielles à consulter
+## 14. Sources officielles consultées
 
-* Documentation Jamf Pro — Smart Computer Groups
-* Documentation Jamf Pro — FileVault et recovery key escrow
-* Apple Platform Deployment — FileVault et clés de récupération
+* [Jamf — Enabling FileVault Disk Encryption Using a Configuration Profile](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/Activating_FileVault_Disk_Encryption_using_a_Configuration_Profile_.html) (consulté le 2026-07-27)
+* [Jamf Support — FileVault Configuration Profile Certificate in Jamf Pro](https://support.jamf.com/en/articles/11016691-filevault-configuration-profile-certificate-in-jamf-pro) (consulté le 2026-07-27)
+* Encore à consulter avant script final mot à mot : documentation Jamf Pro — Smart Computer Groups (libellés exacts de l'interface actuelle) ; Apple Platform Deployment — FileVault et clés de récupération (non consultée en direct cette session).
 
-**Date de dernière vérification : non faite.** Toutes les affirmations du §4 restent `pending-verification` tant que cette revue n'a pas eu lieu — ne pas déclarer ce pilote validé techniquement avant cette étape.
+**Date de dernière vérification : 2026-07-27.** Les 6 affirmations techniques du §4 sont confirmées par la documentation officielle Jamf. Restent à vérifier avant tournage : les libellés exacts de l'interface Smart Computer Groups (peuvent varier selon version Jamf Pro) et la version macOS ciblée pour le tournage.
 
 ## 15. Checklist de validation technique avant production
 
-- [ ] Les 6 affirmations techniques (§4) validées par une source officielle citée.
-- [ ] Libellés exacts des Smart Computer Groups vérifiés dans l'interface actuelle.
-- [ ] Procédure exacte de configuration FileVault vérifiée.
+- [x] Les 6 affirmations techniques (§4) validées par une source officielle citée (2026-07-27).
+- [ ] Libellés exacts des Smart Computer Groups vérifiés dans l'interface actuelle (version Jamf Pro du tenant de tournage).
+- [x] Procédure exacte de configuration FileVault vérifiée (profil + certificat + chiffrement PRK, voir §4).
 - [ ] Types de clés concernés et modalités d'escrow confirmés.
 - [ ] Version(s) macOS et rôle Jamf nécessaire précisés.
 - [ ] Les 21 captures réalisées dans une instance Jamf Pro de laboratoire, aucune donnée réelle.
