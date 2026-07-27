@@ -146,6 +146,7 @@ Réutiliser les quiz existants `quiz-abm-certification` et `quiz-ade-certificati
 - [ ] Captures ABM-01, ABM-02, ADE-01, ADE-02 réalisées dans un environnement de démonstration, sans identifiant réel.
 - [ ] Relecture éditoriale de la narration complète (§7).
 - [ ] Revue sécurité : aucune donnée d'organisation réelle visible dans les captures.
+- [x] Storyboard sans trou ni chevauchement de timecode (recalculé : 8+10+12+12+15+15+12+10 = 94 s exactement, 8 scènes contiguës).
 
 ## 15. Miniature
 

@@ -185,7 +185,7 @@ Réutiliser la couverture Smart Groups / FileVault déjà présente dans les qui
 - [ ] Version(s) macOS et rôle Jamf nécessaire précisés.
 - [ ] Les 21 captures réalisées dans une instance Jamf Pro de laboratoire, aucune donnée réelle.
 - [ ] Revue sécurité : aucune clé de récupération réelle dans les médias, tests ou fixtures.
-- [ ] Storyboard sans trou ni chevauchement de timecode (vérifié : 8 plans, 600 s exactement).
+- [x] Storyboard sans trou ni chevauchement de timecode (recalculé : 15+30+165+60+45+165+90+30 = 600 s exactement, 8 plans contigus).
 
 ## 16. Miniature
 
