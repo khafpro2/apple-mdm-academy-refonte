@@ -122,18 +122,21 @@ Réutiliser les quiz existants `quiz-abm-certification` et `quiz-ade-certificati
 
 | Affirmation | Statut |
 | --- | --- |
-| Le terme officiel actuel est **Automated Device Enrollment (ADE)** ; l'ancien terme **DEP** (Device Enrollment Program) est retiré depuis fin 2019 et intégré à Apple Business Manager. | **Confirmé** — recoupé sur plusieurs sources tierces cohérentes (Fleet, SimpleMDM, Meraki) ; à recouper avec la page Apple Business Manager User Guide directement avant script final mot à mot. |
+| Le terme officiel actuel est **Automated Device Enrollment (ADE)** ; l'ancien terme **DEP** (Device Enrollment Program) n'apparaît plus dans la documentation Apple actuelle. | **Confirmé par source Apple primaire** — [Apple Support, *Automated Device Enrollment and device management*](https://support.apple.com/guide/deployment/automated-device-enrollment-management-dep73069dd57/web) : la page ne mentionne "DEP" nulle part, seul "Automated Device Enrollment" est utilisé. |
+| ADE est réservé aux appareils **appartenant à l'organisation** et permet une gestion dès la sortie de la boîte. | **Confirmé** — même source Apple. |
 | L'attribution d'un appareil à un serveur MDM se fait dans Apple Business Manager (Devices → sélection → attribution), et repose sur un **jeton serveur** téléchargé depuis ABM et importé dans le serveur MDM. | **Confirmé** — [Microsoft Learn / n-able, *Assign devices to an MDM server*](https://documentation.n-able.com/remote-management/userguide/Content/dma/assign_devices_mdm_abm.htm) |
 | Le jeton serveur ABM est **valide un an** et doit être renouvelé et re-téléversé annuellement — cycle **distinct** du certificat APNs du pilote (b). | **Confirmé** — même source que ci-dessus. |
 | Les appareils doivent être neufs ou effacés pour bénéficier de l'auto-enrollment ADE. | **Confirmé** — même source. |
+| Au premier démarrage (Setup Assistant), le MDM peut sauter des écrans, verrouiller l'appareil pendant la configuration, charger une URL de configuration personnalisée, et (macOS 14+) **imposer FileVault** dès l'inscription. | **Confirmé par source Apple primaire** — même page Apple ci-dessus. Détail non présent dans le storyboard actuel (§4, scène S6) : à ajouter, c'est un point pédagogique fort (lien direct avec le pilote (c) FileVault). |
 
 ## 13. Sources officielles consultées
 
+* [Apple Support — Automated Device Enrollment and device management](https://support.apple.com/guide/deployment/automated-device-enrollment-management-dep73069dd57/web) (source Apple primaire, consultée directement le 2026-07-27)
 * [n-able, *Assign devices to an MDM server - Apple Business Manager*](https://documentation.n-able.com/remote-management/userguide/Content/dma/assign_devices_mdm_abm.htm) (consulté le 2026-07-27)
 * [Microsoft Learn — Tutorial: Use Apple Business to enroll iOS/iPadOS devices in Intune](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/tutorial-automated-ios) (consulté le 2026-07-27)
-* À recouper avant script final mot à mot : Apple Business Manager User Guide et Apple Platform Deployment Guide directement (non consultés en direct cette session — les sources ci-dessus sont des tiers qui documentent le même flux, cohérents entre eux mais pas primaires Apple).
+* Encore à recouper avant script final mot à mot : Apple Business Manager User Guide, section attribution précise (le mécanisme de jeton serveur ci-dessus vient d'une source tierce, pas encore confirmé mot pour mot sur une page Apple primaire).
 
-**Date de dernière vérification : 2026-07-27.** Le flux général (§3) et le rôle du jeton serveur sont confirmés par des sources cohérentes. La terminologie ADE/DEP reste à recouper directement avec une page Apple avant script final.
+**Date de dernière vérification : 2026-07-27.** Le flux général (§3) et la terminologie ADE sont désormais confirmés par une source Apple primaire. Reste à recouper : le détail exact du mécanisme de jeton serveur ABM directement sur une page Apple (actuellement confirmé par une source tierce cohérente uniquement). **Nouveau point à intégrer au storyboard** : possibilité d'imposer FileVault dès l'ADE sur macOS 14+ (voir ligne ci-dessus) — à ajouter à la scène S6 avant script final.
 
 ## 14. Checklist de validation technique avant production
 

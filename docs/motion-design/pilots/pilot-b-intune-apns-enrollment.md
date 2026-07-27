@@ -112,10 +112,11 @@ Réutiliser `quiz-abm-certification`, qui couvre déjà APNs (13 occurrences con
 
 ## 12. Sources officielles consultées
 
-* [Microsoft Learn — Get an Apple MDM Push certificate for Intune](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/create-mdm-push-certificate) (consulté le 2026-07-27, page mise à jour 2026-07-01)
-* [Fleet — Apple Push Notification Service: How APNs Works in MDM](https://fleetdm.com/articles/apple-push-notification-service-apns-mdm) (consulté le 2026-07-27 — source tierce technique, pas Apple/Microsoft officielle, à recouper avec Apple Developer avant script final mot à mot)
+* [Microsoft Learn — Get an Apple MDM Push certificate for Intune](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/create-mdm-push-certificate) (source Microsoft primaire, consultée directement le 2026-07-27, page mise à jour 2026-07-01)
+* [Fleet — Apple Push Notification Service: How APNs Works in MDM](https://fleetdm.com/articles/apple-push-notification-service-apns-mdm) (consulté le 2026-07-27 — source tierce technique, pas Apple officielle)
+* **Non trouvé cette session** : la référence Apple Developer précise pour ce mécanisme est le *MDM Protocol Reference* (pas le framework général `UserNotifications` destiné aux apps, qui documente un mécanisme voisin mais différent — les recherches effectuées ont surtout remonté ce second document, à écarter pour ce script). À localiser et consulter avant script final mot à mot.
 
-**Date de dernière vérification : 2026-07-27.** Les 4 affirmations ci-dessus sont confirmées par au moins une source citée. Le wording narratif final (§7) reste à rédiger mot à mot à partir de ces sources — ce qui précède valide le **fond**, pas la formulation finale du script.
+**Date de dernière vérification : 2026-07-27.** Les 4 affirmations sont confirmées par une source Microsoft primaire + une source technique tierce cohérente. Le wording narratif final (§7) reste à rédiger mot à mot — ce qui précède valide le **fond**, pas la formulation finale du script. C'est le seul des 3 pilotes sans aucune confirmation par une source **Apple** primaire (seulement Microsoft + tiers) — point à combler en priorité avant tournage.
 
 ## 13. Checklist de validation technique avant production
 

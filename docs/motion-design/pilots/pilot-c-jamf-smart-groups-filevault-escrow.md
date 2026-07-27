@@ -61,8 +61,10 @@ Représentation détaillée : `scene-005-jamf-smart-groups-filevault-escrow-flow
 | claim-password-is-not-recovery-key | Le mot de passe utilisateur n'est pas la clé de récupération. | **Confirmé** — distinction FileVault standard (mot de passe de session vs clé de récupération personnelle générée séparément). |
 | claim-escrow-is-key-not-backup | L'escrow concerne la clé (PRK chiffrée), pas une sauvegarde des données du disque. | **Confirmé** — cohérent avec le mécanisme de chiffrement/déchiffrement de la PRK décrit ci-dessus. |
 | claim-no-real-recovery-key-in-media | Une clé de récupération réelle ne doit jamais apparaître dans les médias, les tests ou les fixtures. | Règle de production — non négociable, ne dépend pas d'une source externe. |
+| claim-prk-recommended-over-irk | Il existe deux types de clé de récupération FileVault : **institutionnelle (IRK)** et **personnelle (PRK)**. Apple recommande désormais la **PRK**, l'IRK n'étant plus adaptée (inaccessible depuis recoveryOS et target disk mode supprimé sur Apple Silicon). | **Nouveau, confirmé par source Apple primaire** — [Apple Support, *Manage FileVault with device management*](https://support.apple.com/guide/deployment/manage-filevault-with-device-management-dep0a2cb7686/web). **Absent du storyboard actuel (§5, §6)** — à ajouter : le pilote doit préciser qu'il s'agit de la PRK, pas de l'IRK. |
+| claim-escrow-mechanism-precise | Le Mac chiffre la PRK de façon asymétrique (format CMS) avec la clé publique d'un certificat fourni par le MDM, puis la retourne via une requête de sécurité ; le MDM la déchiffre ensuite côté serveur. | **Confirmé par source Apple primaire** — même page Apple ci-dessus, cohérent avec le mécanisme décrit côté Jamf (ligne claim-jamf-configures-and-escrows). |
 
-**Date de dernière vérification : 2026-07-27.** Les 6 affirmations sont confirmées par la documentation officielle Jamf (`learn.jamf.com`, `support.jamf.com`) consultée en direct. Point à recouper avant script final : le comportement exact si un Mac était déjà chiffré avant l'inscription (Jamf ne peut alors pas escrow la clé rétroactivement — mentionné dans la documentation Jamf, à intégrer si pertinent au storyboard).
+**Date de dernière vérification : 2026-07-27.** Les 6 affirmations initiales sont confirmées par la documentation officielle Jamf, et 2 affirmations supplémentaires par une source Apple primaire (`support.apple.com/guide/deployment`). **Correction à apporter au storyboard avant script final** : préciser explicitement que la vidéo traite de la clé de récupération **personnelle (PRK)**, pas institutionnelle (IRK) — l'IRK n'est plus recommandée par Apple, particulièrement sur Apple Silicon. Point restant à recouper : le comportement exact si un Mac était déjà chiffré avant l'inscription (Jamf ne peut alors pas escrow la clé rétroactivement — mentionné dans la documentation Jamf, à intégrer si pertinent au storyboard).
 
 ## 5. Storyboard scène par scène (8 plans, 600 s)
 
@@ -167,18 +169,19 @@ Réutiliser la couverture Smart Groups / FileVault déjà présente dans les qui
 
 ## 14. Sources officielles consultées
 
+* [Apple Support — Manage FileVault with device management](https://support.apple.com/guide/deployment/manage-filevault-with-device-management-dep0a2cb7686/web) (source Apple primaire, consultée directement le 2026-07-27)
 * [Jamf — Enabling FileVault Disk Encryption Using a Configuration Profile](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/Activating_FileVault_Disk_Encryption_using_a_Configuration_Profile_.html) (consulté le 2026-07-27)
 * [Jamf Support — FileVault Configuration Profile Certificate in Jamf Pro](https://support.jamf.com/en/articles/11016691-filevault-configuration-profile-certificate-in-jamf-pro) (consulté le 2026-07-27)
-* Encore à consulter avant script final mot à mot : documentation Jamf Pro — Smart Computer Groups (libellés exacts de l'interface actuelle) ; Apple Platform Deployment — FileVault et clés de récupération (non consultée en direct cette session).
+* Encore à consulter avant script final mot à mot : documentation Jamf Pro — Smart Computer Groups (libellés exacts de l'interface actuelle, non trouvés dans une source consultée cette session).
 
-**Date de dernière vérification : 2026-07-27.** Les 6 affirmations techniques du §4 sont confirmées par la documentation officielle Jamf. Restent à vérifier avant tournage : les libellés exacts de l'interface Smart Computer Groups (peuvent varier selon version Jamf Pro) et la version macOS ciblée pour le tournage.
+**Date de dernière vérification : 2026-07-27.** Les 6 affirmations techniques initiales du §4 sont confirmées par la documentation officielle Jamf, et 2 affirmations supplémentaires (PRK vs IRK, mécanisme d'escrow précis) par une source Apple primaire. Restent à vérifier avant tournage : les libellés exacts de l'interface Smart Computer Groups (peuvent varier selon version Jamf Pro) et la version macOS ciblée pour le tournage.
 
 ## 15. Checklist de validation technique avant production
 
 - [x] Les 6 affirmations techniques (§4) validées par une source officielle citée (2026-07-27).
 - [ ] Libellés exacts des Smart Computer Groups vérifiés dans l'interface actuelle (version Jamf Pro du tenant de tournage).
 - [x] Procédure exacte de configuration FileVault vérifiée (profil + certificat + chiffrement PRK, voir §4).
-- [ ] Types de clés concernés et modalités d'escrow confirmés.
+- [x] Types de clés concernés et modalités d'escrow confirmés — **PRK (personnelle), pas IRK (institutionnelle)**, cf. §4. Le script final doit nommer explicitement « clé de récupération personnelle ».
 - [ ] Version(s) macOS et rôle Jamf nécessaire précisés.
 - [ ] Les 21 captures réalisées dans une instance Jamf Pro de laboratoire, aucune donnée réelle.
 - [ ] Revue sécurité : aucune clé de récupération réelle dans les médias, tests ou fixtures.
