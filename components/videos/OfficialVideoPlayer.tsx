@@ -22,6 +22,8 @@ type Props = {
   durationLabel: string;
   courseSlug: string;
   transcript?: VideoTranscript;
+  /** URL WebVTT (fichier statique `public/videos/captions/<slug>.fr.vtt` ou route API générée depuis le transcript). */
+  captionsUrl?: string;
 };
 
 function formatTime(seconds: number): string {
@@ -39,6 +41,7 @@ export function OfficialVideoPlayer({
   durationLabel,
   courseSlug,
   transcript,
+  captionsUrl,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -154,12 +157,16 @@ export function OfficialVideoPlayer({
           ref={videoRef}
           src={mp4Url}
           controls
+          aria-label={title}
           className="aspect-video w-full"
           poster={poster}
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
           preload="metadata"
         >
+          {captionsUrl && (
+            <track kind="captions" src={captionsUrl} srcLang="fr" label="Français" default />
+          )}
           Votre navigateur ne supporte pas la lecture vidéo.
         </video>
         <div className="border-t border-border-light bg-surface-elevated px-5 py-4">

@@ -55,6 +55,7 @@ type Props = {
   script?: VideoScript;
   mp4Url?: string;
   transcript?: VideoTranscript;
+  captionsUrl?: string;
   courseNotes?: VideoCourseNotes;
   certificationLabel?: string;
   certificationSlug?: string;
@@ -65,6 +66,7 @@ export function AnimatedLesson({
   script,
   mp4Url,
   transcript,
+  captionsUrl,
   courseNotes,
   certificationLabel,
   certificationSlug,
@@ -195,6 +197,7 @@ export function AnimatedLesson({
               durationLabel={storyboard.duration}
               courseSlug={storyboard.courseSlug}
               transcript={transcript}
+              captionsUrl={captionsUrl}
             />
           </>
         ) : (
