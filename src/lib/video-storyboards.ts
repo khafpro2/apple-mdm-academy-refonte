@@ -365,12 +365,12 @@ const pilotVideoStoryboards: VideoStoryboard[] = [
         title: "Configuration automatique",
         durationSeconds: 15,
         narration:
-          "Une fois inscrit, le MDM déploie progressivement le Wi-Fi, les certificats, FileVault, les applications, les restrictions, la configuration de compte et les politiques de sécurité.",
+          "Une fois inscrit, le MDM déploie progressivement le Wi-Fi, les certificats, FileVault, les applications, les restrictions, la configuration de compte et les politiques de sécurité. Depuis macOS 14, le MDM peut même imposer l'activation de FileVault dès l'inscription ADE.",
         visual: "Cascade de cartes de configuration",
-        animation: "Apparition en cascade",
+        animation: "Apparition en cascade, dernière carte FileVault mise en avant avec badge « macOS 14+ »",
         visualType: "process",
         requiredScreenshots: [],
-        onScreenText: ["Wi-Fi", "Certificats", "FileVault", "Applications", "Restrictions", "Politiques"],
+        onScreenText: ["Wi-Fi", "Certificats", "FileVault (macOS 14+)", "Applications", "Restrictions", "Politiques"],
       },
       {
         id: "abm-ade-s7-best-practice",
