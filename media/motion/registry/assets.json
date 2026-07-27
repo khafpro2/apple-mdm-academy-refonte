@@ -1,0 +1,370 @@
+{
+  "assets": [
+    {
+      "id": "device-laptop-isometric-neutral-base-v1",
+      "category": "device",
+      "name": "Ordinateur portable isométrique neutre",
+      "description": "Représentation générique d'un Mac portable utilisé comme support visuel pour le chiffrement FileVault.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Ordinateur portable représentant l'appareil macOS à protéger.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption",
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    },
+    {
+      "id": "data-flow-storage-blocks-isometric-readable-base-v1",
+      "category": "data-flow",
+      "name": "Blocs de données lisibles",
+      "description": "Blocs de stockage lisibles avant chiffrement, utilisés pour montrer l'état non protégé des données.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Blocs de données lisibles avant chiffrement.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption"
+      ]
+    },
+    {
+      "id": "data-flow-storage-blocks-isometric-encrypted-base-v1",
+      "category": "data-flow",
+      "name": "Blocs de données chiffrés",
+      "description": "Blocs de stockage transformés en état chiffré pour illustrer la protection FileVault.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Blocs de données chiffrés et rendus illisibles sans déverrouillage.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption"
+      ]
+    },
+    {
+      "id": "security-lock-front-closed-cyan-v1",
+      "category": "security",
+      "name": "Cadenas fermé — cyan",
+      "description": "Cadenas géométrique fermé représentant un état de protection des données.",
+      "status": "missing",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Cadenas fermé représentant la protection des données.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption",
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    },
+    {
+      "id": "security-recovery-key-front-neutral-base-v1",
+      "category": "security",
+      "name": "Cle de recuperation neutre",
+      "description": "Cle de recuperation generique associee au deverrouillage ou a l'administration FileVault.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Cle de recuperation representant l'acces de secours a un volume FileVault.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption",
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    },
+    {
+      "id": "security-vault-front-closed-enterprise-v1",
+      "category": "security",
+      "name": "Coffre enterprise ferme",
+      "description": "Coffre ferme symbolisant la conservation securisee des informations de recuperation en contexte enterprise.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Coffre ferme representant la conservation securisee d'une cle de recuperation.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption",
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    },
+    {
+      "id": "identity-user-front-authorized-standard-v1",
+      "category": "identity",
+      "name": "Utilisateur autorise",
+      "description": "Utilisateur autorise a deverrouiller le volume macOS protege par FileVault.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Utilisateur autorise a deverrouiller un volume chiffre.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption",
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    },
+    {
+      "id": "data-flow-encryption-transition-neutral-v1",
+      "category": "data-flow",
+      "name": "Transition de chiffrement",
+      "description": "Transition visuelle entre donnees lisibles et donnees chiffrees.",
+      "status": "brief-ready",
+      "format": "lottie",
+      "dimensions": "1920x1080",
+      "aspectRatio": "16:9",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Animation montrant les donnees lisibles devenir des donnees chiffrees.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-002-filevault-encryption"
+      ]
+    },
+    {
+      "id": "cloud-apple-business-manager-isometric-neutral-v1",
+      "category": "cloud",
+      "name": "Portail Apple Business Manager",
+      "description": "Représentation isométrique du portail Apple Business Manager où les appareils sont affectés à un serveur MDM.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Portail Apple Business Manager représentant l'affectation des appareils.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-003-abm-ade-enrollment-flow"
+      ]
+    },
+    {
+      "id": "management-mdm-server-isometric-neutral-v1",
+      "category": "management",
+      "name": "Serveur MDM générique",
+      "description": "Représentation neutre d'un serveur MDM (Jamf Pro ou Microsoft Intune) recevant l'affectation ABM.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Serveur MDM générique recevant les appareils affectés depuis Apple Business Manager.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-003-abm-ade-enrollment-flow"
+      ]
+    },
+    {
+      "id": "device-iphone-front-supervised-standard-v1",
+      "category": "device",
+      "name": "iPhone supervisé",
+      "description": "iPhone en cours d'activation supervisée via Automated Device Enrollment.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "iPhone en cours d'activation supervisée.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-003-abm-ade-enrollment-flow"
+      ]
+    },
+    {
+      "id": "identity-admin-front-authorized-standard-v1",
+      "category": "identity",
+      "name": "Administrateur autorisé",
+      "description": "Administrateur IT autorisé à configurer l'affectation ABM et les profils d'enrôlement.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Administrateur autorisé à gérer l'enrôlement des appareils.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-003-abm-ade-enrollment-flow",
+        "scene-004-intune-apns-enrollment-flow"
+      ]
+    },
+    {
+      "id": "status-enrollment-complete-v1",
+      "category": "status",
+      "name": "Badge enrôlement terminé",
+      "description": "Badge d'état indiquant qu'un appareil a terminé son enrôlement supervisé.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "128x128",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Badge indiquant que l'enrôlement de l'appareil est terminé.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-003-abm-ade-enrollment-flow"
+      ]
+    },
+    {
+      "id": "certificate-apns-front-valid-standard-v1",
+      "category": "certificate",
+      "name": "Certificat APNs valide",
+      "description": "Certificat APNs actif reliant un serveur MDM au service de notifications push Apple.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Certificat APNs valide reliant le serveur MDM au service push Apple.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-004-intune-apns-enrollment-flow"
+      ]
+    },
+    {
+      "id": "cloud-apns-service-isometric-neutral-v1",
+      "category": "cloud",
+      "name": "Service Apple Push Notification",
+      "description": "Représentation isométrique du service Apple Push Notification (APNs) relayant les commandes de gestion.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Service Apple Push Notification relayant les commandes de gestion vers l'appareil.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-004-intune-apns-enrollment-flow"
+      ]
+    },
+    {
+      "id": "management-intune-console-isometric-neutral-v1",
+      "category": "management",
+      "name": "Console Microsoft Intune",
+      "description": "Représentation neutre de la console Microsoft Intune configurant le certificat APNs et les profils d'inscription.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Console Microsoft Intune configurant le certificat APNs.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-004-intune-apns-enrollment-flow"
+      ]
+    },
+    {
+      "id": "device-mac-front-managed-standard-v1",
+      "category": "device",
+      "name": "Mac géré",
+      "description": "Mac recevant des commandes de gestion via APNs depuis Microsoft Intune.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Mac géré recevant des commandes via le service push Apple.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-004-intune-apns-enrollment-flow"
+      ]
+    },
+    {
+      "id": "status-certificate-expiring-v1",
+      "category": "status",
+      "name": "Badge certificat expirant",
+      "description": "Badge d'alerte signalant un certificat APNs proche de l'expiration, à renouveler avec le même identifiant Apple.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "128x128",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Badge d'alerte signalant un certificat APNs proche de l'expiration.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-004-intune-apns-enrollment-flow"
+      ]
+    },
+    {
+      "id": "management-smart-group-isometric-neutral-v1",
+      "category": "management",
+      "name": "Smart Group Jamf Pro",
+      "description": "Groupe dynamique Jamf Pro dont le contenu se met à jour selon les critères d'inventaire.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "512x512",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Smart Group Jamf Pro regroupant dynamiquement les Mac correspondant à un critère.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    },
+    {
+      "id": "compliance-filevault-check-front-standard-v1",
+      "category": "compliance",
+      "name": "Contrôle de conformité FileVault",
+      "description": "Vérification de conformité du chiffrement FileVault et de l'état de séquestre de la clé.",
+      "status": "brief-ready",
+      "format": "svg",
+      "dimensions": "256x256",
+      "aspectRatio": "1:1",
+      "transparentBackground": true,
+      "decorative": false,
+      "altText": "Contrôle de conformité vérifiant le chiffrement FileVault et le séquestre de la clé.",
+      "source": "mixed",
+      "version": "v1",
+      "sceneIds": [
+        "scene-005-jamf-smart-groups-filevault-escrow-flow"
+      ]
+    }
+  ]
+}
