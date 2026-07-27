@@ -68,10 +68,10 @@ Source du storyboard détaillé (acteurs, connecteurs, instructions Firefly/Canv
 
 | ID | Zone | Statut |
 | --- | --- | --- |
-| ABM-01 | Apple Business Manager → Appareils → sélection d'un appareil | À produire (tenant de démonstration) |
-| ABM-02 | Apple Business Manager → Attribution au serveur MDM | À produire |
-| ADE-01 | Setup Assistant — écran de supervision / gestion à distance | À produire |
-| ADE-02 | Confirmation d'inscription réussie côté MDM (Jamf Pro ou Intune) | À produire |
+| ABM-01 | Apple Business Manager → Appareils → sélection d'un appareil | **Partiel** — `~/Desktop/Captures Projet/Screenshot 2026-07-21 at 22.29.10.png` (vrai tenant `HARMY TECH`, business.apple.com/main/devices/inventory) mais état vide, aucun appareil sélectionné. Flouter le nom d'organisation « HARMY TECH » dans l'en-tête. Capture complète (appareil réellement sélectionné) encore à produire. |
+| ABM-02 | Apple Business Manager → Attribution au serveur MDM | **Partiel** — `22.31.04.png` (point d'entrée « Configurer la gestion des appareils », générique Apple, pas de donnée d'organisation visible). Ne montre pas le tableau d'attribution complété — à produire. |
+| ADE-01 | Setup Assistant — écran de supervision / gestion à distance | À produire — aucune correspondance dans les 51 captures auditées. |
+| ADE-02 | Confirmation d'inscription réussie côté MDM (Jamf Pro ou Intune) | À produire — aucune correspondance directe ; `23.18.29.png` (Apple Configurator, dialogue « Prepare Devices » avec case « Activate and complete enrollment ») peut servir d'illustration générique du concept, sans donnée sensible. |
 
 **Aucun asset officiel disponible pour ces 4 captures.** Vérifié : `public/images/courses/apple-originals/SOURCES.md` confirme qu'Apple ne publie pas de capture 1:1 pour les écrans ABM/ADE — seuls 2 visuels Apple officiels existent (fédération d'authentification, Apps & Books), sans rapport avec l'attribution ABM ou le Setup Assistant. **⚠️ Ne pas utiliser** les images dans `public/images/courses/{apple-business-manager,ade}/*.webp` : ce sont des illustrations **générées par IA** (voir `generation-manifest.json`), pas des captures réelles — un examen visuel de l'équivalent pour le pilote (b) a révélé des interfaces factuellement inventées (ex. tableau d'inventaire qui n'existe pas réellement).
 
@@ -145,7 +145,8 @@ Réutiliser les quiz existants `quiz-abm-certification` et `quiz-ade-certificati
 - [x] Vocabulaire « ADE » confirmé comme terme actuel (pas « DEP ») — sources tierces cohérentes, à recouper avec une page Apple directe avant script final.
 - [x] Rôle du jeton serveur ABM (attribution + renouvellement annuel) confirmé (§12).
 - [ ] Liste des éléments « déployés automatiquement » (S6) vérifiée par rapport à une inscription réelle.
-- [ ] Captures ABM-01, ABM-02, ADE-01, ADE-02 réalisées dans un environnement de démonstration, sans identifiant réel.
+- [ ] ABM-01/ABM-02 : compléter les captures partielles disponibles (`22.29.10.png`, `22.31.04.png` — floutage « HARMY TECH » requis) avec les écrans manquants (sélection réelle d'un appareil, tableau d'attribution complété).
+- [ ] ADE-01, ADE-02 : aucune correspondance trouvée dans l'audit du 2026-07-27 — toujours à produire intégralement.
 - [ ] Relecture éditoriale de la narration complète (§7).
 - [ ] Revue sécurité : aucune donnée d'organisation réelle visible dans les captures.
 - [x] Storyboard sans trou ni chevauchement de timecode (recalculé : 8+10+12+12+15+15+12+10 = 94 s exactement, 8 scènes contiguës).

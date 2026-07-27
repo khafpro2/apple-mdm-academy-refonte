@@ -64,9 +64,11 @@ Représentation détaillée : `scene-004-intune-apns-enrollment-flow` dans `medi
 | --- | --- | --- |
 | INT-01 | Microsoft Intune admin center → certificat MDM push Apple | **Disponible — asset officiel réel** : `public/images/courses/intune-originals/29-apns-certificate-intune-official.png` ([source Microsoft Learn](https://learn.microsoft.com/en-us/mem/intune-service/enrollment/apple-mdm-push-certificate-get)) |
 | INT-02 | Jeton ADE / inscription Apple dans Intune | **Disponible — asset officiel réel** : `public/images/courses/intune-originals/30-ios-ade-token-intune-official.png` ([source Microsoft Learn](https://learn.microsoft.com/en-us/intune/device-enrollment/apple/setup-apple-token)) |
-| INT-03 | Apple Push Certificates Portal (identity.apple.com) — écran de renouvellement / expiration | **À produire** (tenant de démonstration) — aucun asset officiel public ne couvre cet écran précis. **⚠️ Ne pas utiliser** les images générées trouvées dans `public/images/courses/apns/*.webp` (ex. `41-push-certificates-portal.webp`) : vérifiées visuellement, elles sont **fabriquées par IA et factuellement incorrectes** (elles affichent un tableau d'inventaire d'appareils qui n'existe pas dans la vraie interface du portail Apple). |
+| INT-03 | Apple Push Certificates Portal (identity.apple.com) — écran de renouvellement / expiration | **Partiellement disponible (avec floutage)** — `~/Desktop/Captures Projet/Screenshot 2026-07-21 at 22.15.01.png` : vraie notification Jamf Pro « Le certificat de notification push a expiré » (avec lien « Renouvelez votre certificat »). Illustre le **concept** d'expiration exactement comme prévu au plan B5, mais montre le dashboard Jamf (pas le portail Apple identity.apple.com lui-même). **Contient les noms réels de tenant « JOTO STORE » et « TEST MDM » — à flouter obligatoirement avant tout export.** L'écran du portail Apple Push Certificates lui-même reste à capturer séparément si un rendu plus précis est souhaité. |
 
-Résolution 1920×1080, `.webp`. Aucun tenant Microsoft ni identifiant Apple réel visible dans INT-03.
+**⚠️ Ne pas utiliser** les images générées trouvées dans `public/images/courses/apns/*.webp` (ex. `41-push-certificates-portal.webp`) : vérifiées visuellement, elles sont **fabriquées par IA et factuellement incorrectes** (elles affichent un tableau d'inventaire d'appareils qui n'existe pas dans la vraie interface du portail Apple).
+
+Résolution 1920×1080, `.webp`. Aucun tenant Microsoft ni identifiant Apple réel visible dans INT-03 après floutage.
 
 **Note sur les assets existants du dépôt** : `public/images/courses/{apns,intune}/*.webp` et `jamf-pro-captures/*.webp` sont des **illustrations pédagogiques générées par IA** (voir `generation-manifest.json` et les `SOURCES.md` des dossiers `*-originals/` qui documentent explicitement cette distinction) — pas des captures réelles. Seuls les fichiers situés dans `intune-originals/`, `jamf-originals/` et `apple-originals/` sont des assets réels et sourcés (documentation publique Microsoft/Jamf/Apple), et seuls INT-01/INT-02 ci-dessus correspondent précisément aux besoins de ce pilote.
 
@@ -125,7 +127,7 @@ Réutiliser `quiz-abm-certification`, qui couvre déjà APNs (13 occurrences con
 - [x] Les 4 affirmations techniques (§11) vérifiées auprès de sources datées (2026-07-27).
 - [ ] Wording exact du flux de notification (§3/§7) rédigé mot à mot et relu à partir des sources (le fond est validé, pas encore la formulation finale).
 - [x] INT-01 et INT-02 disponibles (assets officiels Microsoft Learn réels, voir §5).
-- [ ] INT-03 à produire dans un tenant Intune/Apple Push Certificates Portal de démonstration (aucun asset officiel public ne le couvre).
+- [x] INT-03 partiellement disponible (`22.15.01.png`, concept d'expiration réel, floutage tenant requis) — écran précis du portail Apple identity.apple.com encore optionnel à produire.
 - [ ] Aucun identifiant Apple ni tenant Microsoft réel visible dans les captures.
 - [ ] Cohérence terminologique avec le pilote (a) (ABM, ADE) vérifiée.
 

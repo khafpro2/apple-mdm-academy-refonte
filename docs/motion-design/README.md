@@ -43,6 +43,10 @@ public/motion/illustrations/
 
 Legacy encore accepté : `media/motion/assets/`.
 
+## Source de captures réelles (hors dépôt)
+
+`~/Desktop/Captures Projet/` (51 fichiers, non versionnés) contient de vraies captures d'un tenant Jamf Pro et d'un compte Apple Business Manager **réels** (l'entreprise de l'utilisateur, pas un environnement de laboratoire). Catalogue complet et correspondances avec les pilotes documentées dans `docs/motion-design/pilots/*.md` (§ Captures Screen Studio requises de chaque pilote). **Toute image de cette source contenant un nom d'organisation, un identifiant, un email ou un nom réel doit être floutée avant d'être copiée dans ce dépôt** — voir les avertissements spécifiques par capture dans chaque dossier pilote. Aucune de ces images n'a été copiée dans le dépôt à ce stade (le floutage n'a pas été réalisé).
+
 ## Galerie interne
 
 ```text
