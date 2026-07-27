@@ -172,14 +172,14 @@ Réutiliser la couverture Smart Groups / FileVault déjà présente dans les qui
 * [Apple Support — Manage FileVault with device management](https://support.apple.com/guide/deployment/manage-filevault-with-device-management-dep0a2cb7686/web) (source Apple primaire, consultée directement le 2026-07-27)
 * [Jamf — Enabling FileVault Disk Encryption Using a Configuration Profile](https://learn.jamf.com/en-US/bundle/jamf-pro-documentation-current/page/Activating_FileVault_Disk_Encryption_using_a_Configuration_Profile_.html) (consulté le 2026-07-27)
 * [Jamf Support — FileVault Configuration Profile Certificate in Jamf Pro](https://support.jamf.com/en/articles/11016691-filevault-configuration-profile-certificate-in-jamf-pro) (consulté le 2026-07-27)
-* Encore à consulter avant script final mot à mot : documentation Jamf Pro — Smart Computer Groups (libellés exacts de l'interface actuelle, non trouvés dans une source consultée cette session).
+* [Jamf — Smart Computer Groups (Administrator's Guide)](https://docs.jamf.com/10.4.0/jamf-pro/administrator-guide/Smart_Computer_Groups.html) (consulté le 2026-07-27 — version 10.4.0, à reconfirmer sur la version du tenant de tournage)
 
-**Date de dernière vérification : 2026-07-27.** Les 6 affirmations techniques initiales du §4 sont confirmées par la documentation officielle Jamf, et 2 affirmations supplémentaires (PRK vs IRK, mécanisme d'escrow précis) par une source Apple primaire. Restent à vérifier avant tournage : les libellés exacts de l'interface Smart Computer Groups (peuvent varier selon version Jamf Pro) et la version macOS ciblée pour le tournage.
+**Date de dernière vérification : 2026-07-27.** Les 6 affirmations techniques initiales du §4 sont confirmées par la documentation officielle Jamf, 2 affirmations supplémentaires (PRK vs IRK, mécanisme d'escrow précis) par une source Apple primaire, et les libellés génériques Smart Computer Groups par la doc Jamf (§15). Reste à vérifier avant tournage : la version macOS ciblée, et la reconfirmation des libellés sur la version Jamf Pro exacte du tenant de tournage (la source citée date de la version 10.4.0).
 
 ## 15. Checklist de validation technique avant production
 
 - [x] Les 6 affirmations techniques (§4) validées par une source officielle citée (2026-07-27).
-- [ ] Libellés exacts des Smart Computer Groups vérifiés dans l'interface actuelle (version Jamf Pro du tenant de tournage).
+- [x] Libellés génériques des Smart Computer Groups confirmés par [Jamf, *Smart Computer Groups*](https://docs.jamf.com/10.4.0/jamf-pro/administrator-guide/Smart_Computer_Groups.html) : `Computers` → `Smart Computer Groups` → `New` → onglet `Criteria` → `Add`/`Choose` → menu `Operator` → champ `Value` → groupements et/ou et parenthèses pour logique complexe → `Show Advanced Criteria` pour voir plus que les 30 critères les plus fréquents. **À reconfirmer sur la version exacte du tenant de tournage** avant capture (les libellés sont stables historiquement mais non re-vérifiés sur la toute dernière version Jamf Pro).
 - [x] Procédure exacte de configuration FileVault vérifiée (profil + certificat + chiffrement PRK, voir §4).
 - [x] Types de clés concernés et modalités d'escrow confirmés — **PRK (personnelle), pas IRK (institutionnelle)**, cf. §4. Le script final doit nommer explicitement « clé de récupération personnelle ».
 - [ ] Version(s) macOS et rôle Jamf nécessaire précisés.
