@@ -70,7 +70,8 @@ function expandPool(questions: Question[], target: number): Question[] {
   while (pool.length < target) {
     for (const base of questions) {
       if (pool.length >= target) break;
-      pool.push(variantQuestion(base, v));
+      // Id suffixé pour éviter les doublons d'id entre le pool de base et ses variantes.
+      pool.push({ ...variantQuestion(base, v), id: `${base.id}-v${v}` });
     }
     v++;
   }
