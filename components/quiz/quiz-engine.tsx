@@ -9,6 +9,11 @@ import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
 import { prepareQuestionsForSession } from "@/lib/quiz/normalize-questions";
 import { isAnswerCorrect, isMultiSelectQuestion, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
+import { shuffleArray } from "@/lib/quiz/seeded-random";
+import { isSameAsLastAttempt, recordQuestionAttempt } from "@/lib/quiz/question-history-storage";
+
+/** Nombre max de re-tirages si l'ordre reproduit exactement la tentative précédente. */
+const MAX_RESHUFFLE_ATTEMPTS = 5;
 
 type Answers = Record<string, UserAnswer>;
 
@@ -68,9 +73,27 @@ export function QuizEngine({
   }
 
   function startQuiz() {
-    const seed = `${quiz.slug}-${Date.now()}`;
+    const historyKey = quiz.slug;
+    const baseSeed = `${quiz.slug}-${Date.now()}-${Math.random()}`;
+
+    // Mélange l'ORDRE des questions (les options sont déjà mélangées plus
+    // bas par prepareQuestionsForSession). Un quiz ayant peu de questions a
+    // peu de permutations possibles : on relance avec une seed dérivée si le
+    // tirage reproduit exactement l'ordre de la tentative précédente.
+    let attempt = 0;
+    let seed = baseSeed;
+    let shuffledQuestions = shuffleArray(quiz.questions, `${seed}-order`);
+    let orderedIds = shuffledQuestions.map((q) => q.id);
+    while (isSameAsLastAttempt(historyKey, orderedIds) && attempt < MAX_RESHUFFLE_ATTEMPTS) {
+      attempt++;
+      seed = `${baseSeed}-reshuffle${attempt}`;
+      shuffledQuestions = shuffleArray(quiz.questions, `${seed}-order`);
+      orderedIds = shuffledQuestions.map((q) => q.id);
+    }
+    recordQuestionAttempt(historyKey, orderedIds);
+
     sessionSeedRef.current = seed;
-    setSessionQuestions(prepareQuestionsForSession(quiz.questions, seed));
+    setSessionQuestions(prepareQuestionsForSession(shuffledQuestions, seed));
     setStarted(true);
     setCurrentIndex(0);
     setAnswers({});

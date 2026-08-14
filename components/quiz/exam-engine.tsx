@@ -26,6 +26,14 @@ import { ExamHistoryPanel } from "@/components/quiz/exam-history-panel";
 import { ExamTimer } from "@/components/exams/exam-timer";
 import { selectExamQuestions } from "@/lib/exams/selection";
 import type { ExamFormat, ExamMode } from "@/lib/exams/exam-types";
+import {
+  getRecentlyUsedIds,
+  isSameAsLastAttempt,
+  recordQuestionAttempt,
+} from "@/lib/quiz/question-history-storage";
+
+/** Nombre max de re-tirages si la sélection reproduit exactement la tentative précédente. */
+const MAX_RESHUFFLE_ATTEMPTS = 5;
 
 type Answers = Record<string, UserAnswer>;
 type ViewMode = "intro" | "exam" | "result";
@@ -247,10 +255,13 @@ export function ExamEngine({
     if (phase === "exam") persistSession({});
   }, [phase, answers, flagged, currentIndex, secondsLeft, persistSession]);
 
-  function pickQuestions(seed: string, mode: ExamMode): Question[] {
+  /** Clé d'historique — commune aux deux modes pour éviter les répétitions même en changeant de mode. */
+  const historyKey = routeSlug;
+
+  function pickQuestions(seed: string, mode: ExamMode): { questions: Question[]; stableIds: string[] } {
     if (basePool.length === 0) {
       setPoolWarning("Banque de questions incomplète — aucune question disponible.");
-      return [];
+      return { questions: [], stableIds: [] };
     }
     const targetCount = examFormat?.modes[mode].questionCount ?? questionCount;
     if (uniqueBaseCount < targetCount) {
@@ -261,20 +272,40 @@ export function ExamEngine({
       setPoolWarning(null);
     }
 
-    const report = selectExamQuestions(basePool, {
+    const recentIds = getRecentlyUsedIds(historyKey);
+    let report = selectExamQuestions(basePool, {
       seed,
       count: targetCount,
       level: examFormat?.difficulty,
+      recentIds,
     });
+
+    // Garde-fou : si (malgré la priorité fraîcheur) le tirage reproduit
+    // exactement l'ordre de la tentative précédente — cas limite possible
+    // sur une très petite banque — on relance avec une seed dérivée.
+    let attempt = 0;
+    while (isSameAsLastAttempt(historyKey, report.selectedStableIds) && attempt < MAX_RESHUFFLE_ATTEMPTS) {
+      attempt++;
+      report = selectExamQuestions(basePool, {
+        seed: `${seed}-reshuffle${attempt}`,
+        count: targetCount,
+        level: examFormat?.difficulty,
+        recentIds,
+      });
+    }
+
     if (report.warnings.length > 0) setPoolWarning(report.warnings.join(" "));
-    return report.selected;
+    return { questions: report.selected, stableIds: report.selectedStableIds };
   }
 
-  function beginExam(picked: Question[], seed: string, mode: ExamMode, resume?: ExamSession) {
+  function beginExam(picked: Question[], seed: string, mode: ExamMode, resume?: ExamSession, stableIds?: string[]) {
     if (picked.length === 0) return;
     setActiveMode(mode);
     sessionSeedRef.current = seed;
     attemptIdRef.current = resume?.attemptId ?? `${quiz.slug}-${mode}-${Date.now()}`;
+    if (!resume && stableIds && stableIds.length > 0) {
+      recordQuestionAttempt(historyKey, stableIds);
+    }
     alert10Ref.current = false;
     alert1Ref.current = false;
     setTimerAlert(null);
@@ -313,7 +344,8 @@ export function ExamEngine({
 
   function startExam(mode: ExamMode = "simulation") {
     const seed = `${quiz.slug}-${mode}-${Date.now()}-${Math.random()}`;
-    beginExam(pickQuestions(seed, mode), seed, mode);
+    const { questions, stableIds } = pickQuestions(seed, mode);
+    beginExam(questions, seed, mode, undefined, stableIds);
   }
 
   function resumeExam() {

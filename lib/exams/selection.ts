@@ -1,14 +1,21 @@
 import type { Question } from "@/lib/types";
 import { enrichQuestionWithModule } from "@/lib/data/exams/question-modules";
 import { shuffleArray } from "@/lib/quiz/seeded-random";
+import { stableQuestionId } from "@/lib/quiz/question-history-storage";
 import type { ExamQuestion, ExamSelectionCriteria } from "@/lib/exams/exam-types";
+
+const stableQuestionIdOf = (question: Question) => stableQuestionId(question.id);
 
 export type ExamSelectionReport = {
   selected: Question[];
+  /** ID stables (pré-renommage de session), dans le même ordre que `selected` — à passer à `recordQuestionAttempt`. */
+  selectedStableIds: string[];
   requestedCount: number;
   availableCount: number;
   uniqueCount: number;
   effectiveCount: number;
+  /** Nombre de questions sélectionnées qui avaient déjà été vues récemment (0 si la banque fraîche a suffi). */
+  reusedRecentCount: number;
   domainCounts: Record<string, number>;
   needsReviewCount: number;
   warnings: string[];
@@ -56,7 +63,7 @@ function uniqueByStableQuestionId(pool: Question[]): Question[] {
   const seen = new Set<string>();
   const unique: Question[] = [];
   for (const question of pool) {
-    const stableId = question.id.replace(/-(variant|v)\d+$/i, "");
+    const stableId = stableQuestionIdOf(question);
     if (seen.has(stableId)) continue;
     seen.add(stableId);
     unique.push(question);
@@ -74,10 +81,12 @@ export function selectExamQuestions(basePool: Question[], criteria: ExamSelectio
   if (basePool.length === 0) {
     return {
       selected: [],
+      selectedStableIds: [],
       requestedCount: targetCount,
       availableCount: 0,
       uniqueCount: 0,
       effectiveCount: 0,
+      reusedRecentCount: 0,
       domainCounts: {},
       needsReviewCount: 0,
       warnings: ["Banque vide"],
@@ -86,16 +95,31 @@ export function selectExamQuestions(basePool: Question[], criteria: ExamSelectio
   if (filtered.length === 0 && basePool.length > 0) warnings.push("Aucune question ne correspond aux critères fins ; sélection dans toute la banque.");
   if (source.length < targetCount) warnings.push(`Banque unique insuffisante (${source.length}/${targetCount}) ; la tentative est réduite aux questions uniques disponibles.`);
 
+  // Priorité fraîcheur : les questions vues lors des tentatives récentes
+  // (criteria.recentIds) passent en fin de liste dans chaque domaine, donc
+  // ne sont piochées par le tirage ci-dessous qu'une fois les questions
+  // "fraîches" de ce domaine épuisées — jamais réutilisées avant nécessité.
+  const recentIds = criteria.recentIds;
+  const shuffledSource = shuffleArray(source, `${criteria.seed}:domains`);
+  const prioritizedSource = recentIds && recentIds.size > 0
+    ? [
+        ...shuffledSource.filter((question) => !recentIds.has(stableQuestionIdOf(question))),
+        ...shuffledSource.filter((question) => recentIds.has(stableQuestionIdOf(question))),
+      ]
+    : shuffledSource;
+
   const byDomain = new Map<string, Question[]>();
-  for (const question of shuffleArray(source, `${criteria.seed}:domains`)) {
+  for (const question of prioritizedSource) {
     const domain = questionDomain(question);
     byDomain.set(domain, [...(byDomain.get(domain) ?? []), question]);
   }
 
   const selected: Question[] = [];
-  const selectedStableIds = new Set<string>();
+  const selectedStableIdsOrdered: string[] = [];
+  const seenStableIds = new Set<string>();
   const domainOrder = shuffleArray([...byDomain.keys()], `${criteria.seed}:domain-order`);
   const selectedDomainCounts: Record<string, number> = {};
+  let reusedRecentCount = 0;
 
   const effectiveTargetCount = Math.min(targetCount, source.length);
   while (selected.length < effectiveTargetCount) {
@@ -104,11 +128,17 @@ export function selectExamQuestions(basePool: Question[], criteria: ExamSelectio
     const bucket = byDomain.get(domainId);
     const next = bucket?.shift();
     if (!next) continue;
-    const stableId = next.id.replace(/-(variant|v)\d+$/i, "");
-    if (selectedStableIds.has(stableId)) continue;
-    selectedStableIds.add(stableId);
+    const stableId = stableQuestionIdOf(next);
+    if (seenStableIds.has(stableId)) continue;
+    seenStableIds.add(stableId);
     selected.push(next);
+    selectedStableIdsOrdered.push(stableId);
+    if (recentIds?.has(stableId)) reusedRecentCount++;
     selectedDomainCounts[domainId] = (selectedDomainCounts[domainId] ?? 0) + 1;
+  }
+
+  if (recentIds && recentIds.size > 0 && reusedRecentCount > 0 && reusedRecentCount === selected.length) {
+    warnings.push("Banque insuffisante pour éviter toute répétition — certaines questions récentes ont dû être réutilisées.");
   }
 
   const domainCounts: Record<string, number> = {};
@@ -125,10 +155,12 @@ export function selectExamQuestions(basePool: Question[], criteria: ExamSelectio
 
   return {
     selected: normalized,
+    selectedStableIds: selectedStableIdsOrdered,
     requestedCount: targetCount,
     availableCount: filtered.length || basePool.length,
     uniqueCount: source.length,
     effectiveCount: normalized.length,
+    reusedRecentCount,
     domainCounts,
     needsReviewCount,
     warnings,

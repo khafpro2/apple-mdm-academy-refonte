@@ -102,6 +102,12 @@ export type ExamSelectionCriteria = {
   platforms?: ApplePlatformName[];
   providerTags?: Array<"apple" | "jamf" | "intune" | "entra">;
   level?: ExamDifficulty;
+  /**
+   * ID stables (voir `stableQuestionId`) vus lors des tentatives récentes.
+   * Ces questions sont déprioritisées — sélectionnées seulement si la banque
+   * "fraîche" restante ne suffit pas à atteindre `count`.
+   */
+  recentIds?: Set<string>;
 };
 
 export type ExamQuestion = Question & ExamQuestionMetadata;
