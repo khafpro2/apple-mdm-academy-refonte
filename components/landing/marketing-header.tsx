@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { AcademyLogo } from "@/components/layout/academy-logo";
 
 const NAV_LINKS = [
+  { href: "#apple", label: "Apple" },
+  { href: "#jamf", label: "Jamf" },
+  { href: "#intune", label: "Intune" },
   { href: "/parcours", label: "Parcours" },
   { href: "/certifications", label: "Certifications" },
-  { href: "/labs", label: "Labs" },
+  { href: "/quiz", label: "Quiz" },
   { href: "/pricing", label: "Tarifs" },
-  { href: "/support", label: "Support" },
 ];
 
 type Props = { authSlot: ReactNode };
@@ -17,10 +19,26 @@ type Props = { authSlot: ReactNode };
 /** Header épuré dédié à la landing page — pas de sidebar applicative (Dashboard, etc.) pour un visiteur anonyme. */
 export function MarketingHeader({ authSlot }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border-light bg-surface/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-6 lg:px-8">
+    <header
+      className={`sticky top-0 z-30 border-b border-border-light backdrop-blur-xl transition-all duration-300 ${
+        scrolled ? "bg-surface/95 shadow-sm" : "bg-surface/90"
+      }`}
+    >
+      <div
+        className={`mx-auto flex max-w-7xl items-center gap-6 px-6 transition-all duration-300 lg:px-8 ${
+          scrolled ? "h-14" : "h-16"
+        }`}
+      >
         <AcademyLogo size="sm" />
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Navigation principale">

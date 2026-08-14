@@ -6,14 +6,15 @@ import { FreePlatformBanner } from "@/components/layout/free-platform-banner";
 import { AuthButtons } from "@/components/auth/auth-buttons";
 import { MarketingHeader } from "@/components/landing/marketing-header";
 import { HeroSection } from "@/components/landing/hero-section";
+import { AppleSection } from "@/components/landing/apple-section";
+import { JamfSection } from "@/components/landing/jamf-section";
+import { IntuneSection } from "@/components/landing/intune-section";
 import { CertificationsSection } from "@/components/landing/certifications-section";
 import { StatsSection } from "@/components/landing/stats-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { FaqSection } from "@/components/landing/faq-section";
 import { CtaSection } from "@/components/landing/cta-section";
-import { SectionHeading, ButtonLink } from "@/components/ui";
-import { getVisibleTracks } from "@/lib/data";
-import { TrackCard } from "@/components/cards";
+import { ButtonLink } from "@/components/ui";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/i18n";
 
@@ -35,9 +36,41 @@ function AuthButtonsFallback() {
   );
 }
 
+function QuizExamensBand() {
+  return (
+    <section className="border-t border-border-light bg-surface-elevated">
+      <div className="mx-auto max-w-5xl px-6 py-16 text-center lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-ink md:text-3xl">Quiz &amp; Examens blancs</h2>
+        <p className="mx-auto mt-3 max-w-xl text-ink-secondary">
+          Entraînez-vous avec des quiz dynamiques et des examens blancs chronométrés, alignés sur les certifications
+          Apple, Jamf et Microsoft.
+        </p>
+        <ButtonLink href="/quiz" variant="secondary" size="lg" className="mt-6">
+          Voir les quiz
+        </ButtonLink>
+      </div>
+    </section>
+  );
+}
+
+function LabsBand() {
+  return (
+    <section className="border-t border-border-light bg-surface">
+      <div className="mx-auto max-w-5xl px-6 py-16 text-center lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-ink md:text-3xl">Labs pratiques</h2>
+        <p className="mx-auto mt-3 max-w-xl text-ink-secondary">
+          Manipulez de vrais scénarios MDM en environnement guidé, sans risque pour votre flotte.
+        </p>
+        <ButtonLink href="/labs" variant="secondary" size="lg" className="mt-6">
+          Explorer les Labs
+        </ButtonLink>
+      </div>
+    </section>
+  );
+}
+
 export function LandingPage({ locale = "fr" }: Props) {
   const dict = getDictionary(locale);
-  const visibleTracks = getVisibleTracks();
 
   return (
     <div className="flex min-h-screen flex-col bg-surface">
@@ -51,26 +84,14 @@ export function LandingPage({ locale = "fr" }: Props) {
         }
       />
       <main id="main-content" className="flex-1" tabIndex={-1}>
-        <HeroSection dict={dict} />
-        <CertificationsSection />
-        <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <SectionHeading
-              label="Parcours"
-              title="Tous les parcours disponibles"
-              description={`${visibleTracks.length} parcours professionnels — Apple, Jamf et Intune pour les environnements Apple.`}
-            />
-            <Link href="/parcours" className="shrink-0 text-sm font-semibold text-accent hover:underline">
-              Catalogue complet →
-            </Link>
-          </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visibleTracks.map((track) => (
-              <TrackCard key={track.slug} track={track} />
-            ))}
-          </div>
-        </section>
+        <HeroSection />
+        <AppleSection />
+        <JamfSection />
+        <IntuneSection />
         <StatsSection />
+        <CertificationsSection />
+        <QuizExamensBand />
+        <LabsBand />
         <TestimonialsSection />
         <FaqSection />
         <CtaSection dict={dict} />

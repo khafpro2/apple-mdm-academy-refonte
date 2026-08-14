@@ -1,81 +1,33 @@
-import Link from "next/link";
-import { ButtonLink, Badge } from "@/components/ui";
-import { ProgressOverview } from "@/components/cards";
-import type { Dictionary } from "@/lib/i18n/dictionaries/fr";
+import { ButtonLink } from "@/components/ui";
 
-type Props = { dict: Dictionary };
+const UNIVERSE_BUTTONS = [
+  { href: "#apple", label: "Apple" },
+  { href: "#jamf", label: "Jamf" },
+  { href: "#intune", label: "Intune" },
+] as const;
 
-export function HeroSection({ dict }: Props) {
+export function HeroSection() {
   return (
     <section className="relative overflow-hidden">
-      {/* Gradient background */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(0,113,227,0.12),transparent)]" />
-
-      <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-
-          {/* Text content */}
-          <div className="animate-[fadeInUp_0.6s_ease-out_both]">
-            <Badge variant="accent" className="mb-6">
-              {dict.hero.badge}
-            </Badge>
-            <h1 className="text-4xl font-bold tracking-tight text-ink md:text-6xl lg:text-[4.25rem] lg:leading-[1.05]">
-              {dict.hero.title}
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-secondary md:text-xl">
-              {dict.hero.subtitle}
-            </p>
-            <form action="/parcours" method="get" role="search" className="mt-8 max-w-xl">
-              <label htmlFor="hero-search" className="sr-only">
-                Rechercher un parcours Apple, Jamf ou Intune
-              </label>
-              <div className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-2 shadow-sm focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 sm:flex-row">
-                <input
-                  id="hero-search"
-                  name="q"
-                  type="search"
-                  placeholder="Rechercher Apple Business Manager, Jamf, Intune..."
-                  className="min-h-12 flex-1 rounded-xl border-0 bg-transparent px-4 text-base text-ink outline-none placeholder:text-ink-tertiary"
-                />
-                <button
-                  type="submit"
-                  className="min-h-12 rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                >
-                  Rechercher
-                </button>
-              </div>
-            </form>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <ButtonLink href="/auth/signup" size="lg">
-                {dict.hero.ctaPrimary}
+      <div className="mx-auto max-w-3xl px-6 py-24 text-center lg:px-8 lg:py-32">
+        <div className="animate-[fadeInUp_0.6s_ease-out_both]">
+          <h1 className="text-5xl font-bold tracking-tight text-ink md:text-7xl lg:leading-[1.05]">
+            Maîtrisez Apple MDM.
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-secondary md:text-xl">
+            Formez-vous sur Apple, Jamf et Microsoft Intune avec des cours pratiques, des labs, des quiz et des
+            examens blancs.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            {UNIVERSE_BUTTONS.map((universe) => (
+              <ButtonLink key={universe.href} href={universe.href} variant="secondary" size="lg">
+                {universe.label}
               </ButtonLink>
-              <ButtonLink href="/auth/login" variant="secondary" size="lg">
-                Connexion
-              </ButtonLink>
-              <ButtonLink href="/parcours" variant="secondary" size="lg">
-                {dict.hero.ctaSecondary}
-              </ButtonLink>
-            </div>
-            <p className="mt-6 text-sm text-ink-tertiary">
-              Sans carte bancaire · Accès Free immédiat ·{" "}
-              <Link href="/pricing" className="font-medium text-accent hover:underline">
-                {dict.nav.pricing}
-              </Link>
-            </p>
+            ))}
           </div>
-
-          {/* Dashboard preview */}
-          <div className="animate-[fadeInUp_0.6s_ease-out_0.15s_both]">
-            <ProgressOverview
-              percent={78}
-              tracks={[
-                { title: "Jamf 100", percent: 100 },
-                { title: "Apple IT Professional", percent: 64 },
-                { title: "Intune Apple", percent: 52 },
-                { title: "Apple Security", percent: 38 },
-              ]}
-            />
-          </div>
+          <p className="mt-8 text-sm font-medium text-ink-tertiary">
+            Une seule plateforme. Trois expertises. Une carrière.
+          </p>
         </div>
       </div>
     </section>

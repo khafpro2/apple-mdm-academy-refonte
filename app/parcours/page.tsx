@@ -14,23 +14,31 @@ export const metadata = buildPageMetadata({
   path: "/parcours",
 });
 
+const CATEGORY_LABELS = { apple: "Apple", jamf: "Jamf", intune: "Intune" } as const;
+
 type Props = {
-  searchParams?: Promise<{ q?: string }>;
+  searchParams?: Promise<{ q?: string; category?: string }>;
 };
 
 export default async function ParcoursPage({ searchParams }: Props) {
   const params = await searchParams;
   const query = params?.q?.trim() ?? "";
+  const category =
+    params?.category && params.category in CATEGORY_LABELS
+      ? (params.category as keyof typeof CATEGORY_LABELS)
+      : undefined;
   const visibleTracks = getVisibleTracks();
   const normalizedQuery = query.toLowerCase();
-  const filteredTracks = normalizedQuery
-    ? visibleTracks.filter((track) =>
+  const filteredTracks = visibleTracks
+    .filter((track) => !category || track.category === category)
+    .filter(
+      (track) =>
+        !normalizedQuery ||
         [track.title, track.description, track.certification ?? "", track.level]
           .join(" ")
           .toLowerCase()
           .includes(normalizedQuery),
-      )
-    : visibleTracks;
+    );
 
   return (
     <PageShell>
@@ -97,7 +105,17 @@ export default async function ParcoursPage({ searchParams }: Props) {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-lg font-bold text-ink">Parcours par technologie</h2>
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="text-lg font-bold text-ink">Parcours par technologie</h2>
+            {category && (
+              <>
+                <Badge variant="accent">Filtre : {CATEGORY_LABELS[category]}</Badge>
+                <Link href="/parcours" className="text-sm font-medium text-accent hover:underline">
+                  Réinitialiser
+                </Link>
+              </>
+            )}
+          </div>
           <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filteredTracks.map((track) => (
               <TrackCard key={track.slug} track={track} />
