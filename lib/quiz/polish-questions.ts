@@ -2,7 +2,6 @@ import type { Question } from "@/lib/types";
 import {
   hasLengthImbalance,
   isWeakDistractor,
-  lacksScenario,
 } from "@/lib/quiz/quality-audit";
 
 const LENGTH_SUFFIXES = [
@@ -93,22 +92,11 @@ function replaceWeakDistractors(q: Question): Question {
   return { ...q, options };
 }
 
-function addScenarioContext(q: Question): Question {
-  if (!lacksScenario(q) || q.text.length >= 100) return q;
-  const lowerFirst =
-    q.text.charAt(0).toLowerCase() + q.text.slice(1);
-  return {
-    ...q,
-    text: `En contexte enterprise Apple MDM, ${lowerFirst}`,
-  };
-}
-
-/** Améliore équilibre longueurs, distracteurs et scénarios avant audit/session. */
+/** Améliore équilibre longueurs et distracteurs avant audit/session. */
 export function polishQuestion(q: Question): Question {
   let out = q;
   out = replaceWeakDistractors(out);
   out = balanceLengths(out);
-  out = addScenarioContext(out);
   return out;
 }
 
