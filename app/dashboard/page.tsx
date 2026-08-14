@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/layout";
 import { SectionHeading, ProgressBar } from "@/components/ui";
+import { BadgeIcon } from "@/components/ui/badge-icon";
 import { ProgressOverview } from "@/components/cards";
 import { LearnerStatsGrid } from "@/components/dashboard/learner-stats";
 import { LeaderboardPanel } from "@/components/dashboard/leaderboard-panel";
@@ -265,7 +266,7 @@ export default async function DashboardPage() {
                   className={`rounded-2xl p-4 text-center transition ${badge.earned ? "bg-ink text-white shadow-md" : "bg-surface text-ink-tertiary opacity-70"}`}
                   title={badge.description}
                 >
-                  <span className="text-2xl" aria-hidden="true">{badge.icon}</span>
+                  <BadgeIcon name={badge.icon} size={24} className="mx-auto" />
                   <p className="mt-2 text-xs font-semibold leading-tight">{badge.name}</p>
                 </div>
               ))}

@@ -52,12 +52,12 @@ export const pricingPlans: PricingPlan[] = [
 ];
 
 export const badges: Badge[] = [
-  { id: "first-lab", name: "Premier lab", icon: "🧪", description: "Complète ton premier lab pratique", earned: true, earnedAt: "2026-05-01" },
-  { id: "jamf-100", name: "Jamf 100", icon: "📱", description: "Réussis le quiz Jamf 100 avec 75%+", earned: true, earnedAt: "2026-05-12" },
-  { id: "streak-7", name: "Streak 7 jours", icon: "🔥", description: "7 jours consécutifs d'apprentissage", earned: false },
-  { id: "apple-pro", name: "Apple Pro", icon: "🍏", description: "Complète Apple IT Professional", earned: false },
-  { id: "quiz-master", name: "Quiz Master", icon: "🎯", description: "100% sur 5 quiz différents", earned: false },
-  { id: "lab-expert", name: "Lab Expert", icon: "⚡", description: "Complète 6 labs pratiques", earned: false },
+  { id: "first-lab", name: "Premier lab", icon: "flask", description: "Complète ton premier lab pratique", earned: true, earnedAt: "2026-05-01" },
+  { id: "jamf-100", name: "Jamf 100", icon: "device", description: "Réussis le quiz Jamf 100 avec 75%+", earned: true, earnedAt: "2026-05-12" },
+  { id: "streak-7", name: "Streak 7 jours", icon: "flame", description: "7 jours consécutifs d'apprentissage", earned: false },
+  { id: "apple-pro", name: "Apple Pro", icon: "apple-mark", description: "Complète Apple IT Professional", earned: false },
+  { id: "quiz-master", name: "Quiz Master", icon: "target", description: "100% sur 5 quiz différents", earned: false },
+  { id: "lab-expert", name: "Lab Expert", icon: "bolt", description: "Complète 6 labs pratiques", earned: false },
 ];
 
 export const userProgress: UserProgress = {

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Lab } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
+import { BadgeIcon } from "@/components/ui/badge-icon";
 import { saveLabProgress } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
@@ -301,8 +302,9 @@ export function LabWorkspace({ lab, isAuthenticated }: LabWorkspaceProps) {
                   {newBadgeIds.map((id) => {
                     const b = getBadgeById(id);
                     return b ? (
-                      <span key={id} className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white">
-                        {b.icon} {b.name}
+                      <span key={id} className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white">
+                        <BadgeIcon name={b.icon} size={16} />
+                        {b.name}
                       </span>
                     ) : null;
                   })}

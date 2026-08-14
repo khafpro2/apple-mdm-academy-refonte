@@ -1,4 +1,5 @@
 import type { LogoName } from "@/lib/navigation/logo-names";
+import type { BadgeIconName } from "@/lib/navigation/badge-icon-names";
 
 export type Track = {
   slug: string;
@@ -272,7 +273,7 @@ export type PricingPlan = {
 export type Badge = {
   id: string;
   name: string;
-  icon: string;
+  icon: BadgeIconName;
   description: string;
   earned: boolean;
   earnedAt?: string;

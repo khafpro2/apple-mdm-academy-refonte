@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
+import { BadgeIcon } from "@/components/ui/badge-icon";
 import { getUser } from "@/lib/supabase/server";
 import { fetchTranscriptData } from "@/lib/supabase/queries";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
@@ -111,7 +112,7 @@ export default async function TranscriptPage() {
               <div className="mt-4 flex flex-wrap gap-3">
                 {transcript.badges.map((b) => (
                   <div key={b.id} className="rounded-2xl bg-ink px-4 py-3 text-center text-white shadow-sm">
-                    <span className="text-2xl">{b.icon}</span>
+                    <BadgeIcon name={b.icon} size={24} className="mx-auto" />
                     <p className="mt-1 text-xs font-semibold">{b.name}</p>
                   </div>
                 ))}

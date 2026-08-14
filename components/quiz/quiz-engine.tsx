@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import type { Quiz } from "@/lib/types";
 import { Button, ProgressBar, Badge } from "@/components/ui";
+import { BadgeIcon } from "@/components/ui/badge-icon";
 import { saveQuizResult } from "@/app/actions/progress";
 import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
@@ -198,8 +199,9 @@ export function QuizEngine({
               {newBadgeIds.map((id) => {
                 const badge = getBadgeById(id);
                 return badge ? (
-                  <span key={id} className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-sm">
-                    {badge.icon} {badge.name}
+                  <span key={id} className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-sm">
+                    <BadgeIcon name={badge.icon} size={16} />
+                    {badge.name}
                   </span>
                 ) : null;
               })}

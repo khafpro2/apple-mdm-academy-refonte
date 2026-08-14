@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Quiz, Question } from "@/lib/types";
 import { Button } from "@/components/ui";
+import { BadgeIcon } from "@/components/ui/badge-icon";
 import { getBadgeById } from "@/lib/badges-config";
 import { formatDuration } from "@/lib/data/exams/exam-utils";
 import type { ScoreTier } from "@/lib/exam/exam-config";
@@ -136,8 +137,9 @@ export function ExamResultView({
             {newBadgeIds.map((id) => {
               const badge = getBadgeById(id);
               return badge ? (
-                <span key={id} className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-sm">
-                  {badge.icon} {badge.name}
+                <span key={id} className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-sm">
+                  <BadgeIcon name={badge.icon} size={16} />
+                  {badge.name}
                 </span>
               ) : null;
             })}

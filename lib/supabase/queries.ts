@@ -3,6 +3,7 @@ import { tracks } from "@/lib/data/tracks";
 import { quizzes } from "@/lib/data/quizzes";
 import { badgeCatalog } from "@/lib/badges-config";
 import type { LeaderboardEntry, LearnerStats } from "@/lib/types";
+import type { BadgeIconName } from "@/lib/navigation/badge-icon-names";
 import { premiumBadgeIds } from "@/lib/badges-config";
 import { trackCertificates, evaluateCertification, evaluateAllCertificationPaths } from "@/lib/certifications";
 import type { CertificationEligibility, PathCertificationEligibility } from "@/lib/certifications";
@@ -31,7 +32,7 @@ export type DashboardData = {
   globalPercent: number;
   tracks: { slug: string; title: string; percent: number }[];
   recentActivity: { label: string; date: string; type: string }[];
-  badges: { id: string; name: string; icon: string; description: string; earned: boolean; earnedAt?: string }[];
+  badges: { id: string; name: string; icon: BadgeIconName; description: string; earned: boolean; earnedAt?: string }[];
   certificates: { quizSlug: string; name: string; score: string; date: string; status: "available" | "locked" }[];
   stats: LearnerStats;
   leaderboard: LeaderboardEntry[];
@@ -409,7 +410,7 @@ export async function countCompletedLabs(userId: string) {
 export type TranscriptData = {
   modules: { slug: string; courseSlug: string; score: number; completedAt: string }[];
   labs: { slug: string; completedAt: string }[];
-  badges: { id: string; name: string; icon: string; earnedAt: string }[];
+  badges: { id: string; name: string; icon: BadgeIconName; earnedAt: string }[];
   exams: {
     id: string;
     quizSlug: string;
@@ -465,7 +466,7 @@ export async function fetchTranscriptData(userId: string): Promise<TranscriptDat
     return {
       id: b.badge_id as string,
       name: meta?.name ?? b.badge_id,
-      icon: meta?.icon ?? "🏅",
+      icon: meta?.icon ?? "trophy",
       earnedAt: b.earned_at as string,
     };
   });
