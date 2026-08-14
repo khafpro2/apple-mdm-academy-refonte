@@ -30,7 +30,7 @@ export function TrackLogo({ logo, size = 28, alt, className = "", trackSlug }: T
 
   return (
     <span
-      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/8 ${className}`}
+      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-accent/8 ${className}`}
     >
       {brandLogo}
     </span>
