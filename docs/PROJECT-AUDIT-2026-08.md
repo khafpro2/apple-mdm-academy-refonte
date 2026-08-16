@@ -34,7 +34,7 @@ La plateforme est un **LMS Next.js ambitieux et déjà très large** (parcours A
 | Repo | [khafpro2/apple-mdm-academy-refonte](https://github.com/khafpro2/apple-mdm-academy-refonte) |
 | Prod | https://apple-mdm-academy-refonte.vercel.app |
 | Stack | Next.js 16 App Router, React 19, Tailwind 4, TypeScript, Supabase Auth, Vercel |
-| Volume | ~567 fichiers TS/TSX, ~78 650 lignes, 82 pages, 15 routes API, 23 pages admin, 139 composants |
+| Volume | ~567 fichiers TS/TSX, ~78 650 lignes, 82 `page.tsx`, **675** routes générées au build (quasi toutes dynamiques), 15 API, 23 pages admin, 139 composants |
 
 Périmètre V1 déclaré : Apple / Jamf / Intune uniquement. Les MDM hors scope (Kandji, Mosyle, Addigy, Workspace ONE) sont bloqués en 404 réelle via `proxy.ts` + `lib/v1/block-removed-paths.ts`. C’est une bonne discipline produit.
 
@@ -99,11 +99,14 @@ flowchart LR
 |------|----------------|------|
 | Parcours (`tracks`) | 14 visibles | Apple 1–5, Jamf 100/170/200/300/400, Intune, Azure |
 | Cours | 18 slugs racine | Structure complète ; qualité inégale (templates vs leçons custom) |
-| Labs | 37 | Présents ; beaucoup de scénarios générés / génériques |
-| Examens | 12 type `examen` | Formats tracés ; **banques sous-dimensionnées** (voir §7) |
-| Scripts vidéo | ~30 | Catalogue + mode préparation ; **aucun MP4** dans `public/videos/` |
+| Labs | **75** exportés (`lib/labs` + expert/ACITP) | Score interne labs 98/100 — heuristique généreuse (scénarios souvent générés) |
+| Quiz | **74** type quiz | Scoring client uniquement |
+| Examens | **12** type `examen` | Formats tracés ; **banques sous-dimensionnées** (voir §7) |
+| Leçons | **197** | Seulement **55** au statut `complet` (audit pédagogique) |
+| Scripts / fiches vidéo | ~76 items audit | Catalogue + mode préparation ; **aucun MP4** dans `public/videos/` |
 | HeyGen | `heygenVideoResults = {}` | Pipeline vide |
-| Ressources | ~35 | Checklists + guides prod vidéo |
+| Ressources | **110** (audit LMS) | Checklists + guides prod ; score interne 100 |
+| Captures | 122 référencées | **24 manquantes** |
 | Dashboard | Oui | Fallback localStorage si schéma incomplet |
 | Certificats PDF | Oui | Générés côté serveur **à partir du score client** |
 | Tarifs / Stripe | UI présente | Checkout = stub ; mode gratuit |
@@ -111,6 +114,15 @@ flowchart LR
 | i18n | `/` FR + `/en` | Landing seulement ; le reste est FR |
 
 Les audits internes (`/admin/final-audit`, pédagogique, LMS, screenshots) existent et sont utiles. En revanche `getProjectScores()` ajoute des constantes (`technique: 95`, `ux: 90`…) indépendantes des checks : **ne pas les citer comme KPI**.
+
+Mesures runtime du 16/08/2026 :
+
+| Audit | Score global | Lecture critique |
+|-------|--------------|------------------|
+| Pédagogique `runPedagogicalAudit()` | 89 | Leçons 88 alors que 55/197 seulement sont `complet` — le barème est trop indulgent |
+| LMS `runLmsAudit()` | 91 | 6 modules complets, 3 partiels, 1 incomplet (`platform-sso-mfa`, `examen-intune-mac` manquants) |
+| Vidéos (sous-score pédago) | 66 | Aligné avec l’absence de MP4 |
+| Captures | 80 | 24 chemins manquants / 122 |
 
 ---
 
@@ -148,6 +160,10 @@ Classement : **P0** = exploitable maintenant si l’app est publique ; **P1** = 
 | S14 | **Contact : succès silencieux** | Si Resend échoue, `saveToSupabase` est un no-op (`void payload`) mais l’API répond `ok: true`. Messages perdus. Policy `contact_requests` admin s’appuie sur `current_setting('app.admin_emails')` jamais initialisé. |
 | S15 | **API v1 CORS `*`** | `/api/v1/users` expose un user démo. Catalogue public OK ; le endpoint `users` n’a rien à faire en ouvert. |
 
+### P1 — Dépendances (`npm audit --omit=dev`)
+
+`next@16.2.7` est dans la plage vulnérable **9.3.4-canary.0 – 16.3.0-preview.10** (4 advisory high, dont un **bypass Middleware / Proxy** App Router + Turbopack, DoS Server Actions, SSRF). `postcss`, `nanoid` et `sharp` (dev/image) sont aussi en high. Le projet utilise précisément `proxy.ts` + build Turbopack : **mettre à jour Next.js en priorité**.
+
 ### P2 — Headers et hygiène
 
 - Headers présents : `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`.
@@ -155,6 +171,7 @@ Classement : **P0** = exploitable maintenant si l’app est publique ; **P1** = 
 - `X-XSS-Protection: 1; mode=block` est obsolète / contre-productif sur les navigateurs modernes.
 - Rate-limits contact / assistant : Map processus, reset à chaque cold start, partageable entre users derrière le même `x-forwarded-for`.
 - Exemple d’URL projet dans `lib/supabase/env-validation.ts` (`uqlhjtgcfbbhkcvjdybs.supabase.co`) : identifiant d’instance réel dans le code.
+- Build : warning NFT « whole project traced » sur `app/admin/video-pipeline/production-packs` (fs dynamique) — déjà partiellement mitigé par `outputFileTracingExcludes`.
 
 ---
 
@@ -208,8 +225,8 @@ Placeholders logos Microsoft/Intune/Entra/Learn avec TODO explicites. Disclaimer
 
 | Contrôle | État |
 |----------|------|
-| `npm run lint` (`--max-warnings 0`) | Script présent ; **pas de CI** pour l’appliquer |
-| `npm run build` | Idem |
+| `npm run lint` (`--max-warnings 0`) | **OK** le 16/08/2026 ; **pas de CI** pour l’appliquer |
+| `npm run build` | **OK** (Next 16.2.7 Turbopack, 675 pages) ; warning NFT admin vidéo |
 | Tests unitaires | 1 fichier : `tests/unit/auth-signup.test.ts` |
 | E2E Playwright | 2 specs. `audit.spec.ts` hardcode l’URL **prod** au lieu de `baseURL` |
 | GitHub Actions | **Aucun** dossier `.github/` |
@@ -238,29 +255,30 @@ E2E `audit.spec.ts` échoue volontairement si un bouton collapse sidebar existe 
 
 ### Immédiat (sécurité preview)
 
-1. Protéger `POST /api/auth/demo/provision` (secret, IP allowlist, ou script CLI uniquement — supprimer la route publique).
-2. Exiger `SUPABASE_WEBHOOK_SECRET` (fail closed).
-3. Auth + quota sur `/api/assistant/chat` ; envoyer la clé Anthropic **uniquement serveur** ; désactiver la route si clé absente (503).
-4. Brancher `blockDemoWrite()` dans toutes les Server Actions d’écriture.
-5. Retirer `users` de l’API v1 publique.
+1. **Upgrader Next.js** hors de la plage CVE (bypass proxy / DoS Server Actions).
+2. Protéger `POST /api/auth/demo/provision` (secret, IP allowlist, ou script CLI uniquement — supprimer la route publique).
+3. Exiger `SUPABASE_WEBHOOK_SECRET` (fail closed).
+4. Auth + quota sur `/api/assistant/chat` ; envoyer la clé Anthropic **uniquement serveur** ; désactiver la route si clé absente (503).
+5. Brancher `blockDemoWrite()` dans toutes les Server Actions d’écriture.
+6. Retirer `users` de l’API v1 publique.
 
 ### Avant tout discours « certificat » / tarif payant
 
-6. Recalculer score et `passed` **côté serveur** à partir des réponses + banque ; ne plus faire confiance au client.
-7. Servir les examens sans `correctIndex` au client (API session + correction serveur).
-8. Vérification certificat en **service role** + payload public minimal (nom, examen, date, hash) — pas toute la ligne `quiz_results`.
-9. Unifier le schéma SQL (une chaîne de migrations) ; ajouter `tier` seulement quand Stripe est réel.
-10. `FREE_PLATFORM_MODE` + `getEffectiveTier` : une seule source de vérité ; ne plus forcer enterprise.
-11. Checkout Stripe réel **ou** retirer les routes stub du produit.
+7. Recalculer score et `passed` **côté serveur** à partir des réponses + banque ; ne plus faire confiance au client.
+8. Servir les examens sans `correctIndex` au client (API session + correction serveur).
+9. Vérification certificat en **service role** + payload public minimal (nom, examen, date, hash) — pas toute la ligne `quiz_results`.
+10. Unifier le schéma SQL (une chaîne de migrations) ; ajouter `tier` seulement quand Stripe est réel.
+11. `FREE_PLATFORM_MODE` + `getEffectiveTier` : une seule source de vérité ; ne plus forcer enterprise.
+12. Checkout Stripe réel **ou** retirer les routes stub du produit.
 
 ### Produit V1 (qualité)
 
-12. CI : `lint` + `type-check` + `build` sur chaque PR.
-13. Compléter les banques sous les cibles **ou** masquer les simulations « full length ».
-14. Aligner Jamf 100 sur 50 Q / 60 min / 80 %.
-15. Pipeline captures lab (données fictives) ; retirer ou reléguer les assets « official » Apple.
-16. Fusionner ou fermer les PRs draft vidéo/auth pour réduire le WIP.
-17. i18n : soit landing EN seulement (assumer FR-only), soit extraire les strings du shell.
+13. CI : `lint` + `type-check` + `build` sur chaque PR.
+14. Compléter les banques sous les cibles **ou** masquer les simulations « full length ».
+15. Aligner Jamf 100 sur 50 Q / 60 min / 80 %.
+16. Pipeline captures lab (données fictives) ; retirer ou reléguer les assets « official » Apple.
+17. Fusionner ou fermer les PRs draft vidéo/auth pour réduire le WIP.
+18. i18n : soit landing EN seulement (assumer FR-only), soit extraire les strings du shell.
 
 ### Ne pas faire maintenant
 
@@ -302,4 +320,16 @@ Elle n’est **pas** encore :
 - une plateforme vidéo ;
 - un process ingénierie avec CI et schéma unique.
 
-Traiter S1–S8 avant d’élargir l’audience au-delà d’un cercle de confiance. Ensuite : scoring serveur, banques QCM, médias lab, Stripe ou assumer durablement le gratuit.
+Traiter S1–S8 et l’upgrade Next.js avant d’élargir l’audience au-delà d’un cercle de confiance. Ensuite : scoring serveur, banques QCM, médias lab, Stripe ou assumer durablement le gratuit.
+
+---
+
+## 13. Vérifications de cette revue
+
+| Commande | Résultat (16/08/2026) |
+|----------|------------------------|
+| `npm run lint` | OK, 0 warning |
+| `npm run build` | OK, Next.js 16.2.7 Turbopack, 675 pages |
+| `npm audit --omit=dev` | 4 high (next, postcss, nanoid, sharp) |
+| `runPedagogicalAudit()` | global 89 ; 55/197 leçons `complet` |
+| `runLmsAudit()` | global 91 ; 1 module incomplet (PSSO / examen-intune-mac) |
