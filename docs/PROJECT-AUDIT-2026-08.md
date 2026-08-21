@@ -1,335 +1,286 @@
-# Audit projet — Apple MDM Academy
+# Audit projet — Apple MDM Academy (v2)
 
-**Date :** 16 août 2026  
-**Branche de référence :** `main` @ `a869c15`  
-**Périmètre :** architecture, sécurité, produit V1, contenu, qualité, ops  
-**Méthode :** revue statique du dépôt (code, schémas SQL, routes, tests, PRs GitHub). Les scores admin existants (`getProjectScores`) ne sont **pas** repris tels quels : ils sont en partie hardcodés.
+**Date :** 21 août 2026  
+**Révision :** 2e passe (la v1 du 16 août est entièrement reprise et recoupée)  
+**Référence :** `main` @ `a869c15` — **aucun commit produit depuis le 16 août**  
+**Méthode :** revue code + scripts `audit:exams`, `audit:quizzes`, pédagogique, LMS, liens internes, `npm test`, `npm audit`, `lint`, `build`
+
+Les scores affichés dans `/admin/final-audit` (`getProjectScores`) restent **hardcodés** : ils ne sont pas utilisés ici.
+
+---
+
+## Delta vs audit du 16 août
+
+| | |
+|---|---|
+| Code `main` | Inchangé (`a869c15`) |
+| Findings P0/P1 du 16/08 | **Tous encore ouverts** |
+| Correctifs livrés | Aucun |
+| WIP parallèle | 12 PRs ouvertes/draft (vidéo, OAuth Google, motion) **non mergées** |
+
+Cette v2 n’est pas une copie : les banques d’examens, la qualité QCM, le consentement analytics et le partage de certificats ont été mesurés en runtime.
 
 ---
 
 ## 1. Verdict
 
-La plateforme est un **LMS Next.js ambitieux et déjà très large** (parcours Apple / Jamf / Intune, quiz, examens, labs, dashboard, admin). Elle est **crédible comme preview / formation gratuite**, pas encore comme **produit certifiant ou SaaS payant**.
+La plateforme est un **LMS Next.js large et déjà navigable** (Apple / Jamf / Intune). Elle convient à une **preview / formation gratuite**. Elle n’est **pas** un produit certifiant, ni un SaaS facturé, ni un examen anti-triche.
 
-| Dimension | Note | Commentaire |
-|-----------|------|-------------|
-| Architecture applicative | 7/10 | App Router cohérent, auth SSR, périmètre V1 filtré |
-| Complétude produit V1 | 6/10 | Catalogue riche ; médias, paiements et sync progression incomplets |
-| Sécurité | 4/10 | Plusieurs failles réelles avant mise en production payante |
-| Contenu pédagogique | 6/10 | Volume élevé ; banques d’examens et captures encore partielles |
-| Qualité / tests / CI | 2/10 | ~78 kLOC TS, 4 fichiers de tests, **aucun** workflow GitHub Actions |
-| Ops / production | 4/10 | Vercel + headers de base ; Stripe / emails / assistant stub |
-| Marque / légal | 5/10 | Disclaimers présents ; logos et assets « officiels » à risque |
-| **Global production** | **5/10** | OK preview ; bloquant pour certificats « officiels » et billing |
+| Dimension | 16/08 | 21/08 | Commentaire |
+|-----------|-------|-------|-------------|
+| Architecture | 7/10 | 7/10 | App Router, auth SSR, filtre V1 — inchangé |
+| Complétude V1 | 6/10 | 6/10 | Catalogue riche ; 142/197 leçons non « complet » |
+| Sécurité | 4/10 | **3/10** | P0 confirmés + CVE Next sur `proxy.ts` + certificats publics cassés |
+| Pédagogie | 6/10 | 6/10 | Score interne 89 trompeur ; QCM runtime **63/100** |
+| Tests / CI | 2/10 | 2/10 | 11 tests unitaires auth ; **0** GitHub Actions |
+| Ops / prod | 4/10 | 4/10 | Build vert ; Stripe / vidéos / assistant stub |
+| Marque / légal | 5/10 | 5/10 | Disclaimers OK ; Analytics Vercel hors bandeau cookies |
+| **Global production** | **5/10** | **5/10** | Preview OK ; bloquant certificats + billing |
 
-**Recommandation :** geler les nouvelles surfaces (admin, studio visuel, API v1) et traiter d’abord la sécurité, le schéma Supabase unique, le scoring serveur des examens, puis les médias et les banques QCM.
+**Recommandation :** geler les nouvelles surfaces. Traiter dans l’ordre : upgrade Next.js, lock des routes démo/webhooks, scoring serveur, puis banques Apple Device Support / Intune Apple.
 
 ---
 
-## 2. Identité du projet
+## 2. Identité
 
 | | |
 |---|---|
 | Produit | Formation FR indépendante Apple MDM, Jamf Pro, Microsoft Intune |
 | Repo | [khafpro2/apple-mdm-academy-refonte](https://github.com/khafpro2/apple-mdm-academy-refonte) |
 | Prod | https://apple-mdm-academy-refonte.vercel.app |
-| Stack | Next.js 16 App Router, React 19, Tailwind 4, TypeScript, Supabase Auth, Vercel |
-| Volume | ~567 fichiers TS/TSX, ~78 650 lignes, 82 `page.tsx`, **675** routes générées au build (quasi toutes dynamiques), 15 API, 23 pages admin, 139 composants |
+| Stack | Next.js **16.2.7** (CVE high), React 19.2, Tailwind 4, TypeScript, Supabase Auth, Vercel |
+| Auth prod | Email + mot de passe uniquement (Google OAuth = PR #20, pas sur `main`) |
 
-Périmètre V1 déclaré : Apple / Jamf / Intune uniquement. Les MDM hors scope (Kandji, Mosyle, Addigy, Workspace ONE) sont bloqués en 404 réelle via `proxy.ts` + `lib/v1/block-removed-paths.ts`. C’est une bonne discipline produit.
-
----
-
-## 3. Architecture
-
-### Points solides
-
-- **App Router** avec layouts, loading/error, metadata SEO, sitemap/robots.
-- **Auth** : `@supabase/ssr`, cookies HTTP-only, Server Actions (`app/actions/auth.ts`), callback `/auth/callback`, politique mot de passe côté UX.
-- **Proxy Next 16** (`proxy.ts`) : refresh session + blocage des slugs hors V1.
-- **Admin** : `requireAdmin()` dans `app/admin/layout.tsx` (gate réelle, pas seulement UI).
-- **Contenu versionné en code** (pas de CMS) : reproductible, auditable, adapté à un catalogue pédagogique.
-
-### Points faibles
-
-1. **Double arborescence `lib/` et `src/lib/`**  
-   Vidéos, ressources, storyboards vivent sous `src/lib/` ; le reste sous `lib/`. Coût de navigation et risque de duplications.
-
-2. **Deux moteurs d’examens**  
-   `lib/exam/*` (catalogue, session localStorage, audit) et `lib/exams/*` (formats officiels, scoring, sélection). Ils s’appellent l’un l’autre. Fragile à maintenir.
-
-3. **Surface trop large vs cœur LMS**  
-   23 pages `/admin/*`, studio visuel, pipeline HeyGen, API OpenAPI, dashboard enterprise démo, assistant IA. Beaucoup de **scaffolding** autour d’un cœur encore incomplet (vidéos, Stripe, scoring serveur).
-
-4. **Schéma SQL fragmenté**  
-   `schema.sql` → `schema-admin.sql` → `schema-phase2.sql` → `migrations/20260611_contact_achievements.sql`. Pas de runner de migrations (ni CLI Supabase). Drift inévitable entre environnements.
-
-5. **Mode gratuit forcé**  
-   `FREE_PLATFORM_MODE = true` dans `lib/pricing/platform-access.ts`. `getEffectiveTier()` retourne **toujours** `"enterprise"` (même hors mode gratuit). Le paywall est du code mort, pas un produit.
-
-```mermaid
-flowchart LR
-  subgraph client [Navigateur]
-    UI[Pages App Router]
-    LS[localStorage progression / examens / abo]
-  end
-  subgraph next [Next.js Vercel]
-    Proxy[proxy.ts]
-    Actions[Server Actions]
-    API[API routes]
-    Admin[requireAdmin]
-  end
-  subgraph data [Données]
-    Code[lib/data catalogues]
-    SB[(Supabase Auth + RLS)]
-  end
-  UI --> Proxy --> Actions
-  UI --> API
-  Actions --> SB
-  UI --> LS
-  UI --> Code
-  Admin --> SB
-```
+Périmètre V1 (Apple / Jamf / Intune) : les slugs Kandji / Mosyle / Addigy / Workspace ONE renvoient une **404 HTTP réelle** via `proxy.ts`. Bon.
 
 ---
 
-## 4. Inventaire produit (état réel)
+## 3. Inventaire mesuré (21/08)
 
-| Zone | Volume observé | État |
-|------|----------------|------|
-| Parcours (`tracks`) | 14 visibles | Apple 1–5, Jamf 100/170/200/300/400, Intune, Azure |
-| Cours | 18 slugs racine | Structure complète ; qualité inégale (templates vs leçons custom) |
-| Labs | **75** exportés (`lib/labs` + expert/ACITP) | Score interne labs 98/100 — heuristique généreuse (scénarios souvent générés) |
-| Quiz | **74** type quiz | Scoring client uniquement |
-| Examens | **12** type `examen` | Formats tracés ; **banques sous-dimensionnées** (voir §7) |
-| Leçons | **197** | Seulement **55** au statut `complet` (audit pédagogique) |
-| Scripts / fiches vidéo | ~76 items audit | Catalogue + mode préparation ; **aucun MP4** dans `public/videos/` |
-| HeyGen | `heygenVideoResults = {}` | Pipeline vide |
-| Ressources | **110** (audit LMS) | Checklists + guides prod ; score interne 100 |
-| Captures | 122 référencées | **24 manquantes** |
-| Dashboard | Oui | Fallback localStorage si schéma incomplet |
-| Certificats PDF | Oui | Générés côté serveur **à partir du score client** |
-| Tarifs / Stripe | UI présente | Checkout = stub ; mode gratuit |
-| Assistant | `/assistant` + `/api/assistant/chat` | Route existante **sans clé API** |
-| i18n | `/` FR + `/en` | Landing seulement ; le reste est FR |
+| Zone | Volume | État réel |
+|------|--------|-----------|
+| Parcours | 14 visibles | Apple 1–5, Jamf 100–400, Intune, Azure |
+| Cours | 18 slugs | Structure OK |
+| Leçons | **197** | **55 complet / 130 partiel / 12 à améliorer** |
+| Labs | **75** | Heuristique interne 98/100 (scénarios souvent générés) |
+| Quiz type `quiz` | 74 (LMS) / **86** (qualité QCM, tous types) | Scoring **client** |
+| Examens | 12 routes | 9/12 banques « complètes » au sens moteur ; 3 simulations réduites |
+| Questions QCM | **1514** runtime | Qualité **63/100** ; 384 distracteurs faibles |
+| Ressources | 110 | Score interne 100 |
+| Captures | 122 réf. | **24 manquantes** |
+| Vidéos | ~76 fiches | **0 MP4** dans `public/videos/` ; HeyGen `{}` |
+| Pages App Router | 82 `page.tsx` | Build : 675 routes, quasi toutes dynamiques |
+| Admin | 23 pages | Gate `requireAdmin()` réelle |
+| API | 15 routes | Plusieurs stubs ou trop ouvertes |
+| i18n | `/` + `/en` | Landing EN seulement |
 
-Les audits internes (`/admin/final-audit`, pédagogique, LMS, screenshots) existent et sont utiles. En revanche `getProjectScores()` ajoute des constantes (`technique: 95`, `ux: 90`…) indépendantes des checks : **ne pas les citer comme KPI**.
-
-Mesures runtime du 16/08/2026 :
-
-| Audit | Score global | Lecture critique |
-|-------|--------------|------------------|
-| Pédagogique `runPedagogicalAudit()` | 89 | Leçons 88 alors que 55/197 seulement sont `complet` — le barème est trop indulgent |
-| LMS `runLmsAudit()` | 91 | 6 modules complets, 3 partiels, 1 incomplet (`platform-sso-mfa`, `examen-intune-mac` manquants) |
-| Vidéos (sous-score pédago) | 66 | Aligné avec l’absence de MP4 |
-| Captures | 80 | 24 chemins manquants / 122 |
+Liens internes : **254** scannés, **0 cassé** (`scripts/check-internal-links.mjs`).
 
 ---
 
-## 5. Sécurité (priorité haute)
+## 4. Sécurité — findings re-vérifiés
 
-Classement : **P0** = exploitable maintenant si l’app est publique ; **P1** = à corriger avant billing / certificats ; **P2** = durcissement.
+Tous les IDs S1–S15 du 16/08 sont **toujours présents** dans le code. Nouveaux : S16–S19.
 
-### P0 — Endpoints et secrets
+### P0 — exposé si l’app est publique
 
-| ID | Finding | Détail |
-|----|---------|--------|
-| S1 | **Provision démo non authentifiée + service role** | `POST /api/auth/demo/provision` crée/reset le user démo et reseede la base dès que `SUPABASE_SERVICE_ROLE_KEY` est défini. Pas d’auth, pas de secret partagé. |
-| S2 | **Mot de passe démo dans le dépôt** | `DEMO_USER_PASSWORD = "Demo123!"` dans `lib/demo/constants.ts`. Connu de quiconque clone le repo. |
-| S3 | **Session démo sans compte** | `POST /api/auth/demo/session` pose un cookie `ama_demo_session=1` et ouvre `/dashboard`. Acceptable en preview ; dangereux si le dashboard expose des données réelles. |
-| S4 | **Webhook Supabase ouvert si secret absent** | `verifySecret` : `if (!WEBHOOK_SECRET) return true`. N’importe qui peut POST `/api/webhooks/supabase` et déclencher des emails. |
-| S5 | **Assistant Anthropic sans authentification ni clé** | `POST /api/assistant/chat` n’envoie pas `x-api-key` / `ANTHROPIC_API_KEY`. Soit l’appel échoue toujours, soit une clé d’environnement implicite n’est pas dans ce repo. Rate-limit **in-memory** (inefficace sur Vercel serverless). Pas de gate utilisateur. |
-| S6 | **`blockDemoWrite()` n’est jamais appelé** | Le garde-fou lecture seule du compte démo n’est branché nulle part. Un login démo peut écrire progression / quiz. |
+| ID | Statut 21/08 | Finding | Preuve |
+|----|----------------|---------|--------|
+| S1 | **Ouvert** | `POST /api/auth/demo/provision` utilise le **service role** sans auth | `app/api/auth/demo/provision/route.ts` — `POST()` public |
+| S2 | **Ouvert** | Mot de passe démo dans le git | `DEMO_USER_PASSWORD = "Demo123!"` |
+| S3 | **Ouvert** | Cookie démo sans compte → `/dashboard` | `POST /api/auth/demo/session` |
+| S4 | **Ouvert** | Webhook Supabase **fail-open** | `if (!WEBHOOK_SECRET) return true` |
+| S5 | **Ouvert** | Assistant sans clé, sans user, rate-limit mémoire | fetch Anthropic **sans** `x-api-key` |
+| S6 | **Ouvert** | `blockDemoWrite()` jamais importé hors sa définition | grep : uniquement `lib/demo/demo-write-guard.ts` |
+| S16 | **Ouvert** | `next@16.2.7` dans la plage CVE **bypass Middleware/Proxy** + DoS Server Actions | `npm audit` ; le projet **utilise** `proxy.ts` + Turbopack |
 
-### P1 — Intégrité des examens et certificats
+### P1 — examens, certificats, billing
 
-| ID | Finding | Détail |
-|----|---------|--------|
-| S7 | **Scoring 100 % client** | `QuizEngine` / `ExamEngine` calculent `score` / `passed` et les envoient à `saveQuizResult` → `insertQuizResult` **sans re-vérification**. Un utilisateur authentifié peut insérer 100 % et obtenir un PDF. |
-| S8 | **Réponses dans le bundle JS** | Les QCM (y compris `correctIndex`) sont dans `lib/data/quizzes.ts` importé par des Client Components. Les examens « blancs » ne sont pas des examens. |
-| S9 | **Vérification publique de certificat cassée** | `/api/certificates/verify/[id]` lit `quiz_results` avec le client utilisateur. RLS = « own rows only ». Un tiers non connecté (ou un autre user) reçoit 404. La page `/certificat/verify` ne peut pas fonctionner comme preuve publique. |
-| S10 | **Webhook Stripe inopérant et dangereux** | Signature HMAC comparée en `===` (pas timing-safe). Client cookie (pas service role). Colonnes `tier` / `stripe_customer_id` **absentes** des schémas SQL. Checkout répond « Implémenter stripe.checkout.sessions.create() ici ». |
+| ID | Statut | Finding |
+|----|--------|---------|
+| S7 | **Ouvert** | `insertQuizResult` enregistre `score` / `passed` **tels quels**, sans recalcul, **sans clamp 0–100** |
+| S8 | **Ouvert** | `correctIndex` dans le bundle client (`lib/data/quizzes.ts` → Client Components) |
+| S9 | **Ouvert** | `/api/certificates/verify/[id]`, `/certificat/verify`, `/share/certificat/[id]` lisent `quiz_results` avec le client user. RLS = own rows. **Un tiers ne peut pas vérifier un certificat.** La page share LinkedIn est donc un 404 pour le public. |
+| S10 | **Ouvert** | Stripe checkout/portal = stubs ; webhook HMAC `===` ; pas de colonnes `tier` / `stripe_customer_id` en SQL |
+| S17 | **Ouvert** | Banques **présentées official-verified** alors que la simulation est incomplète : Apple Device Support **10/80** |
 
-### P1 — AuthZ admin et données
+### P1 — données / admin
 
-| ID | Finding | Détail |
-|----|---------|--------|
-| S11 | **Admin via `ADMIN_EMAILS` env** | Si l’email match la liste Vercel, `checkIsAdmin` retourne true même hors `admin_allowlist`. OK si l’email est vraiment celui du compte ; double source de vérité (env + SQL) à documenter. |
-| S12 | **Stats abonnements inventées** | `fetchAdminStats` : `proUsers = round(totalUsers * 0.12)`. Dashboard admin **menteur** sur le MRR. |
-| S13 | **Vue `leaderboard_scores`** | Agrège `full_name` + scores. Selon les GRANTs Supabase, une vue `security definer` (défaut) peut **contourner RLS** des tables sous-jacentes. À vérifier en SQL Editor (`security_invoker`). |
-| S14 | **Contact : succès silencieux** | Si Resend échoue, `saveToSupabase` est un no-op (`void payload`) mais l’API répond `ok: true`. Messages perdus. Policy `contact_requests` admin s’appuie sur `current_setting('app.admin_emails')` jamais initialisé. |
-| S15 | **API v1 CORS `*`** | `/api/v1/users` expose un user démo. Catalogue public OK ; le endpoint `users` n’a rien à faire en ouvert. |
+| ID | Statut | Finding |
+|----|--------|---------|
+| S11 | **Ouvert** | Admin = `ADMIN_EMAILS` **ou** `admin_allowlist` (double source) |
+| S12 | **Ouvert** | MRR admin inventé : `proUsers = round(totalUsers * 0.12)` |
+| S13 | **Ouvert** | Vue `leaderboard_scores` sans `security_invoker` explicite — risque de fuite `full_name` |
+| S14 | **Ouvert** | Contact : Resend KO → fallback SQL **no-op** mais `ok: true` |
+| S15 | **Ouvert** | `/api/v1/users` public + CORS `*` |
+| S18 | **Ouvert** | Middleware ne protège que `/dashboard` et `/admin`. `/account/billing` n’est pas dans `PROTECTED_PREFIXES` (aujourd’hui redirigé par `FREE_PLATFORM_MODE`). |
 
-### P1 — Dépendances (`npm audit --omit=dev`)
+### P2
 
-`next@16.2.7` est dans la plage vulnérable **9.3.4-canary.0 – 16.3.0-preview.10** (4 advisory high, dont un **bypass Middleware / Proxy** App Router + Turbopack, DoS Server Actions, SSRF). `postcss`, `nanoid` et `sharp` (dev/image) sont aussi en high. Le projet utilise précisément `proxy.ts` + build Turbopack : **mettre à jour Next.js en priorité**.
+| ID | Finding |
+|----|---------|
+| S19 | `<Analytics />` et `<SpeedInsights />` sont **toujours** montés dans `app/layout.tsx`. Le bandeau cookies ne coupe que `trackEvent()` custom — pas le tracker Vercel. |
+| — | Pas de CSP / HSTS applicatif ; `X-XSS-Protection` obsolète |
+| — | Rate-limits in-memory (Vercel : une Map par instance) |
+| — | URL projet réelle dans `lib/supabase/env-validation.ts` (`uqlhjtgcfbbhkcvjdybs.supabase.co`) |
+| — | `getEffectiveTier()` retourne **toujours** `"enterprise"` |
 
-### P2 — Headers et hygiène
-
-- Headers présents : `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`.
-- **Absents :** `Content-Security-Policy`, `Strict-Transport-Security` (HSTS souvent au edge Vercel, à confirmer).
-- `X-XSS-Protection: 1; mode=block` est obsolète / contre-productif sur les navigateurs modernes.
-- Rate-limits contact / assistant : Map processus, reset à chaque cold start, partageable entre users derrière le même `x-forwarded-for`.
-- Exemple d’URL projet dans `lib/supabase/env-validation.ts` (`uqlhjtgcfbbhkcvjdybs.supabase.co`) : identifiant d’instance réel dans le code.
-- Build : warning NFT « whole project traced » sur `app/admin/video-pipeline/production-packs` (fs dynamique) — déjà partiellement mitigé par `outputFileTracingExcludes`.
-
----
-
-## 6. Données & progression
-
-### Ce qui est bien
-
-- RLS activé sur profiles, progress, quiz_results, badges, lesson_progress, study_sessions.
-- Trigger `handle_new_user` + `ensureUserProfile` côté app (les commits récents `#9` / `#11` ont durci l’inscription).
-- `is_admin()` + `admin_allowlist` en SQL `security definer` avec `search_path` vide.
-
-### Trous
-
-- Progression **double-écrite** : Supabase **et** localStorage (`lib/lesson/progress-storage.ts`, `lib/exam/*-storage.ts`, `lib/pricing/subscription-storage.ts`). En cas de schéma incomplet, l’app « marche » en local : OK pour démo, **mauvais pour un apprenant multi-device**.
-- Pas de colonnes billing sur `profiles`.
-- Migration `contact_requests` non branchée au code contact.
-- Pas de tests d’intégration RLS.
+`sanitizeRedirectPath` est correct (tests unitaires OK) : pas d’open-redirect identifié sur le callback.
 
 ---
 
-## 7. Pédagogie, examens, médias
+## 5. Examens — mesures runtime
 
-### Examens
+`scripts/audit-exams.ts` : **12 examens**, 0 erreur, **12 warnings**, 24 info. Banques « complètes » moteur : **9/12**.
 
-`docs/exams/exam-bank-readiness.md` est honnête : banques inférieures aux cibles (ex. Apple Device Support 10/80, Intune Apple 35/60). Le moteur réduit la simulation et affiche un warning — bon comportement.
+| Route | Banque unique / cible UI | Format | Simulation full | Risque produit |
+|-------|--------------------------|--------|-----------------|----------------|
+| `apple-device-support` | **10 / 80** | official-verified | **Non** | Affiche un format Apple officiel avec 10 questions |
+| `intune-apple` | **35 / 60** | internal | **Non** | Catalogue trop ambitieux |
+| `apple-enterprise-expert` | **65 / 100** | internal | **Non** | Idem |
+| `jamf-100` | 100 / 50 (officiel 50) | official-verified | Oui (50) | `examQuestionCounts` dit encore **100** — incohérence |
+| `apple-it-professional` | 200 / 200 | internal | Oui | IDs dupliqués en source (copies) |
+| `jamf-200` | 200 / 60 | needs-review | Oui | Ne pas vendre comme officiel |
+| `jamf-300` | 285 / 75 | needs-review | Oui | IDs `j200-cmp-*` recopiés |
+| `jamf-400` | 360 / 90 | needs-review | Oui | Idem copies Jamf 200 |
+| `apple-deployment` | 100 / 80 | official-verified | Oui | IDs dupliqués en source |
+| `apple-security` | 100 / 100 | internal | Oui | |
+| `apple-enterprise-architect` | 200 / 200 | internal | Oui | Nombreux IDs dupliqués |
+| `intune-apple-advanced` | 100 / 60 | internal | Oui | |
 
-Incohérences de cibles :
+Le moteur réduit correctement la tentative si la banque est trop petite (warning UI). **Le catalogue ne doit pas laisser croire à une simu 80 questions Apple Device Support.**
 
-- `examQuestionCounts["examen-jamf-100"] = 100` vs format officiel tracé **50 questions / 60 min / 80 %**.
-- Certains quiz `examen-*` n’embarquent que `.slice(0, 5)` dans l’objet quiz ; le pool réel est ailleurs. Correct si l’UI utilise toujours `getExamPool`, risqué si un écran lit `quiz.questions`.
+Qualité QCM (`audit:quizzes`) :
 
-Les formats Jamf 200/300/400 et Intune « Apple » sont marqués `needs-review` / `internal`. Ne pas les vendre comme équivalent officiel.
+- Score runtime **63/100** (source brute 56/100)
+- 384 distracteurs faibles, 44 questions trop faciles
+- Avant shuffle, biais massif sur la position B (1381) — le runtime mélange, mais les items restent reconnaissables (bonne réponse plus longue)
 
-### Médias
-
-Audit existant `audit/media-usage-audit.md` (juin 2026) toujours pertinent :
-
-- Pas de MP4 publiés.
-- Captures générées / « originals » Apple-Jamf à risque IP.
-- `public/logos/apple.svg` silhouette Apple — usage marque strictement encadré.
-
-Les pages `/videos` basculent en mode préparation : conforme aux PROJECT_RULES (« ne pas bloquer le site si médias absents »).
-
-### Marque
-
-Placeholders logos Microsoft/Intune/Entra/Learn avec TODO explicites. Disclaimers non-affiliation en footer : à conserver. Ne pas présenter les certificats academy comme certifications Apple/Jamf/Microsoft.
-
----
-
-## 8. Qualité, tests, process
-
-| Contrôle | État |
-|----------|------|
-| `npm run lint` (`--max-warnings 0`) | **OK** le 16/08/2026 ; **pas de CI** pour l’appliquer |
-| `npm run build` | **OK** (Next 16.2.7 Turbopack, 675 pages) ; warning NFT admin vidéo |
-| Tests unitaires | 1 fichier : `tests/unit/auth-signup.test.ts` |
-| E2E Playwright | 2 specs. `audit.spec.ts` hardcode l’URL **prod** au lieu de `baseURL` |
-| GitHub Actions | **Aucun** dossier `.github/` |
-| PRs ouvertes | 13+ (surtout DRAFT vidéo / auth / motion) — chantier parallèle non fusionné |
-| Issues GitHub | Aucune — pas de backlog tracé |
-
-`PROJECT_RULES.md` interdit de travailler sur `main` ; l’historique récent merge pourtant directement sur `main`. Divergence process Cursor vs Codex vs cloud agents.
-
-E2E `audit.spec.ts` échoue volontairement si un bouton collapse sidebar existe (`Found N sidebar arrow button(s)`) : assertion figée, pas un test de régression fiable.
+`scripts/test-exam-engine.ts` : **pass**.
 
 ---
 
-## 9. SEO, a11y, légal, ops
+## 6. Architecture & données
 
-**SEO :** metadata, OG image, JSON-LD organisation, sitemap, robots (disallow `/admin`, `/api`, `/dashboard`). URL canonique par défaut encore `apple-mdm-academy-refonte.vercel.app` — à changer dès le domaine custom.
+**Solide :** App Router, cookies auth HTTP-only, RLS de base, `requireAdmin` au layout, contenu en code, 404 V1.
 
-**A11y :** travail déjà documenté (`docs/UI-ACCESSIBILITY-AUDIT.md`) : skip-link, `lang=fr`, focus visible, cibles 44px. Contraste WCAG AA et lecteurs d’écran **non audités**.
+**Fragile :**
 
-**Légal :** `/privacy`, `/terms`, `/legal`, email `kthiam@harmytech.com`. Cookie notice + Vercel Analytics. Vérifier base légale (analytics vs consentement).
+1. `lib/` vs `src/lib/` (vidéos / ressources)
+2. `lib/exam` vs `lib/exams` (deux moteurs)
+3. 23 pages admin + studio + HeyGen autour d’un cœur (média, Stripe, scoring) incomplet
+4. SQL en 4 fichiers manuels, pas de CLI migrations
+5. `FREE_PLATFORM_MODE = true` — paywall mort
+6. Progression **Supabase + localStorage** (examens surtout locaux)
+7. Google OAuth uniquement sur PR #20 / #19, pas sur `main`
 
-**Ops :** `vercel.json` minimal (X-Robots-Tag). `outputFileTracingExcludes` pour éviter un bundle admin > 300 MB (déjà vécu). Pas de monitoring réel (`/status` est placeholder). Pas de SDK Stripe (volontaire pour le bundle) mais alors le webhook maison doit être correct — il ne l’est pas.
-
----
-
-## 10. Plan d’action priorisé
-
-### Immédiat (sécurité preview)
-
-1. **Upgrader Next.js** hors de la plage CVE (bypass proxy / DoS Server Actions).
-2. Protéger `POST /api/auth/demo/provision` (secret, IP allowlist, ou script CLI uniquement — supprimer la route publique).
-3. Exiger `SUPABASE_WEBHOOK_SECRET` (fail closed).
-4. Auth + quota sur `/api/assistant/chat` ; envoyer la clé Anthropic **uniquement serveur** ; désactiver la route si clé absente (503).
-5. Brancher `blockDemoWrite()` dans toutes les Server Actions d’écriture.
-6. Retirer `users` de l’API v1 publique.
-
-### Avant tout discours « certificat » / tarif payant
-
-7. Recalculer score et `passed` **côté serveur** à partir des réponses + banque ; ne plus faire confiance au client.
-8. Servir les examens sans `correctIndex` au client (API session + correction serveur).
-9. Vérification certificat en **service role** + payload public minimal (nom, examen, date, hash) — pas toute la ligne `quiz_results`.
-10. Unifier le schéma SQL (une chaîne de migrations) ; ajouter `tier` seulement quand Stripe est réel.
-11. `FREE_PLATFORM_MODE` + `getEffectiveTier` : une seule source de vérité ; ne plus forcer enterprise.
-12. Checkout Stripe réel **ou** retirer les routes stub du produit.
-
-### Produit V1 (qualité)
-
-13. CI : `lint` + `type-check` + `build` sur chaque PR.
-14. Compléter les banques sous les cibles **ou** masquer les simulations « full length ».
-15. Aligner Jamf 100 sur 50 Q / 60 min / 80 %.
-16. Pipeline captures lab (données fictives) ; retirer ou reléguer les assets « official » Apple.
-17. Fusionner ou fermer les PRs draft vidéo/auth pour réduire le WIP.
-18. i18n : soit landing EN seulement (assumer FR-only), soit extraire les strings du shell.
-
-### Ne pas faire maintenant
-
-- Nouvelles pages admin / studio / API.
-- Promesses commerciales Jamf 300/400 ou « certification officielle ».
-- Dashboard enterprise au-delà de la démo.
+Tables utilisées par le code **absentes** du schéma de base : `tier`, `stripe_customer_id`. Tables migrées mais **non branchées** : `contact_requests`.
 
 ---
 
-## 11. Cartographie des fichiers d’audit déjà dans le repo
+## 7. Qualité, tests, process
 
-Ne pas dupliquer ces outils : les **utiliser**, mais ne pas croire leurs scores globaux.
-
-| Outil | Rôle |
-|-------|------|
-| `/admin/final-audit` | Checklist env + volumes — scores globaux **biaisés** |
-| `/admin/pedagogical-report` | Qualité leçons/labs (marqueurs placeholder) |
-| `/admin/lms-audit` | Couverture modules vs slugs |
-| `/admin/exam-audit` | Banques QCM |
-| `/admin/content-audit` | Screenshots |
-| `audit/media-usage-audit.md` | IP / logos |
-| `docs/UI-ACCESSIBILITY-AUDIT.md` | A11y V1 |
-| `docs/exams/*` | Formats officiels vs banques |
-| `scripts/check-internal-links.mjs` | Liens internes |
-
-Cet audit-ci couvre ce que les pages admin **ne** couvrent **pas** : authZ, webhooks, Stripe, scoring client, CI, dette structurelle.
-
----
-
-## 12. Synthèse exécutive
-
-Apple MDM Academy est une **refonte déjà utilisable pour parcourir un catalogue FR** Apple / Jamf / Intune, avec une vraie ossature LMS (auth, dashboard, quiz, exams UI, labs, admin).  
-
-Elle n’est **pas** encore :
-
-- un examen anti-triche ;
-- un système de certificats vérifiables par un tiers ;
-- un SaaS facturé ;
-- une plateforme vidéo ;
-- un process ingénierie avec CI et schéma unique.
-
-Traiter S1–S8 et l’upgrade Next.js avant d’élargir l’audience au-delà d’un cercle de confiance. Ensuite : scoring serveur, banques QCM, médias lab, Stripe ou assumer durablement le gratuit.
-
----
-
-## 13. Vérifications de cette revue
-
-| Commande | Résultat (16/08/2026) |
-|----------|------------------------|
+| Check 21/08 | Résultat |
+|-------------|----------|
 | `npm run lint` | OK, 0 warning |
-| `npm run build` | OK, Next.js 16.2.7 Turbopack, 675 pages |
-| `npm audit --omit=dev` | 4 high (next, postcss, nanoid, sharp) |
-| `runPedagogicalAudit()` | global 89 ; 55/197 leçons `complet` |
-| `runLmsAudit()` | global 91 ; 1 module incomplet (PSSO / examen-intune-mac) |
+| `npm run build` | OK, Next 16.2.7 Turbopack, 675 pages ; warning NFT admin vidéo |
+| `npm test` | **11/11** pass (auth signup / password / redirect) |
+| `npm audit --omit=dev` | **4 high** (next, postcss, nanoid, sharp) |
+| Liens internes | 0 cassé |
+| E2E | 2 specs ; `audit.spec.ts` hardcode l’URL **prod** |
+| GitHub Actions | **Aucun** `.github/` |
+| PRs | #22 (cet audit) + 11 draft/open hors main |
+| Issues | 0 |
+
+`PROJECT_RULES.md` interdit de committer sur `main` ; l’historique merge quand même directement sur `main`.
+
+---
+
+## 8. SEO, a11y, légal, ops
+
+- SEO : metadata, OG, JSON-LD, sitemap. Canonique encore `*.vercel.app`.
+- `robots.ts` disallow `/admin` `/api` `/dashboard` ; `vercel.json` pose `X-Robots-Tag: index, follow` **global** — contradiction potentielle.
+- A11y : skip-link, `lang=fr`, focus ; pas d’audit contraste/lecteur d’écran.
+- Légal : `/privacy` `/terms` `/legal` ; email `kthiam@harmytech.com`. Consentement cookies **incomplet** (S19).
+- Ops : pas de monitoring réel (`/status` placeholder). Bundle admin déjà cassé une fois (>300 MB) — exclusions tracing en place.
+
+---
+
+## 9. Plan d’action (inchangé, re-priorisé)
+
+### Semaine 1 — sécurité preview
+
+1. Upgrader Next.js **hors** 16.3.0-preview.10 (CVE proxy).
+2. Supprimer ou verrouiller `POST /api/auth/demo/provision` (CLI `seed:demo` suffit).
+3. Webhook Supabase : **fail closed** si secret absent.
+4. Assistant : 401 sans session ; 503 sans `ANTHROPIC_API_KEY` ; envoyer la clé serveur.
+5. Appeler `blockDemoWrite()` dans toutes les Server Actions d’écriture.
+6. Retirer `/api/v1/users`.
+
+### Avant tout mot « certificat » ou tarif
+
+7. Recalculer score + `passed` **serveur** ; clamp 0–100 ; ignorer le `passed` client.
+8. Ne plus envoyer `correctIndex` au navigateur pour les examens.
+9. Vérification / share certificat via **service role** + payload public minimal (ou table `certificates` dédiée).
+10. Masquer ou relabeliser Apple Device Support tant que la banque < 80 uniques.
+11. Aligner Jamf 100 sur **50 Q / 60 min / 80 %** partout (`examQuestionCounts` inclus).
+12. Stripe réel **ou** retirer checkout/webhook du produit.
+
+### Qualité V1
+
+13. CI : `lint` + `test` + `build` sur chaque PR.
+14. Dédupliquer les IDs de banques (ACITP, AEA, jamf-300/400 recopiant jamf-200).
+15. Remplacer les 384 distracteurs faibles (audit QCM).
+16. Captures lab fictives ; logos Apple décoratifs hors prod.
+17. Fermer ou merger les 11 PRs draft (WIP vidéo/OAuth).
+18. Conditioner `@vercel/analytics` au consentement.
+
+### Ne pas faire
+
+- Nouvelles pages admin / studio / API
+- Promesses Jamf 300/400 ou « certification officielle »
+- Dashboard entreprise au-delà de la démo
+
+---
+
+## 10. Outils d’audit déjà dans le repo
+
+Les utiliser, **sans croire le score global admin**.
+
+| Outil | Ce qu’il mesure vraiment |
+|-------|--------------------------|
+| `/admin/final-audit` | Env + volumes — KPI globaux **biaisés** |
+| `runPedagogicalAudit()` | 89 global **malgré** 55/197 leçons complètes |
+| `runLmsAudit()` | 91 ; trou `platform-sso-mfa` / `examen-intune-mac` |
+| `audit:exams` | Banques vs cibles — **le plus fiable** pour les examens |
+| `audit:quizzes` | 63/100 qualité items |
+| `audit/media-usage-audit.md` | IP / logos (juin 2026, toujours vrai) |
+
+---
+
+## 11. Synthèse
+
+Rien n’a bougé sur `main` en cinq jours. Le diagnostic du 16 août tient, et la 2e passe l’aggrave sur trois points concrets :
+
+1. **Apple Device Support « official-verified » n’a que 10 questions.**
+2. **Les pages de partage / vérification de certificat ne marchent pas pour un tiers** (RLS).
+3. **La qualité QCM runtime est à 63/100**, pas au 89 pédagogique.
+
+Traiter S1–S7 et S16 avant d’élargir l’audience. Ensuite seulement : scoring serveur, banques, médias, Stripe ou gratuit assumé pour de bon.
+
+---
+
+## 12. Vérifications de cette passe
+
+| Commande | 21/08/2026 |
+|----------|------------|
+| `npm run lint` | OK, 0 warning |
+| `npm run build` | OK, Next 16.2.7 Turbopack, 675 pages |
+| `npm test` | 11 pass / 0 fail |
+| `npm audit --omit=dev` | 4 high |
+| `tsx scripts/audit-exams.ts` | 12 examens, 9/12 banques complètes, 0 error |
+| `tsx scripts/audit-quiz-quality.ts` | 63/100, 1514 questions |
+| `runPedagogicalAudit()` | 89 global ; 55/197 leçons complet |
+| `runLmsAudit()` | 91 ; 1 module incomplet |
+| `scripts/test-exam-engine.ts` | pass |
+| `scripts/check-internal-links.mjs` | 0 lien cassé |
