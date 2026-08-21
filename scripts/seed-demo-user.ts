@@ -3,7 +3,8 @@
  * Usage: SUPABASE_SERVICE_ROLE_KEY=... npm run seed:demo
  */
 import { createClient, type User } from "@supabase/supabase-js";
-import { DEMO_USER_EMAIL, DEMO_USER_FULL_NAME, DEMO_USER_PASSWORD } from "../lib/demo/constants";
+import { DEMO_USER_EMAIL, DEMO_USER_FULL_NAME } from "../lib/demo/constants";
+import { DEMO_USER_PASSWORD } from "../lib/demo/credentials.server";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

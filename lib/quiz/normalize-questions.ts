@@ -1,4 +1,5 @@
 import type { Question } from "@/lib/types";
+import { shuffleArray } from "@/lib/quiz/seeded-random";
 import { placeCorrectAtIndex, shuffleQuestionOptions } from "@/lib/quiz/shuffle-options";
 
 const TARGET_CYCLE: (0 | 1 | 2 | 3)[] = [0, 1, 2, 3];
@@ -16,6 +17,13 @@ export function prepareQuestionsForSession(
   questions: Question[],
   sessionSeed: string
 ): Question[] {
+  const publicOnly = questions.every((q) => q.correctIndex < 0 && !q.correctIndices);
+  if (publicOnly) {
+    return questions.map((q, i) => ({
+      ...q,
+      options: shuffleArray(q.options, `${sessionSeed}-${q.id}-${i}`),
+    }));
+  }
   const normalized = normalizeCorrectIndexDistribution(questions);
   return normalized.map((q, i) => shuffleQuestionOptions(q, `${sessionSeed}-${q.id}-${i}`));
 }

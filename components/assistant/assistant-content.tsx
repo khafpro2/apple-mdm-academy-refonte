@@ -47,6 +47,20 @@ export function AssistantContent() {
       });
 
       const data = await res.json() as { reply?: string; error?: string };
+      if (res.status === 401) {
+        setMessages((m) => [
+          ...m,
+          { role: "assistant", text: "Connectez-vous pour utiliser l'assistant pédagogique." },
+        ]);
+        return;
+      }
+      if (res.status === 503) {
+        setMessages((m) => [
+          ...m,
+          { role: "assistant", text: data.reply ?? "L'assistant n'est pas configuré sur cet environnement." },
+        ]);
+        return;
+      }
       const reply = data.reply ?? data.error ?? "Erreur inattendue.";
       setMessages((m) => [...m, { role: "assistant", text: reply }]);
     } catch {

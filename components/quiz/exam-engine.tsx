@@ -21,6 +21,7 @@ import {
   type ExamSession,
 } from "@/lib/exam/session-storage";
 import { isAnswerCorrect, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
+import { buildAnswerLabels } from "@/lib/quiz/answer-labels";
 import { ExamResultView } from "@/components/exams/exam-result-view";
 import { ExamHistoryPanel } from "@/components/quiz/exam-history-panel";
 import { ExamTimer } from "@/components/exams/exam-timer";
@@ -151,7 +152,25 @@ export function ExamEngine({
         totalSeconds > 0
           ? Math.min(totalSeconds, Math.round((Date.now() - startTimeRef.current) / 1000))
           : Math.round((Date.now() - startTimeRef.current) / 1000);
-      const { correct, total: t, percent, passed } = calculateScore(finalAnswers);
+
+      if (isAuthenticated) {
+        setSaveStatus("saving");
+      }
+
+      const scored = await saveQuizResult({
+        quizSlug: quiz.slug,
+        trackSlug: quiz.trackSlug,
+        answers: finalAnswers,
+        answerLabels: buildAnswerLabels(questions, finalAnswers),
+        durationSeconds: duration,
+        examMode: true,
+      });
+
+      const percent = scored.percent ?? calculateScore(finalAnswers).percent;
+      const passed = scored.passed ?? calculateScore(finalAnswers).passed;
+      const correct = scored.correct ?? calculateScore(finalAnswers).correct;
+      const t = scored.total ?? calculateScore(finalAnswers).total;
+
       setElapsedSeconds(duration);
       const tier = getScoreTier(percent);
 
@@ -194,30 +213,22 @@ export function ExamEngine({
 
       if (isAuthenticated && !savedRef.current) {
         savedRef.current = true;
-        setSaveStatus("saving");
-        const res = await saveQuizResult({
-          quizSlug: quiz.slug,
-          trackSlug: quiz.trackSlug,
-          score: percent,
-          passed,
-          answers: finalAnswers,
-          durationSeconds: duration,
-          examMode: true,
-        });
-        if (res.ok === false) {
-          setSaveStatus(res.reason === "not_authenticated" ? "idle" : "error");
-        } else {
+        if (scored.ok === false && scored.reason !== "not_authenticated" && scored.reason !== "demo_readonly") {
+          setSaveStatus("error");
+        } else if (scored.ok) {
           setSaveStatus("saved");
-          setNewBadgeIds(res.newBadges);
-          if (res.resultId) setResultId(res.resultId);
+          setNewBadgeIds(scored.newBadges);
+          if (scored.resultId) setResultId(scored.resultId);
           trackEvent("quiz_termine", { quiz: quiz.slug, passed, score: percent });
           if (passed) trackEvent("examen_reussi", { quiz: quiz.slug, score: percent });
+        } else {
+          setSaveStatus("idle");
         }
       }
 
       router.replace(`/examens/${routeSlug}/result`);
     },
-    [calculateScore, isAuthenticated, quiz, questions, routeSlug, router, totalSeconds]
+    [calculateScore, isAuthenticated, questions, quiz.passingScore, quiz.slug, quiz.trackSlug, quiz.title, routeSlug, router, totalSeconds]
   );
 
   useEffect(() => {
@@ -538,7 +549,7 @@ export function ExamEngine({
   const timerPercent = totalSeconds > 0 ? (secondsLeft / totalSeconds) * 100 : 0;
   const currentAnswer = answers[question.id];
   const currentAnswered = currentAnswer !== undefined;
-  const revealExplanation = activeMode === "training" && currentAnswered;
+  const revealExplanation = activeMode === "training" && currentAnswered && question.correctIndex >= 0;
 
   return (
     <div

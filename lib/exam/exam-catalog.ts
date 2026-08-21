@@ -2,9 +2,9 @@ import { getQuiz } from "@/lib/data/quizzes";
 import { examRouteToQuizSlug, examPools, examQuestionCounts } from "@/lib/data/exams/pools";
 import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
 import { isTrackVisible } from "@/lib/data/tracks";
+import { uniqueQuestionCount } from "@/lib/quiz/score-attempt";
 
 export const PRIORITY_EXAM_ROUTES = [
-  "apple-device-support",
   "apple-deployment",
   "apple-it-professional",
   "jamf-100",
@@ -49,7 +49,8 @@ export function buildExamCatalogItem(routeSlug: string): ExamCatalogItem | null 
   if (!isTrackVisible(quiz.trackSlug)) return null;
 
   const format = getExamFormat(routeSlug);
-  const baseQuestions = examPools[quizSlug]?.length ?? quiz.questions.length;
+  const pool = examPools[quizSlug] ?? quiz.questions;
+  const baseQuestions = uniqueQuestionCount(pool);
   const questionCount = getExamQuestionCount(routeSlug, quiz.examQuestionCount ?? examQuestionCounts[quizSlug] ?? 0);
   const durationMinutes = getExamDurationMinutes(routeSlug, quiz.durationMinutes);
 

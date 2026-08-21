@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
-import { DEMO_USER_EMAIL, DEMO_USER_PASSWORD } from "@/lib/demo/constants";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
 import { Button } from "@/components/ui";
 import { trackEvent } from "@/lib/analytics/events";
@@ -34,29 +33,12 @@ export function DemoLoginButton() {
         return;
       }
 
-      const supabase = createClient();
-      let signIn = await supabase.auth.signInWithPassword({
-        email: DEMO_USER_EMAIL,
-        password: DEMO_USER_PASSWORD,
-      });
+      const login = await fetch("/api/auth/demo/login", { method: "POST" });
+      const body = (await login.json()) as { ok?: boolean; error?: string; hint?: string };
 
-      if (signIn.error) {
-        const provision = await fetch("/api/auth/demo/provision", { method: "POST" });
-        const body = (await provision.json()) as { ok?: boolean; error?: string; hint?: string };
-
-        if (!provision.ok || !body.ok) {
-          if (body.error === "service_role_missing" || body.error === "supabase_not_configured") {
-            await startLocalDemoSession(redirect, router);
-            return;
-          }
-          throw new Error(body.hint ?? "Compte démo indisponible.");
-        }
-
-        signIn = await supabase.auth.signInWithPassword({
-          email: DEMO_USER_EMAIL,
-          password: DEMO_USER_PASSWORD,
-        });
-        if (signIn.error) throw signIn.error;
+      if (!login.ok || !body.ok) {
+        await startLocalDemoSession(redirect, router);
+        return;
       }
 
       trackEvent("connexion_demo");

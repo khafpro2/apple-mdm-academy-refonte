@@ -28,11 +28,6 @@ export async function GET(
   const visibleQuizzes = quizzes.filter((quiz) => isTrackVisible(quiz.trackSlug));
 
   switch (key) {
-    case "users":
-      return json({
-        data: [{ id: "demo-user", email: "demo@apple-mdm-academy.com", role: "learner" }],
-        meta: { note: "Auth requise en production — données démo" },
-      });
     case "courses":
       return json({
         data: visibleCourses.map((c) => ({
@@ -76,6 +71,6 @@ export async function GET(
         meta: { note: "Progression réelle via Supabase — démo à 0%" },
       });
     default:
-      return json({ error: "Not found", available: ["users", "courses", "labs", "exams", "certificates", "progress"] }, 404);
+      return json({ error: "Not found", available: ["courses", "labs", "exams", "certificates", "progress"] }, 404);
   }
 }

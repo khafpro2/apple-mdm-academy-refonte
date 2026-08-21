@@ -324,7 +324,7 @@ export async function insertQuizResult(
   const { error } = await supabase.from("quiz_results").insert({
     user_id: userId,
     quiz_slug: payload.quizSlug,
-    score: payload.score,
+    score: Math.max(0, Math.min(100, Math.round(payload.score))),
     passed: payload.passed,
     answers: payload.answers,
     duration_seconds: payload.durationSeconds ?? null,

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
+import { getUser } from "@/lib/supabase/server";
 
-// Rate limiting simple basé sur IP — 20 req/min par IP
 const rateLimitMap = new Map<string, { count: number; reset: number }>();
 
 function checkRateLimit(ip: string): boolean {
@@ -30,21 +30,40 @@ Si la question ne concerne pas Apple MDM/IT, indique poliment que tu es spécial
 Longueur cible : 2-5 paragraphes ou une liste courte. Sois précis et utile.`;
 
 export async function POST(req: NextRequest) {
-  // Rate limiting
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const user = await getUser();
+  if (!user) {
+    return Response.json({ error: "Authentification requise" }, { status: 401 });
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
+  if (!apiKey) {
+    return Response.json(
+      { error: "Assistant indisponible", reply: "L'assistant n'est pas configuré sur cet environnement." },
+      { status: 503 }
+    );
+  }
+
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? user.id;
   if (!checkRateLimit(ip)) {
     return Response.json({ reply: "Trop de requêtes. Attendez une minute avant de réessayer." }, { status: 429 });
   }
 
-  const body = await req.json() as {
-    messages: { role: "user" | "assistant"; content: string }[];
-  };
+  let body: { messages?: { role: "user" | "assistant"; content: string }[] };
+  try {
+    body = (await req.json()) as { messages?: { role: "user" | "assistant"; content: string }[] };
+  } catch {
+    return Response.json({ error: "Corps JSON invalide" }, { status: 400 });
+  }
 
   const { messages } = body;
-
   if (!messages?.length) {
     return Response.json({ error: "Messages requis" }, { status: 400 });
   }
+
+  const sanitized = messages
+    .filter((m) => m.role === "user" || m.role === "assistant")
+    .slice(-12)
+    .map((m) => ({ role: m.role, content: String(m.content ?? "").slice(0, 4000) }));
 
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -52,15 +71,13 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "application/json",
         "anthropic-version": "2023-06-01",
+        "x-api-key": apiKey,
       },
       body: JSON.stringify({
         model: "claude-haiku-4-5-20251001",
         max_tokens: 1024,
         system: SYSTEM_PROMPT,
-        messages: messages.map((m) => ({
-          role: m.role,
-          content: m.content,
-        })),
+        messages: sanitized,
       }),
     });
 
@@ -70,12 +87,11 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const data = await response.json() as {
+    const data = (await response.json()) as {
       content: { type: string; text: string }[];
     };
     const reply = data.content.find((c) => c.type === "text")?.text ?? "";
     return Response.json({ reply });
-
   } catch {
     return Response.json({
       reply: "Service temporairement indisponible. Réessayez dans quelques instants.",

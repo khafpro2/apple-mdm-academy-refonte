@@ -3,10 +3,9 @@
  * GET /api/og/certificat/[id]
  */
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
-import { getQuiz } from "@/lib/data/quizzes";
+import { lookupPublicCertificate } from "@/lib/certificates/public-lookup";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function GET(
   _req: NextRequest,
@@ -18,26 +17,15 @@ export async function GET(
   let score = 0;
   let dateStr = new Date().toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
 
-  try {
-    const supabase = await createClient();
-    if (supabase) {
-      const { data } = await supabase
-        .from("quiz_results")
-        .select("quiz_slug, score, completed_at")
-        .eq("id", id)
-        .eq("passed", true)
-        .maybeSingle();
-
-      if (data) {
-        const quiz = getQuiz(data.quiz_slug);
-        examTitle = quiz?.title ?? examTitle;
-        score = data.score;
-        dateStr = new Date(data.completed_at).toLocaleDateString("fr-FR", {
-          month: "long", year: "numeric",
-        });
-      }
-    }
-  } catch { /* fallback */ }
+  const cert = await lookupPublicCertificate(id);
+  if (cert) {
+    examTitle = cert.examTitle;
+    score = cert.score;
+    dateStr = new Date(cert.completedAt).toLocaleDateString("fr-FR", {
+      month: "long",
+      year: "numeric",
+    });
+  }
 
   const title = examTitle.length > 35 ? examTitle.slice(0, 32) + "…" : examTitle;
 

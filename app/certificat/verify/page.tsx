@@ -1,9 +1,8 @@
 import { PageShell } from "@/components/layout";
 import { Breadcrumb, Badge } from "@/components/ui";
-import { createClient } from "@/lib/supabase/server";
-import { getQuiz } from "@/lib/data";
-
+import { lookupPublicCertificate } from "@/lib/certificates/public-lookup";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+
 export const metadata = buildPageMetadata({
   title: "Vérification de certificat",
   description: "Vérifiez l'authenticité d'un certificat Apple MDM Academy — score, date d'obtention et titulaire.",
@@ -16,40 +15,7 @@ export default async function VerifyCertificatePage({
   searchParams: Promise<{ id?: string }>;
 }) {
   const { id } = await searchParams;
-  let data: {
-    examTitle: string;
-    score: number;
-    completedAt: string;
-    holderName: string;
-    resultId: string;
-  } | null = null;
-
-  if (id) {
-    const supabase = await createClient();
-    if (supabase) {
-      const { data: result } = await supabase
-        .from("quiz_results")
-        .select("id, quiz_slug, score, passed, completed_at, user_id")
-        .eq("id", id)
-        .maybeSingle();
-
-      if (result?.passed) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("full_name")
-          .eq("id", result.user_id)
-          .maybeSingle();
-        const quiz = getQuiz(result.quiz_slug);
-        data = {
-          resultId: result.id,
-          examTitle: quiz?.title ?? result.quiz_slug,
-          score: result.score,
-          completedAt: result.completed_at,
-          holderName: profile?.full_name ?? "Apprenant certifié",
-        };
-      }
-    }
-  }
+  const data = id ? await lookupPublicCertificate(id) : null;
 
   return (
     <PageShell>

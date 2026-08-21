@@ -10,13 +10,15 @@ import {
   countPassedQuizzes,
 } from "@/lib/supabase/queries";
 import { quizBadgeMap } from "@/lib/badges-config";
+import { blockDemoWrite } from "@/lib/demo/demo-write-guard";
+import { scoreAttemptByLabels, type AnswerLabels, type AttemptScore } from "@/lib/quiz/score-attempt";
+import { getAttemptExpectations } from "@/lib/quiz/resolve-bank";
 
 export type SaveQuizResultPayload = {
   quizSlug: string;
   trackSlug: string;
-  score: number;
-  passed: boolean;
   answers: Record<string, number | number[]>;
+  answerLabels: AnswerLabels;
   durationSeconds?: number;
   examMode?: boolean;
 };
@@ -29,37 +31,48 @@ export type SaveVideoProgressPayload = {
   durationSeconds: number;
 };
 
+async function createClient() {
+  const { createClient: create } = await import("@/lib/supabase/server");
+  return create();
+}
+
+async function rejectDemoWrite(): Promise<boolean> {
+  const guard = await blockDemoWrite();
+  return guard.blocked;
+}
+
 export async function saveVideoProgressAction(
   payload: SaveVideoProgressPayload
 ): Promise<{ ok: boolean }> {
   try {
-  const user = await getUser();
-  if (!user) return { ok: false };
+    if (await rejectDemoWrite()) return { ok: false };
+    const user = await getUser();
+    if (!user) return { ok: false };
 
-  const supabase = await createClient();
-  if (!supabase) return { ok: false };
+    const supabase = await createClient();
+    if (!supabase) return { ok: false };
 
-  const score = payload.durationSeconds
-    ? Math.min(100, Math.round((payload.currentSeconds / payload.durationSeconds) * 100))
-    : payload.completed
-      ? 100
-      : 0;
+    const score = payload.durationSeconds
+      ? Math.min(100, Math.round((payload.currentSeconds / payload.durationSeconds) * 100))
+      : payload.completed
+        ? 100
+        : 0;
 
-  const { error } = await supabase.from("lesson_progress").upsert(
-    {
-      user_id: user.id,
-      lesson_slug: `video:${payload.videoSlug}`,
-      course_slug: payload.courseSlug || "videos",
-      score: payload.completed ? 100 : score,
-      completed_at: payload.completed ? new Date().toISOString() : null,
-    },
-    { onConflict: "user_id,lesson_slug" }
-  );
+    const { error } = await supabase.from("lesson_progress").upsert(
+      {
+        user_id: user.id,
+        lesson_slug: `video:${payload.videoSlug}`,
+        course_slug: payload.courseSlug || "videos",
+        score: payload.completed ? 100 : score,
+        completed_at: payload.completed ? new Date().toISOString() : null,
+      },
+      { onConflict: "user_id,lesson_slug" }
+    );
 
-  if (error) return { ok: false };
+    if (error) return { ok: false };
 
-  revalidatePath("/dashboard");
-  return { ok: true };
+    revalidatePath("/dashboard");
+    return { ok: true };
   } catch {
     return { ok: false };
   }
@@ -75,41 +88,42 @@ export type SaveLabProgressPayload = {
 
 export async function saveLabProgress(payload: SaveLabProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {
   try {
-  const user = await getUser();
-  if (!user) return { ok: false, newBadges: [] };
+    if (await rejectDemoWrite()) return { ok: false, newBadges: [] };
+    const user = await getUser();
+    if (!user) return { ok: false, newBadges: [] };
 
-  const supabase = await createClient();
-  if (!supabase) return { ok: false, newBadges: [] };
+    const supabase = await createClient();
+    if (!supabase) return { ok: false, newBadges: [] };
 
-  const { error } = await supabase.from("lesson_progress").upsert(
-    {
-      user_id: user.id,
-      lesson_slug: payload.labSlug,
-      course_slug: "labs",
-      score: 100,
-      completed_at: new Date().toISOString(),
-    },
-    { onConflict: "user_id,lesson_slug" }
-  );
+    const { error } = await supabase.from("lesson_progress").upsert(
+      {
+        user_id: user.id,
+        lesson_slug: payload.labSlug,
+        course_slug: "labs",
+        score: 100,
+        completed_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,lesson_slug" }
+    );
 
-  if (error) return { ok: false, newBadges: [] };
+    if (error) return { ok: false, newBadges: [] };
 
-  await upsertTrackProgress(user.id, payload.trackSlug, 100);
+    await upsertTrackProgress(user.id, payload.trackSlug, 100);
 
-  const newBadges: string[] = [];
-  const { countCompletedLabs } = await import("@/lib/supabase/queries");
-  const labCount = await countCompletedLabs(user.id);
+    const newBadges: string[] = [];
+    const { countCompletedLabs } = await import("@/lib/supabase/queries");
+    const labCount = await countCompletedLabs(user.id);
 
-  if (labCount === 1 && (await awardBadge(user.id, "first-lab"))) {
-    newBadges.push("first-lab");
-  }
-  if (labCount >= 6 && (await awardBadge(user.id, "lab-expert"))) {
-    newBadges.push("lab-expert");
-  }
+    if (labCount === 1 && (await awardBadge(user.id, "first-lab"))) {
+      newBadges.push("first-lab");
+    }
+    if (labCount >= 6 && (await awardBadge(user.id, "lab-expert"))) {
+      newBadges.push("lab-expert");
+    }
 
-  revalidatePath("/dashboard");
-  revalidatePath("/labs");
-  return { ok: true, newBadges };
+    revalidatePath("/dashboard");
+    revalidatePath("/labs");
+    return { ok: true, newBadges };
   } catch {
     return { ok: false, newBadges: [] };
   }
@@ -122,18 +136,21 @@ export type SaveLessonProgressPayload = {
 };
 
 export async function saveLessonProgress(payload: SaveLessonProgressPayload): Promise<{ ok: boolean; newBadges: string[] }> {
+  if (await rejectDemoWrite()) return { ok: false, newBadges: [] };
   const user = await getUser();
   if (!user) return { ok: false, newBadges: [] };
 
   const supabase = await createClient();
   if (!supabase) return { ok: false, newBadges: [] };
 
+  const score = Math.max(0, Math.min(100, Math.round(payload.score)));
+
   const { error } = await supabase.from("lesson_progress").upsert(
     {
       user_id: user.id,
       lesson_slug: payload.lessonSlug,
       course_slug: payload.courseSlug ?? "intune-mac",
-      score: payload.score,
+      score,
       completed_at: new Date().toISOString(),
     },
     { onConflict: "user_id,lesson_slug" }
@@ -142,7 +159,7 @@ export async function saveLessonProgress(payload: SaveLessonProgressPayload): Pr
   if (error) return { ok: false, newBadges: [] };
 
   const newBadges: string[] = [];
-  if (payload.score >= 80) {
+  if (score >= 80) {
     const { lessonBadgeMap } = await import("@/lib/badges-config");
     const badgeId = lessonBadgeMap[payload.lessonSlug];
     if (badgeId && (await awardBadge(user.id, badgeId))) {
@@ -154,42 +171,58 @@ export async function saveLessonProgress(payload: SaveLessonProgressPayload): Pr
   return { ok: true, newBadges };
 }
 
-async function createClient() {
-  const { createClient: create } = await import("@/lib/supabase/server");
-  return create();
+export type SaveQuizResultResponse =
+  | ({ ok: true; newBadges: string[]; resultId?: string } & AttemptScore)
+  | ({ ok: false; reason: "not_authenticated" | "not_configured" | "demo_readonly" | "invalid_attempt" | "error"; message?: string } & Partial<AttemptScore>);
+
+function scorePayload(payload: SaveQuizResultPayload): AttemptScore | null {
+  const examMode = Boolean(payload.examMode);
+  const expectations = getAttemptExpectations(payload.quizSlug, examMode);
+  if (!expectations) return null;
+  return scoreAttemptByLabels(
+    expectations.bank,
+    payload.answerLabels ?? {},
+    expectations.expectedTotal,
+    expectations.passingScore
+  );
 }
 
-export type SaveQuizResultResponse =
-  | { ok: true; newBadges: string[]; resultId?: string }
-  | { ok: false; reason: "not_authenticated" | "not_configured" | "error"; message?: string };
-
 export async function saveQuizResult(payload: SaveQuizResultPayload): Promise<SaveQuizResultResponse> {
+  const scored = scorePayload(payload);
+  if (!scored) {
+    return { ok: false, reason: "invalid_attempt", message: "Quiz ou banque introuvable." };
+  }
+
+  if (await rejectDemoWrite()) {
+    return { ok: false, reason: "demo_readonly", message: "Compte démo en lecture seule.", ...scored };
+  }
+
   const user = await getUser();
   if (!user) {
-    return { ok: false, reason: "not_authenticated" };
+    return { ok: false, reason: "not_authenticated", ...scored };
   }
 
   const insertResult = await insertQuizResult(user.id, {
     quizSlug: payload.quizSlug,
-    score: payload.score,
-    passed: payload.passed,
+    score: scored.percent,
+    passed: scored.passed,
     answers: payload.answers,
     durationSeconds: payload.durationSeconds,
     examMode: payload.examMode,
   });
 
   if (insertResult.error === "not_configured") {
-    return { ok: false, reason: "not_configured" };
+    return { ok: false, reason: "not_configured", ...scored };
   }
   if (insertResult.error) {
-    return { ok: false, reason: "error", message: insertResult.error };
+    return { ok: false, reason: "error", message: insertResult.error, ...scored };
   }
 
-  await upsertTrackProgress(user.id, payload.trackSlug, payload.score);
+  await upsertTrackProgress(user.id, payload.trackSlug, scored.percent);
 
   const newBadges: string[] = [];
 
-  if (payload.passed) {
+  if (scored.passed) {
     const mappedBadge = quizBadgeMap[payload.quizSlug];
     if (mappedBadge && (await awardBadge(user.id, mappedBadge))) {
       newBadges.push(mappedBadge);
@@ -210,5 +243,5 @@ export async function saveQuizResult(payload: SaveQuizResultPayload): Promise<Sa
   revalidatePath("/dashboard/transcript");
   revalidatePath("/quiz");
 
-  return { ok: true, newBadges, resultId: insertResult.id ?? undefined };
+  return { ok: true, newBadges, resultId: insertResult.id ?? undefined, ...scored };
 }

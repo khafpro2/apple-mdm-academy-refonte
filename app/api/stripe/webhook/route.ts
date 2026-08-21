@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripeConfig, getTierFromPlanSlug } from "@/lib/pricing/stripe-config";
 import { createClient } from "@/lib/supabase/server";
+import { timingSafeEqualString } from "@/lib/crypto/timing-safe";
 
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";
 
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
 
-    isValid = expectedSig === receivedSig;
+    isValid = timingSafeEqualString(expectedSig, receivedSig);
   } catch (err) {
     console.error("[webhook] Signature verification failed:", err);
     return NextResponse.json({ error: "Signature invalide" }, { status: 400 });

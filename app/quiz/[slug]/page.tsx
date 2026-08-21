@@ -7,6 +7,8 @@ import { ExamEngine } from "@/components/quiz/exam-engine";
 import { getExamRouteFromQuizSlug } from "@/lib/data/exams/exam-routes";
 import { getQuiz, getExamPool, quizzes, isTrackVisible } from "@/lib/data";
 import { getUser } from "@/lib/supabase/server";
+import { toPublicQuestions } from "@/lib/quiz/public-question";
+import { uniqueQuestionCount } from "@/lib/quiz/score-attempt";
 
 export const dynamicParams = false;
 
@@ -32,6 +34,7 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ slu
   if (!quiz || !isTrackVisible(quiz.trackSlug)) notFound();
 
   const user = await getUser();
+  const examPool = getExamPool(quiz.slug) ?? quiz.questions;
 
   return (
     <PageShell>
@@ -45,13 +48,16 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ slu
         {quiz.examMode && quiz.examQuestionCount ? (
           <ExamEngine
             quiz={quiz}
-            basePool={getExamPool(quiz.slug) ?? quiz.questions}
-            questionCount={quiz.examQuestionCount}
+            basePool={toPublicQuestions(examPool)}
+            questionCount={Math.min(quiz.examQuestionCount, uniqueQuestionCount(examPool))}
             isAuthenticated={!!user}
             routeSlug={getExamRouteFromQuizSlug(quiz.slug) ?? quiz.slug}
           />
         ) : (
-          <QuizEngine quiz={quiz} isAuthenticated={!!user} />
+          <QuizEngine
+            quiz={{ ...quiz, questions: toPublicQuestions(quiz.questions) }}
+            isAuthenticated={!!user}
+          />
         )}
       </div>
     </PageShell>

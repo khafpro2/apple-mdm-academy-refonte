@@ -4,6 +4,8 @@ import { getQuizSlugFromExamRoute } from "@/lib/data/exams/pools";
 import { getRequiredTierForExam } from "@/lib/pricing/access-control";
 import { getExamDurationMinutes, getExamFormat, getExamPassingScore, getExamQuestionCount } from "@/lib/exam/exam-config";
 import { getUser } from "@/lib/supabase/server";
+import { toPublicQuestions } from "@/lib/quiz/public-question";
+import { uniqueQuestionCount } from "@/lib/quiz/score-attempt";
 
 export async function getExamPageContext(routeSlug: string) {
   const quizSlug = getQuizSlugFromExamRoute(routeSlug);
@@ -13,9 +15,14 @@ export async function getExamPageContext(routeSlug: string) {
   if (!quiz?.examMode || !quiz.examQuestionCount) return null;
 
   const user = await getUser();
-  const basePool = getExamPool(quiz.slug) ?? quiz.questions;
+  const rawPool = getExamPool(quiz.slug) ?? quiz.questions;
+  const basePool = toPublicQuestions(rawPool);
   const durationMinutes = getExamDurationMinutes(routeSlug, quiz.durationMinutes);
-  const questionCount = getExamQuestionCount(routeSlug, quiz.examQuestionCount);
+  const available = uniqueQuestionCount(rawPool);
+  const questionCount = Math.min(
+    getExamQuestionCount(routeSlug, quiz.examQuestionCount),
+    Math.max(1, available)
+  );
   const passingScore = getExamPassingScore(routeSlug, quiz.passingScore);
   const examFormat = getExamFormat(routeSlug);
 

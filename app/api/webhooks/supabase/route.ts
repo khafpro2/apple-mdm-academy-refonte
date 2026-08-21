@@ -7,12 +7,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/lib/email/send";
 import { welcomeEmail, examResultEmail } from "@/lib/email/templates";
 import { getQuiz } from "@/lib/data/quizzes";
+import { verifySharedSecret } from "@/lib/crypto/timing-safe";
 
 const WEBHOOK_SECRET = process.env.SUPABASE_WEBHOOK_SECRET;
 
 function verifySecret(req: NextRequest): boolean {
-  if (!WEBHOOK_SECRET) return true;
-  return req.headers.get("x-webhook-secret") === WEBHOOK_SECRET;
+  return verifySharedSecret(req.headers.get("x-webhook-secret"), WEBHOOK_SECRET);
 }
 
 interface Payload {

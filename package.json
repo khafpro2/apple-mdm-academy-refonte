@@ -41,7 +41,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "autoprefixer": "^10.4.21",
-    "next": "^16.2.7",
+    "next": "^16.3.2",
     "pdf-lib": "^1.17.1",
     "postcss": "^8.4.47",
     "qrcode": "^1.5.4",
@@ -54,7 +54,7 @@
     "@eslint/eslintrc": "^3.3.5",
     "@playwright/test": "^1.52.0",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.7",
+    "eslint-config-next": "^16.3.2",
     "playwright": "^1.52.0",
     "sharp": "^0.34.2"
   },

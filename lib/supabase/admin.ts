@@ -91,7 +91,6 @@ export type AdminStats = {
   advancedTrackStats: import("@/lib/data/advanced-tracks/admin-stats").AdvancedTrackAdminStat[];
 };
 
-import { estimateMrr } from "@/lib/pricing/stripe-config";
 import { buildAdvancedTrackStats } from "@/lib/data/advanced-tracks/admin-stats";
 
 export async function fetchAdminStats(): Promise<AdminStats | null> {
@@ -214,16 +213,12 @@ export async function fetchAdminStats(): Promise<AdminStats | null> {
   });
 
   const totalUsers = usersRes.count ?? 0;
-  // Placeholder jusqu'à colonne subscription_tier dans profiles
-  const proUsers = Math.max(0, Math.round(totalUsers * 0.12));
-  const enterpriseUsers = Math.max(0, Math.round(totalUsers * 0.03));
-  const freeUsers = Math.max(0, totalUsers - proUsers - enterpriseUsers);
   const subscriptionStats: AdminSubscriptionStats = {
-    freeUsers,
-    proUsers,
-    enterpriseUsers,
-    estimatedMrr: estimateMrr(proUsers, enterpriseUsers),
-    conversionRate: totalUsers > 0 ? Math.round(((proUsers + enterpriseUsers) / totalUsers) * 100) : 0,
+    freeUsers: totalUsers,
+    proUsers: 0,
+    enterpriseUsers: 0,
+    estimatedMrr: 0,
+    conversionRate: 0,
   };
 
   const advancedTrackStats = buildAdvancedTrackStats(trackStats, examStats, labCounts);

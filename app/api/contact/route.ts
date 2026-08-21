@@ -160,10 +160,10 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({
-    ok: true,
+    ok: emailSent,
     emailSent,
     message: emailSent
       ? "Votre message a bien été envoyé. Nous vous répondrons sous 24 h."
-      : "Message reçu. Nous vous contacterons sous 24 h.",
-  });
+      : "L'envoi a échoué. Réessayez plus tard ou écrivez-nous directement.",
+  }, { status: emailSent ? 200 : 503 });
 }

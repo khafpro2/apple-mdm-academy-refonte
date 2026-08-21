@@ -10,13 +10,6 @@ export const openApiSpec = {
   },
   servers: [{ url: `${siteConfig.url}/api/v1`, description: "Production" }],
   paths: {
-    "/users": {
-      get: {
-        summary: "Liste des utilisateurs",
-        tags: ["Users"],
-        responses: { "200": { description: "Liste paginée d'utilisateurs (auth requise en production)" } },
-      },
-    },
     "/courses": {
       get: {
         summary: "Catalogue des cours",

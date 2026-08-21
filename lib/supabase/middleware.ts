@@ -4,7 +4,7 @@ import { getSupabaseEnv } from "@/lib/env";
 import { sanitizeRedirectPath } from "@/lib/auth/url";
 import { DEMO_USER_EMAIL, DEMO_SESSION_COOKIE } from "@/lib/demo/constants";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/admin"];
+const PROTECTED_PREFIXES = ["/dashboard", "/admin", "/account"];
 const AUTH_PAGES = ["/auth/login", "/auth/signup", "/auth/check-email"];
 
 function hasDemoSession(request: NextRequest): boolean {

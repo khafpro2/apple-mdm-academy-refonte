@@ -9,6 +9,8 @@ import { getBadgeById } from "@/lib/badges-config";
 import { trackEvent } from "@/lib/analytics/events";
 import { prepareQuestionsForSession } from "@/lib/quiz/normalize-questions";
 import { isAnswerCorrect, isMultiSelectQuestion, scoreQuestions, type UserAnswer } from "@/lib/quiz/scoring";
+import { buildAnswerLabels } from "@/lib/quiz/answer-labels";
+import type { AttemptScore } from "@/lib/quiz/score-attempt";
 
 type Answers = Record<string, UserAnswer>;
 
@@ -29,6 +31,7 @@ export function QuizEngine({
   const [finished, setFinished] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [newBadgeIds, setNewBadgeIds] = useState<string[]>([]);
+  const [officialScore, setOfficialScore] = useState<AttemptScore | null>(null);
   const savedRef = useRef(false);
   const sessionSeedRef = useRef("");
 
@@ -42,29 +45,41 @@ export function QuizEngine({
   }
 
   async function persistResult(finalAnswers: Answers) {
-    const { percent, passed } = calculateScore(finalAnswers);
     setSaveStatus("saving");
 
-    const res = await saveQuizResult({
-      quizSlug: quiz.slug,
-      trackSlug: quiz.trackSlug,
-      score: percent,
-      passed,
-      answers: finalAnswers,
-    });
+    try {
+      const res = await saveQuizResult({
+        quizSlug: quiz.slug,
+        trackSlug: quiz.trackSlug,
+        answers: finalAnswers,
+        answerLabels: buildAnswerLabels(sessionQuestions, finalAnswers),
+      });
 
-    if (res.ok === false) {
-      if (res.reason === "not_authenticated") {
-        setSaveStatus("idle");
-      } else {
-        setSaveStatus("error");
+      if (res.percent !== undefined) {
+        setOfficialScore({
+          correct: res.correct ?? 0,
+          total: res.total ?? sessionQuestions.length,
+          percent: res.percent,
+          passed: Boolean(res.passed),
+          reviews: res.reviews ?? [],
+        });
       }
-      return;
-    }
 
-    setSaveStatus("saved");
-    setNewBadgeIds(res.newBadges);
-    trackEvent("quiz_termine", { quiz: quiz.slug, passed, score: percent });
+      if (res.ok === false) {
+        if (res.reason === "not_authenticated" || res.reason === "demo_readonly") {
+          setSaveStatus("idle");
+        } else {
+          setSaveStatus("error");
+        }
+        return;
+      }
+
+      setSaveStatus("saved");
+      setNewBadgeIds(res.newBadges);
+      trackEvent("quiz_termine", { quiz: quiz.slug, passed: res.passed, score: res.percent });
+    } catch {
+      setSaveStatus("error");
+    }
   }
 
   function startQuiz() {
@@ -80,6 +95,7 @@ export function QuizEngine({
     setFinished(false);
     setSaveStatus("idle");
     setNewBadgeIds([]);
+    setOfficialScore(null);
     savedRef.current = false;
   }
 
@@ -99,17 +115,16 @@ export function QuizEngine({
       ? selectedMultiple
       : selectedOption;
     if (answer === null || (Array.isArray(answer) && answer.length === 0)) return;
-    setAnswers({ ...answers, [question.id]: answer });
+    const updated = { ...answers, [question.id]: answer };
+    if (question.correctIndex < 0) {
+      goToNext(updated);
+      return;
+    }
+    setAnswers(updated);
     setShowResult(true);
   }
 
-  function nextQuestion() {
-    const answer: UserAnswer = isMultiSelectQuestion(question)
-      ? selectedMultiple
-      : selectedOption;
-    if (answer === null || (Array.isArray(answer) && answer.length === 0)) return;
-    const updated = { ...answers, [question.id]: answer };
-
+  function goToNext(updated: Answers) {
     if (currentIndex < total - 1) {
       setAnswers(updated);
       setCurrentIndex((i) => i + 1);
@@ -119,11 +134,19 @@ export function QuizEngine({
     } else {
       setAnswers(updated);
       setFinished(true);
-      if (isAuthenticated && !savedRef.current) {
+      if (!savedRef.current) {
         savedRef.current = true;
         void persistResult(updated);
       }
     }
+  }
+
+  function nextQuestion() {
+    const answer: UserAnswer = isMultiSelectQuestion(question)
+      ? selectedMultiple
+      : selectedOption;
+    if (answer === null || (Array.isArray(answer) && answer.length === 0)) return;
+    goToNext({ ...answers, [question.id]: answer });
   }
 
   if (!started) {
@@ -155,7 +178,16 @@ export function QuizEngine({
   }
 
   if (finished) {
-    const { correct, total: t, percent, passed } = calculateScore();
+    if (!officialScore && saveStatus === "saving") {
+      return (
+        <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm text-center">
+          <p className="text-sm text-ink-secondary">Calcul du score officiel…</p>
+        </div>
+      );
+    }
+
+    const { correct, total: t, percent, passed } = officialScore ?? calculateScore();
+    const reviewById = new Map((officialScore?.reviews ?? []).map((review) => [review.questionId, review]));
 
     return (
       <div className="rounded-3xl border border-border-light bg-surface-elevated p-8 shadow-sm">
@@ -211,15 +243,20 @@ export function QuizEngine({
           <h3 className="font-bold text-ink">Corrections</h3>
           {sessionQuestions.map((q, i) => {
             const userAnswer = answers[q.id];
-            const correct = isAnswerCorrect(q, userAnswer);
+            const review = reviewById.get(q.id);
+            const correct = review?.correct ?? isAnswerCorrect(q, userAnswer);
             const formatAnswer = (ans: UserAnswer) => {
               if (ans === undefined) return "—";
               if (Array.isArray(ans)) return ans.map((idx) => q.options[idx]).join(", ");
               return q.options[ans] ?? "—";
             };
-            const correctLabel = q.selectMultiple && q.correctIndices
-              ? q.correctIndices.map((idx) => q.options[idx]).join(", ")
-              : q.options[q.correctIndex];
+            const correctLabel = review?.correctLabels.length
+              ? review.correctLabels.join(", ")
+              : q.selectMultiple && q.correctIndices
+                ? q.correctIndices.map((idx) => q.options[idx]).join(", ")
+                : q.correctIndex >= 0
+                  ? q.options[q.correctIndex]
+                  : null;
             return (
               <div key={q.id} className={`rounded-2xl border p-4 ${correct ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}>
                 <p className="text-sm font-semibold text-ink">
@@ -228,12 +265,14 @@ export function QuizEngine({
                 <p className="mt-2 text-sm text-ink-secondary">
                   Ta réponse : {formatAnswer(userAnswer)}
                 </p>
-                {!correct && (
+                {!correct && correctLabel && (
                   <p className="mt-1 text-sm font-medium text-green-700">
                     Bonne réponse : {correctLabel}
                   </p>
                 )}
-                <p className="mt-2 text-xs text-ink-tertiary">{q.explanation}</p>
+                {(review?.explanation || q.explanation) && (
+                  <p className="mt-2 text-xs text-ink-tertiary">{review?.explanation || q.explanation}</p>
+                )}
               </div>
             );
           })}
@@ -315,7 +354,7 @@ export function QuizEngine({
         })}
       </div>
 
-      {showResult && (
+      {showResult && question.correctIndex >= 0 && (
         <div className={`mt-6 rounded-2xl p-4 ${isCorrect ? "bg-green-50 text-green-800" : "bg-amber-50 text-amber-900"}`}>
           <p className="font-semibold">{isCorrect ? "Bonne réponse !" : "Pas tout à fait…"}</p>
           <p className="mt-1 text-sm">{question.explanation}</p>

@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { lookupPublicCertificate } from "@/lib/certificates/public-lookup";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/lib/seo/site-config";
-import { getQuiz } from "@/lib/data/quizzes";
 
 export async function generateMetadata({
   params,
@@ -11,33 +10,28 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createClient();
-  if (!supabase) return { title: "Certificat" };
+  const cert = await lookupPublicCertificate(id);
 
-  const { data } = await supabase
-    .from("quiz_results")
-    .select("quiz_slug, score, completed_at")
-    .eq("id", id)
-    .eq("passed", true)
-    .maybeSingle();
-
-  if (!data) return buildPageMetadata({ title: "Certificat non trouvé", description: "Ce certificat est introuvable.", path: "/share" });
-
-  const quiz = getQuiz(data.quiz_slug);
-  const title = quiz?.title ?? "Apple MDM Academy";
+  if (!cert) {
+    return buildPageMetadata({
+      title: "Certificat non trouvé",
+      description: "Ce certificat est introuvable.",
+      path: "/share",
+    });
+  }
 
   return {
-    title: `Certification ${title} — Apple MDM Academy`,
-    description: `Score ${data.score}% — Certification vérifiable Apple MDM Academy.`,
+    title: `Certification ${cert.examTitle} — Apple MDM Academy`,
+    description: `Score ${cert.score}% — Certification vérifiable Apple MDM Academy.`,
     openGraph: {
-      title: `J'ai obtenu la certification ${title} !`,
-      description: `Score : ${data.score}% — Certification Apple MDM Academy vérifiable en ligne.`,
+      title: `J'ai obtenu la certification ${cert.examTitle} !`,
+      description: `Score : ${cert.score}% — Certification Apple MDM Academy vérifiable en ligne.`,
       type: "website" as const,
       images: [`${siteConfig.url}/api/og/certificat/${id}`],
     },
     twitter: {
       card: "summary_large_image" as const,
-      title: `Certification ${title} obtenue !`,
+      title: `Certification ${cert.examTitle} obtenue !`,
     },
   };
 }
@@ -48,36 +42,27 @@ export default async function ShareCertificatPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createClient();
-  if (!supabase) notFound();
+  const cert = await lookupPublicCertificate(id);
+  if (!cert) notFound();
 
-  const { data } = await supabase
-    .from("quiz_results")
-    .select("quiz_slug, score, completed_at")
-    .eq("id", id)
-    .eq("passed", true)
-    .maybeSingle();
-
-  if (!data) notFound();
-
-  const quiz = getQuiz(data.quiz_slug);
-  const title = quiz?.title ?? "Certification Apple MDM";
-  const completedAt = new Date(data.completed_at).toLocaleDateString("fr-FR", {
-    day: "numeric", month: "long", year: "numeric",
+  const completedAt = new Date(cert.completedAt).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
 
   const shareUrl = `${siteConfig.url}/share/certificat/${id}`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Certification "${title}" obtenue sur Apple MDM Academy ! Score : ${data.score}%`)}&url=${encodeURIComponent(shareUrl)}`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Certification "${cert.examTitle}" obtenue sur Apple MDM Academy ! Score : ${cert.score}%`)}&url=${encodeURIComponent(shareUrl)}`;
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-16 text-center">
-      {/* Carte */}
       <div className="overflow-hidden rounded-3xl border-2 border-accent/20 bg-gradient-to-br from-blue-50 via-white to-purple-50 px-8 py-12 shadow-lg">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-accent/10 text-5xl">🏆</div>
         <p className="text-sm font-semibold uppercase tracking-wider text-accent">Certification obtenue</p>
-        <h1 className="mt-2 text-2xl font-bold text-ink">{title}</h1>
-        <p className="mt-1 text-3xl font-extrabold text-accent">{data.score}%</p>
+        <h1 className="mt-2 text-2xl font-bold text-ink">{cert.examTitle}</h1>
+        <p className="mt-1 text-lg font-semibold text-ink">{cert.holderName}</p>
+        <p className="mt-1 text-3xl font-extrabold text-accent">{cert.score}%</p>
         <p className="mt-1 text-sm text-ink-tertiary">Obtenu le {completedAt}</p>
         <div className="mt-6 flex justify-center gap-2 text-xs text-ink-tertiary">
           <span>Apple MDM Academy</span>
@@ -86,7 +71,6 @@ export default async function ShareCertificatPage({
         </div>
       </div>
 
-      {/* Partage */}
       <div className="mt-8">
         <p className="mb-4 text-sm font-semibold text-ink">Partager ma certification</p>
         <div className="flex flex-wrap justify-center gap-3">
