@@ -159,6 +159,156 @@ export const courseCompatibilityDefaults: Record<
       APPLE_PLATFORM_DEPLOYMENT,
     ],
   },
+  // Contenu : Computers + Mobile Devices, policies et profils multi-plateformes (courses.ts).
+  "jamf-fundamentals": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Jamf Learning Hub",
+        publisher: "Jamf",
+        url: "https://learn.jamf.com/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Contenu : administration Jamf Pro (EA, scripts, Self Service, enrollment) — macOS et mobile (courses.ts).
+  "jamf-170": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Jamf Learning Hub",
+        publisher: "Jamf",
+        url: "https://learn.jamf.com/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Contenu : API Jamf Pro, patch management et intégrations enterprise multi-plateformes (courses.ts).
+  "jamf-200": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Jamf Learning Hub",
+        publisher: "Jamf",
+        url: "https://learn.jamf.com/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Contenu : architecture/API Jamf Pro ; modules scripting et packages surtout macOS (module-definitions.ts).
+  "jamf-300": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Jamf Learning Hub",
+        publisher: "Jamf",
+        url: "https://learn.jamf.com/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Contenu : automatisation Jamf Pro ; modules sécurité/scripts Bash et zero-touch centrés macOS (module-definitions.ts).
+  "jamf-400": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Jamf Learning Hub",
+        publisher: "Jamf",
+        url: "https://learn.jamf.com/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Contenu : Entra ID, ABM, Intune et Defender pour flottes Apple ; leçons macOS dominantes (courses.ts).
+  "azure-for-apple-admins": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Microsoft Intune — Apple device management",
+        publisher: "Microsoft",
+        url: "https://learn.microsoft.com/mem/intune/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Parcours méta modules 11–18 : Intune Apple, Jamf Pro, Protect et sécurité Apple (pro-modules/index.ts).
+  "parcours-professionnel": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Jamf Learning Hub",
+        publisher: "Jamf",
+        url: "https://learn.jamf.com/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      {
+        title: "Microsoft Intune — Apple device management",
+        publisher: "Microsoft",
+        url: "https://learn.microsoft.com/mem/intune/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
+  // Contenu : Intune macOS avancé, CA, Defender, SCEP/VPN ; banque d’examens couvre aussi iOS/iPadOS (module-definitions.ts).
+  "intune-apple-advanced": {
+    platforms: ["macOS", "iOS", "iPadOS"],
+    primaryVersion: "26",
+    minimumVersion: "14",
+    supportedVersions: ["26", "18", "17", "15", "14"],
+    versionStatus: "needs-review",
+    lastVerifiedAt: PLATFORM_LAST_VERIFIED_AT,
+    officialSources: [
+      {
+        title: "Microsoft Intune — Apple device management",
+        publisher: "Microsoft",
+        url: "https://learn.microsoft.com/mem/intune/",
+        checkedAt: PLATFORM_LAST_VERIFIED_AT,
+      },
+      APPLE_PLATFORM_DEPLOYMENT,
+    ],
+  },
 };
 
 export function withCourseCompatibility(course: Course): Course {
