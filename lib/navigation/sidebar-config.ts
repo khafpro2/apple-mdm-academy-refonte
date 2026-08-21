@@ -48,6 +48,7 @@ export const sidebarMainNav: SidebarNavItem[] = [
   { label: "Quiz", href: "/quiz", icon: "certificate" },
   { label: "Examens", href: "/examens", icon: "shield" },
   { label: "Vidéos", href: "/videos", icon: "video" },
+  { label: "Studio visuel", href: "/studio-visuel", icon: "video" },
   { label: "Ressources", href: "/resources", icon: "resource" },
   { label: "Tarifs", href: "/pricing", icon: "certificate" },
   { label: "Support", href: "/support", icon: "shield" },
