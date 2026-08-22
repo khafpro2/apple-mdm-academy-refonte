@@ -1,0 +1,103 @@
+{
+  "scenes": [
+    {
+      "id": "scene-002-filevault-encryption",
+      "slug": "filevault-encryption",
+      "title": "FileVault — chiffrement du volume",
+      "status": "brief-ready",
+      "durationSeconds": 45,
+      "objective": "Illustrer comment FileVault transforme un volume macOS lisible en volume chiffre et protege.",
+      "mainMessage": "FileVault protege les donnees au repos : le volume reste illisible sans utilisateur autorise ou cle de recuperation.",
+      "courseIds": ["macos-filevault"],
+      "assetIds": [
+        "device-laptop-isometric-neutral-base-v1",
+        "data-flow-storage-blocks-isometric-readable-base-v1",
+        "data-flow-storage-blocks-isometric-encrypted-base-v1",
+        "security-lock-front-closed-cyan-v1",
+        "security-recovery-key-front-neutral-base-v1",
+        "security-vault-front-closed-enterprise-v1",
+        "identity-user-front-authorized-standard-v1",
+        "data-flow-encryption-transition-neutral-v1"
+      ],
+      "accessibilityStatus": "brief-ready",
+      "technicalReviewStatus": "brief-ready",
+      "mediaStatus": "not-started",
+      "version": "v1",
+      "active": true,
+      "courseLessonPath": "/cours/apple-fundamentals/filevault-chiffrement",
+      "notes": "Pilote Motion Design Phase 1 — voir docs/motion-design/scenes/scene-002-filevault-encryption.md"
+    },
+    {
+      "id": "scene-003-abm-ade-enrollment-flow",
+      "slug": "abm-ade-enrollment-flow",
+      "title": "Apple Business Manager — flux d'enrôlement ADE",
+      "status": "brief-ready",
+      "durationSeconds": 40,
+      "objective": "Illustrer le flux d'affectation et d'activation depuis Apple Business Manager jusqu'à la supervision de l'appareil via Automated Device Enrollment.",
+      "mainMessage": "Un appareil acheté ou déjà présent dans Apple Business Manager est affecté à un serveur MDM, puis s'active automatiquement en supervision via ADE lors de sa première configuration.",
+      "courseIds": ["apple-it-professional", "intune-mac"],
+      "assetIds": [
+        "cloud-apple-business-manager-isometric-neutral-v1",
+        "management-mdm-server-isometric-neutral-v1",
+        "device-iphone-front-supervised-standard-v1",
+        "identity-admin-front-authorized-standard-v1",
+        "status-enrollment-complete-v1"
+      ],
+      "accessibilityStatus": "brief-ready",
+      "technicalReviewStatus": "brief-ready",
+      "mediaStatus": "not-started",
+      "version": "v1",
+      "active": true,
+      "notes": "Pilote vidéo (a) — voir docs/motion-design/pilots/pilot-a-abm-ade-enrollment.md"
+    },
+    {
+      "id": "scene-004-intune-apns-enrollment-flow",
+      "slug": "intune-apns-enrollment-flow",
+      "title": "Microsoft Intune — certificat APNs et inscription Apple",
+      "status": "brief-ready",
+      "durationSeconds": 40,
+      "objective": "Illustrer le rôle du certificat APNs entre Microsoft Intune et le service de notification push Apple pour la gestion d'appareils Apple.",
+      "mainMessage": "Intune ne communique pas directement avec les appareils Apple : un certificat APNs, renouvelé chaque année avec le même identifiant Apple, autorise le relais des commandes de gestion via le service push Apple.",
+      "courseIds": ["intune-mac"],
+      "assetIds": [
+        "certificate-apns-front-valid-standard-v1",
+        "cloud-apns-service-isometric-neutral-v1",
+        "management-intune-console-isometric-neutral-v1",
+        "device-mac-front-managed-standard-v1",
+        "identity-admin-front-authorized-standard-v1",
+        "status-certificate-expiring-v1"
+      ],
+      "accessibilityStatus": "brief-ready",
+      "technicalReviewStatus": "brief-ready",
+      "mediaStatus": "not-started",
+      "version": "v1",
+      "active": true,
+      "notes": "Pilote vidéo (b) — voir docs/motion-design/pilots/pilot-b-intune-apns-enrollment.md"
+    },
+    {
+      "id": "scene-005-jamf-smart-groups-filevault-escrow-flow",
+      "slug": "jamf-smart-groups-filevault-escrow-flow",
+      "title": "Jamf Pro — Smart Groups et séquestre de la clé FileVault",
+      "status": "brief-ready",
+      "durationSeconds": 45,
+      "objective": "Illustrer comment un Smart Group cible les Mac non conformes pour appliquer une politique FileVault, jusqu'au séquestre de la clé de récupération et au contrôle de conformité.",
+      "mainMessage": "Jamf Pro ne chiffre pas les données à la place de FileVault : il cible les Mac via un Smart Group, applique la politique, collecte l'état du chiffrement et séquestre la clé de récupération générée par FileVault pour vérifier la conformité.",
+      "courseIds": ["jamf-100", "jamf-200", "apple-security"],
+      "assetIds": [
+        "management-smart-group-isometric-neutral-v1",
+        "compliance-filevault-check-front-standard-v1",
+        "device-laptop-isometric-neutral-base-v1",
+        "security-lock-front-closed-cyan-v1",
+        "security-recovery-key-front-neutral-base-v1",
+        "security-vault-front-closed-enterprise-v1",
+        "identity-user-front-authorized-standard-v1"
+      ],
+      "accessibilityStatus": "brief-ready",
+      "technicalReviewStatus": "brief-ready",
+      "mediaStatus": "not-started",
+      "version": "v1",
+      "active": true,
+      "notes": "Pilote vidéo (c) — voir docs/motion-design/pilots/pilot-c-jamf-smart-groups-filevault-escrow.md"
+    }
+  ]
+}

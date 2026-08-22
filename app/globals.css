@@ -89,3 +89,17 @@ a {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Respecte prefers-reduced-motion (WCAG 2.3.3) : neutralise les animations
+   décoratives (shimmer/slide/bounce/pulse des animations pédagogiques,
+   transitions de scènes motion design) sans casser les changements d'état. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

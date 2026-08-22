@@ -18,6 +18,7 @@ import {
   getVideoCourseNotes,
 } from "@/src/lib/video-production";
 import { getVideoTranscript } from "@/src/lib/video-transcripts";
+import { resolveCaptionsSrc } from "@/lib/video/captions";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -59,6 +60,7 @@ export default async function VideoDetailPage({ params }: Props) {
   const official = getOfficialVideo(slug);
   const transcript = getVideoTranscript(slug);
   const courseNotes = getVideoCourseNotes(slug);
+  const captionsUrl = resolveCaptionsSrc(slug, { hasTranscript: Boolean(transcript) });
 
   let storyboard = rawStoryboard;
   if (rawStoryboard) {
@@ -86,6 +88,7 @@ export default async function VideoDetailPage({ params }: Props) {
             script={script}
             mp4Url={mp4Url}
             transcript={transcript}
+            captionsUrl={captionsUrl}
             courseNotes={courseNotes}
             certificationLabel={official?.certificationLabel}
             certificationSlug={official?.certificationSlug}
