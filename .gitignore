@@ -33,3 +33,7 @@ next-env.d.ts
 *-originals.zip
 jamf-pro-captures/
 jamf-pro-captures.zip
+
+# Motion Design audit reports (generated)
+reports/motion-assets-audit.json
+*.motion-audit.json

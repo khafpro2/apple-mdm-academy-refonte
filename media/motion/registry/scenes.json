@@ -1,0 +1,31 @@
+{
+  "scenes": [
+    {
+      "id": "scene-002-filevault-encryption",
+      "slug": "filevault-encryption",
+      "title": "FileVault — chiffrement du volume",
+      "status": "brief-ready",
+      "durationSeconds": 45,
+      "objective": "Illustrer comment FileVault transforme un volume macOS lisible en volume chiffre et protege.",
+      "mainMessage": "FileVault protege les donnees au repos : le volume reste illisible sans utilisateur autorise ou cle de recuperation.",
+      "courseIds": ["macos-filevault"],
+      "assetIds": [
+        "device-laptop-isometric-neutral-base-v1",
+        "data-flow-storage-blocks-isometric-readable-base-v1",
+        "data-flow-storage-blocks-isometric-encrypted-base-v1",
+        "security-lock-front-closed-cyan-v1",
+        "security-recovery-key-front-neutral-base-v1",
+        "security-vault-front-closed-enterprise-v1",
+        "identity-user-front-authorized-standard-v1",
+        "data-flow-encryption-transition-neutral-v1"
+      ],
+      "accessibilityStatus": "brief-ready",
+      "technicalReviewStatus": "brief-ready",
+      "mediaStatus": "not-started",
+      "version": "v1",
+      "active": true,
+      "courseLessonPath": "/cours/apple-fundamentals/filevault-chiffrement",
+      "notes": "Pilote Motion Design Phase 1 — voir docs/motion-design/scenes/scene-002-filevault-encryption.md"
+    }
+  ]
+}
