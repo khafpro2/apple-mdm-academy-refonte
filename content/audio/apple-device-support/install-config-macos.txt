@@ -1,0 +1,77 @@
+Piste 1. Installation et configuration de macOS.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+En support Apple, trois mots ne veulent pas dire la même chose. Une mise à jour apporte des correctifs dans la même version majeure. Une mise à niveau change de version majeure, par exemple vers macOS Tahoe. Une installation propre réécrit le système, souvent après un effacement.
+
+Avant toute intervention, notez le modèle, la puce, la version actuelle, l’espace libre et le type de compte. Un Mac Apple Silicon et un Mac Intel n’ont pas les mêmes gestes de démarrage. Vérifiez aussi FileVault, le verrouillage d’activation et la présence d’un profil de gestion.
+
+Pour mettre à jour, utilisez Réglages Système, Général, Mise à jour de logiciels. En entreprise, la mise à jour peut être reportée, imposée ou masquée par le service de gestion. Si le bouton habituel est absent ou grisé, cherchez d’abord une restriction gérée avant de suspecter un défaut matériel.
+
+L’Assistant migration copie comptes, apps, documents et réglages depuis un autre Mac, une sauvegarde Time Machine ou un PC Windows. Placez les deux machines sur le même réseau stable, alimentées, et laissez le transfert aller au bout. Un arrêt trop tôt produit un compte incomplet et des tickets en cascade.
+
+Après une mise à niveau, validez trois choses : l’ouverture de session, le réseau, et les apps critiques. Sur un Mac géré, confirmez que le profil est toujours présent et que le jeton d’amorçage pourra servir aux prochaines mises à jour. Si l’utilisateur doit livrer la machine, documentez la version finale et le compte utilisé.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Quelle action change de version majeure de macOS ?
+
+A. Une mise à jour de correctifs.
+
+B. Une mise à niveau.
+
+C. Une réparation First Aid.
+
+D. Un reset NVRAM.
+
+Question 2. L’Assistant migration peut copier les données depuis :
+
+A. Uniquement iCloud Drive.
+
+B. Un autre Mac, Time Machine ou un PC Windows.
+
+C. La partition de récupération uniquement.
+
+D. Le Secure Enclave.
+
+Question 3. Si Mise à jour de logiciels est grisée sur un Mac d’entreprise, le premier réflexe est :
+
+A. Effacer le Mac immédiatement.
+
+B. Chercher une restriction ou une politique de gestion.
+
+C. Désactiver FileVault.
+
+D. Réinstaller Safari.
+
+Question 4. Après une mise à niveau, que validez-vous en priorité ?
+
+A. Uniquement le fond d’écran.
+
+B. Session, réseau et applications critiques.
+
+C. Le numéro de série public.
+
+D. La suppression du compte local.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. La mise à niveau change de version majeure. La mise à jour reste dans la même génération et apporte surtout des correctifs.
+
+Question 2. La bonne réponse est B. L’Assistant migration prend en charge un Mac source, une sauvegarde Time Machine, ou un PC Windows.
+
+Question 3. La bonne réponse est B. En parc géré, les mises à jour sont souvent contrôlées. Vérifiez la gestion avant d’agir sur le système.
+
+Question 4. La bonne réponse est B. Le support confirme que l’utilisateur peut ouvrir la session, rejoindre le réseau et travailler avec ses apps.
+
+Fin de la piste 1, Installation et configuration de macOS.
+
+Passez à la leçon suivante quand vous êtes prêt.

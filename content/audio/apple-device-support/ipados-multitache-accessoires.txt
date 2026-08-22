@@ -1,0 +1,77 @@
+Piste 14. Multitâche, clavier, Apple Pencil.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Sidecar transforme un iPad compatible en écran étendu ou en miroir du Mac. Les deux machines doivent être proches, connectées avec les mêmes comptes quand c’est requis, et libres de restrictions. En entreprise, Sidecar et Contrôle universel peuvent être interdits par profil. Un bouton absent n’est pas forcément un bug.
+
+Contrôle universel permet d’utiliser clavier et souris du Mac sur l’iPad, et de glisser du contenu. Ça demande Bluetooth, Wi‑Fi, Handoff, et une session proche. Si ça échoue, testez Handoff simple, puis Sidecar, puis le câble. Isolez le réseau invité qui isole les appareils entre eux. Beaucoup de « Contrôle universel cassé » sont des VLAN trop propres.
+
+Le clavier et le trackpad ont des mises à jour de firmware et des paires Bluetooth. Un Magic Keyboard mécanique a aussi un connecteur. Testez l’iPad sans clavier pour savoir si le souci est l’accessoire ou le système. Apple Pencil se couple, se charge, et se calibre selon la génération. Une pointe usée mime un défaut tactile.
+
+AirPlay et le récepteur AirPlay permettent d’envoyer image et son vers un Mac, une Apple TV, ou un iPad selon les réglages. Activer le récepteur AirPlay sur un Mac d’entreprise a un impact sécurité : n’importe quel appareil proche peut tenter d’afficher. Les organisations le ferment souvent. Expliquez le réglage, ne le forcez pas.
+
+En ticket, nommez l’accessoire, la génération, le câble, et si la fonction est gérée. Remplacer un iPad pour un Pencil non chargé est un anti-pattern. Votre recertification teste cette discipline : accessoire d’abord, système ensuite, politique à la fin.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Sidecar sert à :
+
+A. Chiffrer le volume de démarrage.
+
+B. Utiliser l’iPad comme écran du Mac.
+
+C. Créer une eSIM.
+
+D. Ouvrir Recovery.
+
+Question 2. Contrôle universel échoue souvent à cause :
+
+A. D’un SSD trop grand.
+
+B. De Bluetooth, Wi‑Fi, Handoff ou d’un réseau qui isole les appareils.
+
+C. De FileVault uniquement.
+
+D. D’une eSIM personnelle.
+
+Question 3. Pour savoir si le clavier est en cause, vous :
+
+A. Effacez l’iPad tout de suite.
+
+B. Testez l’iPad sans le clavier.
+
+C. Désactivez Face ID.
+
+D. Installez Windows.
+
+Question 4. Activer le récepteur AirPlay sur un Mac d’entreprise :
+
+A. N’a aucun impact.
+
+B. Peut être restreint, car cela ouvre une réception depuis des appareils proches.
+
+C. Efface FileVault.
+
+D. Remplace le MDM.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Sidecar étend ou reflète le bureau Mac sur un iPad compatible.
+
+Question 2. La bonne réponse est B. Contrôle universel dépend de la proximité radio et de Handoff, souvent bloqués par le réseau ou un profil.
+
+Question 3. La bonne réponse est B. On isole l’accessoire. Si l’iPad est sain sans clavier, on ne recrée pas le système.
+
+Question 4. La bonne réponse est B. Le récepteur AirPlay est pratique et sensible. Les parcs le contrôlent souvent par politique.
+
+Fin de la piste 14, Multitâche, clavier, Apple Pencil.
+
+Passez à la leçon suivante quand vous êtes prêt.

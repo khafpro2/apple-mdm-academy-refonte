@@ -1,0 +1,77 @@
+Piste 3. Stockage, applications et processus.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Un ticket « mon Mac est plein » se traite avec méthode. Réglages Système, Général, Stockage montre les catégories : apps, documents, iCloud, système. Time Machine locale, les snapshots et les gros caches de compilation sont des causes fréquentes. Ne supprimez jamais à l’aveugle le dossier Système.
+
+Les dossiers par défaut comptent pour l’examen. Départ contient Bureau, Documents, Téléchargements, Bibliothèque utilisateur. Bibliothèque, Application Support et Caches expliquent beaucoup de profils corrompus. Le dossier Partagé sert aux fichiers communs à tous les comptes locaux. Applications accueille les apps pour tous les utilisateurs ; Applications dans le Départ n’est visible que pour un compte.
+
+Trois familles d’apps : préinstallées par Apple, adoptées depuis l’ancien Mac ou depuis une sauvegarde, et tierces. Une app tierce hors Mac App Store passe par Gatekeeper. Une app gérée peut être imposée, masquée ou non supprimable. Si une app « disparaît » après redémarrage, demandez si un profil ou un service de gestion la contrôle.
+
+Les processus se voient dans Moniteur d’activité. Un processus en tête processeur, mémoire ou énergie n’est pas forcément coupable : le système indexe, photographie Time Machine, ou compile. Forcez la fermeture seulement après avoir noté le nom du processus, l’utilisateur et l’impact. Relancer le Mac reste un outil, pas un diagnostic.
+
+En entreprise, le stockage est aussi une question de conformité. Un disque presque plein casse les mises à jour et FileVault. Avant une mise à niveau, exigez un espace libre confortable. Si iCloud Drive optimise le stockage, des fichiers peuvent n’être que des placeholders : l’utilisateur croit avoir perdu des documents alors qu’ils sont dans le nuage.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Où macOS classe-t-il l’espace utilisé par type de contenu ?
+
+A. Utilitaire de disque uniquement.
+
+B. Réglages Système, Général, Stockage.
+
+C. Trousseau d’accès.
+
+D. Safari.
+
+Question 2. Quelle affirmation décrit une app adoptée ?
+
+A. Elle est forcément malveillante.
+
+B. Elle vient souvent d’une migration ou d’une sauvegarde.
+
+C. Elle ne peut pas s’ouvrir.
+
+D. Elle remplace toujours le système.
+
+Question 3. Le dossier Départ contient surtout :
+
+A. Le firmware du Mac.
+
+B. Les fichiers et réglages de l’utilisateur.
+
+C. La partition de récupération.
+
+D. Les certificats APNs.
+
+Question 4. Avant de forcer la fermeture d’un processus, vous :
+
+A. Effacez le volume.
+
+B. Notez le nom, l’utilisateur et la ressource saturée.
+
+C. Désactivez Gatekeeper.
+
+D. Supprimez le compte.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. La vue Stockage des Réglages Système ventile apps, documents, système et iCloud.
+
+Question 2. La bonne réponse est B. Les apps adoptées arrivent avec l’utilisateur depuis un ancien Mac ou une sauvegarde, contrairement aux apps préinstallées.
+
+Question 3. La bonne réponse est B. Le dossier Départ est l’espace personnel de l’utilisateur : documents, Bureau, Bibliothèque.
+
+Question 4. La bonne réponse est B. Un diagnostic utile commence par identifier le processus. La fermeture forcée vient ensuite, pas avant.
+
+Fin de la piste 3, Stockage, applications et processus.
+
+Passez à la leçon suivante quand vous êtes prêt.

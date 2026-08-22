@@ -35,6 +35,8 @@ import { VersionDifferenceCallout } from "@/components/course/VersionDifferenceC
 import { OfficialSources } from "@/components/course/OfficialSources";
 import { CourseIllustrations } from "@/components/course/CourseIllustrations";
 import { AppleCurriculumMap } from "@/components/course/AppleCurriculumMap";
+import { AudioPackBanner } from "@/components/audio/audio-pack-banner";
+import { appleDeviceSupportAudioLessons } from "@/lib/data/audio/apple-device-support";
 
 export const dynamicParams = false;
 
@@ -146,6 +148,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           <MicrosoftLearnReference href={learnRef.href} description={learnRef.description} className="mt-6" />
         )}
 
+        {course.slug === "apple-device-support" && (
+          <AudioPackBanner lessonCount={appleDeviceSupportAudioLessons.length} />
+        )}
+
         {course.trackSlug.startsWith("apple-") && (
           <AppleCurriculumMap currentTrackSlug={course.trackSlug} />
         )}
@@ -245,6 +251,11 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           {trackLabs[0] && (
             <ButtonLink href={`/labs/${trackLabs[0].slug}`} variant="secondary">
               Lab pratique du parcours
+            </ButtonLink>
+          )}
+          {course.slug === "apple-device-support" && (
+            <ButtonLink href="/audio/apple-device-support" variant="secondary">
+              Pistes audio MP3
             </ButtonLink>
           )}
           <ButtonLink href="/labs" variant="secondary">

@@ -1,0 +1,77 @@
+Piste 12. Managed Lost Mode et appareils d’entreprise.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Localiser aide un utilisateur à retrouver un appareil lié à son compte. Le verrouillage d’activation empêche l’activation par un tiers après effacement. Ce sont des protections personnelles très efficaces, et des tickets de départ d’employé très douloureux si on ne les libère pas.
+
+Sur un iPhone d’entreprise supervisé, le service de gestion peut envoyer un mode Perdu géré. L’écran affiche alors un message, le téléphone peut être localisé, et l’usage est bloqué. Ce n’est pas le mode Perdu iCloud de l’utilisateur. C’est une commande d’organisation. Le support de niveau un ne le « débloque » pas depuis Réglages si la commande est active.
+
+Quand un collaborateur part, la procédure compte autant que la technique. Retirer le compte personnel, désactiver le verrouillage d’activation, effacer, et remettre l’appareil dans le bon état d’enrôlement. Si vous effacez trop tôt avec un compte personnel encore lié, le prochain utilisateur bute sur l’activation. Si vous oubliez le service d’enrôlement, l’appareil revient tout seul à l’organisation.
+
+Un appareil déclaré perdu n’est pas un appareil à restaurer « pour voir ». Chaque tentative peut alerter, verrouiller, ou détruire des preuves de localisation. Suivez la procédure interne : ticket, identité, et commande officielle. En examen, on attend que vous reconnaissiez quel levier appartient à l’utilisateur, et lequel appartient à l’administrateur.
+
+Le mode Perdu géré se lève par le même service qui l’a posé. Après levée, validez réseau, code, et conformité. Si l’appareil doit sortir du parc, un effacement supervisé et une désassignation sont le couple propre. Votre rôle de support : ne jamais improviser une méthode de contournement du verrouillage. La propriété se prouve, elle ne se force pas.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Le mode Perdu géré est déclenché par :
+
+A. Safari.
+
+B. Le service de gestion de l’organisation.
+
+C. AirDrop.
+
+D. Time Machine.
+
+Question 2. Le verrouillage d’activation empêche surtout :
+
+A. D’imprimer.
+
+B. D’activer l’appareil après effacement sans le compte lié.
+
+C. D’ouvrir Notes.
+
+D. D’utiliser USB-C.
+
+Question 3. Avant de réassigner un iPhone d’un employé partant, vous :
+
+A. Ignorez les comptes.
+
+B. Libérez verrouillage d’activation et état d’enrôlement.
+
+C. Cassez l’écran.
+
+D. Désactivez le Wi‑Fi du bâtiment.
+
+Question 4. Le support de niveau un lève le mode Perdu géré :
+
+A. En redémarrant trois fois.
+
+B. Via le service de gestion, pas depuis un simple réglage local.
+
+C. En enlevant la eSIM.
+
+D. En ouvrant Console.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Managed Lost Mode est une commande d’administration sur un appareil géré, pas un simple réglage utilisateur.
+
+Question 2. La bonne réponse est B. Après effacement, l’activation redemande le compte qui a armé Localiser.
+
+Question 3. La bonne réponse est B. Compte personnel, Activation Lock et enrôlement doivent être propres, sinon le prochain utilisateur est bloqué.
+
+Question 4. La bonne réponse est B. La commande se retire là où elle a été émise : la console de gestion.
+
+Fin de la piste 12, Managed Lost Mode et appareils d’entreprise.
+
+Passez à la leçon suivante quand vous êtes prêt.

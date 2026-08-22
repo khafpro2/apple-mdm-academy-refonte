@@ -1,0 +1,77 @@
+Piste 15. Dépannage et restauration iPadOS.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Le dépannage iPad commence par alimentation, écran, tactile, et accessoire. Un iPad dans un clavier peut sembler mort alors que le bouton est masqué. Un Pencil qui ne s’accroche plus peut être un aimant, un étui, ou une génération incompatible. Décrivez le modèle exact avant de commander une pièce.
+
+Surchauffe, batterie, et charge suivent les mêmes règles qu’iPhone, avec des docks et des écrans plus grands. Un iPad sur un chariot médical ou une caisse charge mal si le câble n’est pas certifié, ou si un concentrateur affame le port. Mesurez avec un câble connu bon. Changez une variable à la fois.
+
+Si iPadOS est instable, la séquence est familière : force restart, mise à jour, effacement, mode de récupération, relance ou restauration Configurator. Les données se sauvent avant, pas après. Un iPad de caisse sans sauvegarde est un risque métier. Le support le dit clairement, une fois, par écrit.
+
+Les accessoires d’affichage et d’entrée ajoutent des couches : Stage Manager sur écran externe, résolution, et apps qui ne gèrent pas la fenêtre. Si l’écran externe est noir, testez un autre câble, un autre écran, puis l’iPad seul. Ne formatez pas pour un adaptateur USB-C fatigué.
+
+Après restauration, les iPad d’entreprise reviennent souvent à Gestion à distance. C’est le signe que l’assignation est saine. Si l’iPad doit quitter le parc, désassignez-le d’abord. Votre recertification aime cette distinction : restauration technique, et cycle de vie administratif. Les deux sont du support.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Un iPad « mort » dans son clavier se vérifie d’abord :
+
+A. En restaurant tout de suite.
+
+B. Hors clavier, alimentation et boutons visibles.
+
+C. En désactivant iCloud.
+
+D. En ouvrant Console sur iPhone.
+
+Question 2. Avant une restauration iPad de production, vous :
+
+A. Ignorez les données.
+
+B. Confirmez la sauvegarde et l’impact métier.
+
+C. Supprimez le Wi‑Fi du site.
+
+D. Activez le mode Isolation par habitude.
+
+Question 3. Un écran externe noir sur iPad oriente d’abord vers :
+
+A. FileVault.
+
+B. Câble, adaptateur, puis l’iPad seul.
+
+C. Recovery Intel.
+
+D. Une eSIM.
+
+Question 4. Un iPad d’entreprise qui revient à Gestion à distance après effacement :
+
+A. Est forcément volé.
+
+B. Est encore assigné au service d’enrôlement.
+
+C. A perdu Face ID pour toujours.
+
+D. Doit être jeté.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. L’accessoire masque souvent le bouton ou la charge. On isole le tablette nue.
+
+Question 2. La bonne réponse est B. La restauration est destructive. La sauvegarde et le métier passent avant le geste technique.
+
+Question 3. La bonne réponse est B. On change une variable d’affichage à la fois. Le formatage n’est pas un test de câble.
+
+Question 4. La bonne réponse est B. L’assignation automatique survit à l’effacement, c’est précisément son rôle.
+
+Fin de la piste 15, Dépannage et restauration iPadOS.
+
+Passez à la leçon suivante quand vous êtes prêt.

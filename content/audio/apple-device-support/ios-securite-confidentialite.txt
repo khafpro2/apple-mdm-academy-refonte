@@ -1,0 +1,77 @@
+Piste 9. Sécurité et confidentialité iOS.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Le code est la clé de l’appareil. Face ID et Touch ID sont des commodités construites dessus, avec le Secure Enclave. Si la biométrie échoue trop souvent, iOS exige le code. Après un redémarrage, le code est aussi exigé. Ne dites jamais à un utilisateur d’enlever le code « pour tester » sur un téléphone professionnel.
+
+Face ID se règle et se dépanné avec méthode : visage bien enregistré, rien qui masque le TrueDepth, écran et caméra propres, et pas de protection incompatible. Un changement majeur d’apparence peut demander un second visage. Touch ID a les mêmes règles de propreté et d’humidité. Si le matériel est en défaut, le diagnostic matériel prend le relais.
+
+Confidentialité, c’est le contrôle des permissions : localisation, micro, caméra, suivi, photos, contacts. Une app qui « n’entend plus » a souvent perdu le micro, pas le réseau. Guidez l’utilisateur vers Confidentialité et sécurité, puis la permission exacte. En entreprise, certaines bascules sont verrouillées par profil. Si le bouton est gris, cessez de tapoter : lisez la gestion.
+
+Le mode Isolation réduit fortement les surfaces d’attaque pour les personnes très exposées. Il peut casser des visios, pièces jointes complexes, ou certains sites. On peut exclure une app ou un site quand le métier l’exige, sans éteindre tout le mode. Ce n’est pas un mode grand public par défaut. C’est un bouclier ciblé.
+
+Les réglages de mot de passe et codes couvrent aussi iCloud, le trousseau, et les codes d’appareil. Un identifiant Apple personnel avec double authentification n’est pas optionnel aujourd’hui. Si l’utilisateur perd ses appareils de confiance, le flux de récupération de compte devient le ticket. Distinguez toujours : code de l’iPhone, mot de passe du compte Apple, et mot de passe de messagerie professionnelle.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Après un redémarrage iPhone, Face ID :
+
+A. Déverrouille toujours sans code.
+
+B. Exige d’abord le code.
+
+C. Efface l’appareil.
+
+D. Désactive le Wi‑Fi.
+
+Question 2. Une app n’accède plus au micro. Où regardez-vous d’abord ?
+
+A. Utilitaire de disque.
+
+B. Confidentialité et sécurité, Microphone.
+
+C. AirDrop.
+
+D. Time Machine.
+
+Question 3. Le mode Isolation sert à :
+
+A. Accélérer les jeux.
+
+B. Réduire les surfaces d’attaque pour les profils très exposés.
+
+C. Remplacer FileVault.
+
+D. Créer une eSIM.
+
+Question 4. Un bouton de confidentialité grisé sur un iPhone d’entreprise indique souvent :
+
+A. Une batterie faible uniquement.
+
+B. Une restriction imposée par la gestion.
+
+C. Un écran cassé.
+
+D. L’absence d’Apple Pencil.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Après redémarrage, iOS demande le code avant de réactiver pleinement la biométrie.
+
+Question 2. La bonne réponse est B. Les permissions d’apps se gèrent dans Confidentialité et sécurité, par ressource.
+
+Question 3. La bonne réponse est B. Isolation durcit iOS et iPadOS contre des attaques sophistiquées, au prix de certaines fonctions.
+
+Question 4. La bonne réponse est B. Les profils peuvent verrouiller des bascules. Le support lit la gestion avant de conclure à un bug.
+
+Fin de la piste 9, Sécurité et confidentialité iOS.
+
+Passez à la leçon suivante quand vous êtes prêt.

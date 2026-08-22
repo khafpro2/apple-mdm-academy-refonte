@@ -1,0 +1,77 @@
+Piste 17. SSO et Kerberos.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+L’authentification unique évite de retaper le mot de passe à chaque app. Sur Mac, cela peut s’appuyer sur Kerberos, sur un fournisseur d’identité, ou sur une extension SSO poussée par profil. Votre rôle de support n’est pas de reconstruire l’annuaire. C’est de reconnaître quel maillon casse : identité, heure, réseau, certificat, ou app.
+
+Kerberos est sensible à l’heure. Cinq minutes de dérive cassent des tickets. Vérifiez date et heure automatiques, le réseau d’entreprise, et l’accès au centre de distribution de tickets. Un utilisateur en télétravail sans VPN n’obtiendra pas le même ticket qu’au bureau. Testez sur le réseau attendu avant de réinstaller macOS.
+
+Un profil SSO peut imposer l’extension, les domaines, et l’écran de connexion. Si l’utilisateur contourne avec un compte local hors politique, les apps métier échouent « au hasard ». Remettez le compte dans le bon état plutôt que d’ajouter un second mot de passe partout. Moins de secrets, moins de tickets.
+
+Quand le SSO échoue après un changement de mot de passe, c’est classique : le trousseau, le ticket Kerberos, et la session ont des âges différents. Fermer la session, renouveler le ticket, et mettre à jour le trousseau règlent plus de cas qu’une réinstallation. Demandez l’heure exacte du changement de mot de passe.
+
+En recertification, on vous teste sur le réflexe. Lisez le message d’erreur. Isoler l’app d’une ressource interne. Tester un site qui exige le SSO et un site public. Si le public marche et l’interne échoue, ce n’est pas Gatekeeper. C’est l’identité ou le chemin réseau. Restez calme, restez précis, restez sans lien magique.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Kerberos échoue souvent quand :
+
+A. L’horloge de la machine dérive.
+
+B. Le fond d’écran est sombre.
+
+C. AirDrop est ouvert.
+
+D. L’iPad n’a pas de Pencil.
+
+Question 2. Un utilisateur hors VPN qui n’obtient pas de ticket interne :
+
+A. Prouve que macOS est corrompu.
+
+B. Peut simplement être hors du réseau d’identité.
+
+C. Doit désactiver FileVault.
+
+D. Doit jeter le Mac.
+
+Question 3. Après un changement de mot de passe, le bon geste est souvent :
+
+A. Réinstaller macOS tout de suite.
+
+B. Renouveler session, ticket et trousseau.
+
+C. Effacer la Recovery.
+
+D. Activer le mode Isolation.
+
+Question 4. Internet public fonctionne, l’app interne échoue. Vous orientez vers :
+
+A. Un écran défectueux.
+
+B. Identité, certificat ou réseau interne.
+
+C. Un Apple Pencil.
+
+D. Time Machine.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est A. Kerberos exige une heure proche de celle du serveur. Une dérive casse le ticket.
+
+Question 2. La bonne réponse est B. Le SSO d’entreprise dépend du chemin vers les serveurs d’identité, souvent via VPN.
+
+Question 3. La bonne réponse est B. Les secrets en cache n’ont pas le même âge. On les aligne avant de détruire le système.
+
+Question 4. La bonne réponse est B. Le contraste public contre interne isole le problème hors du matériel général.
+
+Fin de la piste 17, SSO et Kerberos.
+
+Passez à la leçon suivante quand vous êtes prêt.

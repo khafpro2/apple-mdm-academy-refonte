@@ -1,0 +1,77 @@
+Piste 7. FileVault en support.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+FileVault chiffre le volume de démarrage. Sans déverrouillage, les données au repos restent illisibles. À l’allumage, un utilisateur autorisé saisit son mot de passe, puis la session peut s’ouvrir. Ce n’est pas un antivirus. C’est une protection du disque en cas de perte, de vol, ou de disque extrait.
+
+L’activation se fait dans Réglages Système, Confidentialité et sécurité, ou via une politique de gestion. Le premier compte avec jeton sécurisé est central. En organisation, la clé de récupération est souvent déposée auprès du service de gestion. Une clé institutionnelle ancienne peut encore exister sur des parcs historiques, mais le modèle moderne, c’est la clé personnelle plus le dépôt.
+
+Si l’utilisateur oublie son mot de passe et qu’aucun autre utilisateur FileVault n’est disponible, la clé de récupération personnelle déverrouille le volume. Après usage de cette clé, faites-la tourner. Une clé déjà utilisée et encore écrite dans un ticket devient un secret usé. Le dépôt doit recevoir la nouvelle clé.
+
+FileVault n’empêche pas un Mac d’être géré, mais il change vos procédures. Recovery demandera une authentification. Une réinstallation ou un First Aid sur volume chiffré nécessite un identifiant autorisé. Si le Mac est verrouillé et que personne n’a la clé, vous n’avez plus de données à sauver : seulement un effacement et une réinstallation.
+
+En ticket, notez : FileVault actif ou non, utilisateurs autorisés, présence d’une clé en dépôt, et si une rotation vient d’avoir lieu. N’envoyez jamais une clé en clair dans un fil public. Le support de niveau un peut activer et expliquer. Le niveau deux gère la récupération, le dépôt et la remise en conformité.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. FileVault protège surtout :
+
+A. Les e-mails en transit uniquement.
+
+B. Les données au repos sur le volume de démarrage.
+
+C. Le réseau Wi‑Fi du bureau.
+
+D. Les impressions AirPrint.
+
+Question 2. Après avoir déverrouillé un volume avec la clé personnelle, vous devez :
+
+A. Supprimer tous les comptes.
+
+B. Faire tourner la clé de récupération.
+
+C. Désactiver le pare-feu.
+
+D. Retirer le SSD.
+
+Question 3. En entreprise, où la clé de récupération est-elle souvent conservée ?
+
+A. Sur un post-it écran.
+
+B. Dans le dépôt du service de gestion.
+
+C. Dans Photos.
+
+D. Dans le firmware Intel uniquement.
+
+Question 4. Sans utilisateur autorisé ni clé de récupération, les données FileVault sont :
+
+A. Récupérables par un redémarrage.
+
+B. Inaccessibles, il reste l’effacement.
+
+C. Visibles dans iMessage.
+
+D. Stockées dans le Trousseau iCloud automatiquement.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. FileVault chiffre le volume de démarrage pour protéger les données si le Mac est perdu ou démonté.
+
+Question 2. La bonne réponse est B. Une clé utilisée n’est plus un secret propre. On la renouvelle et on met à jour le dépôt.
+
+Question 3. La bonne réponse est B. Le modèle moderne dépose la clé personnelle auprès du service de gestion des appareils.
+
+Question 4. La bonne réponse est B. Sans secret de déverrouillage, FileVault a fait son travail : les données ne se lisent plus.
+
+Fin de la piste 7, FileVault en support.
+
+Passez à la leçon suivante quand vous êtes prêt.

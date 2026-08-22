@@ -1,0 +1,77 @@
+Piste 2. Utilisateurs, groupes et permissions.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+macOS distingue plusieurs types de comptes. Un administrateur peut installer des apps, changer les réglages sensibles et gérer d’autres utilisateurs. Un compte standard travaille au quotidien avec moins de privilèges. Un compte Partage uniquement ouvre des ressources réseau sans session locale complète.
+
+Le premier administrateur créé à l’installation reçoit généralement un jeton sécurisé, indispensable pour FileVault. Ajouter un second administrateur ne lui donne pas automatiquement ce jeton. En entreprise, le jeton d’amorçage, conservé par le service de gestion, sert à débloquer certaines opérations comme l’activation de FileVault pour un compte mobile.
+
+Mot de passe oublié : si l’utilisateur connaît encore son identifiant Apple personnel lié à la session, la réinitialisation peut passer par ce compte. Sinon, un autre administrateur peut changer le mot de passe. En dernier recours, macOS Recovery propose l’utilitaire Réinitialiser le mot de passe. Attention : changer le mot de passe hors session crée souvent un nouveau trousseau de connexion.
+
+Les permissions POSIX et les listes de contrôle ACL expliquent beaucoup de tickets « je ne peux pas enregistrer ». Le dossier Départ appartient à l’utilisateur. Les dossiers partagés comme Utilisateurs, Partagé ont des règles précises. Ne donnez pas le rôle administrateur pour contourner un droit de fichier : corrigez le dossier, pas le privilège global.
+
+En support, documentez qui est admin local, si un compte de secours existe, et si FileVault est actif. Un mot de passe réinitialisé n’est pas une fin de ticket. Faites ouvrir la session, vérifiez le trousseau, iCloud s’il est utilisé, et le déverrouillage FileVault au prochain redémarrage.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Quel compte peut gérer les autres utilisateurs et les réglages sensibles ?
+
+A. Compte standard.
+
+B. Compte administrateur.
+
+C. Compte Partage uniquement.
+
+D. Compte invité obligatoire.
+
+Question 2. Après une réinitialisation de mot de passe hors session, quel effet secondaire est fréquent ?
+
+A. FileVault se désactive tout seul.
+
+B. Un nouveau trousseau de connexion est créé.
+
+C. Le numéro de série change.
+
+D. Safari est désinstallé.
+
+Question 3. Le jeton sécurisé sert surtout à :
+
+A. Envoyer un e-mail.
+
+B. Autoriser des opérations de chiffrement comme FileVault.
+
+C. Remplacer le Wi‑Fi.
+
+D. Forcer AirDrop.
+
+Question 4. Pour un dossier que l’utilisateur ne peut pas modifier, le bon réflexe est :
+
+A. Le passer administrateur tout de suite.
+
+B. Analyser le propriétaire et les permissions du dossier.
+
+C. Effacer le disque.
+
+D. Désactiver le pare-feu.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Seul un administrateur gère les utilisateurs et les réglages système sensibles.
+
+Question 2. La bonne réponse est B. Le mot de passe de session et le trousseau de connexion sont liés. Les changer séparément crée un nouveau trousseau.
+
+Question 3. La bonne réponse est B. Le jeton sécurisé est lié au chiffrement et à FileVault. Sans lui, certaines actions de sécurité échouent.
+
+Question 4. La bonne réponse est B. On corrige le droit sur le dossier. On n’élève pas le compte entier pour un simple problème de fichier.
+
+Fin de la piste 2, Utilisateurs, groupes et permissions.
+
+Passez à la leçon suivante quand vous êtes prêt.

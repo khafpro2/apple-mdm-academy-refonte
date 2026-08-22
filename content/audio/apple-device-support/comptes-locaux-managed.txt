@@ -1,0 +1,77 @@
+Piste 16. Comptes locaux vs Managed Apple Account.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Un identifiant Apple personnel sert à l’App Store, iCloud personnel, Localiser personnel, photos, et le trousseau de la vie privée. Un compte Apple géré, autrefois appelé identifiant Apple géré, appartient à l’organisation. Il ouvre des services d’entreprise et n’offre pas la même liberté d’achat ni les mêmes fonctions grand public.
+
+En support, le mélange des deux comptes est le premier générateur de tickets. Photos perso sur un iPad de caisse. Verrouillage d’activation perso sur un Mac de prêt. iCloud Drive perso qui « avale » un dossier métier. Posez la question dès l’accueil : compte personnel, compte géré, ou les deux. Puis tenez la ligne de l’organisation.
+
+La double authentification protège le compte Apple. Les appareils de confiance et les codes à six chiffres sont le quotidien. Si l’utilisateur n’a plus aucun appareil de confiance ni numéro, c’est une récupération de compte, pas un reset local. Distinguez aussi le mot de passe du compte, le code de l’appareil, et le mot de passe de messagerie. Trois secrets, trois procédures.
+
+Le legs numérique permet de désigner des contacts héritiers pour certaines données iCloud après un décès, dans le cadre légal du service. Ce n’est pas un partage d’admin IT. Ne promettez pas à un manager l’accès au compte personnel d’un collaborateur au nom du legs. Le support respecte le titulaire du compte.
+
+Les mots de passe oubliés se traitent dans le flux officiel du compte concerné. Un compte géré se récupère avec l’administrateur de l’organisation, pas avec le site grand public comme un compte perso. Si vous guidez la mauvaise porte, vous verrouillez plus fort. En examen, reconnaître la porte est déjà la moitié des points.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Un compte Apple géré appartient :
+
+A. Toujours à l’utilisateur personnel.
+
+B. À l’organisation.
+
+C. À l’opérateur télécom.
+
+D. Au fabricant d’écran.
+
+Question 2. Un Mac de prêt bloqué par un identifiant personnel, c’est surtout :
+
+A. Un succès de déploiement.
+
+B. Un verrouillage d’activation personnel sur un actif d’entreprise.
+
+C. Un défaut Face ID.
+
+D. Une eSIM obligatoire.
+
+Question 3. Sans appareil de confiance ni numéro, un identifiant Apple personnel demande :
+
+A. Un reset NVRAM.
+
+B. Une récupération de compte.
+
+C. Un mode Perdu géré.
+
+D. Sidecar.
+
+Question 4. La récupération d’un compte géré passe surtout par :
+
+A. Un forum public.
+
+B. L’administrateur de l’organisation.
+
+C. AirDrop.
+
+D. Diagnostics Apple.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Le compte géré est une identité d’organisation, avec des limites et une récupération administratives.
+
+Question 2. La bonne réponse est B. Localiser personnel sur un appareil corporatif crée un Activation Lock hors contrôle IT.
+
+Question 3. La bonne réponse est B. Ce n’est plus un ticket local. C’est le flux de récupération du compte Apple.
+
+Question 4. La bonne réponse est B. Le compte géré se débloque dans le périmètre de l’organisation, pas comme un compte grand public.
+
+Fin de la piste 16, Comptes locaux vs Managed Apple Account.
+
+Passez à la leçon suivante quand vous êtes prêt.

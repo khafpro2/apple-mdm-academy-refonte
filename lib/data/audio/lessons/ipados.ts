@@ -1,0 +1,208 @@
+import type { AudioLesson } from "@/lib/data/audio/types";
+
+export const ipadosAudioLessons: AudioLesson[] = [
+  {
+    slug: "ipados-vs-ios",
+    trackNumber: 13,
+    title: "Différences iOS / iPadOS pour le support",
+    module: "Support iPadOS",
+    courseSlug: "apple-device-support",
+    durationLabel: "5 min",
+    officialFocus: "Reconnaître ce qui est nouveau ou spécifique à iPadOS, et ce qui reste commun avec iPhone.",
+    summary:
+      "Même famille, usages différents : fenêtres, clavier, fichiers, et restrictions de gestion propres à l’iPad.",
+    narration: [
+      "iPadOS et iOS partagent le cœur : activation, comptes, confidentialité, sauvegarde, restauration. Le support se trompe quand il traite un iPad comme un grand iPhone. L’iPad est un poste de travail : fenêtres, clavier, souris, fichiers, et parfois un écran externe. Les tickets parlent de productivité, pas seulement d’appels.",
+      "Les nouveautés de génération se lisent dans les notes de version, mais l’examen veut surtout les différences durables. Stage Manager, apps en fenêtres, dossier Fichiers plus proche d’un bureau, et la pose d’un clavier magique changent le diagnostic. Une app « ne tourne pas » peut être une app iPhone étirée, une app iPad native, ou une app gérée incompatible.",
+      "Le matériel compte. Tous les iPad n’ont pas la même caméra avant pour Face ID, ni le même connecteur, ni le même support de Pencil. Avant de conclure à un défaut, vérifiez le modèle et la compatibilité du dernier système. Un iPad trop ancien refuse une version récente. C’est une réponse de support valable, pas un échec.",
+      "En entreprise, l’iPad partagé et l’iPad individuel ne se dépannent pas pareil. L’iPad partagé a des sessions temporaires et un stockage encadré. Un utilisateur qui « perd ses fichiers » à la déconnexion peut être dans un scénario partagé normal. Lisez le mode avant d’effacer.",
+      "Pour la recertification, retenez la méthode : commune d’abord, spécifique ensuite. Activation, Localiser, profil, réseau, puis les fonctions iPad. Si vous commencez par Stage Manager sur un iPad qui n’a même pas de réseau, vous perdez l’utilisateur et le temps d’examen.",
+    ],
+    quiz: [
+      {
+        id: "ads-audio-13-1",
+        text: "iPadOS se distingue surtout d’iOS par :",
+        options: [
+          "L’absence totale de Wi‑Fi",
+          "Des fonctions de productivité : fenêtres, clavier, fichiers",
+          "L’impossibilité de se gérer",
+          "L’absence de code",
+        ],
+        correctIndex: 1,
+        explanation: "L’iPad est pensé comme un poste, avec multitâche, accessoires et fichiers plus riches.",
+      },
+      {
+        id: "ads-audio-13-2",
+        text: "Un iPad refuse la dernière version d’iPadOS. Le premier contrôle est :",
+        options: [
+          "Le fond d’écran",
+          "La compatibilité du modèle",
+          "AirDrop",
+          "Le nombre de photos",
+        ],
+        correctIndex: 1,
+        explanation: "Chaque génération de système a une liste de modèles pris en charge.",
+      },
+      {
+        id: "ads-audio-13-3",
+        text: "Sur un iPad partagé, des fichiers qui disparaissent à la déconnexion peuvent être :",
+        options: [
+          "Un vol de disque",
+          "Un comportement normal de session temporaire",
+          "FileVault Intel",
+          "Un reset NVRAM",
+        ],
+        correctIndex: 1,
+        explanation: "L’iPad partagé isole les sessions. Les données locales ne se comportent pas comme sur un iPad individuel.",
+      },
+      {
+        id: "ads-audio-13-4",
+        text: "Quelle méthode de diagnostic est la plus saine ?",
+        options: [
+          "Commencer par les fonctions iPad avancées",
+          "Valider d’abord le socle commun : réseau, compte, gestion",
+          "Effacer dès le premier ticket",
+          "Désactiver Face ID par principe",
+        ],
+        correctIndex: 1,
+        explanation: "Le socle commun évite de déboguer Stage Manager sur un appareil qui n’est même pas activé.",
+      },
+    ],
+  },
+  {
+    slug: "ipados-multitache-accessoires",
+    trackNumber: 14,
+    title: "Multitâche, clavier, Apple Pencil",
+    module: "Support iPadOS",
+    courseSlug: "apple-device-support",
+    durationLabel: "5 min",
+    officialFocus: "Sidecar, Contrôle universel, clavier, Pencil, et réception AirPlay.",
+    summary:
+      "Faire travailler Mac et iPad ensemble, puis dépanner les accessoires sans remplacer l’appareil trop tôt.",
+    narration: [
+      "Sidecar transforme un iPad compatible en écran étendu ou en miroir du Mac. Les deux machines doivent être proches, connectées avec les mêmes comptes quand c’est requis, et libres de restrictions. En entreprise, Sidecar et Contrôle universel peuvent être interdits par profil. Un bouton absent n’est pas forcément un bug.",
+      "Contrôle universel permet d’utiliser clavier et souris du Mac sur l’iPad, et de glisser du contenu. Ça demande Bluetooth, Wi‑Fi, Handoff, et une session proche. Si ça échoue, testez Handoff simple, puis Sidecar, puis le câble. Isolez le réseau invité qui isole les appareils entre eux. Beaucoup de « Contrôle universel cassé » sont des VLAN trop propres.",
+      "Le clavier et le trackpad ont des mises à jour de firmware et des paires Bluetooth. Un Magic Keyboard mécanique a aussi un connecteur. Testez l’iPad sans clavier pour savoir si le souci est l’accessoire ou le système. Apple Pencil se couple, se charge, et se calibre selon la génération. Une pointe usée mime un défaut tactile.",
+      "AirPlay et le récepteur AirPlay permettent d’envoyer image et son vers un Mac, une Apple TV, ou un iPad selon les réglages. Activer le récepteur AirPlay sur un Mac d’entreprise a un impact sécurité : n’importe quel appareil proche peut tenter d’afficher. Les organisations le ferment souvent. Expliquez le réglage, ne le forcez pas.",
+      "En ticket, nommez l’accessoire, la génération, le câble, et si la fonction est gérée. Remplacer un iPad pour un Pencil non chargé est un anti-pattern. Votre recertification teste cette discipline : accessoire d’abord, système ensuite, politique à la fin.",
+    ],
+    quiz: [
+      {
+        id: "ads-audio-14-1",
+        text: "Sidecar sert à :",
+        options: [
+          "Chiffrer le volume de démarrage",
+          "Utiliser l’iPad comme écran du Mac",
+          "Créer une eSIM",
+          "Ouvrir Recovery",
+        ],
+        correctIndex: 1,
+        explanation: "Sidecar étend ou reflète le bureau Mac sur un iPad compatible.",
+      },
+      {
+        id: "ads-audio-14-2",
+        text: "Contrôle universel échoue souvent à cause :",
+        options: [
+          "D’un SSD trop grand",
+          "De Bluetooth, Wi‑Fi, Handoff ou d’un réseau qui isole les appareils",
+          "De FileVault uniquement",
+          "D’une eSIM personnelle",
+        ],
+        correctIndex: 1,
+        explanation: "Contrôle universel dépend de la proximité radio et de Handoff, souvent bloqués par le réseau ou un profil.",
+      },
+      {
+        id: "ads-audio-14-3",
+        text: "Pour savoir si le clavier est en cause, vous :",
+        options: [
+          "Effacez l’iPad tout de suite",
+          "Testez l’iPad sans le clavier",
+          "Désactivez Face ID",
+          "Installez Windows",
+        ],
+        correctIndex: 1,
+        explanation: "On isole l’accessoire. Si l’iPad est sain sans clavier, on ne recrée pas le système.",
+      },
+      {
+        id: "ads-audio-14-4",
+        text: "Activer le récepteur AirPlay sur un Mac d’entreprise :",
+        options: [
+          "N’a aucun impact",
+          "Peut être restreint, car cela ouvre une réception depuis des appareils proches",
+          "Efface FileVault",
+          "Remplace le MDM",
+        ],
+        correctIndex: 1,
+        explanation: "Le récepteur AirPlay est pratique et sensible. Les parcs le contrôlent souvent par politique.",
+      },
+    ],
+  },
+  {
+    slug: "ipados-depannage",
+    trackNumber: 15,
+    title: "Dépannage et restauration iPadOS",
+    module: "Support iPadOS",
+    courseSlug: "apple-device-support",
+    durationLabel: "5 min",
+    officialFocus: "Dépanner le matériel iPad, les accessoires, puis restaurer comme un iPhone quand le système est hors service.",
+    summary:
+      "Même boîte à outils que iOS, avec plus d’accessoires et plus de scénarios de bureau.",
+    narration: [
+      "Le dépannage iPad commence par alimentation, écran, tactile, et accessoire. Un iPad dans un clavier peut sembler mort alors que le bouton est masqué. Un Pencil qui ne s’accroche plus peut être un aimant, un étui, ou une génération incompatible. Décrivez le modèle exact avant de commander une pièce.",
+      "Surchauffe, batterie, et charge suivent les mêmes règles qu’iPhone, avec des docks et des écrans plus grands. Un iPad sur un chariot médical ou une caisse charge mal si le câble n’est pas certifié, ou si un concentrateur affame le port. Mesurez avec un câble connu bon. Changez une variable à la fois.",
+      "Si iPadOS est instable, la séquence est familière : force restart, mise à jour, effacement, mode de récupération, relance ou restauration Configurator. Les données se sauvent avant, pas après. Un iPad de caisse sans sauvegarde est un risque métier. Le support le dit clairement, une fois, par écrit.",
+      "Les accessoires d’affichage et d’entrée ajoutent des couches : Stage Manager sur écran externe, résolution, et apps qui ne gèrent pas la fenêtre. Si l’écran externe est noir, testez un autre câble, un autre écran, puis l’iPad seul. Ne formatez pas pour un adaptateur USB-C fatigué.",
+      "Après restauration, les iPad d’entreprise reviennent souvent à Gestion à distance. C’est le signe que l’assignation est saine. Si l’iPad doit quitter le parc, désassignez-le d’abord. Votre recertification aime cette distinction : restauration technique, et cycle de vie administratif. Les deux sont du support.",
+    ],
+    quiz: [
+      {
+        id: "ads-audio-15-1",
+        text: "Un iPad « mort » dans son clavier se vérifie d’abord :",
+        options: [
+          "En restaurant tout de suite",
+          "Hors clavier, alimentation et boutons visibles",
+          "En désactivant iCloud",
+          "En ouvrant Console sur iPhone",
+        ],
+        correctIndex: 1,
+        explanation: "L’accessoire masque souvent le bouton ou la charge. On isole le tablette nue.",
+      },
+      {
+        id: "ads-audio-15-2",
+        text: "Avant une restauration iPad de production, vous :",
+        options: [
+          "Ignorez les données",
+          "Confirmez la sauvegarde et l’impact métier",
+          "Supprimez le Wi‑Fi du site",
+          "Activez le mode Isolation par habitude",
+        ],
+        correctIndex: 1,
+        explanation: "La restauration est destructive. La sauvegarde et le métier passent avant le geste technique.",
+      },
+      {
+        id: "ads-audio-15-3",
+        text: "Un écran externe noir sur iPad oriente d’abord vers :",
+        options: [
+          "FileVault",
+          "Câble, adaptateur, puis l’iPad seul",
+          "Recovery Intel",
+          "Une eSIM",
+        ],
+        correctIndex: 1,
+        explanation: "On change une variable d’affichage à la fois. Le formatage n’est pas un test de câble.",
+      },
+      {
+        id: "ads-audio-15-4",
+        text: "Un iPad d’entreprise qui revient à Gestion à distance après effacement :",
+        options: [
+          "Est forcément volé",
+          "Est encore assigné au service d’enrôlement",
+          "A perdu Face ID pour toujours",
+          "Doit être jeté",
+        ],
+        correctIndex: 1,
+        explanation: "L’assignation automatique survit à l’effacement, c’est précisément son rôle.",
+      },
+    ],
+  },
+];

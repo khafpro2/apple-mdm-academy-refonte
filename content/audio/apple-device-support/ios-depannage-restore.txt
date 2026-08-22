@@ -1,0 +1,77 @@
+Piste 11. Dépannage, sauvegarde et restauration iOS.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Avant d’effacer, demandez la sauvegarde. iCloud, ou un Mac via le Finder, sont les deux chemins classiques. Une sauvegarde chiffrée conserve mots de passe et données de Santé. Une sauvegarde non chiffrée est plus pauvre. En entreprise, certaines données métier ne doivent pas partir sur un iCloud personnel. Posez la question du compte avant de lancer.
+
+Restaurer depuis une sauvegarde n’est pas relancer le firmware. Restaurer depuis sauvegarde ramène l’utilisateur. Effacer tout le contenu remet l’assistant. Le mode de récupération sert quand iOS ne démarre plus correctement et qu’il faut réinstaller via un ordinateur. Guidez câble fiable, machine de confiance, et Finder ou Configurator.
+
+Apple Configurator, sur Mac, sait relancer ou restaurer un iPhone ou un iPad. Relancer tente de réparer le logiciel de bas niveau sans forcément détruire les données. Restaurer efface et réinstalle une image complète. On relance quand l’appareil est instable mais encore précieux. On restaure quand il est inutilisable ou doit sortir propre.
+
+Un iPhone qui affiche un câble vers un ordinateur attend une machine. Un iPhone qui boot en boucle mérite d’abord une force restart, puis le mode de récupération. Force restart n’efface rien. C’est un redémarrage matériel. Apprenez le geste selon le modèle : boutons de volume puis bouton latéral sur les iPhone récents.
+
+Après restauration, le verrouillage d’activation peut réapparaître. C’est normal si Localiser était actif. L’utilisateur doit s’authentifier. Sur un appareil d’entreprise, l’administrateur peut devoir le retirer du compte ou du service d’enrôlement. Ne promettez pas « je déverrouille » sans preuve de propriété. C’est une règle de support, pas un détail.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Une sauvegarde iPhone chiffrée conserve surtout en plus :
+
+A. Le firmware Intel.
+
+B. Mots de passe et certaines données sensibles.
+
+C. La partition Recovery du Mac.
+
+D. Le jeton APNs.
+
+Question 2. Dans Configurator, relancer un iPhone vise à :
+
+A. Effacer toujours les photos.
+
+B. Réparer le logiciel de bas niveau en préservant les données si possible.
+
+C. Créer une eSIM.
+
+D. Activer FileVault.
+
+Question 3. Une force restart sur iPhone :
+
+A. Efface le contenu.
+
+B. Redémarre le matériel sans effacer.
+
+C. Supprime l’identifiant Apple.
+
+D. Désactive la gestion à jamais.
+
+Question 4. Après restauration, un écran de verrouillage d’activation indique :
+
+A. Un écran cassé.
+
+B. Que Localiser ou le compte lié est encore actif.
+
+C. L’absence de Wi‑Fi uniquement.
+
+D. Un Apple Pencil perdu.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Le chiffrement de la sauvegarde inclut des secrets que la sauvegarde simple n’embarque pas.
+
+Question 2. La bonne réponse est B. Relancer, c’est une réparation firmware. Restaurer, c’est l’effacement et la réinstallation.
+
+Question 3. La bonne réponse est B. La force restart est un redémarrage. Elle ne remplace pas une restauration.
+
+Question 4. La bonne réponse est B. Le verrouillage d’activation suit l’appareil tant que le compte ou l’organisation ne l’a pas libéré.
+
+Fin de la piste 11, Dépannage, sauvegarde et restauration iOS.
+
+Passez à la leçon suivante quand vous êtes prêt.

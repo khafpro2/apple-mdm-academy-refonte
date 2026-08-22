@@ -1,0 +1,77 @@
+Piste 13. Différences iOS / iPadOS pour le support.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+iPadOS et iOS partagent le cœur : activation, comptes, confidentialité, sauvegarde, restauration. Le support se trompe quand il traite un iPad comme un grand iPhone. L’iPad est un poste de travail : fenêtres, clavier, souris, fichiers, et parfois un écran externe. Les tickets parlent de productivité, pas seulement d’appels.
+
+Les nouveautés de génération se lisent dans les notes de version, mais l’examen veut surtout les différences durables. Stage Manager, apps en fenêtres, dossier Fichiers plus proche d’un bureau, et la pose d’un clavier magique changent le diagnostic. Une app « ne tourne pas » peut être une app iPhone étirée, une app iPad native, ou une app gérée incompatible.
+
+Le matériel compte. Tous les iPad n’ont pas la même caméra avant pour Face ID, ni le même connecteur, ni le même support de Pencil. Avant de conclure à un défaut, vérifiez le modèle et la compatibilité du dernier système. Un iPad trop ancien refuse une version récente. C’est une réponse de support valable, pas un échec.
+
+En entreprise, l’iPad partagé et l’iPad individuel ne se dépannent pas pareil. L’iPad partagé a des sessions temporaires et un stockage encadré. Un utilisateur qui « perd ses fichiers » à la déconnexion peut être dans un scénario partagé normal. Lisez le mode avant d’effacer.
+
+Pour la recertification, retenez la méthode : commune d’abord, spécifique ensuite. Activation, Localiser, profil, réseau, puis les fonctions iPad. Si vous commencez par Stage Manager sur un iPad qui n’a même pas de réseau, vous perdez l’utilisateur et le temps d’examen.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. iPadOS se distingue surtout d’iOS par :
+
+A. L’absence totale de Wi‑Fi.
+
+B. Des fonctions de productivité : fenêtres, clavier, fichiers.
+
+C. L’impossibilité de se gérer.
+
+D. L’absence de code.
+
+Question 2. Un iPad refuse la dernière version d’iPadOS. Le premier contrôle est :
+
+A. Le fond d’écran.
+
+B. La compatibilité du modèle.
+
+C. AirDrop.
+
+D. Le nombre de photos.
+
+Question 3. Sur un iPad partagé, des fichiers qui disparaissent à la déconnexion peuvent être :
+
+A. Un vol de disque.
+
+B. Un comportement normal de session temporaire.
+
+C. FileVault Intel.
+
+D. Un reset NVRAM.
+
+Question 4. Quelle méthode de diagnostic est la plus saine ?
+
+A. Commencer par les fonctions iPad avancées.
+
+B. Valider d’abord le socle commun : réseau, compte, gestion.
+
+C. Effacer dès le premier ticket.
+
+D. Désactiver Face ID par principe.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. L’iPad est pensé comme un poste, avec multitâche, accessoires et fichiers plus riches.
+
+Question 2. La bonne réponse est B. Chaque génération de système a une liste de modèles pris en charge.
+
+Question 3. La bonne réponse est B. L’iPad partagé isole les sessions. Les données locales ne se comportent pas comme sur un iPad individuel.
+
+Question 4. La bonne réponse est B. Le socle commun évite de déboguer Stage Manager sur un appareil qui n’est même pas activé.
+
+Fin de la piste 13, Différences iOS / iPadOS pour le support.
+
+Passez à la leçon suivante quand vous êtes prêt.

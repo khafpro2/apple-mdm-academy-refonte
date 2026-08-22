@@ -1,0 +1,77 @@
+Piste 10. Connectivité, eSIM, VPN et certificats.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Un iPhone « sans réseau » a plusieurs couches. Mode Avion, Wi‑Fi, cellulaire, VPN, proxy, et filtre de contenu. Demandez ce qui a changé : nouveau bureau, nouveau certificat, nouvelle eSIM, nouveau profil. Testez d’abord sans VPN. Un VPN mal configuré casse tout ce qui semble être le Wi‑Fi.
+
+Le Wi‑Fi d’entreprise utilise souvent le protocole huit zéro deux un X, avec identifiants ou certificat. Si l’utilisateur doit saisir un mot de passe simple sur un SSID d’entreprise, méfiance : le réseau attend peut‑être un profil. Oublier le réseau, renouveler le certificat, vérifier l’heure, sont des gestes de niveau un. Le certificat expiré est le piège classique de janvier.
+
+eSIM : la ligne vit dans l’appareil, pas sur une carte plastique. On peut transférer une eSIM vers un nouvel iPhone via l’assistant ou l’opérateur. Vérifiez la compatibilité, le compte opérateur, et que l’ancien appareil est à portée si le transfert est local. Après transfert, l’ancienne eSIM ne doit plus servir. Documentez quelle ligne est personnelle et laquelle est professionnelle.
+
+Le VPN manuel se règle dans Réseau, VPN, avec type, serveur, et authentification. En entreprise, le VPN est souvent poussé par profil, parfois par app. Si vous ajoutez un VPN manuel en plus d’un VPN géré, vous créez des conflits. Un certificat utilisateur périmé donne des erreurs obscures. Relisez la date de validité avant de recréer la configuration.
+
+Partage de connexion et point d’accès personnel apparaissent souvent dans les tickets terrain. Ils dépendent de l’opérateur et des restrictions. AirDrop et le partage de fichiers passent par Wi‑Fi et Bluetooth. Si AirDrop est invisible, regardez les réglages de visibilité, le mode Isolation, et les restrictions de gestion. Le support ne « force » pas AirDrop sur un parc qui l’a interdit.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Avant de juger le Wi‑Fi coupable, vous testez souvent :
+
+A. FileVault.
+
+B. La connectivité sans VPN.
+
+C. Time Machine.
+
+D. Gatekeeper.
+
+Question 2. Un réseau d’entreprise huit zéro deux un X attend surtout :
+
+A. Un mot de passe café unique pour tous les invités.
+
+B. Un identifiant ou un certificat, souvent via profil.
+
+C. AirDrop.
+
+D. Un Apple Pencil.
+
+Question 3. Après un transfert eSIM réussi :
+
+A. L’ancienne eSIM reste la ligne principale.
+
+B. La ligne active est sur le nouvel appareil.
+
+C. L’iPhone perd Face ID.
+
+D. FileVault s’active tout seul.
+
+Question 4. Une erreur VPN soudaine après plusieurs mois oriente vers :
+
+A. Un fond d’écran.
+
+B. Un certificat ou un mot de passe arrivé à expiration.
+
+C. Un Apple Pencil déchargé.
+
+D. RecoveryOS.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Un VPN défectueux mime une panne Wi‑Fi. On isole les couches.
+
+Question 2. La bonne réponse est B. Le contrôle d’accès entreprise s’appuie sur l’identité, pas sur un simple mot de passe partagé.
+
+Question 3. La bonne réponse est B. Le transfert déplace la ligne. L’ancienne eSIM ne doit plus être utilisée comme principale.
+
+Question 4. La bonne réponse est B. Les VPN d’entreprise meurent souvent d’un certificat ou d’un secret périmé, pas d’un iPhone « usé ».
+
+Fin de la piste 10, Connectivité, eSIM, VPN et certificats.
+
+Passez à la leçon suivante quand vous êtes prêt.
