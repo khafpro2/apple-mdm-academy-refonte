@@ -1,0 +1,77 @@
+Piste 4. Outils de diagnostic système.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Le support efficace commence par une question simple : le problème est-il logiciel, réseau, compte, ou matériel. Moniteur d’activité est votre tableau de bord. Les onglets Processeur, Mémoire, Énergie, Disque et Réseau racontent cinq histoires différentes. Un Mac lent peut être en swap mémoire, pas en processeur saturé.
+
+Pour un échauffement ou une batterie qui fond, regardez Énergie et les processus en empêchement de veille. Pour un Wi‑Fi qui « marche mais pas vraiment », l’onglet Réseau montre les apps qui inondent la bande. Pour un disque saturé d’écritures, l’onglet Disque désigne souvent une indexation, une sync ou une app de sauvegarde.
+
+Les informations système restent indispensables. Apple, À propos de ce Mac, puis Plus d’infos, donne modèle, puce, mémoire, numéros de série et versions. En examen, on attend que vous sachiez où lire ces faits, pas que vous les inventiez. Un accessoire qui ne s’alimente pas se diagnostique aussi par le bus et le wattage, pas seulement par « ça marche pas ».
+
+Diagnostics Apple intervient quand le matériel est suspect : mémoire, écran, ventilateurs, clavier, batterie. Sur un Mac récent, le chemin passe par les options de démarrage ou un protocole précis selon le modèle. Ne confondez pas Diagnostics Apple avec Recovery, ni avec le mode sans échec. Chacun répond à une question différente.
+
+Documentez avant de conclure. Capturez le nom du processus, un extrait de journal, la version de macOS et le numéro de série. En organisation, ces preuves évitent de renvoyer une machine en atelier pour un simple agent de sync bloqué. Votre valeur de niveau deux, c’est la preuve, pas le redémarrage magique.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Quel outil montre processeur, mémoire, énergie, disque et réseau en direct ?
+
+A. Console.
+
+B. Moniteur d’activité.
+
+C. Trousseau d’accès.
+
+D. Aperçu.
+
+Question 2. Un Mac très chaud avec peu de charge processeur visible doit vous faire regarder :
+
+A. Uniquement Safari.
+
+B. L’onglet Énergie et les empêchements de veille.
+
+C. Le fond d’écran.
+
+D. AirDrop.
+
+Question 3. Diagnostics Apple sert à :
+
+A. Réinstaller macOS.
+
+B. Tester le matériel.
+
+C. Créer un compte administrateur.
+
+D. Configurer un VPN.
+
+Question 4. Quelle information lisez-vous dans À propos de ce Mac ?
+
+A. Le mot de passe FileVault.
+
+B. Modèle, puce, mémoire et versions.
+
+C. La clé de récupération institutionnelle.
+
+D. Le jeton APNs.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Moniteur d’activité est l’outil temps réel pour les ressources du Mac.
+
+Question 2. La bonne réponse est B. La chaleur et la batterie dépendent souvent de l’énergie et de la veille, pas seulement du pourcentage processeur.
+
+Question 3. La bonne réponse est B. Diagnostics Apple cible le matériel. Recovery et le mode sans échec servent à d’autres hypothèses.
+
+Question 4. La bonne réponse est B. À propos de ce Mac donne l’identité matérielle et logicielle de la machine.
+
+Fin de la piste 4, Outils de diagnostic système.
+
+Passez à la leçon suivante quand vous êtes prêt.

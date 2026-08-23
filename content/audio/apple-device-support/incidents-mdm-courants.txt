@@ -1,0 +1,79 @@
+Piste 19. Incidents MDM courants.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Le service de gestion des appareils, le MDM, pousse profils, apps, commandes, et parfois des déclarations. Pour le support de niveau un et deux, il change l’expérience : mises à jour contrôlées, Wi‑Fi déjà là, apps imposées, code exigé, AirDrop limité. Votre premier réflexe sur un bouton gris : l’appareil est-il géré, et depuis quand.
+
+Des fonctions d’examen reviennent souvent. L’impression peut être dirigée par profil, avec AirPrint et des protocoles précis. Continuité, Sidecar, Handoff peuvent être restreints. Un utilisateur qui compare son iPhone perso et son iPhone pro n’a pas deux systèmes cassés. Il a deux politiques.
+
+Les incidents classiques : profil qui ne s’installe pas, certificat push périmé côté serveur, appareil qui n’apparaît plus, commande d’effacement en vol, app qui se réinstalle, compte qui se retire. Niveau un : collecter numéro de série, identifiant, heure, capture de Gestion des appareils. Niveau deux : lire la console de gestion, relancer la commande, vérifier l’assignation.
+
+Apple Configurator reste l’atelier de terrain. Relancer ou restaurer un iPhone, un iPad, ou un Mac selon les cas, préparer un appareil, et parfois superviser hors enrôlement automatique. Ce n’est pas un jouet. Une restauration Configurator sur le mauvais appareil est irréversible. Vérifiez le nom, le numéro de série, et le consentement.
+
+AppleSeed for IT aide les organisations à tester les versions avant tout le monde. Ce n’est pas un canal grand public. Si un utilisateur voit une version que le parc n’a pas encore, demandez s’il est dans un programme de seed. Pour l’examen, retenir le but suffit : tester tôt, documenter, et ne pas généraliser une beta sur tout le help desk.
+
+Vous arrivez au bout du parcours audio. La méthode tient en quatre phrases. Isoler la couche. Lire le compte. Lire la gestion. Prouver par un journal ou une capture. Pas de lien à retenir, pas de geste magique. Enchaînez les questionnaires de chaque piste, puis l’examen blanc. Vous êtes prêt quand vous expliquez le pourquoi, pas seulement le bouton.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Un bouton gris sur un iPhone pro, premier réflexe :
+
+A. Jeter l’appareil.
+
+B. Vérifier si une gestion impose le réglage.
+
+C. Activer le mode Isolation.
+
+D. Couper la batterie.
+
+Question 2. L’impression en entreprise peut être :
+
+A. Uniquement USB-A.
+
+B. Pilotée par un profil, parfois AirPrint.
+
+C. Impossible sur iPad.
+
+D. Remplacée par FileVault.
+
+Question 3. Avant une restauration Configurator, vous vérifiez :
+
+A. Le fond d’écran uniquement.
+
+B. Numéro de série, appareil et consentement.
+
+C. Le score Game Center.
+
+D. La météo.
+
+Question 4. AppleSeed for IT sert surtout à :
+
+A. Vendre des iPhone.
+
+B. Tester les versions en organisation avant le déploiement large.
+
+C. Remplacer le MDM.
+
+D. Désactiver Gatekeeper.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. La gestion explique une grande partie des bascules indisponibles.
+
+Question 2. La bonne réponse est B. Les profils peuvent imposer imprimantes, protocoles et droits. AirPrint est un avantage fréquent.
+
+Question 3. La bonne réponse est B. Configurator est puissant et destructeur. L’identité de l’appareil se confirme d’abord.
+
+Question 4. La bonne réponse est B. Le programme permet aux équipes IT d’évaluer les systèmes plus tôt, pas de remplacer la gestion.
+
+Fin de la piste 19, Incidents MDM courants.
+
+Passez à la leçon suivante quand vous êtes prêt.

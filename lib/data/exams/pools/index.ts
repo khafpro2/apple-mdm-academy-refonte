@@ -1,4 +1,5 @@
 export { appleItProPool } from "./apple-it-pro";
+export { appleDeviceSupportPool } from "./apple-device-support";
 export { acitpExamPool200 } from "@/lib/data/acitp/exam-pool";
 export { jamf100Pool } from "./jamf-100";
 export { jamf200Pool } from "./jamf-200";
@@ -12,6 +13,7 @@ export { appleSecurityExamPool100 } from "@/lib/data/apple-training/exam-apple-s
 export { intuneApplePool } from "./intune-apple";
 
 import type { Question } from "@/lib/types";
+import { appleDeviceSupportPool } from "./apple-device-support";
 import { appleItProPool } from "./apple-it-pro";
 import { acitpExamPool200 } from "@/lib/data/acitp/exam-pool";
 import { jamf100Pool } from "./jamf-100";
@@ -26,6 +28,7 @@ import { appleDeploymentExamPool100 } from "@/lib/data/apple-training/exam-apple
 import { appleSecurityExamPool100 } from "@/lib/data/apple-training/exam-apple-security";
 
 export const examPools: Record<string, Question[]> = {
+  "examen-apple-device-support": appleDeviceSupportPool,
   "examen-apple-it-pro": acitpExamPool200,
   "examen-jamf-100-blanc": jamf100Pool,
   "examen-jamf-100": jamf100Pool,

@@ -1,0 +1,77 @@
+Piste 5. Console, journaux et Terminal.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Console est l’outil pour voir les messages système, les rapports de crash et l’activité en direct. Ouvrez-la, sélectionnez le Mac, puis reproduisez le problème sous les yeux du journal. Un bon filtre vaut mieux que dix minutes de défilement. Cherchez le nom de l’app, un code d’erreur, ou le mot fail.
+
+Les rapports de diagnostic se trouvent aussi dans Réglages, Confidentialité et sécurité, Analyse et améliorations. Un crash répété d’une app laisse une trace horodatée. En support, vous reliez l’heure du ticket à l’heure du rapport. Sans horodatage, vous devinez.
+
+sysdiagnose capture un instantané profond : journaux, états, configurations. Sur Mac, on le lance depuis le Terminal avec les droits adaptés, ou par le raccourci clavier de diagnostic. Prévenez l’utilisateur : la machine peut ralentir quelques minutes, puis une archive apparaît. C’est le livrable que l’ingénierie ou le fournisseur vous demandera.
+
+Le Terminal n’est pas un jouet. En examen et en production, vous l’utilisez pour des commandes de lecture : version, réseau, disque, processus. Évitez les commandes destructrices si une interface suffit. Si vous changez un réglage en ligne de commande, notez-le dans le ticket. Un collègue doit pouvoir comprendre ce qui a été tenté.
+
+Sur iPhone et iPad, sysdiagnose existe aussi, avec une combinaison de boutons courte. Une capture d’écran part souvent en même temps. Les journaux se retrouvent ensuite dans Analytique. Ne demandez pas à l’utilisateur un « log » vague : guidez le geste, puis récupérez le fichier. Une piste claire et nette commence par une capture propre.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Quel app Mac affiche journaux en direct et rapports de crash ?
+
+A. Moniteur d’activité.
+
+B. Console.
+
+C. Utilitaire de disque.
+
+D. Aperçu.
+
+Question 2. sysdiagnose sert à :
+
+A. Formater le disque.
+
+B. Capturer un ensemble complet de journaux et d’états.
+
+C. Créer un identifiant Apple.
+
+D. Activer FileVault.
+
+Question 3. Pourquoi filtrer dans Console pendant la reproduction ?
+
+A. Pour cacher les erreurs.
+
+B. Pour relier un événement précis au moment du problème.
+
+C. Pour accélérer le Wi‑Fi.
+
+D. Pour désactiver Gatekeeper.
+
+Question 4. Sur iPhone, un sysdiagnose se déclenche surtout :
+
+A. En secouant l’appareil dix secondes.
+
+B. Par une courte combinaison des boutons de volume et du bouton latéral.
+
+C. En ouvrant Fichiers.
+
+D. En désactivant le mode Avion.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Console est l’app des journaux et des rapports de diagnostic.
+
+Question 2. La bonne réponse est B. sysdiagnose produit une archive de diagnostic pour un incident reproductible.
+
+Question 3. La bonne réponse est B. Le filtre et l’horaire transforment un flux illisible en preuve exploitable.
+
+Question 4. La bonne réponse est B. iOS et iPadOS capturent sysdiagnose par une combinaison courte des boutons, souvent accompagnée d’une capture d’écran.
+
+Fin de la piste 5, Console, journaux et Terminal.
+
+Passez à la leçon suivante quand vous êtes prêt.

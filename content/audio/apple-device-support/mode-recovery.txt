@@ -1,0 +1,77 @@
+Piste 6. RecoveryOS, démarrage sécurisé et réinstallation.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Le premier réflexe n’est pas d’effacer. C’est de choisir le bon mode. Recovery sert à réinstaller macOS, réparer le disque, accéder à Terminal, réinitialiser un mot de passe, et ouvrir l’Utilitaire de sécurité de démarrage. Le mode sans échec charge un ensemble minimal pour isoler une extension ou un agent tiers. Les options de démarrage permettent de choisir le disque.
+
+Sur Apple Silicon, vous maintenez le bouton d’alimentation jusqu’aux options de démarrage. Sur Intel, les combinaisons clavier restent au programme : Recovery, mode sans échec, et selon les modèles d’autres modes. Apprenez les deux familles. Les organisations ont encore des parcs mixtes, et l’examen aussi.
+
+Réinstaller macOS depuis Recovery préserve en principe les données utilisateur si vous ne formatez pas. First Aid dans Utilitaire de disque vérifie le système de fichiers. Si First Aid échoue et que le volume est illisible, là seulement vous parlez d’effacement, après sauvegarde ou acceptation de perte. Confirmez FileVault : un volume chiffré demande un utilisateur autorisé ou une clé de récupération.
+
+L’Utilitaire de sécurité de démarrage ajuste la politique : sécurité maximale, sécurité réduite, ou sécurité permissive selon le modèle et le besoin. En entreprise, on reste au plus haut niveau compatible avec le déploiement. Baisser la sécurité pour « que ça marche » est une dette. Documentez toute exception, puis revenez à la politique nominale.
+
+Mode sans échec : sur Apple Silicon, vous ouvrez les options de démarrage, sélectionnez le disque, maintenez Maj, puis continuez en mode sans échec. Si le problème disparaît en mode sans échec, cherchez login items, extensions, ou logiciels tiers. S’il persiste, l’hypothèse bascule vers compte, système ou matériel. Relancer n’est pas une conclusion, c’est une fourche de diagnostic.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Sur un Mac Apple Silicon, comment ouvrir les options de démarrage ?
+
+A. Appuyer trois fois sur Esc.
+
+B. Maintenir le bouton d’alimentation.
+
+C. Secouer le Mac.
+
+D. Ouvrir Safari.
+
+Question 2. Réinstaller macOS depuis Recovery sans formater :
+
+A. Efface toujours les comptes.
+
+B. Préserve en principe les fichiers utilisateur.
+
+C. Désactive Internet à jamais.
+
+D. Supprime FileVault automatiquement.
+
+Question 3. Si un problème disparaît en mode sans échec, vous suspectez surtout :
+
+A. Un écran cassé.
+
+B. Un logiciel ou agent tiers.
+
+C. Un numéro de série invalide.
+
+D. L’absence d’eSIM.
+
+Question 4. L’Utilitaire de sécurité de démarrage sert à :
+
+A. Créer un identifiant Apple.
+
+B. Modifier la politique de sécurité de démarrage.
+
+C. Configurer AirDrop.
+
+D. Installer Chrome.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Apple Silicon utilise un appui long sur le bouton d’alimentation pour afficher les options de démarrage.
+
+Question 2. La bonne réponse est B. La réinstallation sans effacement du volume vise à replacer le système en gardant les données.
+
+Question 3. La bonne réponse est B. Le mode sans échec isole les extensions et éléments tiers. Si le souci part, l’hypothèse logicielle gagne.
+
+Question 4. La bonne réponse est B. Cet utilitaire, depuis Recovery, ajuste le niveau de sécurité de démarrage du Mac.
+
+Fin de la piste 6, RecoveryOS, démarrage sécurisé et réinstallation.
+
+Passez à la leçon suivante quand vous êtes prêt.

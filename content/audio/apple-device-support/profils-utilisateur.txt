@@ -1,0 +1,77 @@
+Piste 18. Profils utilisateur et données.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Les données d’un utilisateur Apple ne sont pas à un seul endroit. Sur Mac : dossier Départ, bibliothèques, éventuellement iCloud Drive. Sur iPhone et iPad : apps, Fichiers, iCloud, et sauvegardes. Avant de déplacer un appareil, dressez la carte. Un effacement sans carte, c’est une perte programmée.
+
+Le partage Mac, dans Réglages, Général ou Partage selon la version, ouvre partage de fichiers, partage d’écran, et parfois d’autres services. Chaque service a un risque. En entreprise, ces bascules sont souvent gérées. AirDrop a des options de visibilité : contacts seulement, tout le monde, ou réception désactivée. Le mode Isolation et les profils peuvent encore restreindre.
+
+Un profil de configuration n’est pas une app. C’est un ensemble de réglages signés : Wi‑Fi, VPN, certificats, restrictions, codes, comptes. L’utilisateur le voit dans Gestion des appareils. S’il ne peut pas le supprimer, l’appareil est supervisé ou enrôlé. Ne promettez pas de « l’enlever à la main » : vous cassez la conformité.
+
+Les documents iCloud qui n’apparaissent que comme nuage doivent être téléchargés avant un départ hors ligne. Les apps adoptées après migration peuvent demander une réautorisation Gatekeeper. Les données d’une app gérée peuvent s’effacer si l’app est retirée par le service. Expliquez ce contrat à l’utilisateur. Ça évite le ticket émotionnel.
+
+En recertification, on aime les questions de lecture. Pourquoi ce bouton est gris. Où est le fichier. Qui possède le compte. Votre réponse courte : je lis le profil, je lis le dossier, je lis le compte. Ensuite seulement je change un réglage. C’est ça, un support clair et net.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. Un profil de configuration sert à :
+
+A. Jouer de la musique.
+
+B. Pousser réglages, certificats et restrictions.
+
+C. Remplacer le SSD.
+
+D. Créer une eSIM automatiquement.
+
+Question 2. Un profil impossible à supprimer indique souvent :
+
+A. Un écran sale.
+
+B. Un enrôlement ou une supervision.
+
+C. L’absence d’iCloud.
+
+D. Un Pencil déchargé.
+
+Question 3. AirDrop trop visible en entreprise se règle par :
+
+A. FileVault uniquement.
+
+B. Visibilité AirDrop et, souvent, une restriction de gestion.
+
+C. Diagnostics Apple.
+
+D. RecoveryOS.
+
+Question 4. Avant d’effacer un poste, la première carte à dresser est :
+
+A. La couleur du boîtier.
+
+B. Où sont les données et quel compte les possède.
+
+C. Le nombre de bureaux virtuels.
+
+D. La version de Console.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Le profil applique une configuration. Ce n’est pas un simple document utilisateur.
+
+Question 2. La bonne réponse est B. Les appareils gérés empêchent l’utilisateur d’ôter la politique.
+
+Question 3. La bonne réponse est B. La visibilité se choisit localement, et peut encore être imposée par politique.
+
+Question 4. La bonne réponse est B. Sans carte des données, l’effacement est une perte, pas un dépannage.
+
+Fin de la piste 18, Profils utilisateur et données.
+
+Passez à la leçon suivante quand vous êtes prêt.

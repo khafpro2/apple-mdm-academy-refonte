@@ -25,6 +25,9 @@ import { getLessonContent } from "@/lib/data/lesson-content";
 import { getLesson, courses, getTrack, isTrackVisible } from "@/lib/data";
 import { getVideoScriptForLesson } from "@/src/lib/video-scripts";
 import { LessonProgressTracker } from "@/components/course/lesson-progress-tracker";
+import { AudioLessonPlayer } from "@/components/audio/audio-lesson-player";
+import { AudioLessonQuiz } from "@/components/audio/audio-lesson-quiz";
+import { getPublicAppleDeviceSupportAudioLesson } from "@/lib/data/audio/apple-device-support";
 
 export const dynamicParams = false;
 
@@ -85,6 +88,8 @@ export default async function LessonPage({
   const labSlug = getLabSlugForLesson(lessonSlug);
   const video = getVideoScriptForLesson(lessonSlug);
   const videoMp4 = video ? resolveMp4Url(video.slug) : undefined;
+  const audioLesson =
+    slug === "apple-device-support" ? getPublicAppleDeviceSupportAudioLesson(lessonSlug) : undefined;
   return (
     <PageShell>
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -162,6 +167,12 @@ export default async function LessonPage({
               </div>
             </header>
 
+            {audioLesson && (
+              <div className="mt-6">
+                <AudioLessonPlayer lesson={audioLesson} />
+              </div>
+            )}
+
             {video && <LessonVideoCallout video={video} hasMp4={Boolean(videoMp4)} />}
 
             <CourseReadingModeShell courseSlug={slug} lessonSlug={lessonSlug}>
@@ -177,6 +188,12 @@ export default async function LessonPage({
                 )}
               </article>
             </CourseReadingModeShell>
+
+            {audioLesson && (
+              <div className="mt-6">
+                <AudioLessonQuiz title="QCM de la leçon" quiz={audioLesson.quiz} />
+              </div>
+            )}
 
             {labSlug && (
               <div className="mt-6">

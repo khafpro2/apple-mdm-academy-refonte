@@ -1,0 +1,77 @@
+Piste 8. Activation et configuration initiale iOS.
+
+Préparation à la recertification Apple Device Support.
+
+Support de niveau un et deux, sur iPhone, iPad et Mac.
+
+Cette piste est claire, sans lien, et se termine par un questionnaire.
+
+Un iPhone neuf ou effacé démarre sur l’Assistant réglage. L’activation exige un réseau : Wi‑Fi, ou données cellulaires si la carte le permet. Sans activation, l’appareil reste un bel objet verrouillé. Si l’écran affiche Gestion à distance, l’appareil est assigné à une organisation. Ce n’est pas un défaut. C’est un enrôlement automatique.
+
+Démarrage rapide copie comptes et réglages depuis un iPhone ou iPad proche. Les deux appareils doivent être alimentés, déverrouillés, et assez proches pour la caméra et le Bluetooth. Prévenez l’utilisateur : certaines apps et certains secrets ne suivent pas. Les codes, le réseau d’entreprise et les certificats gérés peuvent encore demander une étape manuelle.
+
+Un identifiant Apple personnel n’est pas un compte géré. En entreprise, on peut demander un compte géré, ou interdire l’identifiant personnel sur un appareil corporatif. Si l’utilisateur ajoute le mauvais compte dès l’assistant, vous aurez Activation Lock, photos personnelles et un périmètre flou. Arrêtez-vous à cet écran. C’est moins cher que de tout reprendre demain.
+
+Après l’assistant, validez : réseau, date et heure, Face ID ou Touch ID, code, et apps de productivité. Sur un appareil géré, validez aussi le profil, le catalogue d’apps, et le respect des restrictions. Un iPhone « configuré » qui n’a pas le profil n’est pas prêt pour le métier.
+
+Si l’activation échoue, isolez le réseau, le verrouillage d’activation, et le serveur d’activation. Un appareil volé ou encore lié à un compte refuse d’avancer. Un appareil d’entreprise mal retiré du service d’enrôlement revient à Gestion à distance après effacement. Le support de niveau deux parle alors à l’administrateur du parc, pas seulement à l’utilisateur.
+
+Nous terminons par le questionnaire de la leçon.
+
+Quatre questions. Notez A, B, C ou D pour chacune.
+
+Les corrigés arrivent après la dernière question.
+
+Question 1. L’écran Gestion à distance pendant l’assistant signifie surtout :
+
+A. Une batterie défectueuse.
+
+B. Un enrôlement automatique d’organisation.
+
+C. Un iPhone incompatible.
+
+D. L’absence de carte SIM.
+
+Question 2. Démarrage rapide exige surtout :
+
+A. Un câble Ethernet.
+
+B. Un appareil source proche, alimenté et déverrouillé.
+
+C. Un Mac Intel.
+
+D. FileVault actif.
+
+Question 3. Sans réseau, l’activation iOS :
+
+A. Se termine toujours hors ligne.
+
+B. Reste bloquée tant que l’appareil ne peut pas s’activer.
+
+C. Formate la mémoire automatiquement.
+
+D. Crée un compte géré.
+
+Question 4. Après configuration d’un iPhone d’entreprise, vous validez :
+
+A. Uniquement le fond d’écran.
+
+B. Réseau, biométrie, code, profil et apps métier.
+
+C. La suppression du code.
+
+D. Le jailbreak.
+
+Voici le corrigé.
+
+Question 1. La bonne réponse est B. Gestion à distance indique que l’appareil est assigné à un service de gestion et s’enrôle à l’activation.
+
+Question 2. La bonne réponse est B. Démarrage rapide s’appuie sur la proximité, le Bluetooth et la caméra entre deux appareils Apple.
+
+Question 3. La bonne réponse est B. L’activation a besoin d’atteindre les services Apple. Sans réseau, l’assistant n’avance pas.
+
+Question 4. La bonne réponse est B. Un appareil professionnel n’est prêt que si sécurité, réseau, gestion et apps sont en place.
+
+Fin de la piste 8, Activation et configuration initiale iOS.
+
+Passez à la leçon suivante quand vous êtes prêt.
