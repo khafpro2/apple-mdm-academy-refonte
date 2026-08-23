@@ -1,5 +1,6 @@
 import { PageShell } from "@/components/layout";
 import { Badge, Breadcrumb, ButtonLink } from "@/components/ui";
+import { AudioLessonPlayer } from "@/components/audio/audio-lesson-player";
 import { AudioPackBanner } from "@/components/audio/audio-pack-banner";
 import {
   APPLE_DEVICE_SUPPORT_AUDIO_PACK,
@@ -57,10 +58,10 @@ export default function AppleDeviceSupportAudioPackPage() {
                 Module {moduleIndex + 1}
               </p>
               <h2 className="mt-1 text-xl font-bold text-ink md:text-2xl">{module.title}</h2>
-              <ul className="mt-6 space-y-3">
+              <ul className="mt-6 space-y-5">
                 {module.lessons.map((lesson) => (
-                  <li key={lesson.slug}>
-                    <div className="flex flex-col gap-3 rounded-2xl border border-border-light bg-surface px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+                  <li key={lesson.slug} id={lesson.slug} className="space-y-3">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="min-w-0">
                         <Link
                           href={`/audio/apple-device-support/${lesson.slug}`}
@@ -69,23 +70,12 @@ export default function AppleDeviceSupportAudioPackPage() {
                           Piste {String(lesson.trackNumber).padStart(2, "0")} — {lesson.title}
                         </Link>
                         <p className="mt-1 text-sm text-ink-secondary">{lesson.summary}</p>
-                        <p className="mt-1 text-xs text-ink-tertiary">
-                          {lesson.durationLabel} · 4 questions
-                        </p>
                       </div>
-                      <div className="flex flex-wrap gap-2">
-                        <a
-                          href={lesson.audioSrc}
-                          download={lesson.downloadName}
-                          className="inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white"
-                        >
-                          MP3
-                        </a>
-                        <ButtonLink href={`/audio/apple-device-support/${lesson.slug}`} variant="secondary" size="sm">
-                          Écouter + QCM
-                        </ButtonLink>
-                      </div>
+                      <ButtonLink href={`/audio/apple-device-support/${lesson.slug}`} variant="secondary" size="sm">
+                        QCM de la piste
+                      </ButtonLink>
                     </div>
+                    <AudioLessonPlayer lesson={lesson} compact />
                   </li>
                 ))}
               </ul>
